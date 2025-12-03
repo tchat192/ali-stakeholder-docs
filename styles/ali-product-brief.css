@@ -1,0 +1,772 @@
+/**
+ * Ali MVP - Product Brief Stylesheet
+ * Design System: Nic's Figma Design (Nov 2025)
+ *
+ * Token Sources:
+ * - Main.css (CSS variables)
+ * - tailwind.config.js (DaisyUI theme)
+ * - HeroBanner.tsx (Aurora gradient)
+ * - MessageInput.tsx (Input styling)
+ * - TabNavigation.tsx (Tab patterns)
+ */
+
+/* ============================================
+   CSS CUSTOM PROPERTIES (Design Tokens)
+   ============================================ */
+:root {
+  /* Core Colors */
+  --ali-background: #F5F3F0;       /* Mist - page background */
+  --ali-card: #FFFFFF;             /* White - cards/panels */
+  --ali-card-subtle: #FBFBFB;      /* Grey 50 - subtle backgrounds */
+  --ali-foreground: #121212;       /* Black - primary text */
+  --ali-secondary: #7C7C7C;        /* Grey 500 - secondary text */
+  --ali-muted: #5E5E5E;            /* Grey 600 - muted text */
+  --ali-border: #DBDBDB;           /* Grey 300 - borders */
+
+  /* Accent Colors */
+  --ali-accent: #8A41E6;           /* Purple Dark - primary accent */
+  --ali-accent-light: #B880FF;     /* Purple Primary - highlights */
+  --ali-accent-subtle: #E8D6FE;    /* Purple Light - backgrounds */
+
+  /* Status Colors */
+  --ali-success: #10b981;          /* Emerald-500 */
+  --ali-success-bg: #E8F5F1;       /* Success background */
+  --ali-warning: #f59e0b;          /* Amber-500 */
+  --ali-error: #ef4444;            /* Red-500 */
+
+  /* Claude Branding */
+  --ali-claude: #D77655;           /* Anthropic terracotta */
+  --ali-claude-bg: #FCF2EE;        /* Claude background */
+
+  /* Typography */
+  --ali-font-sans: 'Metro Sans', 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --ali-font-serif: 'Moret', 'Playfair Display', Georgia, serif;
+
+  /* Spacing */
+  --ali-radius-sm: 6px;
+  --ali-radius-md: 9px;
+  --ali-radius-lg: 12px;
+  --ali-radius-xl: 16px;
+  --ali-radius-pill: 9999px;
+
+  /* Shadows */
+  --ali-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --ali-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --ali-shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.12);
+  --ali-shadow-tab: 0px 1px 0px -1px rgba(0,0,0,0.05),
+                    0px 1px 2px -1px rgba(0,0,0,0.05),
+                    0px 2px 4px -2px rgba(0,0,0,0.05),
+                    0px 3px 6px -3px rgba(0,0,0,0.05);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--ali-font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ali-foreground);
+  background: var(--ali-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   DOCUMENT CONTAINER
+   ============================================ */
+.ali-document {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--ali-card);
+  min-height: 100vh;
+  box-shadow: var(--ali-shadow-lg);
+}
+
+/* ============================================
+   HEADER - "Ali." Logo Style
+   ============================================ */
+.ali-header {
+  background: var(--ali-card);
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--ali-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+
+.ali-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ali-logo {
+  font-family: var(--ali-font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--ali-foreground);
+  letter-spacing: -0.02em;
+}
+
+.ali-user-email {
+  font-size: 14px;
+  color: var(--ali-secondary);
+}
+
+/* ============================================
+   TAB NAVIGATION - Figma 32:2776
+   ============================================ */
+.ali-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  background: var(--ali-background);
+  border-radius: var(--ali-radius-pill);
+}
+
+.ali-tab {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ali-muted);
+  background: transparent;
+  border: none;
+  border-radius: var(--ali-radius-lg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.ali-tab:hover {
+  color: var(--ali-foreground);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.ali-tab.active {
+  color: var(--ali-foreground);
+  font-weight: 500;
+  background: var(--ali-card);
+  border-radius: var(--ali-radius-pill);
+  box-shadow: var(--ali-shadow-tab);
+}
+
+/* ============================================
+   HERO BANNER - Aurora Gradient (Figma 32:2766)
+   ============================================ */
+.ali-banner {
+  position: relative;
+  height: 94px;
+  border-radius: var(--ali-radius-xl);
+  overflow: hidden;
+  margin: 24px;
+}
+
+/* Aurora base gradient */
+.ali-banner-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg,
+    #0c0a14 0%,
+    #1a1428 25%,
+    #241a38 40%,
+    #1e1830 55%,
+    #161220 70%,
+    #0e0c16 85%,
+    #0a0810 100%
+  );
+}
+
+/* Aurora color accents */
+.ali-banner-accents {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 100% at 30% 30%, rgba(100, 60, 150, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 70% 70%, rgba(50, 80, 120, 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 50% 50%, rgba(80, 50, 100, 0.15) 0%, transparent 50%);
+}
+
+/* Banner content layout */
+.ali-banner-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+/* Banner user name (left) */
+.ali-banner-name {
+  font-size: 33px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+/* Banner silhouette type (center) */
+.ali-banner-silhouette {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.ali-banner-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+}
+
+.ali-banner-type {
+  font-size: 18px;
+  color: #FFFFFF;
+  letter-spacing: 0.02em;
+}
+
+.ali-banner-type .the {
+  font-family: var(--ali-font-serif);
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ali-banner-type .type-name {
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   PILL BADGES - Liquid Glass Effect
+   ============================================ */
+.ali-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ali-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--ali-radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  /* Apple liquid glass effect */
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+  color: #FFFFFF;
+}
+
+.ali-badge:hover {
+  transform: scale(1.02);
+}
+
+.ali-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.ali-badge:hover .ali-badge-dot {
+  background: var(--ali-success);
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+}
+
+/* Light background badge variant */
+.ali-badge-light {
+  background: var(--ali-card-subtle);
+  border: 1px solid var(--ali-border);
+  color: var(--ali-foreground);
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.ali-badge-light .ali-badge-dot {
+  background: var(--ali-success);
+}
+
+/* ============================================
+   CONTENT SECTIONS
+   ============================================ */
+.ali-content {
+  padding: 32px;
+}
+
+.ali-section {
+  margin-bottom: 32px;
+}
+
+.ali-section:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+.ali-h1 {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--ali-foreground);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.ali-h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ali-foreground);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.ali-h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ali-foreground);
+  margin-bottom: 6px;
+}
+
+.ali-h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ali-foreground);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ali-subtitle {
+  font-size: 14px;
+  color: var(--ali-secondary);
+  margin-bottom: 16px;
+}
+
+.ali-text {
+  font-size: 15px;
+  color: var(--ali-muted);
+  line-height: 1.6;
+}
+
+.ali-text-sm {
+  font-size: 13px;
+  color: var(--ali-secondary);
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+.ali-card {
+  background: var(--ali-card);
+  border: 1px solid var(--ali-border);
+  border-radius: var(--ali-radius-lg);
+  padding: 24px;
+  box-shadow: var(--ali-shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.ali-card:hover {
+  box-shadow: var(--ali-shadow-md);
+  border-color: var(--ali-accent);
+}
+
+.ali-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ali-border);
+}
+
+.ali-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ali-foreground);
+}
+
+.ali-card-badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: var(--ali-card-subtle);
+  color: var(--ali-secondary);
+  border-radius: var(--ali-radius-lg);
+  font-weight: 500;
+}
+
+/* ============================================
+   MESSAGE INPUT - Figma 32:2753
+   ============================================ */
+.ali-input-container {
+  background: var(--ali-card);
+  border: 1px solid var(--ali-border);
+  border-radius: var(--ali-radius-md);
+  padding: 12px 16px;
+  min-height: 152px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ali-input-textarea {
+  width: 100%;
+  min-height: 60px;
+  border: none;
+  outline: none;
+  font-family: var(--ali-font-sans);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ali-foreground);
+  background: transparent;
+  resize: none;
+}
+
+.ali-input-textarea::placeholder {
+  color: var(--ali-secondary);
+}
+
+.ali-input-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.ali-input-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ali-input-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ali-radius-sm);
+  color: var(--ali-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ali-input-icon:hover {
+  background: var(--ali-background);
+  color: var(--ali-foreground);
+}
+
+.ali-input-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--ali-border);
+}
+
+.ali-input-send {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ali-card-subtle);
+  border-radius: var(--ali-radius-sm);
+  color: var(--ali-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+}
+
+.ali-input-send:hover {
+  background: var(--ali-background);
+}
+
+.ali-input-helper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ali-secondary);
+}
+
+.ali-char-count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   FOOTER - "Powered by Claude" Style
+   ============================================ */
+.ali-footer {
+  padding: 16px 32px;
+  text-align: center;
+  border-top: 1px solid var(--ali-border);
+  background: var(--ali-card);
+}
+
+.ali-footer-disclaimer {
+  font-size: 12px;
+  color: var(--ali-secondary);
+  margin-bottom: 4px;
+}
+
+.ali-footer-disclaimer a {
+  text-decoration: underline;
+  color: var(--ali-secondary);
+  transition: color 0.15s ease;
+}
+
+.ali-footer-disclaimer a:hover {
+  color: var(--ali-foreground);
+}
+
+.ali-footer-powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ali-secondary);
+}
+
+.ali-footer-claude {
+  font-weight: 500;
+  color: var(--ali-claude);
+}
+
+/* Claude flower icon placeholder */
+.ali-claude-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.ali-flex {
+  display: flex;
+}
+
+.ali-flex-col {
+  flex-direction: column;
+}
+
+.ali-items-center {
+  align-items: center;
+}
+
+.ali-justify-between {
+  justify-content: space-between;
+}
+
+.ali-gap-2 {
+  gap: 8px;
+}
+
+.ali-gap-4 {
+  gap: 16px;
+}
+
+.ali-gap-6 {
+  gap: 24px;
+}
+
+.ali-mt-4 {
+  margin-top: 16px;
+}
+
+.ali-mb-4 {
+  margin-bottom: 16px;
+}
+
+.ali-p-4 {
+  padding: 16px;
+}
+
+.ali-text-center {
+  text-align: center;
+}
+
+/* Grid layout for cards */
+.ali-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.ali-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.ali-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+  .ali-grid-2,
+  .ali-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   LIST STYLES
+   ============================================ */
+.ali-list {
+  list-style: none;
+}
+
+.ali-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ali-card-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ali-list li:last-child {
+  border-bottom: none;
+}
+
+.ali-list-label {
+  font-size: 14px;
+  color: var(--ali-secondary);
+}
+
+.ali-list-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ali-foreground);
+}
+
+/* ============================================
+   STATUS INDICATORS
+   ============================================ */
+.ali-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--ali-card-subtle);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--ali-secondary);
+  border: 1px solid var(--ali-border);
+}
+
+.ali-status.active {
+  background: var(--ali-success-bg);
+  border-color: var(--ali-success);
+  color: var(--ali-success);
+}
+
+.ali-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Pulse animation for live status */
+.ali-pulse {
+  animation: ali-pulse 2s infinite;
+}
+
+@keyframes ali-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  body {
+    background: white;
+  }
+
+  .ali-document {
+    box-shadow: none;
+  }
+
+  .ali-header {
+    position: relative;
+  }
+
+  .ali-tabs {
+    display: none;
+  }
+
+  .ali-badge {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--ali-card-subtle);
+    color: var(--ali-foreground);
+    border: 1px solid var(--ali-border);
+  }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 768px) {
+  .ali-header {
+    padding: 16px 20px;
+  }
+
+  .ali-content {
+    padding: 20px;
+  }
+
+  .ali-banner {
+    margin: 16px;
+    height: 80px;
+  }
+
+  .ali-banner-name {
+    font-size: 24px;
+  }
+
+  .ali-banner-type {
+    font-size: 14px;
+  }
+
+  .ali-h1 {
+    font-size: 24px;
+  }
+
+  .ali-h2 {
+    font-size: 20px;
+  }
+
+  .ali-badges {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}

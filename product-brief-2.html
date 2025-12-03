@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Brief #2: The Anatomy of Ali</title>
+  <!-- Moret Font (local) -->
+  <link rel="stylesheet" href="./styles/ali-product-brief.css">
+  <style>
+    /* --- FIX FOOTER WHITESPACE --- */
+    html, body {
+      height: auto;
+      min-height: 0;
+    }
+    .ali-document {
+      min-height: auto !important;
+    }
+
+    /* --- GLOBAL VARIABLES --- */
+    :root {
+      --sol-bg-page: #F2F2F2;        /* Warm grey background (Gallery Wall) */
+      --sol-bg-card: #FFFFFF;        /* Pure white cards pop against grey */
+      --sol-text-black: #000000;
+      --sol-text-grey: #555555;      /* Slightly darker grey for readability */
+      --sol-text-body: #404040;
+      --sol-border-light: transparent; /* Let color contrast do the work */
+      --sol-border-sharp: #000000;
+      --sol-font-serif: 'Moret', Georgia, serif;
+      --sol-font-sans: 'Metro Sans', -apple-system, sans-serif;
+    }
+
+    /* --- SOLUTION TAB TYPOGRAPHY UTILITIES --- */
+    .sol-font-serif { font-family: var(--sol-font-serif); }
+    .sol-font-sans { font-family: var(--sol-font-sans); }
+    .sol-italic { font-style: italic; }
+    .sol-uppercase { text-transform: uppercase; letter-spacing: 0.1em; }
+    .sol-text-center { text-align: center; }
+    .sol-bold { font-weight: 700; }
+
+    /* --- SOLUTION TAB: PAGE WRAPPER --- */
+    #solution {
+      background: var(--sol-bg-page);
+      padding: 32px 24px;
+      margin: 0 -24px; /* Bleed to edges */
+      border-radius: 12px;
+    }
+
+    /* --- SOLUTION TAB: MASTHEAD --- */
+    .sol-masthead {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 16px 0;
+      margin-bottom: 32px;
+    }
+    .sol-masthead-badge {
+      font-family: var(--sol-font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sol-text-black);
+      padding: 8px 16px;
+      background: var(--sol-bg);
+      border: 1px solid var(--sol-border-sharp);
+      border-radius: 4px;
+    }
+
+    /* --- SOLUTION TAB: HERO --- */
+    .sol-hero {
+      padding: 32px 24px 56px;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .sol-hero h2 {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--sol-text-black);
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+    .sol-hero p {
+      font-family: var(--sol-font-sans);
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--sol-text-body);
+      line-height: 1.7;
+    }
+
+    /* --- SOLUTION TAB: LAYER STACK --- */
+    .sol-stack {
+      max-width: 720px;
+      margin: 0 auto 56px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .sol-layer-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 32px 40px;
+      background: var(--sol-bg-card);
+      border: 1px solid var(--sol-border-light);
+      border-left: 4px solid #8A41E6;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Subtle depth */
+      transition: all 0.3s ease;
+    }
+    .sol-layer-card:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+      border-color: #8A41E6;
+      border-left-color: #8A41E6;
+    }
+    .sol-layer-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sol-layer-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--sol-text-black);
+      stroke-width: 1.5;
+      fill: none;
+    }
+    .sol-layer-content {
+      flex: 1;
+    }
+    .sol-layer-label {
+      font-family: var(--sol-font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .sol-layer-title {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--sol-text-black);
+      margin-bottom: 12px;
+    }
+    .sol-layer-body {
+      font-family: var(--sol-font-sans);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--sol-text-body);
+      line-height: 1.7;
+    }
+
+    /* --- SOLUTION TAB: SPECS GRID --- */
+    .sol-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 800px;
+      margin: 0 auto 56px auto;
+      padding-top: 32px;
+    }
+    .sol-spec-item {
+      text-align: center;
+      background: var(--sol-bg-card);
+      padding: 20px 16px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+    .sol-spec-label {
+      font-family: var(--sol-font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      margin-bottom: 4px;
+    }
+    .sol-spec-value {
+      font-family: var(--sol-font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--sol-text-black);
+    }
+
+    /* --- SOLUTION TAB: FOOTER QUOTE --- */
+    .sol-footer-quote {
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--sol-bg-card);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+    .sol-footer-quote p {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--sol-text-black);
+      line-height: 1.5;
+    }
+
+    /* ================================================================
+       SILHOUETTE TAB STYLES - "The Mirror"
+       ================================================================ */
+
+    /* --- SILHOUETTE: PAGE WRAPPER --- */
+    #silhouette {
+      background: #F2F2F2;
+      padding: 32px 24px;
+      margin: 0 -24px;
+      border-radius: 12px;
+    }
+
+    /* --- SILHOUETTE: MASTHEAD --- */
+    .sil-masthead {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 16px 0;
+      margin-bottom: 32px;
+    }
+    .sil-masthead-badge {
+      font-family: var(--sol-font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #000000;
+      padding: 8px 16px;
+      background: #FFFFFF;
+      border: 1px solid #000000;
+      border-radius: 4px;
+    }
+
+    /* --- SILHOUETTE: HERO --- */
+    .sil-hero {
+      padding: 32px 24px 48px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .sil-hero h2 {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 44px;
+      font-weight: 400;
+      color: #000000;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+    .sil-hero p {
+      font-family: var(--sol-font-sans);
+      font-size: 16px;
+      font-weight: 400;
+      color: #404040;
+      line-height: 1.7;
+    }
+
+    /* --- SILHOUETTE: PERIODIC TABLE GRID --- */
+    .sil-matrix-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      position: relative;
+      padding-bottom: 48px; /* Space for connector line */
+    }
+    .sil-matrix-header {
+      text-align: center;
+      margin-bottom: 24px;
+      font-family: var(--sol-font-sans);
+      font-weight: 700;
+      letter-spacing: 0.2em; /* TWEAK 1: Scientific spacing */
+      font-size: 11px;
+      color: #000000;
+      text-transform: uppercase;
+    }
+    .sil-matrix-grid {
+      display: grid;
+      grid-template-columns: auto repeat(5, 1fr);
+      gap: 8px;
+      position: relative;
+      z-index: 2;
+    }
+    .sil-col-header {
+      text-align: center;
+      font-family: var(--sol-font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em; /* TWEAK 1: Scientific spacing */
+      color: #555555;
+      padding: 12px 4px;
+      opacity: 0.7;
+    }
+    .sil-row-header {
+      font-family: var(--sol-font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em; /* TWEAK 1: Scientific spacing */
+      color: #000000;
+      padding: 20px 12px;
+      display: flex;
+      align-items: center;
+      opacity: 0.7;
+    }
+    .sil-matrix-cell {
+      background: #FAFAFA;
+      border: 1px solid #E5E7EB;
+      padding: 20px 8px;
+      text-align: center;
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: #404040;
+      cursor: default;
+      transition: all 0.2s ease;
+      border-radius: 4px;
+    }
+    .sil-matrix-cell:hover {
+      border-color: #8A41E6;
+      background: #FFFFFF;
+    }
+    /* TWEAK 2: Active cell with MATCH DETECTED badge */
+    .sil-matrix-cell.active {
+      background: #8A41E6;
+      color: #FFFFFF;
+      border-color: #8A41E6;
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+      font-weight: 600;
+      font-style: normal;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .sil-matrix-cell.active::before {
+      content: 'YOUR ARCHETYPE';
+      font-family: var(--sol-font-sans);
+      font-size: 7px;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem; /* Breathing room from archetype name */
+      opacity: 0.7;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .sil-matrix-caption {
+      text-align: center;
+      margin-top: 24px;
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 14px;
+      color: #555555;
+    }
+
+    /* --- SILHOUETTE: FOOTER --- */
+    .sil-footer {
+      text-align: center;
+      padding: 24px;
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .sil-footer p {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: #000000;
+    }
+
+    /* Moret Font Face */
+    @font-face {
+      font-family: 'Moret';
+      src: url('./fonts/Moret-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Moret';
+      src: url('./fonts/Moret-RegularOblique.otf') format('opentype');
+      font-weight: 400;
+      font-style: italic;
+      font-display: swap;
+    }
+    /* Metro Sans Font Face */
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('./fonts/metrosans-regular-webfont.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('./fonts/metrosans-medium-webfont.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('./fonts/metrosans-semi-bold-webfont.woff2') format('woff2');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('./fonts/metrosans-bold-webfont.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    /* Document top padding */
+    .ali-document {
+      padding-top: 16px;
+    }
+    /* Header Overrides - Aligned Website Style with Scroll Transform */
+    .ali-header {
+      background: var(--ali-card);
+      padding: 20px 32px;
+      border-radius: var(--ali-radius-xl);
+      margin: 0 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      /* Smooth bounce transition */
+      transition: all 0.4s cubic-bezier(0.68, -0.15, 0.265, 1.25);
+    }
+
+    /* Scrolled state - floating pill */
+    .ali-header.scrolled {
+      margin: 0 80px;
+      padding: 14px 28px;
+      border-radius: 9999px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      background: #FFFFFF;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    /* Shrink logo when scrolled */
+    .ali-header.scrolled .ali-logo {
+      font-size: 42px;
+    }
+
+    /* Shrink separator when scrolled */
+    .ali-header.scrolled .ali-header-separator {
+      height: 28px;
+      margin: 0 20px 0 12px;
+    }
+
+    /* Shrink tabs when scrolled */
+    .ali-header.scrolled .ali-tab {
+      font-size: 12px;
+    }
+    .ali-header-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start !important;
+      gap: 0;
+    }
+    .ali-logo {
+      font-family: 'Moret', Georgia, serif;
+      font-size: 52px;
+      font-weight: 400;
+      color: var(--ali-foreground);
+      flex-shrink: 0;
+      transition: font-size 0.4s cubic-bezier(0.68, -0.15, 0.265, 1.25);
+    }
+    /* Vertical separator between logo and tabs - bold and tall */
+    .ali-header-separator {
+      width: 2px;
+      height: 36px;
+      background: var(--ali-foreground);
+      margin: 0 28px 0 16px;
+      flex-shrink: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.15, 0.265, 1.25);
+    }
+
+    /* Tab Navigation - Evenly spaced across */
+    .ali-tabs {
+      background: transparent;
+      padding: 0;
+      flex: 1;
+      display: flex !important;
+      justify-content: space-between;
+      gap: 0;
+    }
+    .ali-tab {
+      padding: 8px 0;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ali-foreground);
+      background: transparent;
+      border-radius: 0;
+      opacity: 0.8;
+      transition: font-size 0.4s cubic-bezier(0.68, -0.15, 0.265, 1.25);
+    }
+    .ali-tab:hover {
+      opacity: 1;
+      background: transparent;
+    }
+    .ali-tab.active {
+      opacity: 1;
+      font-weight: 600;
+      background: transparent;
+      box-shadow: none;
+      border-bottom: 2px solid var(--ali-foreground);
+      border-radius: 0;
+    }
+
+    /* Date Badge - Aligned "Get in Touch" style */
+    .ali-date-badge {
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ali-foreground);
+      background: transparent;
+      border: 1px solid var(--ali-foreground);
+      border-radius: var(--ali-radius-pill);
+      cursor: default;
+      margin-left: auto;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* Tab Panel Display */
+    .ali-tab-panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+      background: var(--sol-bg-page);
+      padding: 32px 24px;
+      margin: 0 -24px;
+    }
+    .ali-tab-panel.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Banner Left Stack */
+    .ali-banner-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.1;
+    }
+    .ali-banner-stack-top {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .ali-banner-stack-mid {
+      font-size: 28px;
+      font-weight: 200;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .ali-banner-stack-bottom {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Banner Title - Aligned Mixed Typography Style */
+    .ali-banner-silhouette {
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .ali-banner-title-main {
+      font-size: 26px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+    }
+    /* "The" in elegant italic serif (like Aligned's "the old-fashioned") */
+    .ali-banner-title-the {
+      font-family: 'Moret', Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 24px;
+      letter-spacing: 0.02em;
+      opacity: 0.9;
+    }
+    /* "ANATOMY OF ALI" in bold caps (like Aligned's "DROP") */
+    .ali-banner-title-caps {
+      font-family: 'Metro Sans', -apple-system, sans-serif;
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    /* Date subtitle under title */
+    .ali-banner-date {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 6px;
+    }
+
+    /* Hero Statement */
+    .ali-hero-statement {
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--ali-card-subtle);
+      border-radius: var(--ali-radius-lg);
+      margin-bottom: 32px;
+    }
+    .ali-hero-statement h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--ali-foreground);
+      margin-bottom: 12px;
+    }
+    .ali-hero-statement p {
+      font-size: 15px;
+      color: var(--ali-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Conversation Example */
+    .ali-conversation {
+      background: var(--ali-background);
+      border-radius: var(--ali-radius-lg);
+      padding: 20px;
+      margin: 24px 0;
+    }
+    .ali-message {
+      padding: 12px 16px;
+      border-radius: var(--ali-radius-md);
+      margin-bottom: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .ali-message:last-child { margin-bottom: 0; }
+    .ali-message-user {
+      background: var(--ali-foreground);
+      color: white;
+      margin-left: 40px;
+    }
+    .ali-message-ali {
+      background: var(--ali-card);
+      border: 1px solid var(--ali-border);
+      margin-right: 40px;
+    }
+    .ali-message-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ali-secondary);
+      margin-bottom: 4px;
+    }
+    .ali-message-user .ali-message-label {
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Roadmap Phase Cards */
+    .ali-phase-card {
+      background: var(--ali-card);
+      border: 1px solid var(--ali-border);
+      border-radius: var(--ali-radius-lg);
+      padding: 20px;
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .ali-phase-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: var(--ali-radius-lg) 0 0 var(--ali-radius-lg);
+    }
+    .ali-phase-card.now::before { background: var(--ali-success); }
+    .ali-phase-card.next::before { background: var(--ali-warning); }
+    .ali-phase-card.future::before { background: #3b82f6; }
+    .ali-phase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .ali-phase-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .ali-phase-card.now .ali-phase-label { color: var(--ali-success); }
+    .ali-phase-card.next .ali-phase-label { color: var(--ali-warning); }
+    .ali-phase-card.future .ali-phase-label { color: #3b82f6; }
+    .ali-phase-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ali-foreground);
+    }
+    .ali-phase-metric {
+      font-size: 12px;
+      color: var(--ali-secondary);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--ali-border);
+    }
+
+    /* Dimension Grid */
+    .ali-dimension-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 600px) {
+      .ali-dimension-grid { grid-template-columns: 1fr; }
+    }
+    .ali-dimension-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      background: var(--ali-card-subtle);
+      border-radius: var(--ali-radius-md);
+    }
+    .ali-dimension-num {
+      width: 28px;
+      height: 28px;
+      background: var(--ali-foreground);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .ali-dimension-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ali-foreground);
+    }
+    .ali-dimension-desc {
+      font-size: 12px;
+      color: var(--ali-secondary);
+      margin-top: 2px;
+    }
+
+    /* Pricing Grid */
+    .ali-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 24px 0;
+    }
+    @media (max-width: 600px) {
+      .ali-pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .ali-pricing-card {
+      background: var(--ali-card-subtle);
+      border-radius: var(--ali-radius-lg);
+      padding: 16px;
+      text-align: center;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .ali-pricing-card:hover {
+      border-color: #8A41E6;
+      transform: translateY(-2px);
+    }
+    .ali-pricing-phase {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ali-secondary);
+      margin-bottom: 8px;
+    }
+    .ali-pricing-price {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--ali-foreground);
+    }
+    .ali-pricing-note {
+      font-size: 11px;
+      color: var(--ali-secondary);
+      margin-top: 4px;
+    }
+
+    /* Competitive Rows */
+    .ali-competitive-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      padding: 16px;
+      background: var(--ali-card-subtle);
+      border-radius: var(--ali-radius-md);
+      margin-bottom: 8px;
+      font-size: 13px;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .ali-competitive-row:hover {
+      border-color: #8A41E6;
+    }
+
+    /* ICP Cards (Business Tab) */
+    .icp-container {
+      max-width: 900px;
+      margin: 2rem auto 3rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .icp-container { grid-template-columns: 1fr; }
+    }
+    .icp-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-top: 4px solid #000000;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .icp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border-color: #8A41E6;
+      border-top-color: #8A41E6;
+    }
+    .icp-card.buyer {
+      background: #F9FAFB;
+    }
+    .icp-role {
+      font-family: var(--sol-font-sans);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #555555;
+      margin-bottom: 0.5rem;
+    }
+    .icp-title {
+      font-family: var(--sol-font-serif);
+      font-size: 1.4rem;
+      font-style: italic;
+      margin-bottom: 1.25rem;
+      line-height: 1.2;
+      color: #000000;
+    }
+    .icp-section-label {
+      font-family: var(--sol-font-sans);
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+      color: #000000;
+      border-bottom: 1px solid #E5E7EB;
+      padding-bottom: 0.2rem;
+      display: inline-block;
+    }
+    .icp-text {
+      font-family: var(--sol-font-sans);
+      font-size: 0.85rem;
+      color: #444444;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+    .icp-text:last-child {
+      margin-bottom: 0;
+    }
+    .pricing-row {
+      max-width: 700px;
+      margin: 2rem auto;
+      text-align: center;
+      border-top: 1px solid #E5E7EB;
+      padding-top: 1.5rem;
+    }
+    .business-footer-quote {
+      text-align: center;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      max-width: 700px;
+    }
+    .business-footer-quote p {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #000000;
+    }
+    @media (max-width: 600px) {
+      .ali-competitive-row { grid-template-columns: 1fr; gap: 8px; }
+    }
+    .ali-competitive-competitor { font-weight: 500; }
+    .ali-competitive-their { color: var(--ali-secondary); font-style: italic; }
+    .ali-competitive-ours { color: var(--ali-foreground); font-weight: 500; }
+
+    /* Gap Rows */
+    .ali-gap-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      padding: 16px;
+      background: var(--ali-card-subtle);
+      border-radius: var(--ali-radius-md);
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    @media (max-width: 600px) {
+      .ali-gap-row { grid-template-columns: 1fr; gap: 8px; }
+    }
+    .ali-gap-name { font-weight: 500; }
+    .ali-gap-today { color: var(--ali-secondary); }
+    .ali-gap-should { color: var(--ali-foreground); font-weight: 500; }
+
+    /* Emphasis Box */
+    .ali-emphasis {
+      background: var(--ali-foreground);
+      color: white;
+      padding: 20px 24px;
+      border-radius: var(--ali-radius-lg);
+      text-align: center;
+      margin: 24px 0;
+    }
+    .ali-emphasis p {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    /* Ask Items */
+    .ali-ask-item {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: var(--ali-background);
+      border-radius: var(--ali-radius-md);
+      margin-bottom: 12px;
+    }
+    .ali-ask-num {
+      width: 28px;
+      height: 28px;
+      background: var(--ali-foreground);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .ali-ask-text { font-size: 15px; }
+
+    /* Quick Stats */
+    .ali-quick-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 24px;
+      background: var(--ali-background);
+      border-radius: var(--ali-radius-lg);
+      margin-bottom: 24px;
+    }
+    .ali-quick-stat { text-align: center; }
+    .ali-quick-stat-value {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--ali-foreground);
+    }
+    .ali-quick-stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ali-secondary);
+    }
+
+    /* Simple lists */
+    .ali-simple-list {
+      list-style: none;
+      padding: 0;
+    }
+    .ali-simple-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--ali-card-subtle);
+      font-size: 14px;
+      color: var(--ali-muted);
+    }
+    .ali-simple-list li:last-child { border-bottom: none; }
+
+    /* Architecture Diagram */
+    .ali-diagram {
+      background: var(--ali-foreground);
+      color: #a6e3a1;
+      padding: 20px;
+      border-radius: var(--ali-radius-lg);
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+      font-size: 10px;
+      line-height: 1.3;
+      overflow-x: auto;
+      white-space: pre;
+      margin: 24px 0;
+    }
+
+    /* ================================================================
+       ROADMAP TAB: THE VERTICAL MATURITY TIMELINE
+       "Trajectory of Intelligence" - Advisor to Agent
+       ================================================================ */
+
+    /* Timeline Container */
+    .timeline-container {
+      max-width: 800px;
+      margin: 3rem auto;
+      position: relative;
+      padding: 0 2rem;
+    }
+
+    /* The Central Vertical Line */
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #D1D5DB;
+      transform: translateX(-50%);
+      z-index: 0;
+    }
+
+    /* Phase Blocks */
+    .phase-block {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .phase-block:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Alternating Layout */
+    .phase-block:nth-child(odd) { flex-direction: row; }
+    .phase-block:nth-child(even) { flex-direction: row-reverse; }
+
+    /* The Content Card */
+    .phase-content {
+      width: 42%;
+      text-align: right;
+    }
+    .phase-block:nth-child(even) .phase-content {
+      text-align: left;
+    }
+    .phase-content.spacer {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* The Center Node (The Dot) */
+    .phase-node {
+      width: 16px;
+      height: 16px;
+      background: #FFFFFF;
+      border: 2px solid #000000;
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      flex-shrink: 0;
+    }
+    .phase-node.current {
+      background: #000000;
+    }
+    .phase-node.future {
+      border-style: dashed;
+      opacity: 0.5;
+    }
+
+    /* Timeline Typography */
+    .phase-label {
+      font-family: var(--sol-font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #555555;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      display: block;
+    }
+    .phase-title {
+      font-family: var(--sol-font-serif);
+      font-size: 1.75rem;
+      font-style: italic;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      color: #000000;
+    }
+    .phase-body {
+      font-family: var(--sol-font-sans);
+      font-size: 0.95rem;
+      color: #444444;
+      line-height: 1.6;
+    }
+
+    /* The Capability Pill */
+    .capability-pill {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.4rem 0.8rem;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      border-radius: 4px;
+      font-family: var(--sol-font-sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #000000;
+    }
+
+    /* Capability Block (Enhanced Details) */
+    .capability-block {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #E5E7EB;
+    }
+    .capability-label {
+      font-family: var(--sol-font-sans);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #000000;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .capability-details {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 0.8rem;
+      color: #555555;
+    }
+
+    /* Timeline Hero */
+    .timeline-hero {
+      text-align: center;
+      padding: 32px 24px 16px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .timeline-hero h2 {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      color: #000000;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+    .timeline-hero p {
+      font-family: var(--sol-font-sans);
+      font-size: 17px;
+      font-weight: 400;
+      color: #404040;
+      line-height: 1.7;
+    }
+
+    /* Timeline Footer Quote */
+    .timeline-footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem 0;
+    }
+    .timeline-footer p {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: #000000;
+    }
+
+    /* ================================================================
+       RESPONSIVE DESIGN - Mobile-First Approach
+       ================================================================ */
+
+    /* Tablet and below (768px) */
+    @media (max-width: 768px) {
+      /* Header - Stack navigation */
+      .ali-header {
+        padding: 16px;
+        margin: 0 16px;
+      }
+      .ali-header.scrolled {
+        margin: 0 16px;
+        padding: 12px 16px;
+        border-radius: 16px;
+      }
+      .ali-header-content {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .ali-logo {
+        font-size: 36px;
+      }
+      .ali-header.scrolled .ali-logo {
+        font-size: 32px;
+      }
+      .ali-header-separator {
+        display: none;
+      }
+      .ali-tabs {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+      }
+      .ali-tab {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+      .ali-header.scrolled .ali-tab {
+        font-size: 10px;
+      }
+
+      /* Content panels */
+      .ali-content {
+        padding: 16px;
+      }
+      .ali-tab-panel {
+        padding: 24px 16px;
+        margin: 0 -16px;
+      }
+
+      /* Overview tab - 2 column to 1 column */
+      #overview > div[style*="grid-template-columns: 1fr 1fr"] {
+        display: block !important;
+      }
+      #overview > div[style*="grid-template-columns: 1fr 1fr"] > div {
+        margin-bottom: 16px;
+      }
+      #overview > div[style*="grid-template-columns: 1fr 1fr 1fr"] {
+        display: block !important;
+      }
+      #overview > div[style*="grid-template-columns: 1fr 1fr 1fr"] > div {
+        margin-bottom: 24px;
+      }
+
+      /* Problem tab - Gap analysis rows */
+      #problem div[style*="grid-template-columns: 1fr auto 1fr"] {
+        display: block !important;
+        text-align: center;
+      }
+      #problem div[style*="grid-template-columns: 1fr auto 1fr"] > div {
+        text-align: center !important;
+        margin-bottom: 12px;
+      }
+
+      /* Solution tab */
+      .sol-layer-card {
+        flex-direction: column;
+        padding: 24px;
+      }
+      .sol-specs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sol-hero h2 {
+        font-size: 32px;
+      }
+
+      /* Silhouette tab */
+      .sil-matrix-grid {
+        font-size: 11px;
+      }
+      .sil-matrix-cell {
+        padding: 12px 4px;
+        font-size: 11px;
+      }
+      .sil-col-header {
+        font-size: 7px;
+        padding: 8px 2px;
+      }
+      .sil-row-header {
+        font-size: 7px;
+        padding: 12px 4px;
+      }
+      .sil-hero h2 {
+        font-size: 32px;
+      }
+
+      /* Roadmap tab */
+      .timeline-container {
+        padding: 0 1rem;
+      }
+      .timeline-container::before {
+        left: 20px;
+      }
+      .phase-block {
+        flex-direction: column !important;
+        align-items: flex-start;
+        padding-left: 40px;
+      }
+      .phase-content {
+        width: 100% !important;
+        text-align: left !important;
+      }
+      .phase-content.spacer {
+        display: none;
+      }
+      .phase-node {
+        left: 20px !important;
+        transform: translateX(-50%);
+      }
+      .timeline-hero h2 {
+        font-size: 32px;
+      }
+      .phase-title {
+        font-size: 1.4rem;
+      }
+
+      /* Business tab */
+      .icp-container {
+        grid-template-columns: 1fr;
+      }
+
+      /* Typography scaling */
+      h2[style*="font-size: 42px"],
+      h2[style*="font-size: 44px"] {
+        font-size: 28px !important;
+      }
+      p[style*="font-size: 17px"] {
+        font-size: 15px !important;
+      }
+    }
+
+    /* Small mobile (480px) */
+    @media (max-width: 480px) {
+      .ali-header {
+        margin: 0 8px;
+        padding: 12px;
+      }
+      .ali-header.scrolled {
+        margin: 0 8px;
+      }
+      .ali-logo {
+        font-size: 28px;
+      }
+      .ali-tab {
+        font-size: 10px;
+        padding: 4px 6px;
+      }
+      .sol-specs-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .sil-matrix-container {
+        padding: 16px;
+        overflow-x: auto;
+      }
+      .sil-matrix-grid {
+        min-width: 500px;
+      }
+      .ali-pricing-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="ali-document">
+
+    <!-- HEADER -->
+    <header class="ali-header">
+      <div class="ali-header-content">
+        <div class="ali-logo">Ali.</div>
+        <div class="ali-header-separator"></div>
+        <nav class="ali-tabs">
+          <button class="ali-tab active" data-tab="overview">Overview</button>
+          <button class="ali-tab" data-tab="problem">Problem</button>
+          <button class="ali-tab" data-tab="solution">Solution</button>
+          <button class="ali-tab" data-tab="silhouette">Silhouette</button>
+          <button class="ali-tab" data-tab="roadmap">Roadmap</button>
+          <button class="ali-tab" data-tab="business">Business</button>
+          <button class="ali-tab" data-tab="tech">Tech</button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="ali-content">
+
+      <!-- TAB: Overview -->
+      <section class="ali-tab-panel active" id="overview">
+
+        <!-- SECTION 2: THE HERO STATEMENT -->
+        <div style="text-align: center; padding: 32px 24px 48px; max-width: 720px; margin: 0 auto;">
+          <h2 style="font-family: 'Moret', Georgia, serif; font-style: italic; font-size: 42px; font-weight: 400; color: var(--ali-foreground); margin-bottom: 20px; line-height: 1.2;">
+            The Execution Layer
+          </h2>
+          <p style="font-family: 'Metro Sans', -apple-system, sans-serif; font-size: 17px; font-weight: 500; color: var(--ali-secondary); line-height: 1.6; max-width: 580px; margin: 0 auto;">
+            Training is an event. Mastery is a system. Ali bridges the gap between the workshop and the real world, turning static concepts into persistent, live advantage.
+          </p>
+        </div>
+
+        <!-- SECTION 3: THE VALUE PROP (Two Columns - Black Box vs White) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin: 0 0 48px 0;">
+
+          <!-- LEFT: THE GAP (Black box, white text) -->
+          <div style="padding: 32px; background: #000000; border-radius: var(--ali-radius-lg);">
+            <span style="font-family: 'Metro Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); display: block; margin-bottom: 16px;">
+              THE GAP
+            </span>
+            <p style="font-family: 'Moret', Georgia, serif; font-style: italic; font-size: 26px; font-weight: 400; color: #FFFFFF; margin-bottom: 16px; line-height: 1.3;">
+              Training Fades.
+            </p>
+            <p style="font-family: 'Moret', Georgia, serif; font-size: 15px; color: rgba(255,255,255,0.85); line-height: 1.7;">
+              The "Forgetting Curve" is brutal: 80% of workshop methodology is lost within 48 hours. Without a system to enforce it, your strategy lives in a binder, not in the deal.
+            </p>
+          </div>
+
+          <!-- RIGHT: THE ENGINE (White background, black text) -->
+          <div style="padding: 32px; background: #FFFFFF; border-radius: var(--ali-radius-lg); border: 1px solid #E5E5E5;">
+            <span style="font-family: 'Metro Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #000000; display: block; margin-bottom: 16px;">
+              THE ENGINE
+            </span>
+            <p style="font-family: 'Moret', Georgia, serif; font-style: italic; font-size: 26px; font-weight: 400; color: #000000; margin-bottom: 16px; line-height: 1.3;">
+              Architecture Persists.
+            </p>
+            <p style="font-family: 'Moret', Georgia, serif; font-size: 15px; color: #000000; line-height: 1.7;">
+              Ali encodes 20 years of proven framework into an always-on system. It doesn't just answer; it anchors your instinct to a methodology that has closed billions in value.
+            </p>
+          </div>
+        </div>
+
+        <!-- SECTION 4: THE SYSTEM (3-Column with Labels Above) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; text-align: center; max-width: 800px; margin: 0 auto 48px auto;">
+          <!-- MAP -->
+          <div>
+            <p style="font-family: 'Metro Sans', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.1em; color: #000000; margin-bottom: 12px;">
+              MAP
+            </p>
+            <p style="font-family: 'Moret', Georgia, serif; font-size: 14px; color: #404040; line-height: 1.6;">
+              Ali learns your "Silhouette"—your behavioral style—and the unique parameters of the deal.
+            </p>
+          </div>
+          <!-- ANCHOR -->
+          <div>
+            <p style="font-family: 'Metro Sans', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.1em; color: #000000; margin-bottom: 12px;">
+              ANCHOR
+            </p>
+            <p style="font-family: 'Moret', Georgia, serif; font-size: 14px; color: #404040; line-height: 1.6;">
+              The system references the master framework, pulling the exact tactical play.
+            </p>
+          </div>
+          <!-- ACTIVATE -->
+          <div>
+            <p style="font-family: 'Metro Sans', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.1em; color: #000000; margin-bottom: 12px;">
+              ACTIVATE
+            </p>
+            <p style="font-family: 'Moret', Georgia, serif; font-size: 14px; color: #404040; line-height: 1.6;">
+              Ali converts theory into calibrated framing—what to say and why it works.
+            </p>
+          </div>
+        </div>
+
+
+        <!-- SECTION 6: THE TAGLINE -->
+        <p style="font-family: 'Moret', Georgia, serif; font-style: italic; font-size: 16px; color: #404040; text-align: center; margin: 0;">
+          Don't just teach the method. Install it.
+        </p>
+
+      </section>
+
+      <!-- TAB: Problem -->
+      <section class="ali-tab-panel" id="problem">
+
+        <!-- SECTION 2: THE HERO (The Diagnosis) -->
+        <div style="text-align: center; padding: 32px 24px 40px; max-width: 720px; margin: 0 auto;">
+          <h2 style="font-family: 'Moret', Georgia, serif; font-style: italic; font-size: 42px; font-weight: 400; color: #000000; margin-bottom: 20px; line-height: 1.2;">
+            The Forgetting Curve
+          </h2>
+          <p style="font-family: 'Metro Sans', sans-serif; font-size: 17px; font-weight: 500; color: #404040; line-height: 1.6;">
+            The gap between <em style="font-family: 'Moret', Georgia, serif;">capability acquisition</em> (the workshop) and <em style="font-family: 'Moret', Georgia, serif;">capability application</em> (the deal) is where ROI evaporates.
+          </p>
+        </div>
+
+        <!-- SECTION 3: THE VISUAL (Decay Curve Line Graph) -->
+        <div style="padding: 40px 32px; margin-bottom: 48px;">
+          <svg viewBox="0 0 800 300" style="width: 100%; height: auto; max-width: 800px; margin: 0 auto; display: block;">
+            <!-- Gradient Definition for Area Fill -->
+            <defs>
+              <linearGradient id="curveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#000000;stop-opacity:0.08"/>
+                <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Axes -->
+            <line x1="80" y1="40" x2="80" y2="240" stroke="#E5E5E5" stroke-width="1"/>
+            <line x1="80" y1="240" x2="760" y2="240" stroke="#E5E5E5" stroke-width="1"/>
+
+            <!-- Area Fill Under Curve (Volume of Strategy draining) -->
+            <path d="M 100 50 Q 200 55, 300 120 Q 400 180, 500 210 Q 600 230, 740 235 L 740 240 L 100 240 Z"
+                  fill="url(#curveGradient)"/>
+
+            <!-- The Decay Curve (3px weight for confidence) -->
+            <path d="M 100 50 Q 200 55, 300 120 Q 400 180, 500 210 Q 600 230, 740 235"
+                  fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+
+            <!-- Day 1 Point - Solid Black (Workshop High) -->
+            <circle cx="100" cy="50" r="7" fill="#000000"/>
+            <text x="100" y="30" fill="#000000" font-family="Moret, Georgia, serif" font-size="14" font-style="italic" text-anchor="middle">"The Workshop High"</text>
+
+            <!-- Day 30 Point - Grey (The Drift/Fading) -->
+            <circle cx="340" cy="140" r="6" fill="#9CA3AF"/>
+            <text x="340" y="125" fill="#6B7280" font-family="Moret, Georgia, serif" font-size="13" font-style="italic" text-anchor="middle">"The Drift"</text>
+
+            <!-- Day 90 Point - Hollow Ring with Red Border (Empty/Lost) -->
+            <circle cx="740" cy="235" r="7" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
+            <text x="740" y="210" fill="#000000" font-family="Moret, Georgia, serif" font-size="14" font-style="italic" text-anchor="middle">"The Reversion"</text>
+            <text x="740" y="225" fill="#DC2626" font-family="Metro Sans, sans-serif" font-size="10" text-anchor="middle" letter-spacing="0.03em">(Back to Instinct)</text>
+
+            <!-- X-Axis Markers - Aligned on same baseline -->
+            <text x="100" y="260" fill="#6B7280" font-family="Metro Sans, sans-serif" font-size="10" text-anchor="middle">Day 1</text>
+            <text x="340" y="260" fill="#6B7280" font-family="Metro Sans, sans-serif" font-size="10" text-anchor="middle">Day 30</text>
+            <text x="740" y="260" fill="#6B7280" font-family="Metro Sans, sans-serif" font-size="10" text-anchor="middle">Day 90</text>
+          </svg>
+        </div>
+
+        <!-- SECTION 4: THE GAP ANALYSIS (3-Row Comparison Table) -->
+        <div style="max-width: 800px; margin: 0 auto 48px auto;">
+          <!-- ROW 1: STORAGE -->
+          <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: center; padding: 20px 0; border-bottom: 1px solid #E5E5E5;">
+            <div style="text-align: right;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: #7C7C7C; margin-bottom: 4px;">ANALOG STATE</p>
+              <p style="font-family: 'Moret', Georgia, serif; font-size: 15px; color: #7C7C7C;">Strategy is trapped in static binders.</p>
+            </div>
+            <div style="text-align: center;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #000000; padding: 8px 16px; background: #F5F3F0; border-radius: 4px;">ACCESSIBILITY</p>
+            </div>
+            <div style="text-align: left;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: #000000; margin-bottom: 4px;">ALI STATE</p>
+              <p style="font-family: 'Moret', Georgia, serif; font-size: 15px; color: #000000;">Strategy is retrieved at the point of need.</p>
+            </div>
+          </div>
+
+          <!-- ROW 2: MEASUREMENT -->
+          <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: center; padding: 20px 0; border-bottom: 1px solid #E5E5E5;">
+            <div style="text-align: right;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: #7C7C7C; margin-bottom: 4px;">ANALOG STATE</p>
+              <p style="font-family: 'Moret', Georgia, serif; font-size: 15px; color: #7C7C7C;">Success is measured by "feeling."</p>
+            </div>
+            <div style="text-align: center;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #000000; padding: 8px 16px; background: #F5F3F0; border-radius: 4px;">ACCOUNTABILITY</p>
+            </div>
+            <div style="text-align: left;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: #000000; margin-bottom: 4px;">ALI STATE</p>
+              <p style="font-family: 'Moret', Georgia, serif; font-size: 15px; color: #000000;">Success is measured by behavioral adherence.</p>
+            </div>
+          </div>
+
+          <!-- ROW 3: CONTINUITY -->
+          <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: center; padding: 20px 0;">
+            <div style="text-align: right;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: #7C7C7C; margin-bottom: 4px;">ANALOG STATE</p>
+              <p style="font-family: 'Moret', Georgia, serif; font-size: 15px; color: #7C7C7C;">Every deal is an isolated event.</p>
+            </div>
+            <div style="text-align: center;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #000000; padding: 8px 16px; background: #F5F3F0; border-radius: 4px;">INTELLIGENCE</p>
+            </div>
+            <div style="text-align: left;">
+              <p style="font-family: 'Metro Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: #000000; margin-bottom: 4px;">ALI STATE</p>
+              <p style="font-family: 'Moret', Georgia, serif; font-size: 15px; color: #000000;">Every deal trains the next model.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 5: THE BOTTOM LINE (The Punch) -->
+        <div style="padding-top: 32px; border-top: 1px solid #E5E5E5; text-align: center;">
+          <p style="font-family: 'Moret', Georgia, serif; font-style: italic; font-size: 22px; color: #000000; line-height: 1.5; max-width: 600px; margin: 0 auto;">
+            We don't have a talent problem. We have a retention problem. Ali stops the leak.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- TAB: Solution -->
+      <section class="ali-tab-panel" id="solution">
+
+        <!-- SECTION 1: THE HERO -->
+        <div class="sol-hero">
+          <h2>Intuition, Architected</h2>
+          <p>A guidance system that understands you, the framework, and the moment. Ali replaces "winging it" with a cognitive architecture designed to ground your instinct in deep context and precision.</p>
+        </div>
+
+        <!-- SECTION 3: THE ARCHITECTURE (3 Layer Stack) -->
+        <div class="sol-stack">
+
+          <!-- LAYER 1: CONTEXT AWARE -->
+          <div class="sol-layer-card">
+            <div class="sol-layer-icon">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04c.301-.678.565-1.383.784-2.112m5.573-3.419a6.003 6.003 0 00-11.215 1.826M12 11c0-2.21 1.79-4 4-4s4 1.79 4 4c0 4.418-1.79 8.351-4.687 11.216m-1.477-5.142C14.548 14.546 15 12.805 15 11c0-1.657-1.343-3-3-3s-3 1.343-3 3c0 2.03-.503 3.945-1.392 5.623"/>
+              </svg>
+            </div>
+            <div class="sol-layer-content">
+              <span class="sol-layer-label">01. Context Aware</span>
+              <h3 class="sol-layer-title">The Silhouette</h3>
+              <p class="sol-layer-body">Generic advice fails because it doesn't sound like you. Ali starts by mapping your unique negotiation DNA—your strengths, your triggers, and your voice. It combines this profile with the deal's hard constraints to ensure every recommendation <strong>feels authentic, not algorithmic.</strong></p>
+            </div>
+          </div>
+
+          <!-- LAYER 2: METHODOLOGY ANCHOR -->
+          <div class="sol-layer-card">
+            <div class="sol-layer-icon">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+              </svg>
+            </div>
+            <div class="sol-layer-content">
+              <span class="sol-layer-label">02. Methodology Anchor</span>
+              <h3 class="sol-layer-title">The Framework</h3>
+              <p class="sol-layer-body">Access a master negotiator's intuition in milliseconds. We encoded 20 years of proven methodology into a library of <strong>70 strategic dimensions</strong>. Ali doesn't guess; it anchors every move in the <strong>Aligned Framework</strong>, identifying the best play to shift the leverage in your favor.</p>
+            </div>
+          </div>
+
+          <!-- LAYER 3: LEARNED APPLICATION -->
+          <div class="sol-layer-card">
+            <div class="sol-layer-icon">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <div class="sol-layer-content">
+              <span class="sol-layer-label">03. Learned Application</span>
+              <h3 class="sol-layer-title">The Edge</h3>
+              <p class="sol-layer-body">Strategy is useless if you can't articulate it. Ali bridges the gap between theory and action. Instead of rigid lines, it provides <strong>calibrated framing</strong>—tuned to the specific tension of the moment—empowering you to navigate the conversation with <strong>agility and deft precision.</strong></p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SECTION 5: THE FOOTER QUOTE -->
+        <div class="sol-footer-quote">
+          <p>True confidence is simply validated instinct.</p>
+        </div>
+
+      </section>
+
+      <!-- TAB: Silhouette -->
+      <section class="ali-tab-panel" id="silhouette">
+
+        <!-- SECTION 1: THE HERO (The Calibration) -->
+        <div class="sil-hero">
+          <h2>The Behavioral Fingerprint</h2>
+          <p>Negotiation is not one-size-fits-all. Before Ali advises a single move, it calibrates to your Silhouette dimensions.</p>
+        </div>
+
+        <!-- SECTION 3: THE MODEL (Periodic Table Grid) -->
+        <div class="sil-matrix-container">
+          <div class="sil-matrix-header">The 20 Aligned Archetypes</div>
+
+          <div class="sil-matrix-grid">
+            <!-- Column Headers (empty first cell for row labels) -->
+            <div></div>
+            <div class="sil-col-header">Compete</div>
+            <div class="sil-col-header">Collaborate</div>
+            <div class="sil-col-header">Compromise</div>
+            <div class="sil-col-header">Avoid</div>
+            <div class="sil-col-header">Accommodate</div>
+
+            <!-- Row 1: Methodical -->
+            <div class="sil-row-header">Methodical</div>
+            <div class="sil-matrix-cell">The Strategist</div>
+            <div class="sil-matrix-cell active">The Architect</div>
+            <div class="sil-matrix-cell">The Analyst</div>
+            <div class="sil-matrix-cell">The Observer</div>
+            <div class="sil-matrix-cell">The Counselor</div>
+
+            <!-- Row 2: Assertive -->
+            <div class="sil-row-header">Assertive</div>
+            <div class="sil-matrix-cell">The Commander</div>
+            <div class="sil-matrix-cell">The Captain</div>
+            <div class="sil-matrix-cell">The Enforcer</div>
+            <div class="sil-matrix-cell">The Guardian</div>
+            <div class="sil-matrix-cell">The Mentor</div>
+
+            <!-- Row 3: Empathetic -->
+            <div class="sil-row-header">Empathetic</div>
+            <div class="sil-matrix-cell">The Advocate</div>
+            <div class="sil-matrix-cell">The Ally</div>
+            <div class="sil-matrix-cell">The Mediator</div>
+            <div class="sil-matrix-cell">The Peacekeeper</div>
+            <div class="sil-matrix-cell">The Supporter</div>
+
+            <!-- Row 4: Sociable -->
+            <div class="sil-row-header">Sociable</div>
+            <div class="sil-matrix-cell">The Influencer</div>
+            <div class="sil-matrix-cell">The Trendsetter</div>
+            <div class="sil-matrix-cell">The Connector</div>
+            <div class="sil-matrix-cell">The Diplomat</div>
+            <div class="sil-matrix-cell">The Harmonizer</div>
+          </div>
+
+          <p class="sil-matrix-caption" style="margin-top: 24px;">
+            <span style="font-family: var(--sol-font-sans); font-weight: 600; letter-spacing: 0.05em; font-size: 11px; text-transform: uppercase;">X-Axis:</span> Conflict Management Style (CMS)
+            <span style="margin: 0 12px; opacity: 0.4;">|</span>
+            <span style="font-family: var(--sol-font-sans); font-weight: 600; letter-spacing: 0.05em; font-size: 11px; text-transform: uppercase;">Y-Axis:</span> Professional Personality (RYBG)
+          </p>
+        </div>
+
+      </section>
+
+      <!-- TAB: Roadmap -->
+      <section class="ali-tab-panel" id="roadmap">
+
+        <!-- HERO: Evolution of Intelligence -->
+        <div class="timeline-hero">
+          <h2>The Evolution of Intelligence</h2>
+          <p>Ali is not a static chatbot. It is a tiered intelligence engine designed to move from <em>diagnostic profiling</em> to <em>strategic advisory</em> to <em>organizational scale</em>.</p>
+        </div>
+
+        <!-- THE VERTICAL MATURITY TIMELINE -->
+        <div class="timeline-container">
+
+          <!-- PHASE 0: Ali MVP (NOW) -->
+          <div class="phase-block">
+            <div class="phase-content" style="text-align: left;">
+              <span class="phase-label">January 2025 — Ali MVP</span>
+              <h3 class="phase-title">The Foundation</h3>
+              <p class="phase-body">
+                The platform is live. Users can discover their negotiation personality, receive AI coaching grounded in the <strong>Aligned methodology</strong>, and share their profile with stakeholders.
+              </p>
+              <ul style="font-family: var(--sol-font-sans); font-size: 0.85rem; color: #444; margin: 1rem 0; padding-left: 1.25rem; line-height: 1.8; text-align: left;">
+                <li>70-Question Silhouette Assessment</li>
+                <li>20 Negotiation Personas (4 traits × 5 conflict styles)</li>
+                <li>AI Chat powered by Claude Sonnet</li>
+                <li>Personality-Aware Coaching</li>
+                <li>JotForm External Assessment</li>
+                <li>Branded Results Email</li>
+              </ul>
+              <div class="capability-block" style="text-align: left;">
+                <span class="capability-label">Capability: Personalized Coaching</span>
+                <span class="capability-details">[Silhouette Framework, TKI Conflict Model, RYBG Personality Types]</span>
+              </div>
+            </div>
+            <div class="phase-node current"></div>
+            <div class="phase-content spacer"></div>
+          </div>
+
+          <!-- PHASE 1: The Analyst -->
+          <div class="phase-block">
+            <div class="phase-content">
+              <span class="phase-label">Phase 1 — Q1 2026</span>
+              <h3 class="phase-title">The Analyst</h3>
+              <p class="phase-body">
+                Ali gains the ability to simulate real negotiations. Using your Silhouette profile, the system generates <strong>Scenario Simulations</strong>—adaptive AI counterparties calibrated to procurement contexts. Practice before stakes are real. Capture user feedback via <strong>RLHF</strong> to continuously improve response quality.
+              </p>
+              <div class="capability-block">
+                <span class="capability-label">Capability: Adaptive Scenario Practice</span>
+                <span class="capability-details">[Scenario Simulator, RLHF Feedback Loop, Token Tracking]</span>
+              </div>
+            </div>
+            <div class="phase-node"></div>
+            <div class="phase-content spacer"></div>
+          </div>
+
+          <!-- PHASE 2: The Strategist -->
+          <div class="phase-block">
+            <div class="phase-content">
+              <span class="phase-label">Phase 2 — 2026 TBC</span>
+              <h3 class="phase-title">The Strategist</h3>
+              <p class="phase-body">
+                Ali evolves into a strategic advisor. We activate <strong>The Advisory Engine</strong>, powered by Aligned's <strong>Forces of Leverage</strong> framework and <strong>5-Classification System</strong> (BATNA Deficiency, Bargaining, Trading, Creating, Partnering). Conversations generate downloadable <strong>Negotiation Playbooks</strong> and track skill progression over time.
+              </p>
+              <div class="capability-block">
+                <span class="capability-label">Capability: Strategic Classification</span>
+                <span class="capability-details">[The Advisory Engine, Forces of Leverage, Porter's Five Forces, PDF Exports]</span>
+              </div>
+            </div>
+            <div class="phase-node"></div>
+            <div class="phase-content spacer"></div>
+          </div>
+
+          <!-- PHASE 3: The Force Multiplier -->
+          <div class="phase-block">
+            <div class="phase-content">
+              <span class="phase-label">Phase 3 — 2026 TBC</span>
+              <h3 class="phase-title">The Force Multiplier</h3>
+              <p class="phase-body">
+                Ali scales from individual tool to indispensable habit. A <strong>Readiness Dashboard</strong> visualizes your growth over time. <strong>Outcome Tracking</strong> quantifies the ROI of better negotiated outcomes—proving the value in dollars saved and deals won.
+              </p>
+              <div class="capability-block">
+                <span class="capability-label">Capability: Analytics</span>
+                <span class="capability-details">[Readiness Dashboard, Outcome Tracker, Progress Insights]</span>
+              </div>
+            </div>
+            <div class="phase-node future"></div>
+            <div class="phase-content spacer"></div>
+          </div>
+
+        </div>
+
+        <!-- FOOTER QUOTE -->
+        <div class="timeline-footer">
+          <p>Ali. Intelligence at scale.</p>
+        </div>
+
+      </section>
+
+      <!-- TAB: Business -->
+      <section class="ali-tab-panel" id="business">
+
+        <!-- HERO -->
+        <div class="sol-hero">
+          <h2>The Value Architecture</h2>
+          <p>Ali is not just a tool; it is an alignment engine. It serves three distinct stakeholders, solving for tactical blindness, career velocity, and asset protection.</p>
+        </div>
+
+        <!-- 3-COLUMN ICP CARDS -->
+        <div class="icp-container">
+
+          <!-- CARD 1: The Practitioner -->
+          <div class="icp-card">
+            <span class="icp-role">The Practitioner</span>
+            <h3 class="icp-title">The Category Manager</h3>
+
+            <span class="icp-section-label">The Pain</span>
+            <p class="icp-text">
+              Negotiating in the dark. They rely on gut feel, static spreadsheets, or outdated playbooks. They fear leaving margin on the table or looking unprepared.
+            </p>
+
+            <span class="icp-section-label">The Ali Gain</span>
+            <p class="icp-text">
+              <strong>Instant Illumination.</strong> Ali provides the data, the calibrated framing, and the confidence to push for that extra 5%—authentic to your voice, not algorithmic.
+            </p>
+          </div>
+
+          <!-- CARD 2: The Aspirant -->
+          <div class="icp-card">
+            <span class="icp-role">The Aspirant</span>
+            <h3 class="icp-title">The Mid-Career Professional</h3>
+
+            <span class="icp-section-label">The Pain</span>
+            <p class="icp-text">
+              Stuck in the middle. Ambitious and capable, but lacking the executive presence or strategic vocabulary to secure the next promotion.
+            </p>
+
+            <span class="icp-section-label">The Ali Gain</span>
+            <p class="icp-text">
+              <strong>Career Leverage.</strong> A private coach that makes them sound 10 years more senior than they are.
+            </p>
+          </div>
+
+          <!-- CARD 3: The Executive -->
+          <div class="icp-card buyer">
+            <span class="icp-role">The Decision Maker</span>
+            <h3 class="icp-title">The Executive Sponsor</h3>
+
+            <span class="icp-section-label">The Pain</span>
+            <p class="icp-text">
+              The Leaky Bucket. They invest $17.5K in training, but 80% is forgotten by Monday. They hate paying for wasted ROI.
+            </p>
+
+            <span class="icp-section-label">The Ali Gain</span>
+            <p class="icp-text">
+              <strong>Workshop Insurance.</strong> Ali safeguards the investment by ensuring the methodology is applied at the point of need.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- PRICING ROW -->
+        <div class="pricing-row">
+          <p style="font-family: var(--sol-font-sans); font-size: 0.9rem; color: #666666;">
+            <strong style="color: #000000;">The Model:</strong> SaaS Subscription (Per Seat)
+          </p>
+        </div>
+
+        <!-- FOOTER QUOTE -->
+        <div class="business-footer-quote">
+          <p>We don't sell software. We sell the assurance that your strategy survives contact with reality.</p>
+        </div>
+
+      </section>
+
+      <!-- TAB: Tech Appendix -->
+      <section class="ali-tab-panel" id="tech">
+
+        <!-- HERO -->
+        <div class="sol-hero">
+          <h2>Tech Specs & Feature Sets</h2>
+        </div>
+
+        <!-- TECH GRID -->
+        <div style="display: flex; flex-direction: column; gap: 32px; max-width: 900px; margin: 0 auto;">
+
+          <!-- THE FOUNDATION (LIVE) -->
+          <div style="background: #FFFFFF; border-radius: 12px; padding: 32px; border-left: 4px solid #10b981;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <span style="font-family: var(--sol-font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #10b981;">The Foundation</span>
+              <span style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #FFFFFF; background: #8A41E6; padding: 4px 10px; border-radius: 4px;">COMING SOON</span>
+            </div>
+            <h3 style="font-family: var(--sol-font-serif); font-style: italic; font-size: 24px; color: #000000; margin-bottom: 20px;">January 2026 — Ali MVP</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+              <div>
+                <p style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 8px;">Frontend</p>
+                <ul style="font-family: var(--sol-font-sans); font-size: 14px; color: #333; line-height: 1.8; padding-left: 16px; margin: 0;">
+                  <li>React 18 + Vite</li>
+                  <li>TailwindCSS + shadcn/ui</li>
+                  <li>Responsive SPA</li>
+                </ul>
+              </div>
+              <div>
+                <p style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 8px;">Backend</p>
+                <ul style="font-family: var(--sol-font-sans); font-size: 14px; color: #333; line-height: 1.8; padding-left: 16px; margin: 0;">
+                  <li>Wasp 0.18 (Node.js)</li>
+                  <li>Prisma ORM</li>
+                  <li>PostgreSQL (Railway)</li>
+                </ul>
+              </div>
+              <div>
+                <p style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 8px;">AI Layer</p>
+                <ul style="font-family: var(--sol-font-sans); font-size: 14px; color: #333; line-height: 1.8; padding-left: 16px; margin: 0;">
+                  <li>Claude Sonnet 3.5 API</li>
+                  <li>200K context window</li>
+                  <li>Silhouette-aware prompts</li>
+                </ul>
+              </div>
+              <div>
+                <p style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 8px;">Auth & Data</p>
+                <ul style="font-family: var(--sol-font-sans); font-size: 14px; color: #333; line-height: 1.8; padding-left: 16px; margin: 0;">
+                  <li>Email/Password + Google OAuth</li>
+                  <li>JotForm integration</li>
+                  <li>Branded email results</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 1: THE ANALYST -->
+          <div style="background: #FFFFFF; border-radius: 12px; padding: 32px; border-left: 4px solid #8A41E6;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <span style="font-family: var(--sol-font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #8A41E6;">Phase 1: The Analyst</span>
+              <span style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #666; background: #E5E5E5; padding: 4px 10px; border-radius: 4px;">Q1 2026</span>
+            </div>
+            <h3 style="font-family: var(--sol-font-serif); font-style: italic; font-size: 24px; color: #000000; margin-bottom: 20px;">Scenario Simulation + Enablement Library</h3>
+            <ul style="font-family: var(--sol-font-sans); font-size: 14px; color: #333; line-height: 2; padding-left: 16px; margin: 0;">
+              <li><strong>Scenario Simulator</strong> — AI counterparty calibrated to procurement contexts</li>
+              <li><strong>Enablement Library</strong> — Post-workshop video content and training materials</li>
+              <li><strong>RLHF Collection</strong> — User feedback to improve response quality</li>
+              <li><strong>Token Tracking</strong> — Usage monitoring and cost management per user</li>
+              <li><strong>Session History</strong> — Persistent conversation memory across sessions</li>
+              <li><strong>Progress Metrics</strong> — Track skill development over time</li>
+            </ul>
+          </div>
+
+          <!-- PHASE 2: THE STRATEGIST -->
+          <div style="background: #FFFFFF; border-radius: 12px; padding: 32px; border-left: 4px solid #888888;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <span style="font-family: var(--sol-font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #888888;">Phase 2: The Strategist</span>
+              <span style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #666; background: #E5E5E5; padding: 4px 10px; border-radius: 4px;">2026 TBC</span>
+            </div>
+            <h3 style="font-family: var(--sol-font-serif); font-style: italic; font-size: 24px; color: #000000; margin-bottom: 20px;">The Advisory Engine + Strategic Exports</h3>
+            <ul style="font-family: var(--sol-font-sans); font-size: 14px; color: #333; line-height: 2; padding-left: 16px; margin: 0;">
+              <li><strong>The Advisory Engine</strong> — Forces of Leverage + 5-Classification System</li>
+              <li><strong>PDF Playbooks</strong> — Downloadable negotiation strategy documents</li>
+              <li><strong>Porter's Five Forces</strong> — Competitive analysis integration</li>
+              <li><strong>Deal Context Engine</strong> — Deep situation analysis with constraints</li>
+              <li><strong>Skill Progression</strong> — Gamified learning paths</li>
+            </ul>
+          </div>
+
+          <!-- PHASE 3: THE FORCE MULTIPLIER -->
+          <div style="background: #FFFFFF; border-radius: 12px; padding: 32px; border-left: 4px solid #888888;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <span style="font-family: var(--sol-font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #888888;">Phase 3: The Force Multiplier</span>
+              <span style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #666; background: #E5E5E5; padding: 4px 10px; border-radius: 4px;">2026 TBC</span>
+            </div>
+            <h3 style="font-family: var(--sol-font-serif); font-style: italic; font-size: 24px; color: #000000; margin-bottom: 20px;">Ali Scale + Analytics</h3>
+            <ul style="font-family: var(--sol-font-sans); font-size: 14px; color: #333; line-height: 2; padding-left: 16px; margin: 0;">
+              <li>Readiness Dashboard</li>
+              <li>Outcome Tracker</li>
+              <li>Progress Insights</li>
+            </ul>
+          </div>
+
+          <!-- VOICE CAPABILITIES (POSSIBILITIES) -->
+          <div style="background: #000000; border-radius: 12px; padding: 32px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <span style="font-family: var(--sol-font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #8A41E6;">Ali Voice</span>
+              <span style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #000000; background: #8A41E6; padding: 4px 10px; border-radius: 4px;">POSSIBLE</span>
+            </div>
+            <h3 style="font-family: var(--sol-font-serif); font-style: italic; font-size: 24px; color: #FFFFFF; margin-bottom: 8px;">Text-to-Voice Visualization</h3>
+            <p style="font-family: var(--sol-font-sans); font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 20px;">Technical capabilities that exist today. Implementation is a matter of prioritization, not possibility.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+              <div>
+                <p style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8A41E6; margin-bottom: 8px;">Speech-to-Text</p>
+                <ul style="font-family: var(--sol-font-sans); font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.8; padding-left: 16px; margin: 0;">
+                  <li><a href="https://github.com/openai/whisper" target="_blank" style="color: #8A41E6;">OpenAI Whisper</a></li>
+                  <li><a href="https://deepgram.com" target="_blank" style="color: #8A41E6;">Deepgram</a></li>
+                  <li><a href="https://www.assemblyai.com" target="_blank" style="color: #8A41E6;">AssemblyAI</a></li>
+                  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API" target="_blank" style="color: #8A41E6;">Web Speech API</a></li>
+                </ul>
+              </div>
+              <div>
+                <p style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8A41E6; margin-bottom: 8px;">Text-to-Speech</p>
+                <ul style="font-family: var(--sol-font-sans); font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.8; padding-left: 16px; margin: 0;">
+                  <li><a href="https://elevenlabs.io" target="_blank" style="color: #8A41E6;">ElevenLabs</a></li>
+                  <li><a href="https://platform.openai.com/docs/guides/text-to-speech" target="_blank" style="color: #8A41E6;">OpenAI TTS</a></li>
+                  <li><a href="https://play.ht" target="_blank" style="color: #8A41E6;">Play.ht</a></li>
+                  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis" target="_blank" style="color: #8A41E6;">Browser Speech Synthesis</a></li>
+                </ul>
+              </div>
+              <div>
+                <p style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8A41E6; margin-bottom: 8px;">Real-Time Voice AI</p>
+                <ul style="font-family: var(--sol-font-sans); font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.8; padding-left: 16px; margin: 0;">
+                  <li><a href="https://platform.openai.com/docs/guides/realtime" target="_blank" style="color: #8A41E6;">OpenAI Realtime API</a></li>
+                  <li><a href="https://www.hume.ai" target="_blank" style="color: #8A41E6;">Hume AI</a></li>
+                  <li><a href="https://vapi.ai" target="_blank" style="color: #8A41E6;">Vapi</a></li>
+                </ul>
+              </div>
+              <div>
+                <p style="font-family: var(--sol-font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8A41E6; margin-bottom: 8px;">Use Cases</p>
+                <ul style="font-family: var(--sol-font-sans); font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.8; padding-left: 16px; margin: 0;">
+                  <li>Voice-first coaching sessions</li>
+                  <li>Live negotiation earpiece</li>
+                  <li>Role-play with voice counterparty</li>
+                  <li>Meeting transcription + analysis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div style="text-align: center; padding: 32px; margin-top: 32px;">
+          <p style="font-family: var(--sol-font-serif); font-style: italic; font-size: 16px; color: #666;">
+            Architecture designed for scale. Implementation paced to value.
+          </p>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="ali-footer">
+      <p class="ali-footer-disclaimer">
+        Document Version 2.0 | December 2025 | Internal Stakeholders Only
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Tab Navigation
+    const tabs = document.querySelectorAll('.ali-tab');
+    const panels = document.querySelectorAll('.ali-tab-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        panels.forEach(p => {
+          p.classList.remove('active');
+          if (p.id === target) p.classList.add('active');
+        });
+      });
+    });
+
+    // Scroll-to-pill effect with bounce
+    const header = document.querySelector('.ali-header');
+    let lastScrollY = 0;
+    let ticking = false;
+
+    function updateHeader() {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      lastScrollY = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(updateHeader);
+        ticking = true;
+      }
+    });
+  </script>
+</body>
+</html>
