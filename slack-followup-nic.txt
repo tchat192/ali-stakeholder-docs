@@ -1,0 +1,41 @@
+Hey Nic! Great sync today 🙌
+
+Quick recap + action items for tomorrow:
+
+—
+
+**What I'm sending you tonight:**
+• Screen inventory (all screens that need design)
+• Design tokens guide (how variables map to code)
+
+**What I need from you (Dec 4):**
+• Screenshot current dev → bring into new Figma page
+• Feedback with specifics (px sizes, spacing, text changes)
+• Font files exported (Metro Sans + Moret as .woff2 or .otf)
+• Component states (hover, active, disabled)
+• Source files for assets (SVG for icons, not images)
+
+—
+
+**Decisions locked in:**
+✓ JotForm for V1 assessment → email w/ branded PDF as end state
+✓ Chat design = Claude style (AI transparent, user in 60% white bubble)
+✓ Desktop-first, then responsive
+
+—
+
+**Resources on the Figma → Code workflow:**
+
+1. **Figma MCP for Claude** — This is what I'm using to pull your designs directly into code:
+https://www.figma.com/community/plugin/1465822425542036781/figma-to-code-mcp
+
+2. **How Figma Dev Mode works with AI tools** — Good overview of the design-to-dev handoff:
+https://www.figma.com/dev-mode/
+
+The key thing: when you define variables consistently in Figma (colors, spacing, fonts), I can extract them automatically. No more "what hex is that?" back-and-forth.
+
+—
+
+I'll be online all day tomorrow for check-ins. Just ping me when you have something ready to review.
+
+Let's get that golden standard locked 🔒

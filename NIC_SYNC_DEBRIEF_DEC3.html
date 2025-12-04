@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nic Sync Debrief | Dec 3, 2025</title>
+  <style>
+    @font-face {
+      font-family: 'Moret';
+      src: url('fonts/Moret-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Moret';
+      src: url('fonts/Moret-RegularOblique.otf') format('opentype');
+      font-weight: 400;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-regular-webfont.woff2') format('woff2');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-medium-webfont.woff2') format('woff2');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-semi-bold-webfont.woff2') format('woff2');
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-bold-webfont.woff2') format('woff2');
+      font-weight: 700;
+    }
+
+    :root {
+      --font-serif: 'Moret', Georgia, serif;
+      --font-sans: 'Metro Sans', -apple-system, sans-serif;
+      --bg-page: #F2F2F2;
+      --bg-card: #FFFFFF;
+      --text-black: #000000;
+      --text-grey: #555555;
+      --text-body: #404040;
+      --accent: #8A41E6;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-page);
+      color: var(--text-body);
+      line-height: 1.6;
+      padding: 32px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 48px 24px;
+      margin-bottom: 32px;
+    }
+    .header h1 {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      color: var(--text-black);
+      margin-bottom: 16px;
+    }
+    .header p {
+      font-size: 15px;
+      color: var(--text-grey);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 8px 16px;
+      background: var(--accent);
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+
+    /* Sections */
+    .section {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section h2 {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text-black);
+      margin-bottom: 20px;
+    }
+    .section h3 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-black);
+      margin: 24px 0 12px 0;
+    }
+    .section p {
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      padding: 12px;
+      background: #F8F8F8;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-grey);
+      border-bottom: 1px solid #E5E5E5;
+    }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #E5E5E5;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* Owner badges */
+    .owner-nic {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .owner-terrance {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .owner-both {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Priority badges */
+    .priority-p0 {
+      display: inline-block;
+      background: #fecaca;
+      color: #991b1b;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .priority-p1 {
+      display: inline-block;
+      background: #fed7aa;
+      color: #9a3412;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .priority-p2 {
+      display: inline-block;
+      background: #e5e7eb;
+      color: #374151;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* Highlight boxes */
+    .highlight {
+      background: var(--text-black);
+      color: white;
+      padding: 24px;
+      border-radius: 8px;
+      margin: 24px 0;
+    }
+    .highlight p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+      margin: 0;
+      text-align: center;
+    }
+
+    .highlight-success {
+      background: #ecfdf5;
+      border-left: 4px solid var(--success);
+      padding: 20px 24px;
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0;
+    }
+    .highlight-success h4 {
+      color: #065f46;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    /* Lists */
+    ul { margin: 12px 0; padding-left: 20px; }
+    li { margin-bottom: 8px; }
+
+    /* Links */
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 24px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #E5E5E5;
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 24px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid white;
+    }
+    .timeline-item.complete::before {
+      background: var(--success);
+    }
+    .timeline-date {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-grey);
+      margin-bottom: 4px;
+    }
+    .timeline-title {
+      font-weight: 600;
+      color: var(--text-black);
+      margin-bottom: 4px;
+    }
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--text-body);
+    }
+
+    /* Code */
+    code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      background: #F5F5F5;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+      color: var(--text-grey);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <span class="badge">Meeting Debrief</span>
+      <h1>Figma to Production, Part II</h1>
+      <p>Nic & Terrance Sync | December 3, 2025 | 12:00 PM PST</p>
+    </div>
+
+    <!-- TL;DR -->
+    <div class="section">
+      <span class="section-label">Executive Summary</span>
+      <h2>The Golden Standard Sprint</h2>
+      <p>Nic commits to <strong>all-day design work tomorrow (Dec 4)</strong> to establish the "golden standard" base app. Terrance walked through the Figma MCP workflow, showing how designs translate to code. Key decision: <strong>JotForm for V1 assessment</strong> with email/PDF results as end state.</p>
+
+      <div class="highlight">
+        <p>"Get the gold standard, commit it, then every new iteration is a new branch that won't break the base."</p>
+      </div>
+    </div>
+
+    <!-- Key Decisions -->
+    <div class="section">
+      <span class="section-label">Decisions Made</span>
+      <h2>What We Agreed On</h2>
+
+      <table>
+        <tr>
+          <th>Decision</th>
+          <th>Details</th>
+          <th>Ref</th>
+        </tr>
+        <tr>
+          <td><strong>V1 Assessment = JotForm</strong></td>
+          <td>Embedded iframe. "Good enough for V1." Native assessment is Phase 2.</td>
+          <td><a href="#00:16:25">00:16:25</a></td>
+        </tr>
+        <tr>
+          <td><strong>Assessment End State</strong></td>
+          <td>Email with branded PDF of results. No in-app profile breakdown for V1.</td>
+          <td><a href="#00:17:20">00:17:20</a></td>
+        </tr>
+        <tr>
+          <td><strong>Chat Design = Claude Style</strong></td>
+          <td>AI responses: transparent (no background). User responses: 60% white bubble.</td>
+          <td><a href="#00:12:35">00:12:35</a></td>
+        </tr>
+        <tr>
+          <td><strong>Desktop First</strong></td>
+          <td>Design for desktop web browser first, then responsive breakpoints.</td>
+          <td><a href="#00:23:33">00:23:33</a></td>
+        </tr>
+        <tr>
+          <td><strong>Gold Standard Approach</strong></td>
+          <td>Lock down base designs → commit to main → new features on branches.</td>
+          <td><a href="#00:18:59">00:18:59</a></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Action Items -->
+    <div class="section">
+      <span class="section-label">Action Items</span>
+      <h2>Who Does What</h2>
+
+      <h3>Terrance — Today (Dec 3)</h3>
+      <table>
+        <tr>
+          <th>Task</th>
+          <th>Priority</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td>Send screen inventory to Nic (all screens needed)</td>
+          <td><span class="priority-p0">P0</span></td>
+          <td>⏳ Pending</td>
+        </tr>
+        <tr>
+          <td>Send design tokens guide</td>
+          <td><span class="priority-p1">P1</span></td>
+          <td>⏳ Pending</td>
+        </tr>
+      </table>
+
+      <h3>Nic — Tomorrow (Dec 4, All Day)</h3>
+      <table>
+        <tr>
+          <th>Task</th>
+          <th>Priority</th>
+          <th>Reference</th>
+        </tr>
+        <tr>
+          <td>Screenshot current dev → bring into Figma</td>
+          <td><span class="priority-p0">P0</span></td>
+          <td><a href="#00:19:46">00:19:46</a></td>
+        </tr>
+        <tr>
+          <td>Create new organized page in Ali Playground</td>
+          <td><span class="priority-p0">P0</span></td>
+          <td><a href="#00:21:07">00:21:07</a></td>
+        </tr>
+        <tr>
+          <td>Provide detailed feedback (px sizes, formatting, text)</td>
+          <td><span class="priority-p0">P0</span></td>
+          <td><a href="#00:18:14">00:18:14</a></td>
+        </tr>
+        <tr>
+          <td>Export OTF font files (Metro Sans, Moret)</td>
+          <td><span class="priority-p0">P0</span></td>
+          <td><a href="#00:07:03">00:07:03</a></td>
+        </tr>
+        <tr>
+          <td>Build out component states (hover, active, disabled)</td>
+          <td><span class="priority-p1">P1</span></td>
+          <td><a href="#00:08:22">00:08:22</a></td>
+        </tr>
+        <tr>
+          <td>Provide source files (not images) for assets</td>
+          <td><span class="priority-p1">P1</span></td>
+          <td><a href="#00:23:33">00:23:33</a></td>
+        </tr>
+        <tr>
+          <td>Design non-silhouette + silhouette chat screens</td>
+          <td><span class="priority-p1">P1</span></td>
+          <td><a href="#00:21:07">00:21:07</a></td>
+        </tr>
+      </table>
+
+      <h3>Both — Tomorrow (Dec 4)</h3>
+      <table>
+        <tr>
+          <th>Task</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td><strong>Check-ins throughout day</strong></td>
+          <td>Terrance online all day. Validate extraction matches Nic's designs.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Screens Inventory -->
+    <div class="section">
+      <span class="section-label">Screen Inventory</span>
+      <h2>What Nic Needs to Design</h2>
+
+      <table>
+        <tr>
+          <th>Screen</th>
+          <th>Current State</th>
+          <th>Needs</th>
+        </tr>
+        <tr>
+          <td><strong>Landing Page</strong></td>
+          <td>Has gradient (grainy due to image scaling)</td>
+          <td>High-res gradient, proper dimensions</td>
+        </tr>
+        <tr>
+          <td><strong>Sign In</strong></td>
+          <td>Basic functional</td>
+          <td>Right-sized, branded</td>
+        </tr>
+        <tr>
+          <td><strong>Forgot Password</strong></td>
+          <td>Exists</td>
+          <td>Recycle login design, change text</td>
+        </tr>
+        <tr>
+          <td><strong>Chat (No Silhouette)</strong></td>
+          <td>Functional</td>
+          <td>Full design spec needed</td>
+        </tr>
+        <tr>
+          <td><strong>Chat (With Silhouette)</strong></td>
+          <td>Dynamic head working</td>
+          <td>Full design spec, correct gradient bubble</td>
+        </tr>
+        <tr>
+          <td><strong>Assessment (JotForm)</strong></td>
+          <td>iFrame integrated</td>
+          <td>Container styling, start screen</td>
+        </tr>
+        <tr>
+          <td><strong>Terms/Privacy</strong></td>
+          <td>Exists</td>
+          <td>Right-sized</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Assets Needed -->
+    <div class="section">
+      <span class="section-label">Assets Checklist</span>
+      <h2>What Terrance Needs From Figma</h2>
+
+      <h3>Fonts</h3>
+      <table>
+        <tr>
+          <th>Font</th>
+          <th>Format Needed</th>
+          <th>Weights</th>
+        </tr>
+        <tr>
+          <td>Metro Sans</td>
+          <td><code>.woff2</code> + <code>.otf</code></td>
+          <td>Regular, Medium, Semi-Bold, Bold</td>
+        </tr>
+        <tr>
+          <td>Moret</td>
+          <td><code>.woff2</code> + <code>.otf</code></td>
+          <td>Regular, Italic</td>
+        </tr>
+      </table>
+
+      <h3>Component States</h3>
+      <ul>
+        <li>Default state</li>
+        <li>Hover state</li>
+        <li>Active/Pressed state</li>
+        <li>Disabled state</li>
+        <li>Focus state (for accessibility)</li>
+        <li>Loading state (where applicable)</li>
+      </ul>
+
+      <h3>Export Formats</h3>
+      <ul>
+        <li><strong>Icons:</strong> SVG (scalable, CSS-colorable)</li>
+        <li><strong>Images:</strong> PNG or WebP (with 2x for retina)</li>
+        <li><strong>Gradients:</strong> CSS values or high-res source (not scaled images)</li>
+        <li><strong>Logos:</strong> SVG</li>
+      </ul>
+    </div>
+
+    <!-- Resources -->
+    <div class="section">
+      <span class="section-label">Resources Mentioned</span>
+      <h2>Tools & References</h2>
+
+      <table>
+        <tr>
+          <th>Resource</th>
+          <th>What It Does</th>
+          <th>Link</th>
+        </tr>
+        <tr>
+          <td><strong>Mobbin</strong></td>
+          <td>UI/UX library with app walkthroughs. Nic using for inspiration.</td>
+          <td><a href="https://mobbin.com" target="_blank">mobbin.com</a></td>
+        </tr>
+        <tr>
+          <td><strong>Figma MCP</strong></td>
+          <td>Extracts design tokens and generates code from Figma frames.</td>
+          <td><a href="https://www.figma.com/developers/api" target="_blank">Figma API Docs</a></td>
+        </tr>
+        <tr>
+          <td><strong>Design Tokens</strong></td>
+          <td>218 tokens extracted from Ali Assessment V2.</td>
+          <td><code>docs/design-tokens.json</code></td>
+        </tr>
+        <tr>
+          <td><strong>Ali Playground</strong></td>
+          <td>Nic's Figma workspace (creating new organized page).</td>
+          <td>Ask Nic for URL</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Plan of Attack -->
+    <div class="section">
+      <span class="section-label">Plan of Attack</span>
+      <h2>Dec 4 Sprint Schedule</h2>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">Morning</div>
+          <div class="timeline-title">Nic: Screenshot → Figma Import</div>
+          <div class="timeline-desc">Capture current dev screens, bring into new Figma page. Start feedback annotations.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Mid-Morning</div>
+          <div class="timeline-title">First Check-in</div>
+          <div class="timeline-desc">Terrance reviews initial feedback. Clarify any questions on components.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Midday</div>
+          <div class="timeline-title">Nic: Component States + Font Export</div>
+          <div class="timeline-desc">Build hover/active states. Export Metro Sans & Moret font files.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Afternoon</div>
+          <div class="timeline-title">Second Check-in</div>
+          <div class="timeline-desc">Terrance tests font integration. Validate MCP extraction accuracy.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Late Afternoon</div>
+          <div class="timeline-title">Nic: Chat Screen Designs</div>
+          <div class="timeline-desc">Finalize non-silhouette and silhouette chat designs with correct gradients.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">End of Day</div>
+          <div class="timeline-title">Final Sync</div>
+          <div class="timeline-desc">Review golden standard progress. Identify gaps for Dec 5.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Quotes -->
+    <div class="section">
+      <span class="section-label">Notable Quotes</span>
+      <h2>From the Transcript</h2>
+
+      <div class="highlight-success">
+        <h4>On Design Ownership</h4>
+        <p>"I have never purported myself to be a designer... I'm a builder. When it comes to designing, that's a different skill set that I don't have." — Terrance (<a href="#00:02:46">00:02:46</a>)</p>
+      </div>
+
+      <div class="highlight-success">
+        <h4>On V1 Pragmatism</h4>
+        <p>"JotForm makes it easy for V1... It's good enough for V1, right?" — Terrance (<a href="#00:16:25">00:16:25</a>)</p>
+      </div>
+
+      <div class="highlight-success">
+        <h4>On Workflow</h4>
+        <p>"Should I take this exactly the way it is, bring it into Figma, and then give you feedback based off of that version?" — Nic (<a href="#00:19:46">00:19:46</a>)</p>
+      </div>
+    </div>
+
+    <!-- Follow-up Questions -->
+    <div class="section">
+      <span class="section-label">Open Questions</span>
+      <h2>To Resolve Tomorrow</h2>
+
+      <ul>
+        <li><strong>Banner redundancy:</strong> If silhouette type is in banner, is it redundant in chat header? (<a href="#00:15:29">00:15:29</a>)</li>
+        <li><strong>Responsive breakpoints:</strong> What are the target breakpoints? (Desktop → Tablet → Mobile)</li>
+        <li><strong>Ali Playground URL:</strong> Need Figma link for MCP integration</li>
+        <li><strong>Assessment Phase 2:</strong> When to prioritize native assessment with profile breakdown?</li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Meeting Debrief | Dec 3, 2025 | Generated from <a href="#">Gemini Transcript</a></p>
+      <p style="margin-top: 8px;"><a href="product-brief-2.html">View Product Brief #2</a> | <a href="nic-meeting-guide.html">Original Meeting Guide</a></p>
+    </div>
+
+  </div>
+</body>
+</html>

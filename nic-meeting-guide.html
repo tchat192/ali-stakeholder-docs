@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nic Touch-Base: Figma-to-Code</title>
+  <link rel="stylesheet" href="styles/ali-product-brief.css">
+  <style>
+    @font-face {
+      font-family: 'Moret';
+      src: url('fonts/Moret-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Moret';
+      src: url('fonts/Moret-RegularOblique.otf') format('opentype');
+      font-weight: 400;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-regular-webfont.woff2') format('woff2');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-medium-webfont.woff2') format('woff2');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-semi-bold-webfont.woff2') format('woff2');
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-bold-webfont.woff2') format('woff2');
+      font-weight: 700;
+    }
+
+    :root {
+      --font-serif: 'Moret', Georgia, serif;
+      --font-sans: 'Metro Sans', -apple-system, sans-serif;
+      --bg-page: #F2F2F2;
+      --bg-card: #FFFFFF;
+      --text-black: #000000;
+      --text-grey: #555555;
+      --text-body: #404040;
+      --accent: #8A41E6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-page);
+      color: var(--text-body);
+      line-height: 1.6;
+      padding: 32px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 48px 24px;
+      margin-bottom: 32px;
+    }
+    .header h1 {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      color: var(--text-black);
+      margin-bottom: 16px;
+    }
+    .header p {
+      font-size: 15px;
+      color: var(--text-grey);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-black);
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--text-black);
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+
+    /* Sections */
+    .section {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section h2 {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text-black);
+      margin-bottom: 20px;
+    }
+    .section h3 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-black);
+      margin: 24px 0 12px 0;
+    }
+    .section p {
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      padding: 12px;
+      background: #F8F8F8;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-grey);
+      border-bottom: 1px solid #E5E5E5;
+    }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #E5E5E5;
+      vertical-align: top;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Status indicators */
+    .status-yes { color: #10b981; }
+    .status-partial { color: #f59e0b; }
+    .status-no { color: #ef4444; }
+
+    /* Lists */
+    ul {
+      margin: 12px 0;
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+
+    /* Highlight box */
+    .highlight {
+      background: var(--text-black);
+      color: white;
+      padding: 24px;
+      border-radius: 8px;
+      margin: 24px 0;
+    }
+    .highlight p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+      margin: 0;
+      text-align: center;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #E5E5E5;
+    }
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--text-grey);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Code */
+    code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      background: #F5F5F5;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+      color: var(--text-grey);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <span class="badge">Meeting Guide</span>
+      <h1>Figma-to-Code Workflow</h1>
+      <p>Touch-base with Nic | December 3, 2025</p>
+    </div>
+
+    <!-- Section 1: Goal -->
+    <div class="section">
+      <span class="section-label">Meeting Goal</span>
+      <h2>Align on the Handoff</h2>
+      <p>What I need from Nic to efficiently translate Figma designs to code going forward.</p>
+    </div>
+
+    <!-- Section 2: Current State -->
+    <div class="section">
+      <span class="section-label">Part 1</span>
+      <h2>What We Have Today</h2>
+
+      <h3>Design Tokens Extracted</h3>
+      <p><strong>218 tokens</strong> pulled from "Ali Assessment V2" Figma file. Stored in <code>docs/design-tokens.json</code></p>
+
+      <table>
+        <tr>
+          <th>Category</th>
+          <th>Example</th>
+          <th>Value</th>
+        </tr>
+        <tr>
+          <td>Brand Purple</td>
+          <td><code>--brand-purple</code></td>
+          <td>#8b5cf6</td>
+        </tr>
+        <tr>
+          <td>Spacing MD</td>
+          <td><code>--spacing-md</code></td>
+          <td>16px</td>
+        </tr>
+        <tr>
+          <td>Font Base</td>
+          <td><code>--font-size-base</code></td>
+          <td>16px</td>
+        </tr>
+        <tr>
+          <td>Duration Base</td>
+          <td><code>--duration-base</code></td>
+          <td>300ms</td>
+        </tr>
+      </table>
+
+      <h3>Fonts Currently Installed</h3>
+      <table>
+        <tr>
+          <th>Font</th>
+          <th>Status</th>
+          <th>Location</th>
+        </tr>
+        <tr>
+          <td>Satoshi</td>
+          <td class="status-yes">✓ In App (all weights)</td>
+          <td><code>public/fonts/</code></td>
+        </tr>
+        <tr>
+          <td>Metro Sans</td>
+          <td class="status-partial">⚠ Docs only</td>
+          <td><code>docs/fonts/</code></td>
+        </tr>
+        <tr>
+          <td>Moret</td>
+          <td class="status-partial">⚠ Docs only</td>
+          <td><code>docs/fonts/</code></td>
+        </tr>
+      </table>
+
+      <h3>Figma MCP Integration</h3>
+      <p>I can point Claude at any Figma frame and it extracts design context, variables, and screenshots automatically.</p>
+      <p><strong>What I need:</strong> The Figma file URL or node IDs for specific frames.</p>
+    </div>
+
+    <!-- Section 3: Screens -->
+    <div class="section">
+      <span class="section-label">Part 2</span>
+      <h2>Screens We Have</h2>
+
+      <table>
+        <tr>
+          <th>Screen</th>
+          <th>File</th>
+          <th>Design Status</th>
+        </tr>
+        <tr>
+          <td>Chat Page</td>
+          <td><code>src/chatbot/ChatPageSimple.tsx</code></td>
+          <td class="status-partial">⚠ Need design review</td>
+        </tr>
+        <tr>
+          <td>Assessment</td>
+          <td><code>src/assessment/AssessmentPage.tsx</code></td>
+          <td class="status-partial">⚠ Need design specs</td>
+        </tr>
+        <tr>
+          <td>Results Page</td>
+          <td><code>src/assessment/ResultsPage.tsx</code></td>
+          <td class="status-partial">⚠ Need design specs</td>
+        </tr>
+        <tr>
+          <td>Landing Page</td>
+          <td><code>src/landing-page/LandingPage.tsx</code></td>
+          <td class="status-partial">⚠ Need design specs</td>
+        </tr>
+        <tr>
+          <td>NavBar</td>
+          <td><code>src/client/components/NavBar/</code></td>
+          <td class="status-yes">✓ Recently updated</td>
+        </tr>
+        <tr>
+          <td>Login/Signup</td>
+          <td><code>src/auth/</code></td>
+          <td class="status-partial">⚠ Need design specs</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Section 4: What I Need -->
+    <div class="section">
+      <span class="section-label">Part 3</span>
+      <h2>What I Need From Nic</h2>
+
+      <h3>1. Figma File Access</h3>
+      <p>Can you share the Figma file URL so I can use the MCP to pull designs directly?</p>
+      <p>Format needed: <code>https://figma.com/design/[KEY]/[NAME]?node-id=[ID]</code></p>
+
+      <h3>2. Priority Screens</h3>
+      <p>Which screens are highest priority for design completion?</p>
+      <ul class="checklist">
+        <li><div class="checkbox"></div><span>Chat interface (main product experience)</span></li>
+        <li><div class="checkbox"></div><span>Assessment flow (70-question Silhouette)</span></li>
+        <li><div class="checkbox"></div><span>Results page (personality reveal)</span></li>
+        <li><div class="checkbox"></div><span>Landing page (first impression)</span></li>
+      </ul>
+
+      <h3>3. Font Decision</h3>
+      <p>What fonts should the app use? I have Satoshi but see Metro Sans and Moret in designs.</p>
+      <p><strong>Preferred format:</strong> <code>.woff2</code> (best compression + browser support)</p>
+
+      <h3>4. Component Specs Needed</h3>
+      <p>For each component I need: exact colors, spacing, typography, states (hover/active/disabled), and responsive breakpoints.</p>
+
+      <h3>5. Asset Exports</h3>
+      <p>Any icons, illustrations, or images to export?</p>
+      <ul>
+        <li>Icons: <strong>SVG</strong> (scalable, colorable via CSS)</li>
+        <li>Images: <strong>PNG</strong> or <strong>WebP</strong> (with 2x for retina)</li>
+        <li>Logos: <strong>SVG</strong></li>
+      </ul>
+    </div>
+
+    <!-- Highlight -->
+    <div class="highlight">
+      <p>"You design → share Figma URL → I implement → you review"</p>
+    </div>
+
+    <!-- Section 5: Action Items -->
+    <div class="section">
+      <span class="section-label">Capture After Meeting</span>
+      <h2>Action Items</h2>
+
+      <ul class="checklist">
+        <li><div class="checkbox"></div><span>Figma file URL shared</span></li>
+        <li><div class="checkbox"></div><span>Priority screens identified</span></li>
+        <li><div class="checkbox"></div><span>Font decision made (Satoshi only? + Metro Sans? + Moret?)</span></li>
+        <li><div class="checkbox"></div><span>First screen to implement together</span></li>
+        <li><div class="checkbox"></div><span>Communication channel for async feedback</span></li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Meeting Guide | December 3, 2025 | Ali MVP
+    </div>
+
+  </div>
+</body>
+</html>
