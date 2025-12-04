@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screen Inventory | Ali MVP</title>
+  <link rel="stylesheet" href="styles/ali-product-brief.css">
+  <style>
+    /* Additional styles for this document */
+    @font-face {
+      font-family: 'Moret';
+      src: url('fonts/Moret-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Moret';
+      src: url('fonts/Moret-RegularOblique.otf') format('opentype');
+      font-weight: 400;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-regular-webfont.woff2') format('woff2');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-medium-webfont.woff2') format('woff2');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-semi-bold-webfont.woff2') format('woff2');
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-bold-webfont.woff2') format('woff2');
+      font-weight: 700;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 48px 32px;
+      border-bottom: 1px solid var(--ali-border);
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      background: var(--ali-card);
+      border: 1px solid var(--ali-foreground);
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      color: var(--ali-secondary);
+      font-size: 15px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ali-accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-title {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    /* Table styles */
+    .inventory-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+    }
+    .inventory-table th {
+      text-align: left;
+      padding: 14px 12px;
+      background: var(--ali-card-subtle);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ali-secondary);
+      border-bottom: 1px solid var(--ali-border);
+    }
+    .inventory-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--ali-border);
+      vertical-align: top;
+    }
+    .inventory-table tr:last-child td {
+      border-bottom: none;
+    }
+    .inventory-table tr:hover td {
+      background: var(--ali-card-subtle);
+    }
+
+    /* Status badges */
+    .status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .status-ready { background: #E8F5F1; color: #10b981; }
+    .status-wip { background: #FEF3C7; color: #D97706; }
+    .status-needed { background: #FEE2E2; color: #DC2626; }
+    .status-draft { background: #E5E7EB; color: #6B7280; }
+
+    /* Complexity badges */
+    .complexity {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--ali-card-subtle);
+      color: var(--ali-secondary);
+    }
+
+    /* Figma extraction example */
+    .extraction-example {
+      background: #1a1a2e;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+      color: #e2e8f0;
+    }
+    .extraction-example h4 {
+      color: #a78bfa;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .extraction-screenshot {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .extraction-tokens {
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      overflow-x: auto;
+    }
+    .token-row {
+      display: flex;
+      gap: 16px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .token-row:last-child {
+      border-bottom: none;
+    }
+    .token-name { color: #93c5fd; }
+    .token-value { color: #86efac; }
+
+    /* Journey section */
+    .journey-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 32px 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--ali-foreground);
+    }
+    .journey-number {
+      width: 28px;
+      height: 28px;
+      background: var(--ali-foreground);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .journey-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--ali-border);
+    }
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--ali-secondary);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Highlight box */
+    .highlight-box {
+      background: var(--ali-foreground);
+      color: white;
+      padding: 24px;
+      border-radius: 12px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .highlight-box p {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 18px;
+      margin: 0;
+    }
+
+    /* Notes */
+    .notes-list {
+      background: var(--ali-card-subtle);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .notes-list li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--ali-muted);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+      color: var(--ali-secondary);
+      border-top: 1px solid var(--ali-border);
+    }
+  </style>
+</head>
+<body>
+  <div class="ali-document">
+
+    <!-- Hero -->
+    <div class="hero">
+      <span class="hero-badge">Handoff Document</span>
+      <h1>Screen Inventory</h1>
+      <p class="hero-subtitle">All screens requiring design | December 3, 2025</p>
+    </div>
+
+    <div class="ali-content">
+
+      <!-- Section: What This Document Is -->
+      <div class="ali-section">
+        <span class="section-label">Purpose</span>
+        <h2 class="section-title">What You're Looking At</h2>
+        <p class="ali-text">
+          This inventory lists every screen in the Ali app that needs design work. It's organized by <strong>user journey</strong> (how users flow through the app), not alphabetically. Each screen includes its current status, complexity rating, and what states need to be designed.
+        </p>
+        <div class="highlight-box">
+          <p>"Nic designs in Figma → Shares URL → Terrance extracts via MCP → Implements in code"</p>
+        </div>
+      </div>
+
+      <!-- Section: Live Extraction Example -->
+      <div class="ali-section">
+        <span class="section-label">Proof of Concept</span>
+        <h2 class="section-title">What the MCP Extracts</h2>
+        <p class="ali-text">
+          Here's what I pulled from your Figma file tonight using the Figma MCP. <strong>Please validate this is accurate</strong> — if anything looks wrong, let me know so I can adjust my extraction process.
+        </p>
+
+        <div class="extraction-example">
+          <h4>Extracted from: Ali-Playground → Node 32:2892</h4>
+
+          <!-- Screenshot would go here - for now describing it -->
+          <div style="background: #2d2d44; border-radius: 8px; padding: 40px; text-align: center; margin-bottom: 16px; color: #a78bfa;">
+            <p style="margin: 0; font-size: 14px;">Screenshot: Chat with Silhouette Interface</p>
+            <p style="margin: 8px 0 0 0; font-size: 12px; opacity: 0.7;">Left sidebar with "New Chat" + Silhouette card | Main chat area with welcome message</p>
+          </div>
+
+          <h4 style="margin-top: 24px;">Design Tokens Extracted</h4>
+          <div class="extraction-tokens">
+            <div class="token-row">
+              <span class="token-name">black/black</span>
+              <span class="token-value">#121212</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">white/white</span>
+              <span class="token-value">#FFFFFF</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">grey/500</span>
+              <span class="token-value">#7C7C7C</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">grey/600</span>
+              <span class="token-value">#5E5E5E</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">grey/300</span>
+              <span class="token-value">#DBDBDB</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">grey/50</span>
+              <span class="token-value">#FBFBFB</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">sm/medium (font)</span>
+              <span class="token-value">Metro Sans, 14px, weight 500</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">sm/regular (font)</span>
+              <span class="token-value">Metro Sans, 14px, weight 400</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">xs/semi bold (font)</span>
+              <span class="token-value">Metro Sans, 12px, weight 600</span>
+            </div>
+            <div class="token-row">
+              <span class="token-name">shadow/sm</span>
+              <span class="token-value">Multi-layer drop shadow (4 layers)</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="ali-text-sm" style="margin-top: 16px;">
+          <strong>What this means:</strong> When you define variables in Figma, I can automatically pull them into CSS. No more "what hex is that?" back-and-forth.
+        </p>
+      </div>
+
+      <!-- Section: Screen Inventory by Journey -->
+      <div class="ali-section">
+        <span class="section-label">Screens</span>
+        <h2 class="section-title">Full Screen Inventory</h2>
+
+        <p class="ali-text-sm" style="margin-bottom: 20px; padding: 12px; background: #FEF3C7; border-radius: 8px; border: 1px solid #F59E0B;">
+          <strong>Please validate:</strong> These statuses are my best estimates based on what I've seen in Figma. Let me know if any are incorrect so I can update my records.
+        </p>
+
+        <!-- Journey 1: First Impression -->
+        <div class="journey-header">
+          <span class="journey-number">1</span>
+          <span class="journey-title">First Impression</span>
+        </div>
+
+        <table class="inventory-table">
+          <thead>
+            <tr>
+              <th>Screen</th>
+              <th>Status</th>
+              <th>Complexity</th>
+              <th>States Needed</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Landing Page</strong></td>
+              <td><span class="status status-needed">Needs Design</span></td>
+              <td><span class="complexity">Medium</span></td>
+              <td>Default, Mobile</td>
+              <td>First thing visitors see. Hero, value prop, CTA.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Journey 2: Authentication -->
+        <div class="journey-header">
+          <span class="journey-number">2</span>
+          <span class="journey-title">Authentication Flow</span>
+        </div>
+
+        <table class="inventory-table">
+          <thead>
+            <tr>
+              <th>Screen</th>
+              <th>Status</th>
+              <th>Complexity</th>
+              <th>States Needed</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sign In</strong></td>
+              <td><span class="status status-needed">Needs Design</span></td>
+              <td><span class="complexity">Simple</span></td>
+              <td>Default, Error, Loading</td>
+              <td>Email/password form. Google OAuth optional.</td>
+            </tr>
+            <tr>
+              <td><strong>Sign Up</strong></td>
+              <td><span class="status status-needed">Needs Design</span></td>
+              <td><span class="complexity">Simple</span></td>
+              <td>Default, Error, Loading</td>
+              <td>Same form style as Sign In.</td>
+            </tr>
+            <tr>
+              <td><strong>Forgot Password</strong></td>
+              <td><span class="status status-needed">Needs Design</span></td>
+              <td><span class="complexity">Simple</span></td>
+              <td>Default, Success, Error</td>
+              <td>Single email input + confirmation.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Journey 3: Assessment -->
+        <div class="journey-header">
+          <span class="journey-number">3</span>
+          <span class="journey-title">Assessment Flow (Silhouette)</span>
+        </div>
+
+        <table class="inventory-table">
+          <thead>
+            <tr>
+              <th>Screen</th>
+              <th>Status</th>
+              <th>Complexity</th>
+              <th>States Needed</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Assessment Container</strong></td>
+              <td><span class="status status-wip">In Progress</span></td>
+              <td><span class="complexity">Medium</span></td>
+              <td>Default, Loading</td>
+              <td>V1 uses JotForm embed. Need branded container.</td>
+            </tr>
+            <tr>
+              <td><strong>Results Page</strong></td>
+              <td><span class="status status-draft">Future</span></td>
+              <td><span class="complexity">Complex</span></td>
+              <td>Full results, Summary</td>
+              <td>V1 sends PDF via email. V2 shows in-app.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Journey 4: Core Experience -->
+        <div class="journey-header">
+          <span class="journey-number">4</span>
+          <span class="journey-title">Core Chat Experience</span>
+        </div>
+
+        <table class="inventory-table">
+          <thead>
+            <tr>
+              <th>Screen</th>
+              <th>Status</th>
+              <th>Complexity</th>
+              <th>States Needed</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chat (No Silhouette)</strong></td>
+              <td><span class="status status-wip">In Progress</span></td>
+              <td><span class="complexity">Complex</span></td>
+              <td>Empty, With messages, Loading</td>
+              <td>New user who hasn't taken assessment yet.</td>
+            </tr>
+            <tr>
+              <td><strong>Chat (With Silhouette)</strong></td>
+              <td><span class="status status-ready">Ready</span></td>
+              <td><span class="complexity">Complex</span></td>
+              <td>Empty, With messages, Loading</td>
+              <td>This is what we extracted above. Sidebar shows personality.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Journey 5: Profile -->
+        <div class="journey-header">
+          <span class="journey-number">5</span>
+          <span class="journey-title">Profile & Settings</span>
+        </div>
+
+        <table class="inventory-table">
+          <thead>
+            <tr>
+              <th>Screen</th>
+              <th>Status</th>
+              <th>Complexity</th>
+              <th>States Needed</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>About You</strong></td>
+              <td><span class="status status-needed">Needs Design</span></td>
+              <td><span class="complexity">Medium</span></td>
+              <td>View, Edit mode</td>
+              <td>User profile info, preferences.</td>
+            </tr>
+            <tr>
+              <td><strong>Your Silhouette</strong></td>
+              <td><span class="status status-needed">Needs Design</span></td>
+              <td><span class="complexity">Medium</span></td>
+              <td>Full view, Comparison</td>
+              <td>Detailed breakdown of personality results.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Journey 6: Legal -->
+        <div class="journey-header">
+          <span class="journey-number">6</span>
+          <span class="journey-title">Legal & Support</span>
+        </div>
+
+        <table class="inventory-table">
+          <thead>
+            <tr>
+              <th>Screen</th>
+              <th>Status</th>
+              <th>Complexity</th>
+              <th>States Needed</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Terms of Service</strong></td>
+              <td><span class="status status-needed">Needs Design</span></td>
+              <td><span class="complexity">Simple</span></td>
+              <td>Default only</td>
+              <td>Static content page.</td>
+            </tr>
+            <tr>
+              <td><strong>Privacy Policy</strong></td>
+              <td><span class="status status-needed">Needs Design</span></td>
+              <td><span class="complexity">Simple</span></td>
+              <td>Default only</td>
+              <td>Static content page.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Section: States Checklist -->
+      <div class="ali-section">
+        <span class="section-label">Reference</span>
+        <h2 class="section-title">States to Design Per Screen</h2>
+        <p class="ali-text">For each screen, consider whether these states need unique designs:</p>
+
+        <div class="ali-grid ali-grid-2" style="margin-top: 16px;">
+          <div class="ali-card">
+            <h4 class="ali-h4">Interactive States</h4>
+            <ul class="notes-list">
+              <li>Default (initial load)</li>
+              <li>Hover (cursor over)</li>
+              <li>Active/Pressed</li>
+              <li>Disabled (grayed out)</li>
+              <li>Focus (keyboard nav)</li>
+            </ul>
+          </div>
+          <div class="ali-card">
+            <h4 class="ali-h4">Data States</h4>
+            <ul class="notes-list">
+              <li>Loading (skeleton/spinner)</li>
+              <li>Empty (no data yet)</li>
+              <li>Error (something failed)</li>
+              <li>Success (action completed)</li>
+              <li>Partial (incomplete data)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Priority for Dec 4 -->
+      <div class="ali-section">
+        <span class="section-label">Tomorrow</span>
+        <h2 class="section-title">Priority Screens for Dec 4</h2>
+        <p class="ali-text">Based on our sync, here's what we agreed to focus on:</p>
+
+        <ul class="checklist">
+          <li>
+            <div class="checkbox"></div>
+            <div>
+              <strong>Chat with Silhouette</strong> (already extracted above)<br>
+              <span class="ali-text-sm">Validate the extraction, refine any details.</span>
+            </div>
+          </li>
+          <li>
+            <div class="checkbox"></div>
+            <div>
+              <strong>Chat without Silhouette</strong><br>
+              <span class="ali-text-sm">What does a new user see before they've taken the assessment?</span>
+            </div>
+          </li>
+          <li>
+            <div class="checkbox"></div>
+            <div>
+              <strong>Sign In / Sign Up</strong><br>
+              <span class="ali-text-sm">Simple forms. Same styling, just different CTAs.</span>
+            </div>
+          </li>
+          <li>
+            <div class="checkbox"></div>
+            <div>
+              <strong>Assessment Container</strong><br>
+              <span class="ali-text-sm">Branded frame around JotForm embed.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Section: What I Need -->
+      <div class="ali-section">
+        <span class="section-label">Handoff Requirements</span>
+        <h2 class="section-title">What I Need Per Screen</h2>
+
+        <table class="inventory-table">
+          <thead>
+            <tr>
+              <th>Requirement</th>
+              <th>Format</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Figma URL</strong></td>
+              <td><code>figma.com/design/[KEY]?node-id=[ID]</code></td>
+              <td>So MCP can extract design context</td>
+            </tr>
+            <tr>
+              <td><strong>All States Designed</strong></td>
+              <td>Separate frames or variants</td>
+              <td>I need to implement each state</td>
+            </tr>
+            <tr>
+              <td><strong>Design System Variables</strong></td>
+              <td>Use Figma variables, not hardcoded colors</td>
+              <td>MCP extracts variables automatically</td>
+            </tr>
+            <tr>
+              <td><strong>Font Files</strong></td>
+              <td><code>.woff2</code> preferred</td>
+              <td>Need for web rendering</td>
+            </tr>
+            <tr>
+              <td><strong>Icon Exports</strong></td>
+              <td><code>SVG</code></td>
+              <td>Scalable, can style with CSS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Screen Inventory | December 3, 2025 | Ali MVP
+    </div>
+
+  </div>
+</body>
+</html>

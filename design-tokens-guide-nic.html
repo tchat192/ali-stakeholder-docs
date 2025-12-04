@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Tokens Guide | Ali MVP</title>
+  <link rel="stylesheet" href="styles/ali-product-brief.css">
+  <style>
+    /* Additional styles for this document */
+    @font-face {
+      font-family: 'Moret';
+      src: url('fonts/Moret-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Moret';
+      src: url('fonts/Moret-RegularOblique.otf') format('opentype');
+      font-weight: 400;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-regular-webfont.woff2') format('woff2');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-medium-webfont.woff2') format('woff2');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-semi-bold-webfont.woff2') format('woff2');
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: 'Metro Sans';
+      src: url('fonts/metrosans-bold-webfont.woff2') format('woff2');
+      font-weight: 700;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 48px 32px;
+      border-bottom: 1px solid var(--ali-border);
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      background: var(--ali-card);
+      border: 1px solid var(--ali-foreground);
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      color: var(--ali-secondary);
+      font-size: 15px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ali-accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-title {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    /* Diagram */
+    .flow-diagram {
+      background: var(--ali-card-subtle);
+      border-radius: 12px;
+      padding: 32px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      background: white;
+      border: 1px solid var(--ali-border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      min-width: 140px;
+    }
+    .flow-step-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ali-secondary);
+      margin-bottom: 4px;
+    }
+    .flow-step-value {
+      font-weight: 600;
+      color: var(--ali-foreground);
+    }
+    .flow-arrow {
+      font-size: 24px;
+      color: var(--ali-accent);
+    }
+
+    /* Token cards */
+    .token-category {
+      margin-bottom: 32px;
+    }
+    .token-category-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--ali-foreground);
+    }
+    .token-category-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .token-category-count {
+      background: var(--ali-card-subtle);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: var(--ali-secondary);
+    }
+
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .token-card {
+      background: white;
+      border: 1px solid var(--ali-border);
+      border-radius: 8px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+    .token-card:hover {
+      border-color: var(--ali-accent);
+      box-shadow: var(--ali-shadow-sm);
+    }
+    .token-swatch {
+      width: 100%;
+      height: 40px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border: 1px solid var(--ali-border);
+    }
+    .token-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ali-foreground);
+      margin-bottom: 4px;
+      font-family: 'SF Mono', Monaco, monospace;
+    }
+    .token-value {
+      font-size: 11px;
+      color: var(--ali-secondary);
+      font-family: 'SF Mono', Monaco, monospace;
+    }
+
+    /* Mapping table */
+    .mapping-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 13px;
+    }
+    .mapping-table th {
+      text-align: left;
+      padding: 14px 12px;
+      background: var(--ali-card-subtle);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ali-secondary);
+      border-bottom: 1px solid var(--ali-border);
+    }
+    .mapping-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--ali-border);
+      vertical-align: top;
+    }
+    .mapping-table tr:last-child td {
+      border-bottom: none;
+    }
+    .mapping-table code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      background: var(--ali-card-subtle);
+      padding: 3px 6px;
+      border-radius: 4px;
+    }
+
+    /* Code block */
+    .code-block {
+      background: #1a1a2e;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+    .code-block pre {
+      margin: 0;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #e2e8f0;
+    }
+    .code-comment { color: #6b7280; }
+    .code-property { color: #93c5fd; }
+    .code-value { color: #86efac; }
+    .code-selector { color: #f9a8d4; }
+
+    /* Typography samples */
+    .type-sample {
+      background: white;
+      border: 1px solid var(--ali-border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+    .type-preview {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--ali-border);
+    }
+    .type-specs {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: var(--ali-secondary);
+    }
+    .type-spec {
+      display: flex;
+      gap: 4px;
+    }
+    .type-spec-label {
+      font-weight: 600;
+    }
+
+    /* Do/Don't boxes */
+    .do-dont-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .do-box, .dont-box {
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .do-box {
+      background: #E8F5F1;
+      border: 1px solid #10b981;
+    }
+    .dont-box {
+      background: #FEE2E2;
+      border: 1px solid #DC2626;
+    }
+    .do-box h4, .dont-box h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .do-box h4 { color: #10b981; }
+    .dont-box h4 { color: #DC2626; }
+    .do-box ul, .dont-box ul {
+      margin: 0;
+      padding-left: 16px;
+      font-size: 13px;
+    }
+    .do-box li, .dont-box li {
+      margin-bottom: 4px;
+    }
+
+    /* Highlight box */
+    .highlight-box {
+      background: var(--ali-foreground);
+      color: white;
+      padding: 24px;
+      border-radius: 12px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .highlight-box p {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+      color: var(--ali-secondary);
+      border-top: 1px solid var(--ali-border);
+    }
+
+    @media (max-width: 768px) {
+      .do-dont-grid {
+        grid-template-columns: 1fr;
+      }
+      .flow-steps {
+        flex-direction: column;
+      }
+      .flow-arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ali-document">
+
+    <!-- Hero -->
+    <div class="hero">
+      <span class="hero-badge">Handoff Document</span>
+      <h1>Design Tokens Guide</h1>
+      <p class="hero-subtitle">How Figma variables become code | December 3, 2025</p>
+    </div>
+
+    <div class="ali-content">
+
+      <!-- Section: What Are Tokens -->
+      <div class="ali-section">
+        <span class="section-label">Concept</span>
+        <h2 class="section-title">What Are Design Tokens?</h2>
+        <p class="ali-text">
+          Design tokens are the <strong>single source of truth</strong> for visual design decisions. Instead of hardcoding <code>#8A41E6</code> everywhere, we define it once as <code>--ali-accent</code> and reference that everywhere. Change it in one place, it updates everywhere.
+        </p>
+        <div class="highlight-box">
+          <p>"One change in Figma = One change in code = Updates everywhere"</p>
+        </div>
+      </div>
+
+      <!-- Section: The Flow -->
+      <div class="ali-section">
+        <span class="section-label">Workflow</span>
+        <h2 class="section-title">From Figma to Code</h2>
+
+        <div class="flow-diagram">
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="flow-step-label">Step 1</div>
+              <div class="flow-step-value">Figma Variables</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <div class="flow-step-label">Step 2</div>
+              <div class="flow-step-value">MCP Extracts</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <div class="flow-step-label">Step 3</div>
+              <div class="flow-step-value">CSS Variables</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <div class="flow-step-label">Step 4</div>
+              <div class="flow-step-value">Components</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="ali-text">
+          When you define variables in Figma using the Variables panel, the MCP can automatically extract them. I then map them to CSS custom properties that the React components use.
+        </p>
+      </div>
+
+      <!-- Section: Live Extraction -->
+      <div class="ali-section">
+        <span class="section-label">Proof of Concept</span>
+        <h2 class="section-title">What We Extracted Tonight</h2>
+        <p class="ali-text">
+          From your "Ali-Playground" Figma file (node 32:2892), the MCP extracted these tokens. <strong>Please validate these are correct.</strong>
+        </p>
+
+        <!-- Colors -->
+        <div class="token-category">
+          <div class="token-category-header">
+            <span class="token-category-title">Colors</span>
+            <span class="token-category-count">11 tokens</span>
+          </div>
+
+          <div class="token-grid">
+            <div class="token-card">
+              <div class="token-swatch" style="background: #121212;"></div>
+              <div class="token-name">black/black</div>
+              <div class="token-value">#121212</div>
+            </div>
+            <div class="token-card">
+              <div class="token-swatch" style="background: #000000;"></div>
+              <div class="token-name">Black/100%</div>
+              <div class="token-value">#000000</div>
+            </div>
+            <div class="token-card">
+              <div class="token-swatch" style="background: #000000;"></div>
+              <div class="token-name">Grays/Black</div>
+              <div class="token-value">#000000</div>
+            </div>
+            <div class="token-card">
+              <div class="token-swatch" style="background: #FFFFFF; border: 1px solid #ddd;"></div>
+              <div class="token-name">white/white</div>
+              <div class="token-value">#FFFFFF</div>
+            </div>
+            <div class="token-card">
+              <div class="token-swatch" style="background: #FFFFFF; border: 1px solid #ddd;"></div>
+              <div class="token-name">Floating Tab - Pill Fill</div>
+              <div class="token-value">#FFFFFF</div>
+            </div>
+            <div class="token-card">
+              <div class="token-swatch" style="background: #7C7C7C;"></div>
+              <div class="token-name">grey/500</div>
+              <div class="token-value">#7C7C7C</div>
+            </div>
+            <div class="token-card">
+              <div class="token-swatch" style="background: #5E5E5E;"></div>
+              <div class="token-name">grey/600</div>
+              <div class="token-value">#5E5E5E</div>
+            </div>
+            <div class="token-card">
+              <div class="token-swatch" style="background: #DBDBDB;"></div>
+              <div class="token-name">grey/300</div>
+              <div class="token-value">#DBDBDB</div>
+            </div>
+            <div class="token-card">
+              <div class="token-swatch" style="background: #FBFBFB; border: 1px solid #ddd;"></div>
+              <div class="token-name">grey/50</div>
+              <div class="token-value">#FBFBFB</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="token-category">
+          <div class="token-category-header">
+            <span class="token-category-title">Typography</span>
+            <span class="token-category-count">3 tokens</span>
+          </div>
+
+          <div class="type-sample">
+            <div class="type-preview" style="font-family: 'Metro Sans', sans-serif; font-size: 14px; font-weight: 500;">
+              The quick brown fox jumps over the lazy dog
+            </div>
+            <div class="type-specs">
+              <div class="type-spec"><span class="type-spec-label">Token:</span> sm/medium</div>
+              <div class="type-spec"><span class="type-spec-label">Family:</span> Metro Sans</div>
+              <div class="type-spec"><span class="type-spec-label">Size:</span> 14px</div>
+              <div class="type-spec"><span class="type-spec-label">Weight:</span> 500</div>
+              <div class="type-spec"><span class="type-spec-label">Line Height:</span> 20px</div>
+            </div>
+          </div>
+
+          <div class="type-sample">
+            <div class="type-preview" style="font-family: 'Metro Sans', sans-serif; font-size: 14px; font-weight: 400;">
+              The quick brown fox jumps over the lazy dog
+            </div>
+            <div class="type-specs">
+              <div class="type-spec"><span class="type-spec-label">Token:</span> sm/regular</div>
+              <div class="type-spec"><span class="type-spec-label">Family:</span> Metro Sans</div>
+              <div class="type-spec"><span class="type-spec-label">Size:</span> 14px</div>
+              <div class="type-spec"><span class="type-spec-label">Weight:</span> 400</div>
+              <div class="type-spec"><span class="type-spec-label">Line Height:</span> 20px</div>
+            </div>
+          </div>
+
+          <div class="type-sample">
+            <div class="type-preview" style="font-family: 'Metro Sans', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+              The quick brown fox jumps over the lazy dog
+            </div>
+            <div class="type-specs">
+              <div class="type-spec"><span class="type-spec-label">Token:</span> xs/semi bold</div>
+              <div class="type-spec"><span class="type-spec-label">Family:</span> Metro Sans</div>
+              <div class="type-spec"><span class="type-spec-label">Size:</span> 12px</div>
+              <div class="type-spec"><span class="type-spec-label">Weight:</span> 600</div>
+              <div class="type-spec"><span class="type-spec-label">Letter Spacing:</span> 5%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spacing -->
+        <div class="token-category">
+          <div class="token-category-header">
+            <span class="token-category-title">Spacing</span>
+            <span class="token-category-count">4 tokens</span>
+          </div>
+
+          <table class="mapping-table">
+            <thead>
+              <tr>
+                <th>Figma Token</th>
+                <th>Value</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>4</code></td>
+                <td>4px</td>
+                <td>Tight spacing (between badge dot and text)</td>
+              </tr>
+              <tr>
+                <td><code>8</code></td>
+                <td>8px</td>
+                <td>Small spacing (list items, icon gaps)</td>
+              </tr>
+              <tr>
+                <td><code>12</code></td>
+                <td>12px</td>
+                <td>Medium spacing (card padding, section gaps)</td>
+              </tr>
+              <tr>
+                <td><code>10</code></td>
+                <td>0px*</td>
+                <td>*Appears to be reset/override</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Effects -->
+        <div class="token-category">
+          <div class="token-category-header">
+            <span class="token-category-title">Effects</span>
+            <span class="token-category-count">1 token</span>
+          </div>
+
+          <div class="ali-card" style="box-shadow: 0px 3px 6px -3px rgba(0,0,0,0.05), 0px 2px 4px -2px rgba(0,0,0,0.05), 0px 1px 2px -1px rgba(0,0,0,0.05), 0px 1px 0px -1px rgba(0,0,0,0.05);">
+            <div class="token-name" style="margin-bottom: 8px;">shadow/sm</div>
+            <p class="ali-text-sm" style="margin: 0;">
+              Multi-layer drop shadow for subtle depth. Used on active tabs, cards, and floating elements.
+            </p>
+          </div>
+
+          <div class="code-block">
+            <pre><span class="code-comment">/* shadow/sm - 4-layer subtle depth */</span>
+<span class="code-property">box-shadow:</span>
+  <span class="code-value">0px 3px 6px -3px rgba(0,0,0,0.05)</span>,
+  <span class="code-value">0px 2px 4px -2px rgba(0,0,0,0.05)</span>,
+  <span class="code-value">0px 1px 2px -1px rgba(0,0,0,0.05)</span>,
+  <span class="code-value">0px 1px 0px -1px rgba(0,0,0,0.05)</span>;</pre>
+          </div>
+        </div>
+
+        <!-- SDS Tokens (Figma Internal) -->
+        <div class="token-category">
+          <div class="token-category-header">
+            <span class="token-category-title">Figma System Tokens (SDS)</span>
+            <span class="token-category-count">5 tokens</span>
+          </div>
+
+          <p class="ali-text-sm" style="margin-bottom: 16px; padding: 12px; background: #FEF3C7; border-radius: 8px; border: 1px solid #F59E0B;">
+            <strong>Note:</strong> These are Figma's internal "Spectrum Design System" tokens. They appear in your file because Figma uses them for built-in components (like avatars). We map these to our own CSS variables.
+          </p>
+
+          <table class="mapping-table">
+            <thead>
+              <tr>
+                <th>Figma SDS Token</th>
+                <th>Value</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>--sds-color-text-brand-on-brand</code></td>
+                <td>#f5f5f5</td>
+                <td>Avatar initial text color</td>
+              </tr>
+              <tr>
+                <td><code>--sds-color-background-brand-default</code></td>
+                <td>#2c2c2c</td>
+                <td>Dark brand background</td>
+              </tr>
+              <tr>
+                <td><code>--sds-size-radius-full</code></td>
+                <td>9999px</td>
+                <td>Pill/circular shapes</td>
+              </tr>
+              <tr>
+                <td><code>--sds-size-icon-small</code></td>
+                <td>24px</td>
+                <td>Small icon sizing</td>
+              </tr>
+              <tr>
+                <td><code>--sds-typography-body-size-small</code></td>
+                <td>14px</td>
+                <td>Small body text</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section: Mapping Table -->
+      <div class="ali-section">
+        <span class="section-label">Reference</span>
+        <h2 class="section-title">Figma → CSS Mapping</h2>
+        <p class="ali-text">
+          Here's how your Figma tokens map to the CSS custom properties in the codebase:
+        </p>
+
+        <table class="mapping-table">
+          <thead>
+            <tr>
+              <th>Figma Variable</th>
+              <th>CSS Variable</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>black/black</code></td>
+              <td><code>--ali-foreground</code></td>
+              <td>#121212</td>
+            </tr>
+            <tr>
+              <td><code>white/white</code></td>
+              <td><code>--ali-card</code></td>
+              <td>#FFFFFF</td>
+            </tr>
+            <tr>
+              <td><code>grey/500</code></td>
+              <td><code>--ali-secondary</code></td>
+              <td>#7C7C7C</td>
+            </tr>
+            <tr>
+              <td><code>grey/600</code></td>
+              <td><code>--ali-muted</code></td>
+              <td>#5E5E5E</td>
+            </tr>
+            <tr>
+              <td><code>grey/300</code></td>
+              <td><code>--ali-border</code></td>
+              <td>#DBDBDB</td>
+            </tr>
+            <tr>
+              <td><code>grey/50</code></td>
+              <td><code>--ali-card-subtle</code></td>
+              <td>#FBFBFB</td>
+            </tr>
+            <tr>
+              <td>(Background)</td>
+              <td><code>--ali-background</code></td>
+              <td>#F5F3F0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Section: Usage in Code -->
+      <div class="ali-section">
+        <span class="section-label">Implementation</span>
+        <h2 class="section-title">How It Looks in Code</h2>
+
+        <div class="code-block">
+          <pre><span class="code-comment">/* ali-product-brief.css */</span>
+<span class="code-selector">:root</span> {
+  <span class="code-comment">/* Extracted from Figma */</span>
+  <span class="code-property">--ali-foreground:</span> <span class="code-value">#121212</span>;     <span class="code-comment">/* black/black */</span>
+  <span class="code-property">--ali-card:</span> <span class="code-value">#FFFFFF</span>;          <span class="code-comment">/* white/white */</span>
+  <span class="code-property">--ali-secondary:</span> <span class="code-value">#7C7C7C</span>;     <span class="code-comment">/* grey/500 */</span>
+  <span class="code-property">--ali-muted:</span> <span class="code-value">#5E5E5E</span>;         <span class="code-comment">/* grey/600 */</span>
+  <span class="code-property">--ali-border:</span> <span class="code-value">#DBDBDB</span>;        <span class="code-comment">/* grey/300 */</span>
+  <span class="code-property">--ali-card-subtle:</span> <span class="code-value">#FBFBFB</span>;  <span class="code-comment">/* grey/50 */</span>
+  <span class="code-property">--ali-background:</span> <span class="code-value">#F5F3F0</span>;   <span class="code-comment">/* page bg */</span>
+}
+
+<span class="code-selector">.button-primary</span> {
+  <span class="code-property">background:</span> <span class="code-value">var(--ali-foreground)</span>;
+  <span class="code-property">color:</span> <span class="code-value">var(--ali-card)</span>;
+  <span class="code-property">box-shadow:</span> <span class="code-value">var(--ali-shadow-tab)</span>;
+}</pre>
+        </div>
+      </div>
+
+      <!-- Section: Best Practices -->
+      <div class="ali-section">
+        <span class="section-label">Guidelines</span>
+        <h2 class="section-title">Token Best Practices</h2>
+
+        <div class="do-dont-grid">
+          <div class="do-box">
+            <h4>Do</h4>
+            <ul>
+              <li>Use Figma Variables for all colors</li>
+              <li>Name tokens semantically (grey/500, not "placeholder-text")</li>
+              <li>Use consistent spacing scale (4, 8, 12, 16...)</li>
+              <li>Define all typography as tokens</li>
+              <li>Include effects (shadows) as tokens</li>
+            </ul>
+          </div>
+          <div class="dont-box">
+            <h4>Don't</h4>
+            <ul>
+              <li>Hardcode hex colors directly in frames</li>
+              <li>Use random spacing values (7px, 13px)</li>
+              <li>Create one-off tokens for single uses</li>
+              <li>Mix naming conventions (grey-500 vs grey/500)</li>
+              <li>Forget to update token when design changes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: What We Need -->
+      <div class="ali-section">
+        <span class="section-label">Request</span>
+        <h2 class="section-title">What I Need From You</h2>
+
+        <table class="mapping-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Format</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Font files</strong></td>
+              <td><code>.woff2</code> preferred</td>
+              <td style="color: #D97706;">Need Metro Sans + Moret for app</td>
+            </tr>
+            <tr>
+              <td><strong>Complete color palette</strong></td>
+              <td>Figma Variables</td>
+              <td style="color: #10b981;">Extracted 6 colors tonight</td>
+            </tr>
+            <tr>
+              <td><strong>Full typography scale</strong></td>
+              <td>Figma Text Styles</td>
+              <td style="color: #10b981;">Extracted 3 styles tonight</td>
+            </tr>
+            <tr>
+              <td><strong>Spacing system</strong></td>
+              <td>Figma Variables</td>
+              <td style="color: #D97706;">Need full scale (4-128px)</td>
+            </tr>
+            <tr>
+              <td><strong>Component states</strong></td>
+              <td>Variants in Figma</td>
+              <td style="color: #D97706;">Need hover, active, disabled</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Section: Resources -->
+      <div class="ali-section">
+        <span class="section-label">Learn More</span>
+        <h2 class="section-title">Resources</h2>
+
+        <div class="ali-grid ali-grid-2">
+          <div class="ali-card">
+            <h4 class="ali-h4">Figma MCP Plugin</h4>
+            <p class="ali-text-sm">The tool I use to extract your designs.</p>
+            <a href="https://www.figma.com/community/plugin/1465822425542036781/figma-to-code-mcp" target="_blank" style="font-size: 13px; color: var(--ali-accent);">View on Figma Community →</a>
+          </div>
+          <div class="ali-card">
+            <h4 class="ali-h4">Figma Variables Guide</h4>
+            <p class="ali-text-sm">Official guide to setting up variables.</p>
+            <a href="https://help.figma.com/hc/en-us/articles/15339657135383-Guide-to-variables-in-Figma" target="_blank" style="font-size: 13px; color: var(--ali-accent);">Read Figma Docs →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Design Tokens Guide | December 3, 2025 | Ali MVP
+    </div>
+
+  </div>
+</body>
+</html>
