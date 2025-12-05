@@ -1,557 +1,626 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Classification Engine - Mark Review</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ali Classification Engine</title>
+  <link rel="stylesheet" href="./styles/ali-product-brief.css">
+  <style>
+    /* --- GLOBAL VARIABLES --- */
+    :root {
+      --ali-bg-page: #F2F2F2;
+      --ali-bg-card: #FFFFFF;
+      --ali-text-black: #000000;
+      --ali-text-grey: #555555;
+      --ali-text-body: #404040;
+      --ali-accent: #8A41E6;
+      --ali-font-serif: 'Moret', Georgia, serif;
+      --ali-font-sans: 'Metro Sans', -apple-system, sans-serif;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            line-height: 1.5;
-            color: #1a1a2e;
-            background: #f8f9fa;
-            padding: 2rem;
-        }
+    html, body {
+      height: auto;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+    body {
+      background: var(--ali-bg-page);
+      font-family: var(--ali-font-sans);
+      color: var(--ali-text-body);
+      line-height: 1.6;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e0e0e0;
-        }
+    .page-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 48px 32px;
+    }
 
-        .header h1 {
-            font-size: 2rem;
-            color: #1a1a2e;
-            margin-bottom: 0.5rem;
-        }
+    /* --- MASTHEAD --- */
+    .masthead {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .masthead-badge {
+      font-family: var(--ali-font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ali-text-black);
+      padding: 8px 16px;
+      background: var(--ali-bg-card);
+      border: 1px solid var(--ali-text-black);
+      border-radius: 4px;
+    }
 
-        .header .subtitle {
-            color: #666;
-            font-size: 1rem;
-        }
+    /* --- HERO --- */
+    .hero {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 56px auto;
+    }
+    .hero h1 {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--ali-text-black);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    .hero .tagline {
+      font-family: var(--ali-font-sans);
+      font-size: 18px;
+      color: var(--ali-text-grey);
+      margin-bottom: 24px;
+    }
+    .hero .description {
+      font-family: var(--ali-font-sans);
+      font-size: 16px;
+      color: var(--ali-text-body);
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-        .header .context {
-            background: #fff3cd;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            border-left: 4px solid #ffc107;
-        }
+    /* --- SECTION CARDS --- */
+    .section-card {
+      background: var(--ali-bg-card);
+      border-radius: 12px;
+      padding: 32px 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    .section-card h2 {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--ali-text-black);
+      margin-bottom: 8px;
+    }
+    .section-card .section-intro {
+      font-size: 15px;
+      color: var(--ali-text-grey);
+      margin-bottom: 24px;
+    }
 
-        .section {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+    /* --- FIVE TYPES GRID --- */
+    .types-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    .type-card {
+      text-align: center;
+      padding: 20px 12px;
+      border-radius: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .type-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    .type-card .type-name {
+      font-family: var(--ali-font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .type-card .type-desc {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .type-batna { background: #ffebee; color: #c62828; }
+    .type-bargaining { background: #fff3e0; color: #e65100; }
+    .type-trading { background: #e8f5e9; color: #2e7d32; }
+    .type-creating { background: #e3f2fd; color: #1565c0; }
+    .type-partnering { background: #f3e5f5; color: #7b1fa2; }
 
-        .section h2 {
-            font-size: 1.25rem;
-            color: #1a1a2e;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #f0f0f0;
-        }
+    /* --- SIGNALS GRID --- */
+    .signals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .signal-card {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      border-left: 4px solid var(--ali-accent);
+    }
+    .signal-card h3 {
+      font-family: var(--ali-font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ali-accent);
+      margin-bottom: 8px;
+    }
+    .signal-card p {
+      font-size: 14px;
+      color: var(--ali-text-body);
+      margin-bottom: 12px;
+    }
+    .signal-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .signal-values span {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      color: var(--ali-text-grey);
+    }
 
-        /* Classification Flow */
-        .flow-diagram {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
+    /* --- DECISION FLOW --- */
+    .flow-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .flow-box {
+      background: var(--ali-accent);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      min-width: 200px;
+      text-align: center;
+    }
+    .flow-arrow {
+      color: var(--ali-text-grey);
+      font-size: 20px;
+    }
+    .flow-outcome {
+      font-size: 14px;
+      color: var(--ali-text-body);
+      padding: 10px 16px;
+      background: #f5f5f5;
+      border-radius: 6px;
+    }
 
-        .flow-step {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+    /* --- INFERENCE RULES --- */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .rule-card {
+      background: #fafafa;
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid #e8e8e8;
+    }
+    .rule-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .rule-num {
+      background: var(--ali-text-black);
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .rule-card h3 {
+      font-family: var(--ali-font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ali-text-black);
+    }
+    .rule-card p {
+      font-size: 13px;
+      color: var(--ali-text-grey);
+      margin-bottom: 10px;
+    }
+    .rule-example {
+      font-size: 12px;
+      font-style: italic;
+      padding: 10px 12px;
+      background: #fff8e1;
+      border-radius: 4px;
+      color: var(--ali-text-body);
+    }
 
-        .step-box {
-            background: #e3f2fd;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-            min-width: 180px;
-            text-align: center;
-        }
+    /* --- EDGE CASES --- */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .case-card {
+      background: #fafafa;
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid #e8e8e8;
+    }
+    .case-card h3 {
+      font-family: var(--ali-font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ali-text-black);
+      margin-bottom: 10px;
+    }
+    .case-scenario {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--ali-text-grey);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .case-flow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .case-wrong {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 12px;
+      padding: 4px 10px;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+    .case-correct {
+      font-weight: 600;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+    .case-rule {
+      font-size: 11px;
+      color: var(--ali-text-grey);
+    }
 
-        .step-arrow {
-            color: #666;
-            font-size: 1.5rem;
-        }
+    /* --- FOOTER --- */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      margin-top: 24px;
+    }
+    .footer-quote {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 20px;
+      color: var(--ali-text-black);
+      margin-bottom: 16px;
+    }
+    .footer-meta {
+      font-size: 12px;
+      color: var(--ali-text-grey);
+      letter-spacing: 0.05em;
+    }
 
-        .step-outcomes {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+      .types-grid { grid-template-columns: repeat(2, 1fr); }
+      .signals-grid { grid-template-columns: 1fr; }
+      .rules-grid { grid-template-columns: 1fr; }
+      .cases-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 36px; }
+    }
 
-        .outcome {
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .outcome.batna { background: #ffebee; color: #c62828; }
-        .outcome.bargaining { background: #fff3e0; color: #e65100; }
-        .outcome.trading { background: #e8f5e9; color: #2e7d32; }
-        .outcome.creating { background: #e3f2fd; color: #1565c0; }
-        .outcome.partnering { background: #f3e5f5; color: #7b1fa2; }
-
-        /* Signals Grid */
-        .signals-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-        }
-
-        .signal-card {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 1rem;
-            border-left: 4px solid #2196f3;
-        }
-
-        .signal-card h3 {
-            font-size: 0.9rem;
-            color: #1565c0;
-            margin-bottom: 0.5rem;
-        }
-
-        .signal-card p {
-            font-size: 0.85rem;
-            color: #555;
-        }
-
-        .signal-indicators {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-        }
-
-        .signal-indicators span {
-            display: inline-block;
-            padding: 0.15rem 0.4rem;
-            background: #e0e0e0;
-            border-radius: 4px;
-            margin: 0.1rem;
-        }
-
-        /* Inference Rules */
-        .rules-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .rule-card {
-            background: #fafafa;
-            border-radius: 8px;
-            padding: 1rem;
-            border: 1px solid #e0e0e0;
-        }
-
-        .rule-card .rule-num {
-            display: inline-block;
-            background: #1a1a2e;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            text-align: center;
-            font-size: 0.8rem;
-            line-height: 24px;
-            margin-right: 0.5rem;
-        }
-
-        .rule-card h3 {
-            display: inline;
-            font-size: 0.9rem;
-            color: #1a1a2e;
-        }
-
-        .rule-card p {
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .rule-card .example {
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            background: #fff3cd;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-style: italic;
-        }
-
-        /* Edge Cases for Discussion */
-        .edge-cases {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .edge-case {
-            background: #fff;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 1rem;
-        }
-
-        .edge-case.question {
-            border-color: #ffc107;
-            background: #fffde7;
-        }
-
-        .edge-case h3 {
-            font-size: 0.95rem;
-            color: #1a1a2e;
-            margin-bottom: 0.5rem;
-        }
-
-        .edge-case .scenario {
-            font-size: 0.85rem;
-            color: #555;
-            font-style: italic;
-            margin-bottom: 0.5rem;
-        }
-
-        .edge-case .classification {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .edge-case .wrong {
-            text-decoration: line-through;
-            color: #999;
-        }
-
-        .edge-case .correct {
-            font-weight: 600;
-        }
-
-        .discussion-prompt {
-            background: #e8f5e9;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            border-left: 4px solid #4caf50;
-        }
-
-        .discussion-prompt h3 {
-            font-size: 0.95rem;
-            color: #2e7d32;
-            margin-bottom: 0.5rem;
-        }
-
-        .discussion-prompt ul {
-            margin-left: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        /* Print Styles */
-        @media print {
-            body {
-                background: white;
-                padding: 0.5rem;
-            }
-
-            .section {
-                box-shadow: none;
-                border: 1px solid #ddd;
-                page-break-inside: avoid;
-            }
-
-            .header .context {
-                background: #f5f5f5;
-            }
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e0e0e0;
-            color: #999;
-            font-size: 0.8rem;
-        }
-    </style>
+    /* --- PRINT --- */
+    @media print {
+      body { background: white; }
+      .section-card { box-shadow: none; border: 1px solid #ddd; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Ali Classification Engine</h1>
-            <p class="subtitle">Your Negotiation Methodology, Encoded</p>
-            <p style="font-size: 0.85rem; color: #888; margin-top: 0.5rem;">
-                <em>Derived from: Ali Decision Tree V2 - Structural (Nov 2025)</em>
-            </p>
-            <div style="background: #e8f4fd; padding: 0.75rem 1rem; border-radius: 8px; margin-top: 1rem; font-size: 0.9rem; border-left: 4px solid #2196F3;">
-                <strong>What This Does:</strong> When a user describes their negotiation situation, Ali listens for key signals and classifies them into one of five negotiation types—then coaches them with the right approach for that situation.
-            </div>
-            <div class="context">
-                <strong>Purpose:</strong> Review session before Dec 8-10 working sessions.
-                I need your fingerprints on this - what am I missing? What would you adjust?
-            </div>
-        </div>
+  <div class="page-wrapper">
 
-        <!-- Section 1: The 5 Classifications -->
-        <div class="section">
-            <h2>The Five Negotiation Types</h2>
-            <p style="margin-bottom: 1rem; color: #666;">Ali classifies every negotiation into one of five types, each with a different coaching approach:</p>
-
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; text-align: center;">
-                <div>
-                    <div class="outcome batna" style="padding: 1rem; margin-bottom: 0.5rem;">BATNA<br>Deficiency</div>
-                    <p style="font-size: 0.75rem; color: #666;">No alternatives.<br>Risk management mode.</p>
-                </div>
-                <div>
-                    <div class="outcome bargaining" style="padding: 1rem; margin-bottom: 0.5rem;">Bargaining</div>
-                    <p style="font-size: 0.75rem; color: #666;">Commoditized.<br>Conditional offers.</p>
-                </div>
-                <div>
-                    <div class="outcome trading" style="padding: 1rem; margin-bottom: 0.5rem;">Trading</div>
-                    <p style="font-size: 0.75rem; color: #666;">Multiple terms.<br>Strategic trade-offs.</p>
-                </div>
-                <div>
-                    <div class="outcome creating" style="padding: 1rem; margin-bottom: 0.5rem;">Creating</div>
-                    <p style="font-size: 0.75rem; color: #666;">Expanding value.<br>Joint opportunities.</p>
-                </div>
-                <div>
-                    <div class="outcome partnering" style="padding: 1rem; margin-bottom: 0.5rem;">Partnering</div>
-                    <p style="font-size: 0.75rem; color: #666;">Strategic alliance.<br>Long-term investment.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 2: Signal Extraction -->
-        <div class="section">
-            <h2>Six Signals Ali Extracts</h2>
-            <p style="margin-bottom: 1rem; color: #666;">From a single conversational prompt, Ali infers these signals to classify:</p>
-
-            <div class="signals-grid">
-                <div class="signal-card">
-                    <h3>1. ALTERNATIVES (BATNA)</h3>
-                    <p>Can they switch suppliers?</p>
-                    <div class="signal-indicators">
-                        <span>HIGH</span> <span>MEDIUM</span> <span>LOW</span>
-                    </div>
-                </div>
-                <div class="signal-card">
-                    <h3>2. TIMELINE</h3>
-                    <p>How urgent is the decision?</p>
-                    <div class="signal-indicators">
-                        <span>RELAXED</span> <span>NORMAL</span> <span>URGENT</span>
-                    </div>
-                </div>
-                <div class="signal-card">
-                    <h3>3. COMPLEXITY</h3>
-                    <p>How many terms being negotiated?</p>
-                    <div class="signal-indicators">
-                        <span>1-2: Simple</span> <span>3-5: Medium</span> <span>6+: Complex</span>
-                    </div>
-                </div>
-                <div class="signal-card">
-                    <h3>4. TENURE</h3>
-                    <p>How long have they worked together?</p>
-                    <div class="signal-indicators">
-                        <span>&lt;2yr: NEW</span> <span>2-5yr: EMERGING</span> <span>5yr+: ESTABLISHED</span>
-                    </div>
-                </div>
-                <div class="signal-card">
-                    <h3>5. TRUST</h3>
-                    <p>What's the relationship quality?</p>
-                    <div class="signal-indicators">
-                        <span>HIGH</span> <span>MEDIUM</span> <span>LOW</span> <span>DEGRADED</span>
-                    </div>
-                </div>
-                <div class="signal-card">
-                    <h3>6. JOINT VALUE</h3>
-                    <p>Are they building something together?</p>
-                    <div class="signal-indicators">
-                        <span>NONE</span> <span>EXPLORING</span> <span>IMPLEMENTED</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 3: Decision Flow -->
-        <div class="section">
-            <h2>Classification Decision Flow</h2>
-            <p style="margin-bottom: 1rem; color: #666;">After extracting signals, Ali follows this logic:</p>
-
-            <div class="flow-diagram">
-                <div class="flow-step">
-                    <div class="step-box">Step 1: BATNA Check</div>
-                    <span class="step-arrow">→</span>
-                    <div class="step-outcomes">
-                        <span class="outcome batna">Alternatives LOW + Tight timeline → BATNA Deficiency</span>
-                    </div>
-                </div>
-                <div class="flow-step">
-                    <div class="step-box">Step 2: Complexity Check</div>
-                    <span class="step-arrow">→</span>
-                    <div class="step-outcomes">
-                        <span class="outcome bargaining">Terms ≤ 2 + Price dominant → Bargaining</span>
-                    </div>
-                </div>
-                <div class="flow-step">
-                    <div class="step-box">Step 3: Relationship Check</div>
-                    <span class="step-arrow">→</span>
-                    <div class="step-outcomes">
-                        <span class="outcome trading">Tenure < 2yr OR Trust LOW → Trading</span>
-                    </div>
-                </div>
-                <div class="flow-step">
-                    <div class="step-box">Step 4: Depth Check</div>
-                    <span class="step-arrow">→</span>
-                    <div class="step-outcomes">
-                        <span class="outcome creating">Joint Value EXPLORING → Creating</span>
-                        <span class="outcome partnering">Joint Value IMPLEMENTED + 5yr+ → Partnering</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 4: Inference Rules -->
-        <div class="section">
-            <h2>Eight Inference Rules (Edge Case Handling)</h2>
-            <p style="margin-bottom: 1rem; color: #666;">These rules prevent common misclassifications - the nuance that makes Ali smart:</p>
-
-            <div class="rules-grid">
-                <div class="rule-card">
-                    <span class="rule-num">1</span>
-                    <h3>Facts Override Feelings</h3>
-                    <p>If user "feels locked in" but has RFPs → trust the RFPs</p>
-                    <div class="example">"I feel trapped... but we have 3 other bids" → HIGH alternatives</div>
-                </div>
-                <div class="rule-card">
-                    <span class="rule-num">2</span>
-                    <h3>Complexity Overrides Attention</h3>
-                    <p>If user focuses on price but contract has 12 terms → trust term count</p>
-                    <div class="example">"It's just about price" + SLAs, volume, payment terms → Trading</div>
-                </div>
-                <div class="rule-card">
-                    <span class="rule-num">3</span>
-                    <h3>Tenure Threshold Is Hard</h3>
-                    <p>Even excellent relationships < 2 years → Trading max</p>
-                    <div class="example">Amazing vendor at 18 months → "Trajectory toward Creating" (not there yet)</div>
-                </div>
-                <div class="rule-card">
-                    <span class="rule-num">4</span>
-                    <h3>Current Behavior Overrides History</h3>
-                    <p>7-year relationship getting aggressive → treat as Trading</p>
-                    <div class="example">"Great for years but now hardball" → Degraded trust → Trading</div>
-                </div>
-                <div class="rule-card">
-                    <span class="rule-num">5</span>
-                    <h3>Choice ≠ Constraint</h3>
-                    <p>Single source by preference (not lock-in) → alternatives exist</p>
-                    <div class="example">"We only use them because they're great" → MEDIUM alternatives</div>
-                </div>
-                <div class="rule-card">
-                    <span class="rule-num">6</span>
-                    <h3>Temporary ≠ Structural</h3>
-                    <p>Emergency constraint in commodity market → Bargaining, not BATNA</p>
-                    <div class="example">"Need it in 2 weeks, only they can deliver" + 10 suppliers long-term → Bargaining</div>
-                </div>
-                <div class="rule-card">
-                    <span class="rule-num">7</span>
-                    <h3>Market Structure Dominates Relationship</h3>
-                    <p>20 suppliers + great relationship → still Bargaining</p>
-                    <div class="example">"Incredible service for 4 years" but true commodity → Bargaining</div>
-                </div>
-                <div class="rule-card">
-                    <span class="rule-num">8</span>
-                    <h3>Timeline Math Overrides Perception</h3>
-                    <p>If switching time < renewal time → alternatives ARE viable</p>
-                    <div class="example">"Locked in" but 6mo switch time, 8mo renewal → Not BATNA</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 5: Edge Cases for Discussion -->
-        <div class="section">
-            <h2>Edge Cases for Discussion</h2>
-            <p style="margin-bottom: 1rem; color: #666;">Let's walk through these scenarios - do they feel right to you?</p>
-
-            <div class="edge-cases">
-                <div class="edge-case">
-                    <h3>Case 1: The "Locked In" Feeling</h3>
-                    <p class="scenario">"We need to renegotiate our SAP contract. I feel completely locked in. But we did get RFPs from Oracle, Microsoft, Workday. Migration would take 18 months, contract renews in 24 months."</p>
-                    <div class="classification">
-                        <span class="wrong outcome batna">BATNA Deficiency</span>
-                        <span>→</span>
-                        <span class="correct outcome trading">Trading</span>
-                    </div>
-                    <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">Rule 1: Facts (RFPs exist, timeline works) override feelings</p>
-                </div>
-
-                <div class="edge-case">
-                    <h3>Case 2: The Dormant Partnership</h3>
-                    <p class="scenario">"7-year relationship. Back in 2019-2021, we did joint business planning, shared KPIs. Last 2 years: purely transactional. Now they're getting aggressive on pricing."</p>
-                    <div class="classification">
-                        <span class="wrong outcome partnering">Partnering</span>
-                        <span>→</span>
-                        <span class="correct outcome trading">Trading</span>
-                    </div>
-                    <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">Rule 4: Current behavior (aggressive) overrides history</p>
-                </div>
-
-                <div class="edge-case">
-                    <h3>Case 3: The Helpful Commodity Supplier</h3>
-                    <p class="scenario">"Standard fasteners - bolts, screws. 20 companies make these. But we've been with this vendor 4 years - incredibly helpful, optimizing our inventory, really consultative."</p>
-                    <div class="classification">
-                        <span class="wrong outcome creating">Creating</span>
-                        <span>→</span>
-                        <span class="correct outcome bargaining">Bargaining</span>
-                    </div>
-                    <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">Rule 7: Market structure (20 suppliers = commodity) dominates relationship</p>
-                </div>
-
-                <div class="edge-case question">
-                    <h3>Open Question: Almost-Partnership</h3>
-                    <p class="scenario">"3 years together, excellent performance. Now discussing joint inventory optimization - they want to co-invest in a facility near our plant."</p>
-                    <div class="classification">
-                        <span class="outcome creating">Creating</span>
-                        <span style="color: #666;">vs</span>
-                        <span class="outcome partnering">Partnering?</span>
-                    </div>
-                    <p style="font-size: 0.8rem; color: #e65100; margin-top: 0.5rem;"><strong>Mark - what's your read?</strong> They're exploring co-investment but tenure is 3 years. Where's the line?</p>
-                </div>
-            </div>
-
-            <div class="discussion-prompt">
-                <h3>Questions for You</h3>
-                <ul>
-                    <li>Do these inference rules match how you'd coach the scenario?</li>
-                    <li>Is the 2-year tenure threshold for Creating too rigid? Too lenient?</li>
-                    <li>What edge cases have you seen that would break this logic?</li>
-                    <li>The "sparring partner" personality - how do we calibrate confidence vs. hedging?</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>Ali MVP - Classification Engine v3.0.0 | Prepared for Mark Mirra 1:1 | December 5, 2025</p>
-            <p style="margin-top: 0.5rem;">Your methodology encoded. Your blessing requested.</p>
-        </div>
+    <!-- Masthead -->
+    <div class="masthead">
+      <span class="masthead-badge">Technical Specification</span>
+      <span class="masthead-badge">V3.1.0</span>
     </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>The Classification Engine</h1>
+      <p class="tagline">How Ali Understands Your Negotiation</p>
+      <p class="description">
+        When you describe your negotiation, Ali listens for key signals and classifies your situation into one of five types—then delivers coaching tailored to that specific context. Not generic advice. The right approach for your situation.
+      </p>
+    </div>
+
+    <!-- Section 1: The Five Types -->
+    <div class="section-card">
+      <h2>Five Negotiation Types</h2>
+      <p class="section-intro">Every negotiation falls into one of five categories. Each requires a different approach.</p>
+
+      <div class="types-grid">
+        <div class="type-card type-batna">
+          <div class="type-name">BATNA Deficiency</div>
+          <div class="type-desc">No alternatives. Risk management mode.</div>
+        </div>
+        <div class="type-card type-bargaining">
+          <div class="type-name">Bargaining</div>
+          <div class="type-desc">Commoditized. Conditional offers.</div>
+        </div>
+        <div class="type-card type-trading">
+          <div class="type-name">Trading</div>
+          <div class="type-desc">Multiple terms. Strategic trade-offs.</div>
+        </div>
+        <div class="type-card type-creating">
+          <div class="type-name">Creating</div>
+          <div class="type-desc">Expanding value. Joint opportunities.</div>
+        </div>
+        <div class="type-card type-partnering">
+          <div class="type-name">Partnering</div>
+          <div class="type-desc">Strategic alliance. Long-term investment.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Six Signals -->
+    <div class="section-card">
+      <h2>Six Signals</h2>
+      <p class="section-intro">From a single conversational prompt, Ali extracts these classification signals.</p>
+
+      <div class="signals-grid">
+        <div class="signal-card">
+          <h3>Alternatives</h3>
+          <p>Can you switch suppliers?</p>
+          <div class="signal-values">
+            <span>HIGH</span><span>MEDIUM</span><span>LOW</span>
+          </div>
+        </div>
+        <div class="signal-card">
+          <h3>Timeline</h3>
+          <p>How urgent is the decision?</p>
+          <div class="signal-values">
+            <span>RELAXED</span><span>NORMAL</span><span>URGENT</span>
+          </div>
+        </div>
+        <div class="signal-card">
+          <h3>Complexity</h3>
+          <p>How many terms being negotiated?</p>
+          <div class="signal-values">
+            <span>1-2 SIMPLE</span><span>3-5 MEDIUM</span><span>6+ COMPLEX</span>
+          </div>
+        </div>
+        <div class="signal-card">
+          <h3>Tenure</h3>
+          <p>How long have you worked together?</p>
+          <div class="signal-values">
+            <span>&lt;2YR NEW</span><span>2-5YR EMERGING</span><span>5YR+ ESTABLISHED</span>
+          </div>
+        </div>
+        <div class="signal-card">
+          <h3>Trust</h3>
+          <p>What's the relationship quality?</p>
+          <div class="signal-values">
+            <span>HIGH</span><span>MEDIUM</span><span>LOW</span><span>DEGRADED</span>
+          </div>
+        </div>
+        <div class="signal-card">
+          <h3>Joint Value</h3>
+          <p>Are you building something together?</p>
+          <div class="signal-values">
+            <span>NONE</span><span>EXPLORING</span><span>IMPLEMENTED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Decision Flow -->
+    <div class="section-card">
+      <h2>Classification Flow</h2>
+      <p class="section-intro">After extracting signals, Ali follows this decision logic.</p>
+
+      <div class="flow-container">
+        <div class="flow-step">
+          <div class="flow-box">Step 1: BATNA Check</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-outcome">Alternatives LOW + Tight timeline → <strong>BATNA Deficiency</strong></div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-box">Step 2: Complexity Check</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-outcome">Terms ≤ 2 + Price dominant → <strong>Bargaining</strong></div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-box">Step 3: Relationship Check</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-outcome">Tenure &lt; 2yr OR Trust LOW → <strong>Trading</strong></div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-box">Step 4: Depth Check</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-outcome">Joint Value EXPLORING → <strong>Creating</strong> | IMPLEMENTED + 5yr+ → <strong>Partnering</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Nine Inference Rules -->
+    <div class="section-card">
+      <h2>Nine Inference Rules</h2>
+      <p class="section-intro">Edge case handling that prevents misclassification. The nuance that makes Ali smart.</p>
+
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">1</span>
+            <h3>Facts Override Feelings</h3>
+          </div>
+          <p>If user "feels locked in" but has RFPs → trust the RFPs</p>
+          <div class="rule-example">"I feel trapped... but we have 3 other bids" → HIGH alternatives</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">2</span>
+            <h3>Complexity Overrides Attention</h3>
+          </div>
+          <p>If user focuses on price but contract has 12 terms → trust term count</p>
+          <div class="rule-example">"It's just about price" + SLAs, volume, payment terms → Trading</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">3</span>
+            <h3>Tenure Threshold Is Hard</h3>
+          </div>
+          <p>Even excellent relationships &lt; 2 years → Trading max</p>
+          <div class="rule-example">Amazing vendor at 18 months → "Trajectory toward Creating" (not there yet)</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">4</span>
+            <h3>Current Behavior Overrides History</h3>
+          </div>
+          <p>7-year relationship getting aggressive → treat as Trading</p>
+          <div class="rule-example">"Great for years but now hardball" → Degraded trust → Trading</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">5</span>
+            <h3>Choice ≠ Constraint</h3>
+          </div>
+          <p>Single source by preference (not lock-in) → alternatives exist</p>
+          <div class="rule-example">"We only use them because they're great" → MEDIUM alternatives</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">6</span>
+            <h3>Temporary ≠ Structural</h3>
+          </div>
+          <p>Emergency constraint in commodity market → Bargaining, not BATNA</p>
+          <div class="rule-example">"Need it in 2 weeks, only they can deliver" + 10 suppliers long-term → Bargaining</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">7</span>
+            <h3>Market Structure Dominates Relationship</h3>
+          </div>
+          <p>20 suppliers + great relationship → still Bargaining</p>
+          <div class="rule-example">"Incredible service for 4 years" but true commodity → Bargaining</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">8</span>
+            <h3>Timeline Math Overrides Perception</h3>
+          </div>
+          <p>If switching time &lt; renewal time → alternatives ARE viable</p>
+          <div class="rule-example">"Locked in" but 6mo switch, 8mo renewal → Not BATNA</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-header">
+            <span class="rule-num">9</span>
+            <h3>Co-Investment Signals Partnership</h3>
+          </div>
+          <p>Mutual investment or joint facilities → weight toward Partnering</p>
+          <div class="rule-example">"They're co-investing in a facility" → Mutual skin in the game → Partnering</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Validated Edge Cases -->
+    <div class="section-card">
+      <h2>Validated Edge Cases</h2>
+      <p class="section-intro">Real scenarios that demonstrate the classification logic in action.</p>
+
+      <div class="cases-grid">
+        <div class="case-card">
+          <h3>The "Locked In" Feeling</h3>
+          <p class="case-scenario">"We need to renegotiate our SAP contract. I feel completely locked in. But we did get RFPs from Oracle, Microsoft, Workday. Migration would take 18 months, contract renews in 24 months."</p>
+          <div class="case-flow">
+            <span class="case-wrong">BATNA Deficiency</span>
+            <span>→</span>
+            <span class="case-correct type-trading">Trading</span>
+          </div>
+          <p class="case-rule">Rule 1: Facts (RFPs exist, timeline works) override feelings</p>
+        </div>
+
+        <div class="case-card">
+          <h3>The Dormant Partnership</h3>
+          <p class="case-scenario">"7-year relationship. Back in 2019-2021, we did joint business planning, shared KPIs. Last 2 years: purely transactional. Now they're getting aggressive on pricing."</p>
+          <div class="case-flow">
+            <span class="case-wrong">Partnering</span>
+            <span>→</span>
+            <span class="case-correct type-trading">Trading</span>
+          </div>
+          <p class="case-rule">Rule 4: Current behavior (aggressive) overrides history</p>
+        </div>
+
+        <div class="case-card">
+          <h3>The Helpful Commodity Supplier</h3>
+          <p class="case-scenario">"Standard fasteners - bolts, screws. 20 companies make these. But we've been with this vendor 4 years - incredibly helpful, optimizing our inventory, really consultative."</p>
+          <div class="case-flow">
+            <span class="case-wrong">Creating</span>
+            <span>→</span>
+            <span class="case-correct type-bargaining">Bargaining</span>
+          </div>
+          <p class="case-rule">Rule 7: Market structure (20 suppliers = commodity) dominates relationship</p>
+        </div>
+
+        <div class="case-card">
+          <h3>The Almost-Partnership</h3>
+          <p class="case-scenario">"3 years together, excellent performance. Now discussing joint inventory optimization - they want to co-invest in a facility near our plant."</p>
+          <div class="case-flow">
+            <span class="case-wrong">Creating</span>
+            <span>→</span>
+            <span class="case-correct type-partnering">Partnering</span>
+          </div>
+          <p class="case-rule">Rule 9: Co-investment creates mutual dependency → Partnering behavior</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p class="footer-quote">"Most people treat every negotiation the same. We don't. That's the edge."</p>
+      <p class="footer-meta">
+        Ali Classification Engine v3.1.0 · Validated December 2025 · Aligned Negotiation Platform
+      </p>
+    </div>
+
+  </div>
 </body>
 </html>
