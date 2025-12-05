@@ -62,7 +62,7 @@
     .hero {
       text-align: center;
       max-width: 720px;
-      margin: 0 auto 56px auto;
+      margin: 0 auto 40px auto;
     }
     .hero h1 {
       font-family: var(--ali-font-serif);
@@ -86,6 +86,45 @@
       line-height: 1.7;
       max-width: 600px;
       margin: 0 auto;
+    }
+
+    /* --- TAB NAVIGATION --- */
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      font-family: var(--ali-font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 12px 24px;
+      background: var(--ali-bg-card);
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--ali-text-grey);
+    }
+    .tab-btn:hover {
+      border-color: var(--ali-accent);
+      color: var(--ali-accent);
+    }
+    .tab-btn.active {
+      background: var(--ali-accent);
+      border-color: var(--ali-accent);
+      color: white;
+    }
+
+    /* --- TAB CONTENT --- */
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
     }
 
     /* --- SECTION CARDS --- */
@@ -318,6 +357,142 @@
       color: var(--ali-text-grey);
     }
 
+    /* --- TAB 2: OPUS 4.5 SPECIFIC --- */
+    .capability-card {
+      background: var(--ali-bg-card);
+      border-radius: 12px;
+      padding: 32px 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    .capability-card h2 {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--ali-text-black);
+      margin-bottom: 8px;
+    }
+    .capability-card .capability-intro {
+      font-size: 14px;
+      color: var(--ali-text-grey);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #eee;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .comparison-table th {
+      text-align: left;
+      padding: 12px 16px;
+      background: #f5f5f5;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ali-text-grey);
+    }
+    .comparison-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    .approach-naive {
+      background: #fff8f8;
+    }
+    .approach-opus {
+      background: #f8fff8;
+    }
+    .scenario-quote {
+      background: #f8f9fa;
+      border-left: 4px solid var(--ali-accent);
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--ali-text-body);
+      border-radius: 0 8px 8px 0;
+    }
+    .business-impact {
+      background: linear-gradient(135deg, #f3e5f5 0%, #e8f5e9 100%);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 16px;
+    }
+    .business-impact-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ali-accent);
+      margin-bottom: 6px;
+    }
+    .business-impact p {
+      font-size: 14px;
+      color: var(--ali-text-body);
+      margin: 0;
+    }
+    .justification-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .justification-item {
+      text-align: center;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+    .justification-num {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--ali-accent);
+      margin-bottom: 8px;
+    }
+    .justification-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ali-text-grey);
+    }
+    .naive-patterns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .naive-pattern {
+      background: #fff8f8;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #ffcdd2;
+    }
+    .naive-pattern .signal {
+      font-size: 12px;
+      font-weight: 600;
+      color: #c62828;
+      margin-bottom: 4px;
+    }
+    .naive-pattern .interpretation {
+      font-size: 13px;
+      color: var(--ali-text-body);
+      margin-bottom: 4px;
+    }
+    .naive-pattern .reality {
+      font-size: 11px;
+      color: var(--ali-text-grey);
+      font-style: italic;
+    }
+
     /* --- FOOTER --- */
     .footer {
       text-align: center;
@@ -343,13 +518,18 @@
       .signals-grid { grid-template-columns: 1fr; }
       .rules-grid { grid-template-columns: 1fr; }
       .cases-grid { grid-template-columns: 1fr; }
+      .justification-grid { grid-template-columns: 1fr; }
+      .naive-patterns { grid-template-columns: 1fr; }
       .hero h1 { font-size: 36px; }
+      .tab-btn { padding: 10px 16px; font-size: 12px; }
     }
 
     /* --- PRINT --- */
     @media print {
       body { background: white; }
-      .section-card { box-shadow: none; border: 1px solid #ddd; }
+      .section-card, .capability-card { box-shadow: none; border: 1px solid #ddd; }
+      .tab-nav { display: none; }
+      .tab-content { display: block !important; page-break-before: always; }
     }
   </style>
 </head>
@@ -367,260 +547,468 @@
       <h1>The Classification Engine</h1>
       <p class="tagline">How Ali Understands Your Negotiation</p>
       <p class="description">
-        When you describe your negotiation, Ali listens for key signals and classifies your situation into one of five types—then delivers coaching tailored to that specific context. Not generic advice. The right approach for your situation.
+        When you describe your negotiation, Ali listens for key signals and classifies your situation into one of five types—then delivers coaching tailored to that specific context.
       </p>
     </div>
 
-    <!-- Section 1: The Five Types -->
-    <div class="section-card">
-      <h2>Five Negotiation Types</h2>
-      <p class="section-intro">Every negotiation falls into one of five categories. Each requires a different approach.</p>
-
-      <div class="types-grid">
-        <div class="type-card type-batna">
-          <div class="type-name">BATNA Deficiency</div>
-          <div class="type-desc">No alternatives. Risk management mode.</div>
-        </div>
-        <div class="type-card type-bargaining">
-          <div class="type-name">Bargaining</div>
-          <div class="type-desc">Commoditized. Conditional offers.</div>
-        </div>
-        <div class="type-card type-trading">
-          <div class="type-name">Trading</div>
-          <div class="type-desc">Multiple terms. Strategic trade-offs.</div>
-        </div>
-        <div class="type-card type-creating">
-          <div class="type-name">Creating</div>
-          <div class="type-desc">Expanding value. Joint opportunities.</div>
-        </div>
-        <div class="type-card type-partnering">
-          <div class="type-name">Partnering</div>
-          <div class="type-desc">Strategic alliance. Long-term investment.</div>
-        </div>
-      </div>
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="engine">The Engine</button>
+      <button class="tab-btn" data-tab="opus">LLM: Opus 4.5</button>
     </div>
 
-    <!-- Section 2: Six Signals -->
-    <div class="section-card">
-      <h2>Six Signals</h2>
-      <p class="section-intro">From a single conversational prompt, Ali extracts these classification signals.</p>
+    <!-- TAB 1: THE ENGINE -->
+    <div id="engine" class="tab-content active">
 
-      <div class="signals-grid">
-        <div class="signal-card">
-          <h3>Alternatives</h3>
-          <p>Can you switch suppliers?</p>
-          <div class="signal-values">
-            <span>HIGH</span><span>MEDIUM</span><span>LOW</span>
+      <!-- Section 1: The Five Types -->
+      <div class="section-card">
+        <h2>Five Negotiation Types</h2>
+        <p class="section-intro">Every negotiation falls into one of five categories. Each requires a different approach.</p>
+
+        <div class="types-grid">
+          <div class="type-card type-batna">
+            <div class="type-name">BATNA Deficiency</div>
+            <div class="type-desc">No alternatives. Risk management mode.</div>
           </div>
-        </div>
-        <div class="signal-card">
-          <h3>Timeline</h3>
-          <p>How urgent is the decision?</p>
-          <div class="signal-values">
-            <span>RELAXED</span><span>NORMAL</span><span>URGENT</span>
+          <div class="type-card type-bargaining">
+            <div class="type-name">Bargaining</div>
+            <div class="type-desc">Commoditized. Conditional offers.</div>
           </div>
-        </div>
-        <div class="signal-card">
-          <h3>Complexity</h3>
-          <p>How many terms being negotiated?</p>
-          <div class="signal-values">
-            <span>1-2 SIMPLE</span><span>3-5 MEDIUM</span><span>6+ COMPLEX</span>
+          <div class="type-card type-trading">
+            <div class="type-name">Trading</div>
+            <div class="type-desc">Multiple terms. Strategic trade-offs.</div>
           </div>
-        </div>
-        <div class="signal-card">
-          <h3>Tenure</h3>
-          <p>How long have you worked together?</p>
-          <div class="signal-values">
-            <span>&lt;2YR NEW</span><span>2-5YR EMERGING</span><span>5YR+ ESTABLISHED</span>
+          <div class="type-card type-creating">
+            <div class="type-name">Creating</div>
+            <div class="type-desc">Expanding value. Joint opportunities.</div>
           </div>
-        </div>
-        <div class="signal-card">
-          <h3>Trust</h3>
-          <p>What's the relationship quality?</p>
-          <div class="signal-values">
-            <span>HIGH</span><span>MEDIUM</span><span>LOW</span><span>DEGRADED</span>
-          </div>
-        </div>
-        <div class="signal-card">
-          <h3>Joint Value</h3>
-          <p>Are you building something together?</p>
-          <div class="signal-values">
-            <span>NONE</span><span>EXPLORING</span><span>IMPLEMENTED</span>
+          <div class="type-card type-partnering">
+            <div class="type-name">Partnering</div>
+            <div class="type-desc">Strategic alliance. Long-term investment.</div>
           </div>
         </div>
       </div>
+
+      <!-- Section 2: Six Signals -->
+      <div class="section-card">
+        <h2>Six Signals</h2>
+        <p class="section-intro">From a single conversational prompt, Ali extracts these classification signals.</p>
+
+        <div class="signals-grid">
+          <div class="signal-card">
+            <h3>Alternatives</h3>
+            <p>Can you switch suppliers?</p>
+            <div class="signal-values">
+              <span>HIGH</span><span>MEDIUM</span><span>LOW</span>
+            </div>
+          </div>
+          <div class="signal-card">
+            <h3>Timeline</h3>
+            <p>How urgent is the decision?</p>
+            <div class="signal-values">
+              <span>RELAXED</span><span>NORMAL</span><span>URGENT</span>
+            </div>
+          </div>
+          <div class="signal-card">
+            <h3>Complexity</h3>
+            <p>How many terms being negotiated?</p>
+            <div class="signal-values">
+              <span>1-2 SIMPLE</span><span>3-5 MEDIUM</span><span>6+ COMPLEX</span>
+            </div>
+          </div>
+          <div class="signal-card">
+            <h3>Tenure</h3>
+            <p>How long have you worked together?</p>
+            <div class="signal-values">
+              <span>&lt;2YR NEW</span><span>2-5YR EMERGING</span><span>5YR+ ESTABLISHED</span>
+            </div>
+          </div>
+          <div class="signal-card">
+            <h3>Trust</h3>
+            <p>What&#39;s the relationship quality?</p>
+            <div class="signal-values">
+              <span>HIGH</span><span>MEDIUM</span><span>LOW</span><span>DEGRADED</span>
+            </div>
+          </div>
+          <div class="signal-card">
+            <h3>Joint Value</h3>
+            <p>Are you building something together?</p>
+            <div class="signal-values">
+              <span>NONE</span><span>EXPLORING</span><span>IMPLEMENTED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Decision Flow -->
+      <div class="section-card">
+        <h2>Classification Flow</h2>
+        <p class="section-intro">After extracting signals, Ali follows this decision logic.</p>
+
+        <div class="flow-container">
+          <div class="flow-step">
+            <div class="flow-box">Step 1: BATNA Check</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-outcome">Alternatives LOW + Tight timeline → <strong>BATNA Deficiency</strong></div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-box">Step 2: Complexity Check</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-outcome">Terms ≤ 2 + Price dominant → <strong>Bargaining</strong></div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-box">Step 3: Relationship Check</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-outcome">Tenure &lt; 2yr OR Trust LOW → <strong>Trading</strong></div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-box">Step 4: Depth Check</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-outcome">Joint Value EXPLORING → <strong>Creating</strong> | IMPLEMENTED + 5yr+ → <strong>Partnering</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Nine Inference Rules -->
+      <div class="section-card">
+        <h2>Nine Inference Rules</h2>
+        <p class="section-intro">Edge case handling that prevents misclassification. The nuance that makes Ali smart.</p>
+
+        <div class="rules-grid">
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">1</span>
+              <h3>Facts Override Feelings</h3>
+            </div>
+            <p>If user "feels locked in" but has RFPs → trust the RFPs</p>
+            <div class="rule-example">"I feel trapped... but we have 3 other bids" → HIGH alternatives</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">2</span>
+              <h3>Complexity Overrides Attention</h3>
+            </div>
+            <p>If user focuses on price but contract has 12 terms → trust term count</p>
+            <div class="rule-example">"It&#39;s just about price" + SLAs, volume, payment terms → Trading</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">3</span>
+              <h3>Tenure Threshold Is Hard</h3>
+            </div>
+            <p>Even excellent relationships &lt; 2 years → Trading max</p>
+            <div class="rule-example">Amazing vendor at 18 months → "Trajectory toward Creating" (not there yet)</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">4</span>
+              <h3>Current Behavior Overrides History</h3>
+            </div>
+            <p>7-year relationship getting aggressive → treat as Trading</p>
+            <div class="rule-example">"Great for years but now hardball" → Degraded trust → Trading</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">5</span>
+              <h3>Choice ≠ Constraint</h3>
+            </div>
+            <p>Single source by preference (not lock-in) → alternatives exist</p>
+            <div class="rule-example">"We only use them because they&#39;re great" → MEDIUM alternatives</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">6</span>
+              <h3>Temporary ≠ Structural</h3>
+            </div>
+            <p>Emergency constraint in commodity market → Bargaining, not BATNA</p>
+            <div class="rule-example">"Need it in 2 weeks, only they can deliver" + 10 suppliers long-term → Bargaining</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">7</span>
+              <h3>Market Structure Dominates Relationship</h3>
+            </div>
+            <p>20 suppliers + great relationship → still Bargaining</p>
+            <div class="rule-example">"Incredible service for 4 years" but true commodity → Bargaining</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">8</span>
+              <h3>Timeline Math Overrides Perception</h3>
+            </div>
+            <p>If switching time &lt; renewal time → alternatives ARE viable</p>
+            <div class="rule-example">"Locked in" but 6mo switch, 8mo renewal → Not BATNA</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">
+              <span class="rule-num">9</span>
+              <h3>Co-Investment Signals Partnership</h3>
+            </div>
+            <p>Mutual investment or joint facilities → weight toward Partnering</p>
+            <div class="rule-example">"They&#39;re co-investing in a facility" → Mutual skin in the game → Partnering</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Validated Edge Cases -->
+      <div class="section-card">
+        <h2>Validated Edge Cases</h2>
+        <p class="section-intro">Real scenarios that demonstrate the classification logic in action.</p>
+
+        <div class="cases-grid">
+          <div class="case-card">
+            <h3>The "Locked In" Feeling</h3>
+            <p class="case-scenario">"We need to renegotiate our SAP contract. I feel completely locked in. But we did get RFPs from Oracle, Microsoft, Workday. Migration would take 18 months, contract renews in 24 months."</p>
+            <div class="case-flow">
+              <span class="case-wrong">BATNA Deficiency</span>
+              <span>→</span>
+              <span class="case-correct type-trading">Trading</span>
+            </div>
+            <p class="case-rule">Rule 1: Facts (RFPs exist, timeline works) override feelings</p>
+          </div>
+
+          <div class="case-card">
+            <h3>The Dormant Partnership</h3>
+            <p class="case-scenario">"7-year relationship. Back in 2019-2021, we did joint business planning, shared KPIs. Last 2 years: purely transactional. Now they&#39;re getting aggressive on pricing."</p>
+            <div class="case-flow">
+              <span class="case-wrong">Partnering</span>
+              <span>→</span>
+              <span class="case-correct type-trading">Trading</span>
+            </div>
+            <p class="case-rule">Rule 4: Current behavior (aggressive) overrides history</p>
+          </div>
+
+          <div class="case-card">
+            <h3>The Helpful Commodity Supplier</h3>
+            <p class="case-scenario">"Standard fasteners - bolts, screws. 20 companies make these. But we&#39;ve been with this vendor 4 years - incredibly helpful, optimizing our inventory, really consultative."</p>
+            <div class="case-flow">
+              <span class="case-wrong">Creating</span>
+              <span>→</span>
+              <span class="case-correct type-bargaining">Bargaining</span>
+            </div>
+            <p class="case-rule">Rule 7: Market structure (20 suppliers = commodity) dominates relationship</p>
+          </div>
+
+          <div class="case-card">
+            <h3>The Almost-Partnership</h3>
+            <p class="case-scenario">"3 years together, excellent performance. Now discussing joint inventory optimization - they want to co-invest in a facility near our plant."</p>
+            <div class="case-flow">
+              <span class="case-correct type-creating">Creating</span>
+              <span style="color: #666; font-size: 12px;">or</span>
+              <span class="case-correct type-partnering">Partnering</span>
+            </div>
+            <p class="case-rule">Either valid. Co-investment signals lean toward Partnering, but 3-year tenure keeps Creating in play.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Section 3: Decision Flow -->
-    <div class="section-card">
-      <h2>Classification Flow</h2>
-      <p class="section-intro">After extracting signals, Ali follows this decision logic.</p>
+    <!-- TAB 2: WHY OPUS 4.5 -->
+    <div id="opus" class="tab-content">
 
-      <div class="flow-container">
-        <div class="flow-step">
-          <div class="flow-box">Step 1: BATNA Check</div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-outcome">Alternatives LOW + Tight timeline → <strong>BATNA Deficiency</strong></div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-box">Step 2: Complexity Check</div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-outcome">Terms ≤ 2 + Price dominant → <strong>Bargaining</strong></div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-box">Step 3: Relationship Check</div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-outcome">Tenure &lt; 2yr OR Trust LOW → <strong>Trading</strong></div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-box">Step 4: Depth Check</div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-outcome">Joint Value EXPLORING → <strong>Creating</strong> | IMPLEMENTED + 5yr+ → <strong>Partnering</strong></div>
+      <!-- Model Info Header -->
+      <div class="capability-card" style="background: linear-gradient(135deg, #faf8ff 0%, #f5f5f5 100%);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+          <div>
+            <h2 style="margin-bottom: 4px;">Claude Opus 4.5</h2>
+            <p style="font-size: 14px; color: var(--ali-text-grey); margin: 0;">Anthropic&#39;s frontier reasoning model</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 12px; color: var(--ali-text-grey); margin-bottom: 4px;">
+              <strong>Release:</strong> November 2025
+            </div>
+            <div style="font-size: 12px; color: var(--ali-text-grey); margin-bottom: 8px;">
+              <strong>Model ID:</strong> claude-opus-4-5-20251101
+            </div>
+            <a href="https://www.anthropic.com/claude/opus" target="_blank" rel="noopener" style="font-size: 12px; color: var(--ali-accent); text-decoration: none; font-weight: 600;">
+              View Documentation →
+            </a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Section 4: Nine Inference Rules -->
-    <div class="section-card">
-      <h2>Nine Inference Rules</h2>
-      <p class="section-intro">Edge case handling that prevents misclassification. The nuance that makes Ali smart.</p>
+      <!-- Overview -->
+      <div class="capability-card">
+        <h2>Why This Model?</h2>
+        <p class="capability-intro">
+          Ali provides extra cognitive lift—a quick, rigorous read on your negotiation situation backed by validated methodology. Not a playbook generator, but a sharp thinking partner that sizes up the nuance and gets to what matters. That requires a model that can hold complexity without oversimplifying: Claude Opus 4.5. Where standard LLMs collapse ambiguity into the nearest pattern, Opus 4.5 processes 6 signals, applies 9 inference rules, and navigates 4 decision checkpoints—intellectual precision applied to the deal in front of you.
+        </p>
 
-      <div class="rules-grid">
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">1</span>
-            <h3>Facts Override Feelings</h3>
+        <div class="justification-grid">
+          <div class="justification-item">
+            <div class="justification-num">6</div>
+            <div class="justification-label">Signals Extracted</div>
           </div>
-          <p>If user "feels locked in" but has RFPs → trust the RFPs</p>
-          <div class="rule-example">"I feel trapped... but we have 3 other bids" → HIGH alternatives</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">2</span>
-            <h3>Complexity Overrides Attention</h3>
+          <div class="justification-item">
+            <div class="justification-num">9</div>
+            <div class="justification-label">Inference Rules</div>
           </div>
-          <p>If user focuses on price but contract has 12 terms → trust term count</p>
-          <div class="rule-example">"It's just about price" + SLAs, volume, payment terms → Trading</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">3</span>
-            <h3>Tenure Threshold Is Hard</h3>
+          <div class="justification-item">
+            <div class="justification-num">4</div>
+            <div class="justification-label">Decision Checkpoints</div>
           </div>
-          <p>Even excellent relationships &lt; 2 years → Trading max</p>
-          <div class="rule-example">Amazing vendor at 18 months → "Trajectory toward Creating" (not there yet)</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">4</span>
-            <h3>Current Behavior Overrides History</h3>
-          </div>
-          <p>7-year relationship getting aggressive → treat as Trading</p>
-          <div class="rule-example">"Great for years but now hardball" → Degraded trust → Trading</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">5</span>
-            <h3>Choice ≠ Constraint</h3>
-          </div>
-          <p>Single source by preference (not lock-in) → alternatives exist</p>
-          <div class="rule-example">"We only use them because they're great" → MEDIUM alternatives</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">6</span>
-            <h3>Temporary ≠ Structural</h3>
-          </div>
-          <p>Emergency constraint in commodity market → Bargaining, not BATNA</p>
-          <div class="rule-example">"Need it in 2 weeks, only they can deliver" + 10 suppliers long-term → Bargaining</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">7</span>
-            <h3>Market Structure Dominates Relationship</h3>
-          </div>
-          <p>20 suppliers + great relationship → still Bargaining</p>
-          <div class="rule-example">"Incredible service for 4 years" but true commodity → Bargaining</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">8</span>
-            <h3>Timeline Math Overrides Perception</h3>
-          </div>
-          <p>If switching time &lt; renewal time → alternatives ARE viable</p>
-          <div class="rule-example">"Locked in" but 6mo switch, 8mo renewal → Not BATNA</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-header">
-            <span class="rule-num">9</span>
-            <h3>Co-Investment Signals Partnership</h3>
-          </div>
-          <p>Mutual investment or joint facilities → weight toward Partnering</p>
-          <div class="rule-example">"They're co-investing in a facility" → Mutual skin in the game → Partnering</div>
         </div>
       </div>
-    </div>
 
-    <!-- Section 5: Validated Edge Cases -->
-    <div class="section-card">
-      <h2>Validated Edge Cases</h2>
-      <p class="section-intro">Real scenarios that demonstrate the classification logic in action.</p>
+      <!-- Capability 1 -->
+      <div class="capability-card">
+        <h2>1. Simultaneous Six-Signal Inference</h2>
+        <p class="capability-intro">
+          A quick study. All six signals—Alternatives, Timeline, Complexity, Tenure, Trust, Joint Value—processed in a single coherent pass. Not sequential filtering. A complete read of the situation, fast.
+        </p>
 
-      <div class="cases-grid">
-        <div class="case-card">
-          <h3>The "Locked In" Feeling</h3>
-          <p class="case-scenario">"We need to renegotiate our SAP contract. I feel completely locked in. But we did get RFPs from Oracle, Microsoft, Workday. Migration would take 18 months, contract renews in 24 months."</p>
-          <div class="case-flow">
-            <span class="case-wrong">BATNA Deficiency</span>
-            <span>→</span>
-            <span class="case-correct type-trading">Trading</span>
-          </div>
-          <p class="case-rule">Rule 1: Facts (RFPs exist, timeline works) override feelings</p>
+        <div class="scenario-quote">
+          "I feel completely trapped with our SAP contract. But we did get RFPs from Oracle and Workday. Migration: 18 months. Renewal: 24 months."
         </div>
 
-        <div class="case-card">
-          <h3>The Dormant Partnership</h3>
-          <p class="case-scenario">"7-year relationship. Back in 2019-2021, we did joint business planning, shared KPIs. Last 2 years: purely transactional. Now they're getting aggressive on pricing."</p>
-          <div class="case-flow">
-            <span class="case-wrong">Partnering</span>
-            <span>→</span>
-            <span class="case-correct type-trading">Trading</span>
-          </div>
-          <p class="case-rule">Rule 4: Current behavior (aggressive) overrides history</p>
-        </div>
+        <table class="comparison-table">
+          <tr>
+            <th style="width: 50%;">Naive Approach</th>
+            <th style="width: 50%;">Opus 4.5 Approach</th>
+          </tr>
+          <tr>
+            <td class="approach-naive">Hears "trapped" → BATNA Deficiency</td>
+            <td class="approach-opus">Extracts: RFPs exist (HIGH alternatives), timeline math works (18 &lt; 24 months)</td>
+          </tr>
+          <tr>
+            <td class="approach-naive">Surfaces defensive frameworks</td>
+            <td class="approach-opus">Recognizes this as a <strong>Trading</strong> situation</td>
+          </tr>
+          <tr>
+            <td class="approach-naive">Coaching starts from a flawed premise</td>
+            <td class="approach-opus">Coaching starts from an accurate read of the situation</td>
+          </tr>
+        </table>
 
-        <div class="case-card">
-          <h3>The Helpful Commodity Supplier</h3>
-          <p class="case-scenario">"Standard fasteners - bolts, screws. 20 companies make these. But we've been with this vendor 4 years - incredibly helpful, optimizing our inventory, really consultative."</p>
-          <div class="case-flow">
-            <span class="case-wrong">Creating</span>
-            <span>→</span>
-            <span class="case-correct type-bargaining">Bargaining</span>
-          </div>
-          <p class="case-rule">Rule 7: Market structure (20 suppliers = commodity) dominates relationship</p>
-        </div>
-
-        <div class="case-card">
-          <h3>The Almost-Partnership</h3>
-          <p class="case-scenario">"3 years together, excellent performance. Now discussing joint inventory optimization - they want to co-invest in a facility near our plant."</p>
-          <div class="case-flow">
-            <span class="case-correct type-creating">Creating</span>
-            <span style="color: #666; font-size: 12px;">or</span>
-            <span class="case-correct type-partnering">Partnering</span>
-          </div>
-          <p class="case-rule">Either valid. Co-investment signals lean toward Partnering, but 3-year tenure keeps Creating in play.</p>
+        <div class="business-impact">
+          <div class="business-impact-label">Why This Matters</div>
+          <p>Getting the read right matters. A user with leverage who&#39;s coached on constraint will think small. Accurate classification means the conversation starts from the right place—and that precision compounds through the entire engagement.</p>
         </div>
       </div>
+
+      <!-- Capability 2 -->
+      <div class="capability-card">
+        <h2>2. Dynamic Constraint Weighting</h2>
+        <p class="capability-intro">
+          Nine inference rules act as business logic—validated instincts codified into the system. When facts and feelings conflict, the rules know which to trust.
+        </p>
+
+        <div class="scenario-quote">
+          <strong>Rule 1: Facts Override Feelings</strong><br>
+          IF user expresses lock-in AND alternatives mentioned → Trust the alternatives
+        </div>
+
+        <p style="font-size: 14px; color: var(--ali-text-body); margin: 16px 0;">
+          A pattern-matching model hears "trapped" and "locked in"—routes to BATNA Deficiency. Opus 4.5 holds both the emotional framing AND the factual evidence, applies Rule 1, and routes correctly.
+        </p>
+
+        <div class="business-impact">
+          <div class="business-impact-label">Why This Matters</div>
+          <p>Ali doesn&#39;t just hear what you say—it reads the situation. That quick, rigorous assessment is the cognitive lift: seeing past your own framing to what&#39;s actually in play. Validated instincts, not just pattern matching.</p>
+        </div>
+      </div>
+
+      <!-- Capability 3 -->
+      <div class="capability-card">
+        <h2>3. Edge Case Resolution Without Collapse</h2>
+        <p class="capability-intro">
+          Real negotiations are messy. Signals conflict. A 7-year partnership turns aggressive. Opus 4.5 holds that tension and reasons through it—doesn&#39;t just default to the easy answer.
+        </p>
+
+        <div class="scenario-quote">
+          "7-year relationship. Back in 2019-2021, joint business planning. Last 2 years: purely transactional. Now they&#39;re playing hardball."
+        </div>
+
+        <table class="comparison-table">
+          <tr>
+            <th style="width: 50%;">Naive Approach</th>
+            <th style="width: 50%;">Opus 4.5 Approach</th>
+          </tr>
+          <tr>
+            <td class="approach-naive">7 years = ESTABLISHED tenure → Partnering</td>
+            <td class="approach-opus">Current behavior (aggressive) triggers Rule 4</td>
+          </tr>
+          <tr>
+            <td class="approach-naive">Surfaces partnership frameworks</td>
+            <td class="approach-opus">Recognizes this as <strong>Trading</strong> with degraded trust</td>
+          </tr>
+          <tr>
+            <td class="approach-naive">Coaching anchors on outdated assumptions</td>
+            <td class="approach-opus">Coaching anchors on current reality</td>
+          </tr>
+        </table>
+
+        <div class="business-impact">
+          <div class="business-impact-label">Why This Matters</div>
+          <p>Relationships evolve. Ali reads the current dynamic, not the historical one—that&#39;s intellectual rigor. Thinking on its feet, staying current, not coasting on what used to be true.</p>
+        </div>
+      </div>
+
+      <!-- Why Not Smaller Models -->
+      <div class="capability-card">
+        <h2>Why Not Smaller Models?</h2>
+        <p class="capability-intro">
+          Negotiation classification is inherently ambiguous. Lighter models take shortcuts—collapsing nuance into the nearest statistical pattern. That&#39;s fine for simple tasks. Not for reading a complex deal.
+        </p>
+
+        <div class="naive-patterns">
+          <div class="naive-pattern">
+            <div class="signal">"Feels locked in"</div>
+            <div class="interpretation">→ BATNA Deficiency</div>
+            <div class="reality">Reality: May have alternatives they&#39;re not seeing</div>
+          </div>
+          <div class="naive-pattern">
+            <div class="signal">"Great relationship"</div>
+            <div class="interpretation">→ Creating</div>
+            <div class="reality">Reality: May be commodity market (Rule 7)</div>
+          </div>
+          <div class="naive-pattern">
+            <div class="signal">"Long tenure"</div>
+            <div class="interpretation">→ Partnering</div>
+            <div class="reality">Reality: Trust may have degraded (Rule 4)</div>
+          </div>
+        </div>
+
+        <p style="font-size: 14px; color: var(--ali-text-body); margin: 20px 0;">
+          <strong>Opus 4.5 is required because Ali&#39;s classification demands:</strong>
+        </p>
+        <ul style="font-size: 14px; color: var(--ali-text-body); margin-left: 20px;">
+          <li>6 signals extracted from natural conversation</li>
+          <li>9 inference rules applied as dynamic constraints</li>
+          <li>4 decision checkpoints before final classification</li>
+          <li>Confidence scoring with appropriate hedging</li>
+        </ul>
+        <p style="font-size: 14px; color: var(--ali-text-body); margin: 16px 0;">
+          This is the cognitive lift: sustained reasoning that reads the nuance, stays rigorous on validated methodology, and thinks on its feet. Not generic pattern matching—intellectual precision applied to your specific deal.
+        </p>
+      </div>
+
     </div>
 
     <!-- Footer -->
     <div class="footer">
-      <p class="footer-quote">"Most people treat every negotiation the same. We don't. That's the edge."</p>
+      <p class="footer-quote">"Most people treat every negotiation the same. We don&#39;t. That&#39;s the edge."</p>
       <p class="footer-meta">
-        Ali Classification Engine v3.1.0 · Validated December 2025 · Aligned Negotiation Platform
+        Ali Classification Engine v3.1.0 · Validated December 2025
       </p>
     </div>
 
   </div>
+
+  <!-- Tab Switching Script -->
+  <script>
+    document.querySelectorAll('.tab-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active from all buttons and content
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+        // Add active to clicked button and corresponding content
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
