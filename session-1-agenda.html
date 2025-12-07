@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ali Working Session 1: The Alignment</title>
+  <link rel="stylesheet" href="./styles/ali-product-brief.css">
+  <style>
+    /* --- GLOBAL VARIABLES (Ali Design System) --- */
+    :root {
+      --ali-bg-page: #F2F2F2;
+      --ali-bg-card: #FFFFFF;
+      --ali-text-black: #000000;
+      --ali-text-grey: #555555;
+      --ali-text-body: #404040;
+      --ali-accent: #8A41E6;
+      --ali-font-serif: 'Moret', Georgia, serif;
+      --ali-font-sans: 'Metro Sans', -apple-system, sans-serif;
+    }
+
+    html, body {
+      height: auto;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--ali-bg-page);
+      font-family: var(--ali-font-sans);
+      color: var(--ali-text-body);
+      line-height: 1.6;
+    }
+
+    .page-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 32px;
+    }
+
+    /* --- MASTHEAD --- */
+    .masthead {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+    .masthead-badge {
+      font-family: var(--ali-font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ali-text-black);
+      padding: 8px 16px;
+      background: var(--ali-bg-card);
+      border: 1px solid var(--ali-text-black);
+      border-radius: 4px;
+    }
+
+    /* --- HERO --- */
+    .hero {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 48px auto;
+    }
+    .hero h1 {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 44px;
+      font-weight: 400;
+      color: var(--ali-text-black);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+    .hero .session-label {
+      font-family: var(--ali-font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ali-accent);
+      margin-bottom: 8px;
+    }
+    .hero .datetime {
+      font-family: var(--ali-font-sans);
+      font-size: 17px;
+      color: var(--ali-text-grey);
+      margin-bottom: 8px;
+    }
+    .hero .attendees {
+      font-family: var(--ali-font-sans);
+      font-size: 15px;
+      color: var(--ali-text-grey);
+    }
+
+    /* --- SECTION CARDS --- */
+    .section-card {
+      background: var(--ali-bg-card);
+      border-radius: 12px;
+      padding: 32px 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    .section-card h2 {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--ali-text-black);
+      margin-bottom: 20px;
+    }
+    .section-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .section-card li {
+      font-family: var(--ali-font-sans);
+      font-size: 16px;
+      color: var(--ali-text-body);
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .section-card li:last-child {
+      border-bottom: none;
+    }
+    .section-card li::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--ali-accent);
+      border-radius: 50%;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    /* --- AGENDA TABLE --- */
+    .agenda-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .agenda-table tr {
+      border-bottom: 1px solid #eee;
+    }
+    .agenda-table tr:last-child {
+      border-bottom: none;
+    }
+    .agenda-table td {
+      padding: 16px 0;
+      vertical-align: top;
+    }
+    .agenda-table .time {
+      font-family: var(--ali-font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ali-accent);
+      width: 100px;
+      white-space: nowrap;
+    }
+    .agenda-table .item {
+      font-family: var(--ali-font-sans);
+      font-size: 16px;
+      color: var(--ali-text-body);
+    }
+    .agenda-table .item-title {
+      font-weight: 600;
+      color: var(--ali-text-black);
+      margin-bottom: 4px;
+    }
+    .agenda-table .item-desc {
+      font-size: 14px;
+      color: var(--ali-text-grey);
+    }
+
+    /* --- DECISION CARDS --- */
+    .decision-card {
+      background: var(--ali-bg-card);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid var(--ali-accent);
+      transition: all 0.2s ease;
+    }
+    .decision-card:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+    .decision-label {
+      font-family: var(--ali-font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ali-accent);
+      margin-bottom: 8px;
+    }
+    .decision-title {
+      font-family: var(--ali-font-serif);
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ali-text-black);
+      margin-bottom: 8px;
+    }
+    .decision-question {
+      font-family: var(--ali-font-sans);
+      font-size: 15px;
+      color: var(--ali-text-grey);
+      line-height: 1.5;
+    }
+
+    /* --- PRE-READ SECTION --- */
+    .preread-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .preread-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .preread-list li:last-child {
+      border-bottom: none;
+    }
+    .preread-list a {
+      font-family: var(--ali-font-sans);
+      font-size: 15px;
+      color: var(--ali-accent);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .preread-list a:hover {
+      text-decoration: underline;
+    }
+    .preread-list .link-icon {
+      width: 16px;
+      height: 16px;
+      stroke: var(--ali-accent);
+      stroke-width: 2;
+      fill: none;
+    }
+    .optional-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ali-text-grey);
+      background: #f5f5f5;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    /* --- FOOTER --- */
+    .footer {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #ddd;
+    }
+    .footer p {
+      font-family: var(--ali-font-sans);
+      font-size: 13px;
+      color: var(--ali-text-grey);
+    }
+    .footer .session-nav {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 16px;
+    }
+    .footer .session-nav span {
+      font-family: var(--ali-font-sans);
+      font-size: 12px;
+      color: var(--ali-text-grey);
+    }
+    .footer .session-nav .current {
+      color: var(--ali-accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Masthead -->
+    <div class="masthead">
+      <span class="masthead-badge">Working Session</span>
+      <span class="masthead-badge">December 8, 2025</span>
+      <span class="masthead-badge">Session 1 of 3</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="session-label">Session 1</div>
+      <h1>The Alignment</h1>
+      <p class="datetime">Monday, December 8, 2025 &nbsp;|&nbsp; 12:30 PM – 2:00 PM PST</p>
+      <p class="attendees">Mark Mirra &nbsp;•&nbsp; Lee Rozins &nbsp;•&nbsp; Terrance Chatman</p>
+    </div>
+
+    <!-- Session Objectives -->
+    <div class="section-card">
+      <h2>Session Objectives</h2>
+      <ul>
+        <li>Align on January validation targets for the 100-user pilot</li>
+        <li>Choose Q1 capability priority: Simulator or Enablement first</li>
+        <li>Establish client engagement plan and timeline</li>
+      </ul>
+    </div>
+
+    <!-- Agenda -->
+    <div class="section-card">
+      <h2>Agenda</h2>
+      <table class="agenda-table">
+        <tr>
+          <td class="time">20 min</td>
+          <td class="item">
+            <div class="item-title">Demo & Classification Recap</div>
+            <div class="item-desc">Production Ali demo + Classification Engine overview for Lee</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time">60 min</td>
+          <td class="item">
+            <div class="item-title">Three Key Decisions</div>
+            <div class="item-desc">Structured discussion on Q1 direction (20 min each)</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time">10 min</td>
+          <td class="item">
+            <div class="item-title">Wrap-up & Session 2 Preview</div>
+            <div class="item-desc">Capture decisions, preview tomorrow's "Build" session</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- The Three Decisions -->
+    <div class="section-card" style="background: transparent; box-shadow: none; padding: 0;">
+      <h2 style="margin-bottom: 24px;">The Three Decisions</h2>
+
+      <div class="decision-card">
+        <div class="decision-label">Decision 1</div>
+        <div class="decision-title">January Validation Targets</div>
+        <p class="decision-question">Do we agree that 100 users completing Silhouette by end of January is our target? What does "validation-ready" mean for Ali?</p>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-label">Decision 2</div>
+        <div class="decision-title">Q1 Capability Priority</div>
+        <p class="decision-question">The roadmap shows Scenario Simulator for January. Do we confirm this sequence, or prioritize Enablement Library first?</p>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-label">Decision 3</div>
+        <div class="decision-title">Client Engagement Plan</div>
+        <p class="decision-question">Who are our first 100 users? When do we start outreach? Berkshire first, or broader pilot?</p>
+      </div>
+    </div>
+
+    <!-- Pre-Read Materials -->
+    <div class="section-card">
+      <h2>Pre-Read Materials <span class="optional-badge">Optional</span></h2>
+      <ul class="preread-list">
+        <li>
+          <a href="./product-brief-2.html" target="_blank">
+            <svg class="link-icon" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            Product Brief #2: The Anatomy of Ali
+          </a>
+        </li>
+        <li>
+          <a href="./classification-engine.html" target="_blank">
+            <svg class="link-icon" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            Classification Engine: How Ali Thinks
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Ali MVP &nbsp;|&nbsp; December 2025 Working Sessions</p>
+      <div class="session-nav">
+        <span class="current">Session 1: The Alignment</span>
+        <span>Session 2: The Build</span>
+        <span>Session 3: The Commit</span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
