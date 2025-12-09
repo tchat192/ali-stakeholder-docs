@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ali MVP - 6-Month Roadmap</title>
+  <style>
+    /* --- GLOBAL VARIABLES (matching Product Brief #2) --- */
+    :root {
+      --sol-bg-page: #F2F2F2;
+      --sol-bg-card: #FFFFFF;
+      --sol-text-black: #000000;
+      --sol-text-grey: #555555;
+      --sol-text-body: #404040;
+      --sol-border-light: transparent;
+      --sol-border-sharp: #000000;
+      --sol-accent: #8A41E6;
+      --sol-font-serif: Georgia, serif;
+      --sol-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--sol-font-sans);
+      background: var(--sol-bg-page);
+      color: var(--sol-text-black);
+      line-height: 1.6;
+      padding: 40px 24px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* --- MASTHEAD --- */
+    .masthead {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .masthead-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sol-text-black);
+      padding: 8px 16px;
+      background: var(--sol-bg-card);
+      border: 1px solid var(--sol-border-sharp);
+      border-radius: 4px;
+    }
+
+    /* --- HERO --- */
+    .hero {
+      text-align: center;
+      padding: 32px 24px 48px;
+      max-width: 680px;
+      margin: 0 auto 40px auto;
+    }
+
+    .hero h1 {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      color: var(--sol-text-black);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--sol-text-body);
+      line-height: 1.7;
+    }
+
+    /* --- SECTION HEADERS --- */
+    .section-header {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* --- TIMELINE CARD --- */
+    .timeline-card {
+      background: var(--sol-bg-card);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid var(--sol-accent);
+    }
+
+    /* --- GANTT CHART --- */
+    .gantt {
+      overflow-x: auto;
+    }
+
+    .gantt-header {
+      display: grid;
+      grid-template-columns: 160px repeat(7, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .gantt-header .label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+    }
+
+    .gantt-header .month {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sol-text-body);
+    }
+
+    .gantt-header .month.current {
+      color: var(--sol-accent);
+    }
+
+    .gantt-row {
+      display: grid;
+      grid-template-columns: 160px repeat(7, 1fr);
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .task-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--sol-text-black);
+    }
+
+    .task-name small {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--sol-text-grey);
+      margin-top: 2px;
+    }
+
+    .gantt-bar {
+      height: 32px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      transition: transform 0.2s;
+    }
+
+    .gantt-bar:hover {
+      transform: scaleY(1.1);
+    }
+
+    .gantt-bar.empty {
+      background: #f5f5f5;
+    }
+
+    .phase-prep { background: #3b82f6; }
+    .phase-beta { background: var(--sol-accent); }
+    .phase-simulator { background: #f59e0b; color: #000; }
+    .phase-enablement { background: #10b981; }
+    .phase-scale { background: #ec4899; }
+
+    /* --- LEGEND --- */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--sol-text-grey);
+    }
+
+    .legend-color {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+    }
+
+    /* --- MILESTONES GRID --- */
+    .milestones-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .milestone-card {
+      background: var(--sol-bg-card);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      border-left: 3px solid #ddd;
+      transition: all 0.2s;
+    }
+
+    .milestone-card:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .milestone-card.done {
+      border-left-color: #10b981;
+    }
+
+    .milestone-card .date {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      margin-bottom: 8px;
+    }
+
+    .milestone-card.done .date {
+      color: #10b981;
+    }
+
+    .milestone-card h3 {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--sol-text-black);
+      margin-bottom: 8px;
+    }
+
+    .milestone-card p {
+      font-size: 13px;
+      color: var(--sol-text-body);
+      line-height: 1.5;
+    }
+
+    /* --- DEPENDENCIES TABLE --- */
+    .deps-card {
+      background: var(--sol-bg-card);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .deps-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .deps-table th,
+    .deps-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .deps-table th {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+    }
+
+    .deps-table td {
+      font-size: 14px;
+      color: var(--sol-text-body);
+    }
+
+    .deps-table .owner {
+      color: var(--sol-accent);
+      font-weight: 500;
+    }
+
+    .deps-table .status-done {
+      color: #10b981;
+      font-weight: 500;
+    }
+
+    .deps-table .status-pending {
+      color: #f59e0b;
+      font-weight: 500;
+    }
+
+    /* --- TEAM GRID --- */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .team-card {
+      background: var(--sol-bg-card);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      border-top: 3px solid var(--sol-accent);
+    }
+
+    .team-card .name {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 20px;
+      color: var(--sol-text-black);
+      margin-bottom: 4px;
+    }
+
+    .team-card .role {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      margin-bottom: 12px;
+    }
+
+    .team-card .focus {
+      font-size: 13px;
+      color: var(--sol-text-body);
+      line-height: 1.5;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #ddd;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--sol-text-grey);
+    }
+
+    footer .brand {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--sol-text-black);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Masthead -->
+    <div class="masthead">
+      <span class="masthead-badge">Product Roadmap</span>
+      <span class="masthead-badge">FY26 Q1-Q2</span>
+      <span class="masthead-badge">Internal</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Ali Platform Development Plan</h1>
+      <p>December 2025 through June 2026. Defined deliverables, ownership assignments, and milestone targets for product validation and market readiness.</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="section-header">Project Timeline</div>
+    <div class="timeline-card">
+      <div class="gantt">
+        <div class="gantt-header">
+          <div class="label">Phase</div>
+          <div class="month current">Dec '25</div>
+          <div class="month">Jan '26</div>
+          <div class="month">Feb '26</div>
+          <div class="month">Mar '26</div>
+          <div class="month">Apr '26</div>
+          <div class="month">May '26</div>
+          <div class="month">Jun '26</div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="task-name">Beta Prep<small>Marketing, recruitment</small></div>
+          <div class="gantt-bar phase-prep">Dec</div>
+          <div class="gantt-bar phase-prep">Jan</div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="task-name">Beta Launch<small>100 users, feedback</small></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar phase-beta">Feb</div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="task-name">Simulator<small>Contract analysis, AI roleplay</small></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar phase-simulator">V1</div>
+          <div class="gantt-bar phase-simulator">V1</div>
+          <div class="gantt-bar phase-simulator">V2</div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="task-name">Enablement Library<small>Video integration</small></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar phase-enablement">May</div>
+          <div class="gantt-bar phase-enablement">Jun</div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="task-name">Scale Prep<small>Enterprise readiness</small></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar empty"></div>
+          <div class="gantt-bar phase-scale">Jun+</div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-color phase-prep"></div>Beta Prep</div>
+        <div class="legend-item"><div class="legend-color phase-beta"></div>Beta Launch</div>
+        <div class="legend-item"><div class="legend-color phase-simulator"></div>Simulator</div>
+        <div class="legend-item"><div class="legend-color phase-enablement"></div>Enablement</div>
+        <div class="legend-item"><div class="legend-color phase-scale"></div>Scale</div>
+      </div>
+    </div>
+
+    <!-- Milestones -->
+    <div class="section-header">Milestone Schedule</div>
+    <div class="milestones-grid">
+      <div class="milestone-card done">
+        <div class="date">December 2025</div>
+        <h3>Knowledge Base</h3>
+        <p>Clean methodology content for Ali training. First draft complete.</p>
+      </div>
+      <div class="milestone-card">
+        <div class="date">End of December</div>
+        <h3>Beta User List</h3>
+        <p>100 target users identified from network and pipeline.</p>
+      </div>
+      <div class="milestone-card">
+        <div class="date">Mid-January 2026</div>
+        <h3>Press Kit</h3>
+        <p>One-pager, two-pager brief, landing page ready.</p>
+      </div>
+      <div class="milestone-card">
+        <div class="date">End of January</div>
+        <h3>Methodology Clarity</h3>
+        <p>Simulator scenarios and signals defined.</p>
+      </div>
+      <div class="milestone-card">
+        <div class="date">Early February</div>
+        <h3>Beta Launch</h3>
+        <p>100 users onboarded, feedback collection live.</p>
+      </div>
+      <div class="milestone-card">
+        <div class="date">End of March</div>
+        <h3>Simulator V1</h3>
+        <p>Contract analysis + one scenario type working.</p>
+      </div>
+      <div class="milestone-card">
+        <div class="date">End of April</div>
+        <h3>Simulator V2</h3>
+        <p>Multiple scenarios, refined AI counterparty.</p>
+      </div>
+      <div class="milestone-card">
+        <div class="date">June 2026</div>
+        <h3>Enablement Library</h3>
+        <p>Video content integrated when available.</p>
+      </div>
+    </div>
+
+    <!-- Dependencies -->
+    <div class="section-header">Dependencies & Deliverables</div>
+    <div class="deps-card">
+      <table class="deps-table">
+        <thead>
+          <tr>
+            <th>Deliverable</th>
+            <th>Owner</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Clean Knowledge Base</td>
+            <td class="owner">Mark</td>
+            <td>December 2025</td>
+            <td class="status-done">Done</td>
+          </tr>
+          <tr>
+            <td>Beta User List (100 targets)</td>
+            <td class="owner">Lee + Mark</td>
+            <td>End of December</td>
+            <td class="status-pending">In Progress</td>
+          </tr>
+          <tr>
+            <td>Press Kit</td>
+            <td class="owner">Nick</td>
+            <td>Mid-January 2026</td>
+            <td class="status-pending">Pending</td>
+          </tr>
+          <tr>
+            <td>Methodology Clarity</td>
+            <td class="owner">Mark</td>
+            <td>End of January 2026</td>
+            <td class="status-pending">Pending</td>
+          </tr>
+          <tr>
+            <td>Simulator V1</td>
+            <td class="owner">TC</td>
+            <td>End of March 2026</td>
+            <td class="status-pending">Pending</td>
+          </tr>
+          <tr>
+            <td>Video Content (Marman)</td>
+            <td class="owner">External</td>
+            <td>June 2026</td>
+            <td class="status-pending">External</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Team -->
+    <div class="section-header">Team Commitment</div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="name">TC</div>
+        <div class="role">Product</div>
+        <div class="focus">Primary focus: Building Ali. All technical development.</div>
+      </div>
+      <div class="team-card">
+        <div class="name">Mark</div>
+        <div class="role">Vision / Methodology</div>
+        <div class="focus">Knowledge base, scenarios, methodology clarity.</div>
+      </div>
+      <div class="team-card">
+        <div class="name">Lee</div>
+        <div class="role">Sales / GTM</div>
+        <div class="focus">Beta recruitment, client outreach, feedback.</div>
+      </div>
+      <div class="team-card">
+        <div class="name">Nick</div>
+        <div class="role">Design & Brand</div>
+        <div class="focus">Press kit, landing page, Ali visual identity.</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p class="brand">Ali by Aligned</p>
+      <p>6-Month Roadmap | December 2025 - June 2026</p>
+      <p>Session 1: December 8, 2025 | Session 2: December 9, 2025</p>
+    </footer>
+
+  </div>
+</body>
+</html>
