@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Design Session Analysis</title>
+
+    <!-- Ali Brand Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Metro Sans';
+            src: url('../fonts/metrosans-regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Metro Sans';
+            src: url('../fonts/metrosans-medium.woff2') format('woff2');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Metro Sans';
+            src: url('../fonts/metrosans-semibold.woff2') format('woff2');
+            font-weight: 600;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Metro Sans';
+            src: url('../fonts/metrosans-bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Moret';
+            src: url('../fonts/Moret-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Moret';
+            src: url('../fonts/Moret-RegularItalic.otf') format('opentype');
+            font-weight: 400;
+            font-style: italic;
+        }
+    </style>
+
+    <style>
+        /* ============================================
+           ALI BRAND SYSTEM - CSS VARIABLES
+           ============================================ */
+        :root {
+            /* Typography */
+            --ali-font-display: 'Moret', Georgia, 'Times New Roman', serif;
+            --ali-font-body: 'Metro Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+            /* Colors */
+            --ali-bg-page: #F2F2F2;
+            --ali-bg-card: #FFFFFF;
+            --ali-accent: #8A41E6;
+            --ali-accent-light: #F3EAFF;
+            --ali-accent-hover: #7030C0;
+            --ali-text-primary: #1A1A1A;
+            --ali-text-secondary: #666666;
+            --ali-text-muted: #999999;
+            --ali-border: #E5E5E5;
+            --ali-warm-grey: #E8E6E3;
+
+            /* Semantic Colors */
+            --ali-success: #10B981;
+            --ali-warning: #F59E0B;
+            --ali-danger: #EF4444;
+            --ali-info: #3B82F6;
+
+            /* Spacing */
+            --ali-space-xs: 0.25rem;
+            --ali-space-sm: 0.5rem;
+            --ali-space-md: 1rem;
+            --ali-space-lg: 1.5rem;
+            --ali-space-xl: 2rem;
+            --ali-space-2xl: 3rem;
+
+            /* Borders */
+            --ali-radius-sm: 4px;
+            --ali-radius-md: 8px;
+            --ali-radius-lg: 12px;
+        }
+
+        /* ============================================
+           BASE STYLES
+           ============================================ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--ali-font-body);
+            background: var(--ali-bg-page);
+            color: var(--ali-text-primary);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* ============================================
+           MASTHEAD (Document Header)
+           ============================================ */
+        .masthead {
+            background: var(--ali-bg-card);
+            padding: var(--ali-space-lg) var(--ali-space-xl);
+            border-bottom: 1px solid var(--ali-border);
+        }
+
+        .masthead-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .masthead-brand {
+            font-family: var(--ali-font-display);
+            font-style: normal;
+            font-size: 1.5rem;
+            color: var(--ali-text-primary);
+        }
+
+        .masthead-badges {
+            display: flex;
+            gap: var(--ali-space-sm);
+        }
+
+        .masthead-badge {
+            background: var(--ali-bg-page);
+            padding: var(--ali-space-xs) var(--ali-space-md);
+            border-radius: var(--ali-radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ali-text-secondary);
+        }
+
+        .masthead-badge.accent {
+            background: var(--ali-accent);
+            color: white;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            background: var(--ali-bg-card);
+            padding: var(--ali-space-2xl) var(--ali-space-xl);
+            text-align: center;
+            border-bottom: 1px solid var(--ali-border);
+        }
+
+        .hero-title {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 2.75rem;
+            font-weight: 400;
+            color: var(--ali-text-primary);
+            margin-bottom: var(--ali-space-md);
+        }
+
+        .hero-subtitle {
+            font-family: var(--ali-font-body);
+            font-size: 1rem;
+            color: var(--ali-text-secondary);
+        }
+
+        /* ============================================
+           TAB NAVIGATION
+           ============================================ */
+        .tab-container {
+            background: var(--ali-bg-card);
+            border-bottom: 1px solid var(--ali-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tabs {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: var(--ali-space-md) var(--ali-space-lg);
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: var(--ali-font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ali-text-secondary);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--ali-accent);
+            background: var(--ali-accent-light);
+        }
+
+        .tab.active {
+            color: var(--ali-accent);
+            border-bottom-color: var(--ali-accent);
+        }
+
+        /* ============================================
+           MAIN CONTENT
+           ============================================ */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--ali-space-xl);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ============================================
+           CARDS - Ali Brand Style (Left Purple Border)
+           ============================================ */
+        .card {
+            background: var(--ali-bg-card);
+            border-radius: var(--ali-radius-lg);
+            padding: var(--ali-space-lg);
+            margin-bottom: var(--ali-space-lg);
+            border-left: 4px solid var(--ali-accent);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .card-header {
+            margin-bottom: var(--ali-space-md);
+            padding-bottom: var(--ali-space-md);
+            border-bottom: 1px solid var(--ali-border);
+        }
+
+        .section-label {
+            font-family: var(--ali-font-body);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ali-accent);
+            margin-bottom: var(--ali-space-xs);
+        }
+
+        .section-title {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--ali-text-primary);
+        }
+
+        /* ============================================
+           STAT GRID
+           ============================================ */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: var(--ali-space-md);
+            margin: var(--ali-space-lg) 0;
+        }
+
+        .stat-card {
+            background: var(--ali-bg-page);
+            padding: var(--ali-space-lg);
+            border-radius: var(--ali-radius-md);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--ali-font-display);
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--ali-accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--ali-text-secondary);
+            margin-top: var(--ali-space-sm);
+        }
+
+        /* ============================================
+           INSIGHT BOX - Purple Gradient
+           ============================================ */
+        .insight-box {
+            background: linear-gradient(135deg, var(--ali-accent-light) 0%, rgba(138, 65, 230, 0.05) 100%);
+            border-left: 4px solid var(--ali-accent);
+            padding: var(--ali-space-lg);
+            border-radius: 0 var(--ali-radius-md) var(--ali-radius-md) 0;
+            margin: var(--ali-space-lg) 0;
+        }
+
+        .insight-box .insight-title {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--ali-text-primary);
+            margin-bottom: var(--ali-space-sm);
+        }
+
+        .insight-box p {
+            color: var(--ali-text-secondary);
+        }
+
+        /* ============================================
+           QUOTE BLOCK - Ali Voice
+           ============================================ */
+        .quote-block {
+            background: var(--ali-bg-page);
+            border-left: 4px solid var(--ali-accent);
+            padding: var(--ali-space-lg);
+            border-radius: 0 var(--ali-radius-md) var(--ali-radius-md) 0;
+            margin: var(--ali-space-lg) 0;
+        }
+
+        .quote-text {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--ali-text-primary);
+            line-height: 1.5;
+        }
+
+        .quote-attribution {
+            font-family: var(--ali-font-body);
+            font-size: 0.85rem;
+            color: var(--ali-text-muted);
+            margin-top: var(--ali-space-md);
+        }
+
+        /* ============================================
+           TABLES
+           ============================================ */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--ali-space-md) 0;
+        }
+
+        th, td {
+            padding: var(--ali-space-md);
+            text-align: left;
+            border-bottom: 1px solid var(--ali-border);
+        }
+
+        th {
+            background: var(--ali-bg-page);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--ali-text-secondary);
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        /* ============================================
+           FLOW-STACK PATTERN (User Flows)
+           ============================================ */
+        .flow-stack {
+            position: relative;
+            padding-left: var(--ali-space-xl);
+            margin: var(--ali-space-lg) 0;
+        }
+
+        .flow-stack::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: 24px;
+            width: 2px;
+            background: var(--ali-accent);
+        }
+
+        .flow-step {
+            background: var(--ali-bg-card);
+            border-left: 4px solid var(--ali-accent);
+            padding: var(--ali-space-md) var(--ali-space-lg);
+            margin-bottom: var(--ali-space-md);
+            border-radius: 0 var(--ali-radius-md) var(--ali-radius-md) 0;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--ali-accent);
+            border-radius: 50%;
+            border: 3px solid var(--ali-bg-page);
+        }
+
+        .flow-step.highlight {
+            background: var(--ali-accent-light);
+        }
+
+        .flow-step-title {
+            font-weight: 600;
+            color: var(--ali-text-primary);
+            margin-bottom: var(--ali-space-xs);
+        }
+
+        .flow-step-desc {
+            font-size: 0.9rem;
+            color: var(--ali-text-secondary);
+        }
+
+        /* ============================================
+           COMPARISON GRID
+           ============================================ */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--ali-space-lg);
+            margin: var(--ali-space-lg) 0;
+        }
+
+        .comparison-box {
+            padding: var(--ali-space-lg);
+            border-radius: var(--ali-radius-lg);
+            text-align: center;
+        }
+
+        .comparison-box.before {
+            background: #FEF2F2;
+            border: 2px solid #FECACA;
+        }
+
+        .comparison-box.after {
+            background: #F0FDF4;
+            border: 2px solid #BBF7D0;
+        }
+
+        .comparison-box h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ali-text-secondary);
+            margin-bottom: var(--ali-space-md);
+        }
+
+        .comparison-box .flow-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--ali-space-sm);
+            flex-wrap: wrap;
+        }
+
+        .comparison-box .flow-item {
+            background: white;
+            padding: var(--ali-space-sm) var(--ali-space-md);
+            border-radius: var(--ali-radius-sm);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .comparison-box .flow-arrow {
+            color: var(--ali-accent);
+            font-weight: bold;
+        }
+
+        /* ============================================
+           STATE CARDS
+           ============================================ */
+        .state-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--ali-space-lg);
+            margin: var(--ali-space-lg) 0;
+        }
+
+        .state-card {
+            background: var(--ali-bg-card);
+            border-radius: var(--ali-radius-lg);
+            padding: var(--ali-space-lg);
+            border-left: 4px solid;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .state-card.state-a { border-color: var(--ali-warning); }
+        .state-card.state-b { border-color: var(--ali-success); }
+        .state-card.state-c { border-color: var(--ali-info); }
+
+        .state-card h4 {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: var(--ali-space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--ali-space-sm);
+        }
+
+        .state-card ul {
+            margin: 0;
+            padding-left: var(--ali-space-lg);
+        }
+
+        .state-card li {
+            margin-bottom: var(--ali-space-xs);
+            font-size: 0.9rem;
+            color: var(--ali-text-secondary);
+        }
+
+        /* ============================================
+           DECISION GRID
+           ============================================ */
+        .decision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--ali-space-lg);
+            margin: var(--ali-space-lg) 0;
+        }
+
+        .decision-card {
+            background: var(--ali-bg-card);
+            border-left: 4px solid var(--ali-accent);
+            padding: var(--ali-space-lg);
+            border-radius: 0 var(--ali-radius-lg) var(--ali-radius-lg) 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .decision-card h4 {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: var(--ali-space-md);
+        }
+
+        .decision-card .options {
+            font-size: 0.9rem;
+            color: var(--ali-text-secondary);
+            margin-bottom: var(--ali-space-md);
+        }
+
+        .decision-card .recommendation {
+            background: var(--ali-accent-light);
+            padding: var(--ali-space-sm) var(--ali-space-md);
+            border-radius: var(--ali-radius-sm);
+            font-weight: 600;
+            color: var(--ali-accent);
+            display: inline-block;
+        }
+
+        .decision-card .evidence {
+            font-size: 0.85rem;
+            color: var(--ali-text-muted);
+            margin-top: var(--ali-space-md);
+            font-style: italic;
+        }
+
+        /* ============================================
+           PHASE TIMELINE
+           ============================================ */
+        .phase-timeline {
+            margin: var(--ali-space-xl) 0;
+        }
+
+        .phase-item {
+            background: var(--ali-bg-card);
+            border-left: 4px solid var(--ali-accent);
+            padding: var(--ali-space-lg);
+            margin-bottom: var(--ali-space-lg);
+            border-radius: 0 var(--ali-radius-lg) var(--ali-radius-lg) 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: var(--ali-space-md);
+            margin-bottom: var(--ali-space-md);
+        }
+
+        .phase-badge {
+            padding: var(--ali-space-xs) var(--ali-space-md);
+            border-radius: var(--ali-radius-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .phase-badge.phase-1 { background: var(--ali-success); color: white; }
+        .phase-badge.phase-2 { background: var(--ali-warning); color: white; }
+        .phase-badge.phase-3 { background: var(--ali-accent); color: white; }
+
+        .phase-title {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 1.25rem;
+        }
+
+        .phase-meta {
+            font-size: 0.85rem;
+            color: var(--ali-text-muted);
+            margin-bottom: var(--ali-space-md);
+        }
+
+        /* ============================================
+           WIREFRAME MOCKUPS
+           ============================================ */
+        .wireframe {
+            background: #FAFAFA;
+            border: 2px solid var(--ali-border);
+            border-radius: var(--ali-radius-lg);
+            overflow: hidden;
+            margin: var(--ali-space-lg) 0;
+        }
+
+        .wireframe-header {
+            background: var(--ali-bg-card);
+            border-bottom: 1px solid var(--ali-border);
+            padding: var(--ali-space-md) var(--ali-space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .wireframe-header .logo {
+            font-family: var(--ali-font-display);
+            font-style: normal;
+            font-weight: 400;
+            color: var(--ali-text-primary);
+            font-size: 1.25rem;
+        }
+
+        .wireframe-header .nav-items {
+            display: flex;
+            gap: var(--ali-space-md);
+            align-items: center;
+        }
+
+        .wireframe-header .nav-item {
+            padding: var(--ali-space-sm) var(--ali-space-md);
+            border-radius: var(--ali-radius-sm);
+            font-size: 0.85rem;
+            color: var(--ali-text-secondary);
+        }
+
+        .wireframe-header .nav-item.active {
+            background: var(--ali-accent-light);
+            color: var(--ali-accent);
+        }
+
+        .wireframe-header .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--ali-accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .wireframe-body {
+            padding: var(--ali-space-xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--ali-space-lg);
+            min-height: 350px;
+        }
+
+        .wireframe-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--ali-accent), #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 2rem;
+        }
+
+        .wireframe-greeting {
+            background: var(--ali-bg-card);
+            border-radius: var(--ali-radius-lg);
+            padding: var(--ali-space-lg);
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .wireframe-greeting .ali-voice {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--ali-text-primary);
+        }
+
+        .wireframe-greeting .ali-voice strong {
+            color: var(--ali-accent);
+        }
+
+        .wireframe-chips {
+            display: flex;
+            gap: var(--ali-space-sm);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .wireframe-chip {
+            background: var(--ali-bg-card);
+            border: 1px solid var(--ali-border);
+            padding: var(--ali-space-sm) var(--ali-space-lg);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .wireframe-chip:hover {
+            border-color: var(--ali-accent);
+            color: var(--ali-accent);
+        }
+
+        .wireframe-input {
+            background: var(--ali-bg-card);
+            border: 1px solid var(--ali-border);
+            border-radius: 24px;
+            padding: var(--ali-space-md) var(--ali-space-lg);
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--ali-text-muted);
+        }
+
+        .wireframe-input .send-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--ali-accent);
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wireframe-banner {
+            background: #FEF3C7;
+            border: 2px solid var(--ali-warning);
+            border-radius: var(--ali-radius-lg);
+            padding: var(--ali-space-lg);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .wireframe-banner .cta-btn {
+            background: var(--ali-accent);
+            color: white;
+            padding: var(--ali-space-sm) var(--ali-space-lg);
+            border-radius: var(--ali-radius-md);
+            margin-top: var(--ali-space-md);
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           SOURCE LIST
+           ============================================ */
+        .source-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .source-list li {
+            padding: var(--ali-space-md) 0;
+            border-bottom: 1px solid var(--ali-border);
+        }
+
+        .source-list li:last-child {
+            border-bottom: none;
+        }
+
+        .source-list a {
+            color: var(--ali-accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .source-list a:hover {
+            text-decoration: underline;
+        }
+
+        .source-list .source-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--ali-text-muted);
+            display: block;
+            margin-top: var(--ali-space-xs);
+        }
+
+        /* ============================================
+           GRID LAYOUTS
+           ============================================ */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--ali-space-lg);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--ali-space-md);
+        }
+
+        /* ============================================
+           LISTS
+           ============================================ */
+        ul, ol {
+            margin-left: var(--ali-space-lg);
+            margin-bottom: var(--ali-space-md);
+        }
+
+        li {
+            margin-bottom: var(--ali-space-sm);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--ali-bg-card);
+            border-top: 1px solid var(--ali-border);
+            padding: var(--ali-space-xl);
+            text-align: center;
+            margin-top: var(--ali-space-2xl);
+        }
+
+        .footer-quote {
+            font-family: var(--ali-font-display);
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--ali-text-primary);
+            max-width: 600px;
+            margin: 0 auto var(--ali-space-md);
+        }
+
+        .footer-meta {
+            font-size: 0.85rem;
+            color: var(--ali-text-muted);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .comparison-grid, .decision-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .tab {
+                padding: var(--ali-space-sm) var(--ali-space-md);
+                font-size: 0.85rem;
+            }
+
+            .content {
+                padding: var(--ali-space-md);
+            }
+
+            .masthead-inner {
+                flex-direction: column;
+                gap: var(--ali-space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         MASTHEAD
+         ============================================ -->
+    <header class="masthead">
+        <div class="masthead-inner">
+            <div class="masthead-brand">Ali.</div>
+            <div class="masthead-badges">
+                <span class="masthead-badge">Design Weekly</span>
+                <span class="masthead-badge">Dec 17, 2025</span>
+                <span class="masthead-badge accent">Product Vision</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================
+         HERO
+         ============================================ -->
+    <section class="hero">
+        <h1 class="hero-title">UX Design Session Analysis</h1>
+    </section>
+
+    <!-- ============================================
+         TAB NAVIGATION
+         ============================================ -->
+    <nav class="tab-container">
+        <div class="tabs">
+            <button class="tab active" data-tab="synthesis">Synthesis</button>
+            <button class="tab" data-tab="diagrams">UX Flows</button>
+            <button class="tab" data-tab="layouts">Layout Wireframes</button>
+            <button class="tab" data-tab="research">Research Sources</button>
+            <button class="tab" data-tab="decisions">Decisions</button>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         MAIN CONTENT
+         ============================================ -->
+    <main class="content">
+
+        <!-- ==================== TAB: SYNTHESIS ==================== -->
+        <div id="synthesis" class="tab-panel active">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Overview</div>
+                    <h2 class="section-title">Executive Summary</h2>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">100+</div>
+                        <div class="stat-label">Sources Researched</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Architecture Docs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">11</div>
+                        <div class="stat-label">UX Diagrams</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Layout States</div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Analysis Area</th>
+                            <th>Focus</th>
+                            <th>Key Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Architecture</strong></td>
+                            <td>UX structure & flows</td>
+                            <td>Component hierarchy, user state transitions, navigation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Research</strong></td>
+                            <td>Patterns & evidence</td>
+                            <td>100+ sources, competitive analysis, form fatigue data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Core Finding</div>
+                    <h2 class="section-title">The Key Insight</h2>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">"Personalization is your IP. Show it BEFORE the user types."</div>
+                    <p>Every analysis stream independently concluded: The Silhouette profile data is Ali's competitive moat. Currently it's hidden behind a "hi" - it should be the HOOK that draws users in.</p>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="section-label">Architecture</div>
+                        <h2 class="section-title">Structure Recommendation</h2>
+                    </div>
+
+                    <p><strong>Recommendation:</strong> CHAT IS HOME</p>
+
+                    <div class="comparison-grid" style="margin-top: 1rem;">
+                        <div class="comparison-box before">
+                            <h4>Before</h4>
+                            <div class="flow-visual">
+                                <span class="flow-item">Landing</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-item">Login</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-item">Home</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-item">Chat</span>
+                            </div>
+                        </div>
+                        <div class="comparison-box after">
+                            <h4>After</h4>
+                            <div class="flow-visual">
+                                <span class="flow-item">Landing</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-item">Login</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-item" style="background: var(--ali-accent-light); font-weight: 600;">CHAT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 1.5rem;"><strong>Three User States:</strong></p>
+                    <div class="state-grid" style="margin-top: 1rem;">
+                        <div class="state-card state-a">
+                            <h4>💬 No Silhouette (3 Free)</h4>
+                            <ul>
+                                <li>Allow 3 message exchanges</li>
+                                <li>Then prompt for Silhouette</li>
+                            </ul>
+                        </div>
+                        <div class="state-card state-b">
+                            <h4>✨ With Silhouette</h4>
+                            <ul>
+                                <li>Personalized greeting</li>
+                                <li>"Hey Terrance, I see you're <strong>Sociable</strong>..."</li>
+                            </ul>
+                        </div>
+                        <div class="state-card state-c">
+                            <h4>🔄 Returning User</h4>
+                            <ul>
+                                <li>Conversation history sidebar</li>
+                                <li>"Continue where you left off"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="section-label">Research</div>
+                        <h2 class="section-title">Evidence Base</h2>
+                    </div>
+
+                    <p><strong>Cold Start Problem (100+ sources):</strong></p>
+                    <ul>
+                        <li>ChatGPT/Claude show suggestion chips BEFORE user types</li>
+                        <li>Gemini uses personalized greeting: "Hello, [Name]. How can I help?"</li>
+                        <li>Empty states should be action-oriented, not just informational</li>
+                    </ul>
+
+                    <div class="insight-box" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%); border-color: var(--ali-warning);">
+                        <div class="insight-title" style="color: #92400E;">Form Fatigue (Critical Finding)</div>
+                        <ul style="margin-top: 0.5rem;">
+                            <li>73-question assessment is <strong>above fatigue threshold</strong> (20 min max)</li>
+                            <li><strong>83% completion</strong> for 1-3 questions vs <strong>42% for 15+</strong></li>
+                            <li>Consider: tiered assessment or progressive profile building</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Personalization Impact:</strong></p>
+                    <ul>
+                        <li><strong>25% higher retention</strong> with AI personalization</li>
+                        <li><strong>78% of customers</strong> more likely to repurchase when known</li>
+                        <li><strong>40% more conversions</strong> with personalized experiences</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Inspiration</div>
+                    <h2 class="section-title">Product Vision</h2>
+                </div>
+                <div class="quote-block">
+                    <p class="quote-text">"If you open this and saw: 'Terrance, you have these great skills. Here's where you constantly get stuck.' — Wouldn't you be like, LFG?"</p>
+                </div>
+                <p><strong>Our Job:</strong> Make that happen from the first screen.</p>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: UX FLOWS ==================== -->
+        <div id="diagrams" class="tab-panel">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Navigation</div>
+                    <h2 class="section-title">Navigation Simplification</h2>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-box before">
+                        <h4>Current Navigation</h4>
+                        <div class="wireframe-header" style="margin-top: 1rem; border-radius: var(--ali-radius-md);">
+                            <span class="logo">Ali.</span>
+                            <div class="nav-items">
+                                <span class="nav-item active">Ali Coach</span>
+                                <span class="nav-item">Silhouette</span>
+                                <span class="nav-item">Profile</span>
+                                <span class="avatar">T</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comparison-box after">
+                        <h4>Proposed Navigation</h4>
+                        <div class="wireframe-header" style="margin-top: 1rem; border-radius: var(--ali-radius-md);">
+                            <span class="logo">Ali.</span>
+                            <div class="nav-items">
+                                <span class="nav-item active">Chat with Ali</span>
+                                <span class="avatar">T ▾</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--ali-text-muted); margin-top: 0.75rem;">
+                            Avatar dropdown: Account Settings, Your Silhouette, Log Out
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">User States</div>
+                    <h2 class="section-title">User State Transitions</h2>
+                </div>
+
+                <div class="flow-stack">
+                    <div class="flow-step">
+                        <div class="flow-step-title">New User Arrives</div>
+                        <div class="flow-step-desc">User lands on chat page after login</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">🔍 Check: Has Silhouette?</div>
+                        <div class="flow-step-desc">System checks if user has completed personality assessment</div>
+                    </div>
+                    <div class="flow-step" style="border-color: var(--ali-warning);">
+                        <div class="flow-step-title">⚡ No Silhouette → 3 Free Messages</div>
+                        <div class="flow-step-desc">Allow 3 back-and-forth exchanges, then prompt to complete Silhouette for deeper personalization</div>
+                    </div>
+                    <div class="flow-step highlight">
+                        <div class="flow-step-title">✅ Has Silhouette → Personalized State</div>
+                        <div class="flow-step-desc">Show personalized greeting with bolded traits: "Hey Terrance, I see you're <strong>Sociable</strong>..."</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">🔄 Returning User</div>
+                        <div class="flow-step-desc">Show conversation history sidebar + "Continue where you left off"</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">User Journey</div>
+                    <h2 class="section-title">Complete User Flow</h2>
+                </div>
+
+                <div class="flow-stack">
+                    <div class="flow-step">
+                        <div class="flow-step-title">1. Landing Page</div>
+                        <div class="flow-step-desc">User discovers Ali through marketing or referral</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">2. Sign Up / Login</div>
+                        <div class="flow-step-desc">Authentication via email or social</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">3. Chat Page (Home)</div>
+                        <div class="flow-step-desc">Primary destination - state depends on Silhouette status</div>
+                    </div>
+                    <div class="flow-step" style="border-color: var(--ali-warning);">
+                        <div class="flow-step-title">3a. After 3 Messages → Silhouette Prompt</div>
+                        <div class="flow-step-desc">After 3 exchanges, prompt to complete assessment for personalized coaching</div>
+                    </div>
+                    <div class="flow-step highlight">
+                        <div class="flow-step-title">4. Personalized Chat Experience</div>
+                        <div class="flow-step-desc">Ali greets user by name with personality insights, shows suggestion chips</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">5. Ongoing Coaching</div>
+                        <div class="flow-step-desc">Contextual negotiation coaching based on profile and conversation history</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Data Architecture</div>
+                    <h2 class="section-title">Data Flow</h2>
+                </div>
+
+                <div class="grid-3">
+                    <div class="stat-card">
+                        <div class="stat-value" style="font-size: 1.5rem;">📊</div>
+                        <div class="stat-label">Silhouette Profile</div>
+                        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Personality type, traits, dimensions</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="font-size: 1.5rem;">💬</div>
+                        <div class="stat-label">Conversation Context</div>
+                        <p style="font-size: 0.8rem; margin-top: 0.5rem;">History, preferences, goals</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="font-size: 1.5rem;">🎯</div>
+                        <div class="stat-label">Personalized Response</div>
+                        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Tailored greeting + chips</p>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">The Personalization Pipeline</div>
+                    <p>User Profile → Context Engine → Claude API → Personalized Greeting with Traits → Dynamic Suggestion Chips based on history</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Logic</div>
+                    <h2 class="section-title">Gating Decision Tree</h2>
+                </div>
+
+                <div class="flow-stack">
+                    <div class="flow-step">
+                        <div class="flow-step-title">User Authenticated?</div>
+                        <div class="flow-step-desc">NO → Redirect to login</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">Has Silhouette Profile?</div>
+                        <div class="flow-step-desc">NO → Allow 3 free messages, then prompt for Silhouette</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">Has Previous Conversations?</div>
+                        <div class="flow-step-desc">YES → Show sidebar with history + "Continue" option</div>
+                    </div>
+                    <div class="flow-step highlight">
+                        <div class="flow-step-title">Full Experience</div>
+                        <div class="flow-step-desc">Personalized greeting + Dynamic chips + Full chat access</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Feature</div>
+                    <h2 class="section-title">Suggestion Chips</h2>
+                </div>
+
+                <p style="margin-bottom: 1rem;">One-click conversation starters, dynamically generated based on user context:</p>
+
+                <div class="wireframe-chips" style="justify-content: flex-start;">
+                    <span class="wireframe-chip">🎯 Prep for salary talk</span>
+                    <span class="wireframe-chip">📋 Review last session</span>
+                    <span class="wireframe-chip">💡 Quick negotiation tip</span>
+                    <span class="wireframe-chip">📊 My Silhouette insights</span>
+                </div>
+
+                <div class="insight-box" style="margin-top: 1.5rem;">
+                    <div class="insight-title">Chip Categories</div>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Context-aware:</strong> Based on current negotiations or upcoming events</li>
+                        <li><strong>Profile-based:</strong> Leveraging Silhouette personality insights</li>
+                        <li><strong>History-aware:</strong> Continuing from previous conversations</li>
+                        <li><strong>General:</strong> Universal negotiation topics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: LAYOUT WIREFRAMES ==================== -->
+        <div id="layouts" class="tab-panel">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">State A</div>
+                    <h2 class="section-title">New User (No Silhouette Yet)</h2>
+                </div>
+
+                <div class="wireframe">
+                    <div class="wireframe-header">
+                        <span class="logo">Ali.</span>
+                        <div class="nav-items">
+                            <span class="nav-item active">Chat with Ali</span>
+                            <span class="avatar">T ▾</span>
+                        </div>
+                    </div>
+                    <div class="wireframe-body">
+                        <div class="wireframe-avatar">A</div>
+                        <div class="wireframe-greeting">
+                            <p class="ali-voice">Hi there! I'm Ali, your negotiation coach. What's on your mind today?</p>
+                            <p style="font-size: 0.8rem; color: var(--ali-text-muted); margin-top: 0.75rem;">💬 3 free messages • Complete Silhouette for personalized coaching</p>
+                        </div>
+                        <div class="wireframe-chips">
+                            <span class="wireframe-chip">🎯 Help me prep for a negotiation</span>
+                            <span class="wireframe-chip">💡 Give me a quick tip</span>
+                        </div>
+                        <div class="wireframe-input">
+                            <span>What negotiation are you working through?</span>
+                            <span class="send-btn">↑</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">Soft Gate Strategy</div>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>3 free messages</strong> - let users experience Ali's value first</li>
+                        <li>After 3 exchanges, prompt for Silhouette with clear value proposition</li>
+                        <li>Input is fully enabled - no blocking, just metered access</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">State B</div>
+                    <h2 class="section-title">Personalized State (With Silhouette)</h2>
+                </div>
+
+                <div class="wireframe">
+                    <div class="wireframe-header">
+                        <span class="logo">Ali.</span>
+                        <div class="nav-items">
+                            <span class="nav-item active">Chat with Ali</span>
+                            <span class="avatar">T ▾</span>
+                        </div>
+                    </div>
+                    <div class="wireframe-body">
+                        <div class="wireframe-avatar">A</div>
+                        <div class="wireframe-greeting">
+                            <p class="ali-voice">Hey Terrance, I see you're naturally <strong>Sociable</strong> and bring <strong>Boldness</strong> to negotiations. Let's build on that foundation today.</p>
+                        </div>
+                        <div class="wireframe-chips">
+                            <span class="wireframe-chip">🎯 Prep for salary talk</span>
+                            <span class="wireframe-chip">📋 Review last session</span>
+                            <span class="wireframe-chip">💡 Quick tip for me</span>
+                        </div>
+                        <div class="wireframe-input">
+                            <span>What negotiation are you working through?</span>
+                            <span class="send-btn">↑</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">Personalization Elements</div>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Name:</strong> Greeting uses user's first name</li>
+                        <li><strong>Traits:</strong> Personality dimensions in bold (Sociable, Boldness)</li>
+                        <li><strong>Voice:</strong> Ali speaks in italic serif (Moret) for warmth</li>
+                        <li><strong>Chips:</strong> Contextual, not generic</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">State C</div>
+                    <h2 class="section-title">Returning User (With History)</h2>
+                </div>
+
+                <div class="wireframe">
+                    <div class="wireframe-header">
+                        <span class="logo">Ali.</span>
+                        <div class="nav-items">
+                            <span class="nav-item active">Chat with Ali</span>
+                            <span class="avatar">T ▾</span>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; min-height: 400px;">
+                        <div style="background: white; border-right: 1px solid var(--ali-border); padding: 1rem;">
+                            <h5 style="font-size: 0.75rem; color: var(--ali-text-muted); text-transform: uppercase; margin-bottom: 0.75rem;">Recent</h5>
+                            <div style="background: var(--ali-accent-light); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; font-size: 0.85rem; border-left: 3px solid var(--ali-accent);">
+                                Salary negotiation prep
+                                <small style="display: block; color: var(--ali-text-muted); margin-top: 0.25rem;">2 hours ago</small>
+                            </div>
+                            <div style="background: #f3f4f6; border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; font-size: 0.85rem;">
+                                Vendor contract review
+                                <small style="display: block; color: var(--ali-text-muted); margin-top: 0.25rem;">Yesterday</small>
+                            </div>
+                            <div style="background: #f3f4f6; border-radius: 8px; padding: 0.75rem; font-size: 0.85rem;">
+                                Team conflict resolution
+                                <small style="display: block; color: var(--ali-text-muted); margin-top: 0.25rem;">Dec 14</small>
+                            </div>
+                        </div>
+                        <div class="wireframe-body">
+                            <div class="wireframe-avatar">A</div>
+                            <div class="wireframe-greeting">
+                                <p class="ali-voice">Welcome back, Terrance. Ready to continue where we left off with your <strong>salary negotiation</strong>?</p>
+                            </div>
+                            <div class="wireframe-chips">
+                                <span class="wireframe-chip" style="background: var(--ali-accent-light); border-color: var(--ali-accent);">↩️ Continue salary prep</span>
+                                <span class="wireframe-chip">🆕 Start something new</span>
+                            </div>
+                            <div class="wireframe-input">
+                                <span>What negotiation are you working through?</span>
+                                <span class="send-btn">↑</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">History Sidebar Features</div>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Recent First:</strong> Most recent conversation highlighted</li>
+                        <li><strong>Visual Hierarchy:</strong> Active conversation has accent border</li>
+                        <li><strong>Contextual Greeting:</strong> References specific ongoing topic</li>
+                        <li><strong>Continue CTA:</strong> Primary chip is "Continue" action</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: RESEARCH SOURCES ==================== -->
+        <div id="research" class="tab-panel">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Research Base</div>
+                    <h2 class="section-title">Sources Summary</h2>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">100+</div>
+                        <div class="stat-label">Total Sources</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Key Categories</div>
+                    </div>
+                </div>
+
+                <p><strong>Key Categories:</strong></p>
+                <ul>
+                    <li>AI Chatbot Onboarding (Nielsen Norman Group, Mobbin, Eleken)</li>
+                    <li>Personalization Research (McKinsey, Bain, TechTarget)</li>
+                    <li>Progressive Disclosure (Interaction Design Foundation, Appcues)</li>
+                    <li>Competitive Analysis (Gong, Chorus, Mindtickle, CoachHub)</li>
+                    <li>Form Fatigue (Survicate, McKinsey, ScienceDirect)</li>
+                    <li>Game Design (Mario World 1-1 analysis, ProductLed, Gamified UK)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Top Sources</div>
+                    <h2 class="section-title">Standout References</h2>
+                </div>
+
+                <ul class="source-list">
+                    <li>
+                        <a href="https://www.nngroup.com/articles/designing-use-case-prompt-suggestions/" target="_blank">Designing Use-Case Prompt Suggestions</a>
+                        <span class="source-category">Nielsen Norman Group • June 2025</span>
+                    </li>
+                    <li>
+                        <a href="https://productled.com/blog/best-user-onboarding-experience-and-lessons-from-super-mario" target="_blank">User Onboarding Lessons from Super Mario</a>
+                        <span class="source-category">ProductLed • Game Design UX</span>
+                    </li>
+                    <li>
+                        <a href="https://www.smashingmagazine.com/2024/07/how-design-effective-conversational-ai-experiences-guide/" target="_blank">How to Design Effective Conversational AI Experiences</a>
+                        <span class="source-category">Smashing Magazine • 2024</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Competitive Intel</div>
+                    <h2 class="section-title">What Competitors Do</h2>
+                </div>
+
+                <div class="grid-2">
+                    <div class="stat-card" style="text-align: left; padding: 1.25rem;">
+                        <strong style="color: var(--ali-accent);">Gong</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Cut onboarding by 20% using AI call analysis</p>
+                    </div>
+                    <div class="stat-card" style="text-align: left; padding: 1.25rem;">
+                        <strong style="color: var(--ali-accent);">Chorus</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Accelerates ramp with real call recordings</p>
+                    </div>
+                    <div class="stat-card" style="text-align: left; padding: 1.25rem;">
+                        <strong style="color: var(--ali-accent);">Rocky.ai</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Daily 5-minute micro-coaching sessions (habit formation)</p>
+                    </div>
+                    <div class="stat-card" style="text-align: left; padding: 1.25rem;">
+                        <strong style="color: var(--ali-accent);">CoachHub AIMY</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">"Just type first message to get started"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Design Principle</div>
+                    <h2 class="section-title">Mario World 1-1 Lesson</h2>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">Core Principles</div>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Learn by doing</strong> - not by reading tutorials</li>
+                        <li><strong>Progressive disclosure</strong> - reveal features when needed</li>
+                        <li><strong>Safe environment</strong> - mistakes don't punish the user</li>
+                    </ul>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">Applied to Ali</div>
+                    <p>Greeting drops user into context immediately. Suggestion chips enable one-click starts. No tutorial needed - the interface teaches itself.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: DECISIONS ==================== -->
+        <div id="decisions" class="tab-panel">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Design Weekly</div>
+                    <h2 class="section-title">Key Decisions</h2>
+                </div>
+
+                <div class="decision-grid">
+                    <div class="decision-card">
+                        <h4>Decision 1: Home Page</h4>
+                        <p class="options"><strong>Options:</strong> Keep home | Eliminate home | Merge with chat</p>
+                        <span class="recommendation">Eliminate (Chat IS home)</span>
+                        <p class="evidence">Evidence: Slack CPO philosophy - "What is home for?"</p>
+                    </div>
+
+                    <div class="decision-card">
+                        <h4>Decision 2: Silhouette Gate</h4>
+                        <p class="options"><strong>Options:</strong> Hard gate | Soft gate (3 messages) | No gate</p>
+                        <span class="recommendation">Soft gate (3 messages, then require Silhouette)</span>
+                        <p class="evidence">Evidence: Let users experience Ali's value first, then prompt for deeper personalization.</p>
+                    </div>
+
+                    <div class="decision-card">
+                        <h4>Decision 3: Post-3-Message Prompt</h4>
+                        <p class="options"><strong>Options:</strong> Modal | Inline banner | Toast notification</p>
+                        <span class="recommendation">Inline banner (non-blocking but prominent)</span>
+                        <p class="evidence">Evidence: Shows value prop after user has experienced Ali, not before.</p>
+                    </div>
+
+                    <div class="decision-card">
+                        <h4>Decision 4: Placeholder Copy</h4>
+                        <p class="options"><strong>Options:</strong> Generic | Action-oriented</p>
+                        <span class="recommendation">"What negotiation are you working through?"</span>
+                        <p class="evidence">Evidence: NN/g research - specific prompts outperform generic ones.</p>
+                    </div>
+
+                    <div class="decision-card">
+                        <h4>Decision 5: Trait Typography</h4>
+                        <p class="options"><strong>Options:</strong> Bold only | Bold + color | Underline</p>
+                        <span class="recommendation">Bold only (accessible)</span>
+                        <p class="evidence">Evidence: Accessibility standards, visual hierarchy best practices.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-label">Roadmap</div>
+                    <h2 class="section-title">Phased Implementation</h2>
+                </div>
+
+                <div class="phase-timeline">
+                    <div class="phase-item">
+                        <div class="phase-header">
+                            <span class="phase-badge phase-1">Phase 1</span>
+                            <span class="phase-title">This Week</span>
+                        </div>
+                        <p class="phase-meta">Effort: Low | Impact: High</p>
+                        <ul>
+                            <li>Update placeholder text (15 min)</li>
+                            <li>Bold personalized traits (30 min)</li>
+                            <li>Remove "Your Profile" nav (15 min)</li>
+                            <li>Move greeting above input (1 hr)</li>
+                            <li>Create Silhouette banner (1.5 hr)</li>
+                        </ul>
+                    </div>
+
+                    <div class="phase-item">
+                        <div class="phase-header">
+                            <span class="phase-badge phase-2">Phase 2</span>
+                            <span class="phase-title">Next Week</span>
+                        </div>
+                        <p class="phase-meta">Effort: Medium | Impact: High</p>
+                        <ul>
+                            <li>Chat-as-Home architecture</li>
+                            <li>Conversation history sidebar</li>
+                            <li>Dynamic suggestion chips</li>
+                            <li>Align framework language in Ali personality</li>
+                        </ul>
+                    </div>
+
+                    <div class="phase-item">
+                        <div class="phase-header">
+                            <span class="phase-badge phase-3">Phase 3</span>
+                            <span class="phase-title">January 2026</span>
+                        </div>
+                        <p class="phase-meta">Effort: High | Impact: Very High</p>
+                        <ul>
+                            <li>File uploads (contracts, PDFs)</li>
+                            <li>Projects/Deals structure</li>
+                            <li>Vector storage (RAG)</li>
+                            <li>Conversational Silhouette (replaces 73Q form)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <p class="footer-meta">Product Vision | Dec 15-16, 2025</p>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+                // Add active to clicked tab
+                tab.classList.add('active');
+                const panelId = tab.dataset.tab;
+                document.getElementById(panelId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
