@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Bones - Comprehensive Business Plan</title>
+    <style>
+        :root {
+            --gold: #C9A962;
+            --cream: #FDF8F0;
+            --espresso: #2C1810;
+            --burgundy: #722F37;
+            --sage: #9CAF88;
+            --brass: #B5A642;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: var(--cream);
+            color: var(--espresso);
+            line-height: 1.7;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--espresso) 0%, #1a0f0a 100%);
+            color: var(--cream);
+            padding: 80px 40px;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .header .tagline {
+            font-size: 1.3rem;
+            font-style: italic;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header .location {
+            margin-top: 30px;
+            font-size: 0.95rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .nav {
+            background: var(--espresso);
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .nav a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        section {
+            margin-bottom: 80px;
+            background: white;
+            padding: 50px;
+            border-radius: 4px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--espresso);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--gold);
+            font-weight: 400;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--burgundy);
+            margin: 35px 0 20px;
+            font-weight: 500;
+        }
+
+        h4 {
+            font-size: 1.15rem;
+            color: var(--espresso);
+            margin: 25px 0 15px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--espresso);
+            color: var(--cream);
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0d8d0;
+        }
+
+        tr:nth-child(even) {
+            background: #faf7f2;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--cream) 0%, #f5ede0 100%);
+            border-left: 4px solid var(--gold);
+            padding: 25px 30px;
+            margin: 30px 0;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: var(--espresso);
+            color: var(--cream);
+            padding: 25px;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            color: var(--gold);
+            font-weight: 300;
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 8px;
+        }
+
+        .comp-card {
+            border: 1px solid #e0d8d0;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .comp-card h4 {
+            color: var(--burgundy);
+            margin-top: 0;
+        }
+
+        .comp-card .location-tag {
+            display: inline-block;
+            background: var(--sage);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .source {
+            font-size: 0.85rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .source a {
+            color: var(--burgundy);
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .color-swatch {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+            margin-right: 15px;
+            vertical-align: middle;
+            border: 1px solid #ccc;
+        }
+
+        .color-row {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .risk-high { border-left: 4px solid #c0392b; }
+        .risk-medium { border-left: 4px solid #f39c12; }
+        .risk-low { border-left: 4px solid #27ae60; }
+
+        .pitch-slide {
+            background: #f8f5f0;
+            border: 2px solid var(--gold);
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .pitch-slide .slide-num {
+            background: var(--gold);
+            color: var(--espresso);
+            padding: 5px 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .executive-summary {
+            background: linear-gradient(135deg, var(--espresso) 0%, #3d2317 100%);
+            color: var(--cream);
+            padding: 40px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+        }
+
+        .executive-summary h3 {
+            color: var(--gold);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            section { padding: 30px 20px; }
+            .container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1>GOOD BONES</h1>
+    <p class="tagline">An all-day community sanctuary fusing premium coffee culture, soul-rooted comfort food, and Old Hollywood glamour</p>
+    <p class="location">1816 N Vermont Avenue, Los Feliz, Los Angeles</p>
+</header>
+
+<nav class="nav">
+    <ul>
+        <li><a href="#executive">Executive Summary</a></li>
+        <li><a href="#research">Competitive Research</a></li>
+        <li><a href="#financial">Financial Model</a></li>
+        <li><a href="#design">Design Bible</a></li>
+        <li><a href="#positioning">Positioning</a></li>
+        <li><a href="#pitch">Pitch Deck</a></li>
+        <li><a href="#risks">Risk Assessment</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+<!-- EXECUTIVE SUMMARY -->
+<section id="executive">
+    <h2>Executive Summary</h2>
+
+    <div class="executive-summary">
+        <h3>The Opportunity</h3>
+        <p><strong>Alley Steakhouse at 1816 N Vermont Ave is showing clear signs of failure.</strong> Reviews describe it as "very large and sparsely populated with diners." The food is "good enough" — damning faint praise for an expensive steakhouse. Same hospitality group as Figaro Bistrot (great vibes, mediocre execution). Firsthand visit (Christmas 2025): "Really really bad." This 3,200 sqft space with dramatic bow barrel truss ceilings will likely become available within 12-18 months.</p>
+
+        <h3>The Strategy: Watch & Prepare</h3>
+        <p><strong>18-month timeline to funding readiness.</strong> Use this window to: secure investors, assemble team, refine concept, build relationships with landlord, and position to be first in line when the space becomes available.</p>
+
+        <h3>The Concept</h3>
+        <p>Good Bones is an all-day community sanctuary where you can spend a whole Sunday — gospel music over biscuits at 9am, transition to wine and small plates at 5pm. Black-owned premium cafe that doesn't announce itself — it just IS.</p>
+
+        <h3>Key Projections (Year 2 Stabilized)</h3>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="number">$1.8M</div>
+                <div class="label">Annual Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">16%</div>
+                <div class="label">EBITDA Margin</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">$288K</div>
+                <div class="label">Annual EBITDA</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">18-24</div>
+                <div class="label">Months to Break-Even</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Why Now, Why Here</h3>
+    <ul>
+        <li><strong>Space availability:</strong> Alley Steakhouse at 1816 N Vermont Ave is struggling — "sparsely populated," "good enough" reviews. Same hospitality group as Figaro Bistrot. Predicted failure within 12-18 months creates opportunity for 3,200 sqft premium space.</li>
+        <li><strong>Market gap:</strong> No premium all-day cafe with evening wine program in Los Feliz (All Time closest but different positioning)</li>
+        <li><strong>Cultural moment:</strong> Growing demand for "third places" that aren't home or work</li>
+        <li><strong>Demographics:</strong> Los Feliz median HH income $90,532, median age 38 — ideal for premium cafe</li>
+    </ul>
+</section>
+
+<!-- SECTION 1: COMPETITIVE RESEARCH -->
+<section id="research">
+    <h2>Section 1: Deep Competitive Research</h2>
+
+    <h3>Los Angeles Market</h3>
+
+    <div class="comp-card">
+        <span class="location-tag">Los Feliz</span>
+        <h4>All Time — The Primary Local Comp</h4>
+        <p><strong>Location:</strong> 2040 Hillhurst Ave (0.5 miles from target space)</p>
+        <p><strong>Concept:</strong> All-day cafe serving "light, sunshiny breakfast and lunch fare" with elevated dinner (dry-aged ribeye, housemade pasta). Established 2018.</p>
+        <p><strong>Hours:</strong> 8am-2:30pm, 5pm-10pm daily</p>
+        <p><strong>What Works:</strong> Spacious wooden patio, seasonal menu, garden bar for drinks, private event spaces (The Greenhouse, The Deck)</p>
+        <p><strong>Differentiation Opportunity:</strong> All Time is California-Mediterranean. Good Bones is soul-rooted comfort food with Old Hollywood glamour. Different sonic identity. Different cultural positioning.</p>
+        <p class="source">Source: <a href="https://alltimelosangeles.com/">All Time Official Site</a>, <a href="https://www.yelp.com/biz/all-time-los-angeles">Yelp (748 photos, 651 reviews)</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Los Feliz</span>
+        <h4>Figaro Bistrot</h4>
+        <p><strong>Location:</strong> 1802 N Vermont Ave (steps from target space)</p>
+        <p><strong>Concept:</strong> French bistro with Parisian fin de siècle décor — French antiques, cast-iron chandeliers, zinc bar</p>
+        <p><strong>Critical Assessment:</strong> "While the food here is nothing special, the ambience and scene is downright Los Feliz" — The Infatuation</p>
+        <p><strong>Lesson:</strong> Proves the neighborhood values atmosphere and "scene" even when food is mediocre. Good Bones must deliver on BOTH.</p>
+        <p class="source">Source: <a href="https://www.theinfatuation.com/los-angeles/reviews/figaro-bistrot">The Infatuation</a>, <a href="https://www.yelp.com/biz/figaro-bistrot-los-angeles-2">Yelp (1,633 reviews)</a></p>
+    </div>
+
+    <div class="comp-card" style="border-left-color: #dc2626;">
+        <span class="location-tag">Los Feliz — TARGET SPACE</span>
+        <h4>Alley Steakhouse (Current Tenant at 1816 N Vermont)</h4>
+        <p><strong>Location:</strong> 1816 N Vermont Ave (THE target space)</p>
+        <p><strong>Concept:</strong> Steakhouse in former Atrium space. Same hospitality group as Figaro Bistrot.</p>
+        <p><strong>Current Status:</strong> STRUGGLING</p>
+        <ul>
+            <li>"Very large and sparsely populated with diners" — Yelp review</li>
+            <li>"Food is good enough" — damning faint praise for premium steakhouse pricing</li>
+            <li>Only 37 Yelp reviews, 13 OpenTable reviews (low engagement for the space)</li>
+            <li>Firsthand visit (Christmas 2025): "Really really bad"</li>
+        </ul>
+        <p><strong>Predicted Outcome:</strong> Failure within 12-18 months. Space will become available.</p>
+        <p><strong>Strategic Implication:</strong> Same hospitality group that runs Figaro (which survives on "scene" alone despite mediocre food) couldn't make a steakhouse work in this space. The space needs a CONCEPT, not just food — Good Bones offers that.</p>
+        <p class="source">Source: <a href="https://www.yelp.com/biz/alley-los-angeles-5">Yelp (37 reviews)</a>, <a href="https://www.opentable.com/r/alley-los-angeles">OpenTable (13 reviews)</a>, Firsthand visit Dec 2025</p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Los Feliz</span>
+        <h4>Maru Coffee</h4>
+        <p><strong>Location:</strong> 1936 Hillhurst Ave</p>
+        <p><strong>Concept:</strong> Premium Korean-American specialty coffee. Bootstrapped growth since 2016. Self-roasts in Glassell Park. Now 4 LA locations + Brooklyn expansion (Sept 2025).</p>
+        <p><strong>What Works:</strong> Minimalist design, founders built furniture themselves from YouTube tutorials, "Maru means the wooden floor of the communal space" in Korean</p>
+        <p><strong>Key Insight:</strong> Proves premium specialty coffee can scale from single Los Feliz location to multi-city expansion WITHOUT venture capital.</p>
+        <p class="source">Source: <a href="https://www.marucoffee.com/">Maru Coffee Official</a>, <a href="https://sprudge.com/sprudge-maps-spotlight-maru-coffee-in-los-angeles-ca-184840.html">Sprudge</a>, <a href="https://facultydept.com/maru-coffee/">Faculty Department Interview</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Virgil Village</span>
+        <h4>Good Friend Coffee — Direct Naming Competitor</h4>
+        <p><strong>Location:</strong> Virgil Village, opened October 2024</p>
+        <p><strong>Founder:</strong> Max Rand (5 years at Alfred Coffee)</p>
+        <p><strong>Concept:</strong> Multi-roaster coffee shop. "Coffee should be fun and approachable." Klein Agency design with pops of primary colors.</p>
+        <p><strong>Quote:</strong> "We want it to be a community watering hole where people can come and hang out, post up on a laptop, or meet up with friends"</p>
+        <p><strong>Differentiation:</strong> Good Friend is coffee-focused daytime only. Good Bones adds food program, evening wine, and cultural identity.</p>
+        <p class="source">Source: <a href="https://voyagela.com/interview/hidden-gems-meet-max-rand-of-good-friend-coffee/">Voyage LA Interview</a>, <a href="https://whatnowlosangeles.com/good-friend-coffee-is-coming-to-virgil-village/">What Now LA</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Hollywood / Multiple</span>
+        <h4>Sightglass Coffee — Cautionary Tale</h4>
+        <p><strong>Revenue:</strong> ~$29.1M annually (2025 estimate)</p>
+        <p><strong>Employees:</strong> 92 (35.3% growth YoY)</p>
+        <p><strong>Funding:</strong> Angel round from Jack Dorsey (Square) and GingerBread Capital</p>
+        <p><strong>2024 News:</strong> Founders Justin and Jerad Morrison departed after 15 years. New CEO Sharon Healy (ex-Starbucks) took over.</p>
+        <p><strong>Lesson:</strong> "Sightglass becomes the latest local third-wave coffee business to relinquish its original leadership after raising millions in venture capital funding, following in the footsteps of Blue Bottle and Philz."</p>
+        <p><strong>Implication for Good Bones:</strong> Consider bootstrap path like Maru vs. VC path that often leads to founder exit.</p>
+        <p class="source">Source: <a href="https://sfstandard.com/2024/05/22/sightglass-coffee-founders-depart-new-ceo-joins/">SF Standard</a>, <a href="https://www.crunchbase.com/organization/sightglass-coffee-roasters">Crunchbase</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Multiple LA</span>
+        <h4>Go Get Em Tiger (GGET)</h4>
+        <p><strong>Funding:</strong> $4.73M raised</p>
+        <p><strong>Investors:</strong> Yoram Heller (also Sweetgreen investor)</p>
+        <p><strong>Locations:</strong> 10+ cafes including Larchmont, Los Feliz, Arts District</p>
+        <p><strong>Operations:</strong> Started self-roasting mid-2018, built 4,000 sqft commissary kitchen for pastries/food</p>
+        <p><strong>Founder Quote:</strong> "Our main interest is being the standout coffee shop of Los Angeles... regional prestige versus global domination"</p>
+        <p class="source">Source: <a href="https://tastecooking.com/go-get-em-tiger-didnt-just-raise-bar-changed/">TASTE Cooking</a>, <a href="https://www.crunchbase.com/organization/go-get-em-tiger">Crunchbase</a></p>
+    </div>
+
+    <h3>Black-Owned Premium Cafes in LA</h3>
+
+    <div class="highlight-box">
+        <p><strong>Market Gap Identified:</strong> There is NO Black-owned premium all-day cafe with evening wine program in the Los Feliz/Silver Lake/Echo Park corridor. The closest comps are in South LA (Sip & Sonder, Hilltop) or are restaurants without the all-day cafe element (Alta Adams).</p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Inglewood / DTLA</span>
+        <h4>Sip & Sonder</h4>
+        <p><strong>Founders:</strong> Shanita Nicholas and Amanda-Jane Thomas (Black women-owned)</p>
+        <p><strong>Opened:</strong> 2017 in Inglewood, second location at Music Center Downtown</p>
+        <p><strong>Concept:</strong> "Chose their cafe's location carefully, intending to represent their community." Also doubles as recording studio and event space.</p>
+        <p><strong>Lesson:</strong> Community intentionality + multi-use space = strong brand identity</p>
+        <p class="source">Source: <a href="https://www.timeout.com/los-angeles/restaurants/black-owned-coffee-shops-los-angeles">Time Out LA</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Slauson / Inglewood / DTLA</span>
+        <h4>Hilltop Coffee + Kitchen</h4>
+        <p><strong>Recognition:</strong> Featured on HBO's Insecure</p>
+        <p><strong>Concept:</strong> High-quality coffee and tea, lavender latte, all-day menu (pastries, grain bowls, sandwiches, "droptops"), beignets, weekend waffles</p>
+        <p><strong>Lesson:</strong> Soul food touchstones (beignets) + specialty coffee can coexist successfully</p>
+        <p class="source">Source: <a href="https://www.timeout.com/los-angeles/restaurants/black-owned-coffee-shops-los-angeles">Time Out LA</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">West Adams</span>
+        <h4>Alta Adams — Upscale Soul Food Reference</h4>
+        <p><strong>Chef:</strong> Keith Corbin (James Beard Award-nominated)</p>
+        <p><strong>Concept:</strong> "Fancified versions of soul food staples" — pimento dip, smoked brisket, shrimp and grits, fried chicken, oxtails, vegan gumbo + "terrific wine list"</p>
+        <p><strong>Lesson:</strong> Proves market for elevated soul food with wine program in LA. Good Bones applies this to all-day cafe format.</p>
+        <p class="source">Source: <a href="https://altaadams.com/">Alta Adams</a>, <a href="https://www.kcrw.com/culture/shows/good-food/black-owned-restaurants-los-angeles-guide">KCRW</a></p>
+    </div>
+
+    <h3>Aspirational Comp: Jackson Hole</h3>
+
+    <div class="comp-card" style="border: 2px solid var(--gold);">
+        <span class="location-tag">Jackson Hole, WY</span>
+        <h4>Persephone Bakery — The Gold Standard</h4>
+        <p><strong>Founders:</strong> Kevin Cohane (Le Cordon Bleu-trained) and Ali Cohane</p>
+        <p><strong>History:</strong> Started as wholesale bakery (2010) → first retail location (2013) → now 4 locations</p>
+        <p><strong>Recognition:</strong> James Beard Foundation semifinalist Outstanding Pastry Chef (2020), "Most Beautiful Coffee Shop in Every State" (Architectural Digest), "Best Bakery in Every State" (Mashed)</p>
+        <p><strong>Menu:</strong> Breakfast all day, seasonal lunch, Intelligentsia Coffee, Bellocq Teas, beer and wine. Kitchen closes 3pm.</p>
+
+        <h4>Design DNA (Directly Applicable to Good Bones):</h4>
+        <ul>
+            <li><strong>"Walking into Persephone's whitewashed space feels what we'd imagine stepping onto a Nancy Meyers film set feels like"</strong></li>
+            <li>The famous "spoon wall" — wooden spoons arranged organically (originally planned as rolling pins)</li>
+            <li>"Bright, open space is like an oasis of calm"</li>
+            <li>"Rustic yet elegant" — artisanal but not precious</li>
+            <li>Small indoor space (6 cafe tables) + expanded outdoor space</li>
+        </ul>
+
+        <p><strong>Yelp:</strong> 1,772 photos, 1,530 reviews, Health Score 98/100</p>
+        <p class="source">Source: <a href="https://persephonebakery.com/">Persephone Official</a>, <a href="https://www.yelp.com/biz/persephone-bakery-jackson">Yelp</a>, <a href="https://jacksonholemagazine.com/rising-dreams/">Jackson Hole Magazine</a></p>
+    </div>
+
+    <h3>Seattle Market Comps</h3>
+
+    <div class="comp-card">
+        <span class="location-tag">Seattle - Smith Tower</span>
+        <h4>Caffe Vita — Wine Integration Model</h4>
+        <p><strong>Founded:</strong> 1995, still independent and locally-owned after 30 years</p>
+        <p><strong>All-Day Model:</strong> "More than just your morning cup, this welcoming space offers rotating seasonal drinks, locally sourced beer and wine, and unexpected bites"</p>
+        <p><strong>Wine Program:</strong> Monday-Friday 3PM-5PM: weekly spotlights from local wineries, wine flights, $2 off glass pours</p>
+        <p><strong>Multi-Location:</strong> Flagship roastery (Capitol Hill), KEXP (music-focused), Smith Tower (wine-focused)</p>
+        <p><strong>Lesson:</strong> Same brand can have different expressions per location. Wine happy hour drives afternoon/evening traffic.</p>
+        <p class="source">Source: <a href="https://www.caffevita.com/">Caffe Vita</a>, <a href="https://www.smithtower.com/caffe-vita/">Smith Tower Location</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Seattle - Capitol Hill (CLOSED)</span>
+        <h4>Cafe Presse — The Departed Legend</h4>
+        <p><strong>Operated:</strong> 2007-2024 (17 years)</p>
+        <p><strong>Hours:</strong> 7am-2am daily (!)</p>
+        <p><strong>Concept:</strong> French cafe-bar. Caffe Vita coffee, house-made pastries, affordable French wines, roast chicken that took an hour to prepare</p>
+        <p><strong>What Made It Special:</strong></p>
+        <ul>
+            <li>"The perfect, all day, unpretentious cafe for just about every occasion"</li>
+            <li>Weekend bar for watching soccer</li>
+            <li>French conversation nights every other Wednesday</li>
+            <li>"My favorite place to eat in Seattle. Fantastic and authentic French cafe food, reasonably priced and no pretension whatsoever"</li>
+            <li>Anthony Bourdain was a fan</li>
+        </ul>
+        <p><strong>Why It Closed:</strong> Economics of 7am-2am operations, rising costs, post-pandemic challenges</p>
+        <p><strong>Lesson:</strong> Beloved doesn't mean profitable. The 7am-2am model may be unsustainable. Good Bones should close earlier (10pm?).</p>
+        <p class="source">Source: <a href="https://www.theinfatuation.com/seattle/reviews/cafe-presse">The Infatuation</a>, <a href="https://www.tripadvisor.com/Restaurant_Review-g60878-d678783-Reviews-Cafe_Presse-Seattle_Washington.html">TripAdvisor</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Seattle - Capitol Hill</span>
+        <h4>Volunteer Park Cafe & Pantry</h4>
+        <p><strong>Format:</strong> "Hybrid coffee shop, bottleshop, and corner market" in a c.1904 yellow house</p>
+        <p><strong>Hours:</strong> Wed-Sun 8am-5pm (kitchen closes 3pm)</p>
+        <p><strong>Wine Program:</strong> "Unpretentious monthly wine dinners spotlight a local winemaker"</p>
+        <p><strong>Reviews:</strong> "Breakfast, lunch or dinner, this place is amazing. Great people, delicious food, stellar coffee and amazing wine."</p>
+        <p><strong>Lesson:</strong> Smaller, focused hours (5 days, close at 5pm) can be sustainable. Wine dinners as events, not daily service.</p>
+        <p class="source">Source: <a href="https://www.volunteerpark.cafe">Volunteer Park Cafe</a>, <a href="https://www.yelp.com/biz/volunteer-park-cafe-and-pantry-seattle">Yelp</a></p>
+    </div>
+
+    <h3>Portland Market Comps</h3>
+
+    <div class="comp-card">
+        <span class="location-tag">Portland - NW 21st</span>
+        <h4>Sterling Coffee Roasters</h4>
+        <p><strong>Aesthetic:</strong> Staff wear suits — "a departure from Portland's casualwear norms and an ode to old-school Italian coffee culture"</p>
+        <p><strong>Events:</strong> Wine tastings and pop-up events leveraging expanded space</p>
+        <p><strong>Signature:</strong> "Blendo Stupendo" beans tailored for milk drinks — "accessible notes of chocolate and caramel"</p>
+        <p><strong>Growth:</strong> Started as small stand next to Trader Joe's → new location 10x the size</p>
+        <p><strong>Lesson:</strong> Dress code/aesthetic creates differentiation. Events drive revenue in larger space.</p>
+        <p class="source">Source: <a href="https://sprudge.com/at-portlands-sterling-coffee-the-space-is-bigger-but-the-intimacy-remains-131890.html">Sprudge</a>, <a href="https://www.pdxmonthly.com/eat-and-drink/2018/01/how-sterling-coffee-roasters-found-the-heart-of-portland-cafe-culture">Portland Monthly</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Portland - Alberta</span>
+        <h4>Proud Mary Coffee</h4>
+        <p><strong>Origin:</strong> Melbourne, Australia (2009) → Portland (June 2017)</p>
+        <p><strong>Recognition:</strong> Yelp Top 100 Brunch Spots in U.S. (2024)</p>
+        <p><strong>Concept:</strong> All-day breakfast, lunch (kitchen closes 3pm), Bloody Marys/Mimosas</p>
+        <p><strong>Operations:</strong> Roll own oats, make own curd/yogurt/cheese/kombucha/kefir in-house</p>
+        <p><strong>Space:</strong> "Spacious, sunlit interior features communal tables and a 30-foot coffee bar"</p>
+        <p><strong>Premium Positioning:</strong> Have sold $150 cups of coffee</p>
+        <p><strong>Lesson:</strong> In-house production = quality control + margin. Communal tables + long bar = efficient use of space.</p>
+        <p class="source">Source: <a href="https://proudmarycoffee.com/pages/portland-cafe">Proud Mary Official</a>, <a href="https://www.yelp.com/biz/proud-mary-coffee-portland">Yelp (966 reviews)</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Portland - Multiple</span>
+        <h4>Prince Coffee — Wine Bar Integration</h4>
+        <p><strong>Concept:</strong> "Drawing on Dutch coffee culture" with expanded food and "pours from women winemakers by the glass"</p>
+        <p><strong>Positioning:</strong> "Blurring the line between neighborhood cafe and wine bar"</p>
+        <p><strong>Lesson:</strong> Women winemakers = curated, story-driven wine list (applicable to Good Bones ethos)</p>
+        <p class="source">Source: <a href="https://www.pdxmonthly.com/eat-and-drink/best-coffee-shops-cafes-portland">Portland Monthly</a></p>
+    </div>
+
+    <h3>NYC Market Comps</h3>
+
+    <div class="comp-card">
+        <span class="location-tag">Brooklyn - Williamsburg</span>
+        <h4>Diner — The Institution</h4>
+        <p><strong>Established:</strong> 1999 (25+ years)</p>
+        <p><strong>Setting:</strong> "Tiny spot inside a dining car underneath a bridge... one of the first excellent restaurants to open in Williamsburg"</p>
+        <p><strong>Menu:</strong> Changes daily, farm-driven, handwritten on paper tablecloth</p>
+        <p><strong>Service:</strong> "Ultra-friendly... food is hearty and, above all, comfortable"</p>
+        <p><strong>Hours:</strong> Mon-Thu 5pm-10:30pm; Fri-Sun 10:30am-3pm brunch + 5pm-10:30pm dinner</p>
+        <p><strong>Lesson:</strong> 25-year longevity through consistency, farm relationships, and neighborhood identity. Brunch weekends only = sustainable.</p>
+        <p class="source">Source: <a href="https://www.dinernyc.com/">Diner Official</a>, <a href="https://www.theinfatuation.com/new-york/reviews/diner">The Infatuation</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Brooklyn - Multiple</span>
+        <h4>Devocion — Design + Direct Trade</h4>
+        <p><strong>Locations:</strong> 6 NYC cafes (Williamsburg flagship, Downtown Brooklyn, Flatiron, DUMBO, Midtown, NoMad)</p>
+        <p><strong>Differentiator:</strong> "Only company roasting true farm-fresh coffee only 10 days after leaving origin" (vs. industry norm of 6-12 months)</p>
+        <p><strong>Space:</strong> Williamsburg flagship has "stunning café space with indoor greenery and natural light"</p>
+        <p><strong>Lesson:</strong> Unique supply chain story = marketing differentiation. Indoor greenery = Instagrammable + biophilic design.</p>
+        <p class="source">Source: <a href="https://www.devocion.com/">Devocion Official</a>, <a href="https://www.yelp.com/biz/devocion-brooklyn-12">Yelp (651 reviews)</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Manhattan - East Village</span>
+        <h4>Abraco — The Neighborhood Institution</h4>
+        <p><strong>Owners:</strong> Liz Quijada and Jamie McCormick</p>
+        <p><strong>Hours:</strong> Mon-Thu 8-8, Fri-Sat 8-10, Sun 9-6</p>
+        <p><strong>Menu:</strong> Coffee, pastries, cocktails, beer, wine</p>
+        <p><strong>Atmosphere:</strong> "A convivial attitude to interacting and not a laptop-driven-solitude kind of space"</p>
+        <p><strong>Legacy:</strong> "That rarest, most important, and fast disappearing facets of urban life in New York City" — a true neighborhood institution after 10+ years</p>
+        <p><strong>Lesson:</strong> Intentionally NOT laptop-friendly creates different energy. Community over productivity.</p>
+        <p class="source">Source: <a href="https://sprudge.com/abraco-109241.html">Sprudge</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Brooklyn - Prospect Heights</span>
+        <h4>Gertie — Jewish Deli Meets Wine Bar</h4>
+        <p><strong>Concept:</strong> Modern "Jew-ish" diner + bar. Bagels, pastries, deli sandwiches, natural wine, cocktails inspired by Dr. Brown's soda fountain</p>
+        <p><strong>Evolution:</strong> "Wasn't specifically Jewish when we opened it, it was more like New York City food... the 'daytime cafe' concept evolved during the pandemic"</p>
+        <p><strong>Drinks:</strong> Chocolate egg cream latte, B&W coffee shake, borscht Bloody Marys, Aquavit pickle martinis</p>
+        <p><strong>Lesson:</strong> Cultural identity can evolve. Creative cocktails tied to food heritage = memorable drinks program.</p>
+        <p class="source">Source: <a href="https://www.gertie.nyc">Gertie Official</a>, <a href="https://www.theinfatuation.com/new-york/reviews/gertie">The Infatuation</a></p>
+    </div>
+
+    <h3>Gospel Brunch Competitive Landscape</h3>
+
+    <div class="highlight-box">
+        <p><strong>Cultural Context:</strong> "Once upon a time, hearing gospel music in a place that served alcohol would have been unthinkable. Now it's merely unusual and getting less so."</p>
+        <p>— The Washington Post</p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Multiple</span>
+        <h4>House of Blues Gospel Brunch</h4>
+        <p><strong>Founders:</strong> Dan Aykroyd (Blues Brothers) and Isaac Tigrett (Hard Rock Cafe founder)</p>
+        <p><strong>Format:</strong> Live gospel band performing on stage + buffet brunch</p>
+        <p><strong>Impact:</strong> $1 of every ticket benefits Music Forward Foundation</p>
+        <p><strong>Food:</strong> Chicken and waffles made fresh in front of guests, multiple buffet lines</p>
+        <p><strong>Lesson:</strong> Gospel brunch is proven format but HoB is corporate/tourist. Good Bones can be intimate/local.</p>
+        <p class="source">Source: <a href="https://www.houseofblues.com/gospelbrunch">House of Blues</a></p>
+    </div>
+
+    <div class="comp-card">
+        <span class="location-tag">Pasadena</span>
+        <h4>The Rose — Soulful Sunday Brunch</h4>
+        <p><strong>Host:</strong> Miss Sylvia St. James (original House of Blues Sunday Gospel Brunch)</p>
+        <p><strong>Format:</strong> Live Gospel choir + buffet (BBQ spare ribs, lasagna, fried chicken, mac & cheese)</p>
+        <p><strong>Differentiation:</strong> More intimate than HoB, hosted by gospel brunch pioneer</p>
+        <p class="source">Source: <a href="https://www.los-angeles-theatre.com/shows/the-rose/soulful-sunday-brunch">The Rose</a></p>
+    </div>
+
+    <h3>Los Feliz Real Estate Intelligence</h3>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Los Feliz Data</th>
+            <th>Source</th>
+        </tr>
+        <tr>
+            <td>Asking Rent (Vermont Ave)</td>
+            <td>~$3.50/sqft</td>
+            <td>PropertyShark</td>
+        </tr>
+        <tr>
+            <td>Retail Listings Available</td>
+            <td>5 listings / 7,615 sqft total</td>
+            <td>CommercialCafe</td>
+        </tr>
+        <tr>
+            <td>Median Resident Age</td>
+            <td>38 years</td>
+            <td>CommercialCafe</td>
+        </tr>
+        <tr>
+            <td>Median Household Income</td>
+            <td>$90,532/year</td>
+            <td>CommercialCafe</td>
+        </tr>
+        <tr>
+            <td>LA Retail Vacancy Rate</td>
+            <td>5.5% (up from 5.2%)</td>
+            <td>Cushman & Wakefield</td>
+        </tr>
+        <tr>
+            <td>Target Space (Alley Steakhouse)</td>
+            <td>3,200 sqft</td>
+            <td>California Home+Design</td>
+        </tr>
+        <tr>
+            <td>Target Space Status</td>
+            <td><strong>OPERATING (struggling)</strong></td>
+            <td>Yelp/OpenTable (Jan 2026)</td>
+        </tr>
+    </table>
+
+    <h3>Target Space: 1816 N Vermont Ave (Currently Alley Steakhouse)</h3>
+
+    <div class="highlight-box">
+        <h4>Space Details</h4>
+        <ul>
+            <li><strong>Size:</strong> 3,200 sqft</li>
+            <li><strong>Ceiling:</strong> "High bow barrel truss ceiling"</li>
+            <li><strong>Features:</strong> Exposed brick, olive tree, string-lit entrance, wrap-around bar, indoor-outdoor flow</li>
+            <li><strong>History:</strong> Former storage for Skylight Theatre, converted to restaurant 2018 (as Atrium)</li>
+            <li><strong>Current Tenant:</strong> Alley Steakhouse (same hospitality group as Figaro Bistrot)</li>
+            <li><strong>Current Status:</strong> Struggling — "very large and sparsely populated with diners," food is "good enough" (damning faint praise for steakhouse pricing)</li>
+            <li><strong>Firsthand Intel (Christmas 2025):</strong> "Really really bad" — confirms reviews</li>
+            <li><strong>Predicted Outcome:</strong> Failure within 12-18 months</li>
+            <li><strong>Parking:</strong> "Neighborhood parking is a big drag" — noted in reviews of prior tenant</li>
+        </ul>
+        <p class="source">Source: <a href="https://www.yelp.com/biz/alley-los-angeles-5">Alley Yelp (37 reviews)</a>, <a href="https://www.opentable.com/r/alley-los-angeles">OpenTable (13 reviews)</a>, <a href="https://www.californiahomedesign.com/destinations/2018/11/28/design-dish-atrium-los-feliz/">California Home+Design (space details)</a></p>
+    </div>
+</section>
+
+<!-- SECTION 2: FINANCIAL MODEL -->
+<section id="financial">
+    <h2>Section 2: Refined Financial Model</h2>
+
+    <h3>Key Assumptions</h3>
+
+    <table>
+        <tr>
+            <th>Assumption</th>
+            <th>Value</th>
+            <th>Rationale</th>
+        </tr>
+        <tr>
+            <td>Square Footage</td>
+            <td>3,200 sqft</td>
+            <td>Alley Steakhouse space (inherited from Atrium)</td>
+        </tr>
+        <tr>
+            <td>Seats (Indoor + Patio)</td>
+            <td>85 total</td>
+            <td>~25 sqft/seat for cafe format</td>
+        </tr>
+        <tr>
+            <td>Monthly Rent</td>
+            <td>$11,200 ($3.50/sqft)</td>
+            <td>Los Feliz asking rate</td>
+        </tr>
+        <tr>
+            <td>Days Open</td>
+            <td>7 days/week</td>
+            <td>All-day cafe model</td>
+        </tr>
+        <tr>
+            <td>Hours</td>
+            <td>7am-10pm (15 hrs)</td>
+            <td>Coffee through evening wine</td>
+        </tr>
+    </table>
+
+    <h3>Revenue Model by Daypart</h3>
+
+    <h4>Morning (7am-11am) — Coffee + Breakfast</h4>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Weekday</th>
+            <th>Weekend</th>
+        </tr>
+        <tr>
+            <td>Transactions</td>
+            <td>80</td>
+            <td>120</td>
+        </tr>
+        <tr>
+            <td>Avg Ticket</td>
+            <td>$14</td>
+            <td>$18</td>
+        </tr>
+        <tr>
+            <td>Daily Revenue</td>
+            <td>$1,120</td>
+            <td>$2,160</td>
+        </tr>
+    </table>
+
+    <h4>Midday (11am-3pm) — Lunch</h4>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Weekday</th>
+            <th>Weekend</th>
+        </tr>
+        <tr>
+            <td>Transactions</td>
+            <td>60</td>
+            <td>90</td>
+        </tr>
+        <tr>
+            <td>Avg Ticket</td>
+            <td>$18</td>
+            <td>$22</td>
+        </tr>
+        <tr>
+            <td>Daily Revenue</td>
+            <td>$1,080</td>
+            <td>$1,980</td>
+        </tr>
+    </table>
+
+    <h4>Afternoon (3pm-6pm) — Coffee + Light Bites</h4>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Weekday</th>
+            <th>Weekend</th>
+        </tr>
+        <tr>
+            <td>Transactions</td>
+            <td>40</td>
+            <td>50</td>
+        </tr>
+        <tr>
+            <td>Avg Ticket</td>
+            <td>$12</td>
+            <td>$14</td>
+        </tr>
+        <tr>
+            <td>Daily Revenue</td>
+            <td>$480</td>
+            <td>$700</td>
+        </tr>
+    </table>
+
+    <h4>Evening (6pm-10pm) — Wine + Small Plates</h4>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Weekday</th>
+            <th>Weekend</th>
+        </tr>
+        <tr>
+            <td>Transactions</td>
+            <td>35</td>
+            <td>55</td>
+        </tr>
+        <tr>
+            <td>Avg Ticket</td>
+            <td>$32</td>
+            <td>$38</td>
+        </tr>
+        <tr>
+            <td>Daily Revenue</td>
+            <td>$1,120</td>
+            <td>$2,090</td>
+        </tr>
+    </table>
+
+    <h3>Weekly Revenue Summary</h3>
+
+    <table>
+        <tr>
+            <th>Daypart</th>
+            <th>Weekday (5 days)</th>
+            <th>Weekend (2 days)</th>
+            <th>Weekly Total</th>
+        </tr>
+        <tr>
+            <td>Morning</td>
+            <td>$5,600</td>
+            <td>$4,320</td>
+            <td>$9,920</td>
+        </tr>
+        <tr>
+            <td>Midday</td>
+            <td>$5,400</td>
+            <td>$3,960</td>
+            <td>$9,360</td>
+        </tr>
+        <tr>
+            <td>Afternoon</td>
+            <td>$2,400</td>
+            <td>$1,400</td>
+            <td>$3,800</td>
+        </tr>
+        <tr>
+            <td>Evening</td>
+            <td>$5,600</td>
+            <td>$4,180</td>
+            <td>$9,780</td>
+        </tr>
+        <tr style="background: var(--gold); color: var(--espresso); font-weight: bold;">
+            <td>TOTAL</td>
+            <td>$19,000</td>
+            <td>$13,860</td>
+            <td>$32,860</td>
+        </tr>
+    </table>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="number">$32,860</div>
+            <div class="label">Weekly Revenue</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">$142,394</div>
+            <div class="label">Monthly Revenue</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">$1.71M</div>
+            <div class="label">Annual Revenue</div>
+        </div>
+    </div>
+
+    <h3>Revenue Mix Analysis</h3>
+
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>% of Revenue</th>
+            <th>Annual $</th>
+        </tr>
+        <tr>
+            <td>Coffee/Beverages (non-alcohol)</td>
+            <td>30%</td>
+            <td>$513,000</td>
+        </tr>
+        <tr>
+            <td>Food (Breakfast/Lunch)</td>
+            <td>40%</td>
+            <td>$684,000</td>
+        </tr>
+        <tr>
+            <td>Wine/Beer</td>
+            <td>20%</td>
+            <td>$342,000</td>
+        </tr>
+        <tr>
+            <td>Retail (Beans, Merchandise)</td>
+            <td>5%</td>
+            <td>$85,500</td>
+        </tr>
+        <tr>
+            <td>Events/Private</td>
+            <td>5%</td>
+            <td>$85,500</td>
+        </tr>
+    </table>
+
+    <h3>Cost Structure (Year 2 Stabilized)</h3>
+
+    <table>
+        <tr>
+            <th>Expense Category</th>
+            <th>% Revenue</th>
+            <th>Monthly $</th>
+            <th>Annual $</th>
+        </tr>
+        <tr>
+            <td>Cost of Goods Sold (COGS)</td>
+            <td>30%</td>
+            <td>$42,718</td>
+            <td>$513,000</td>
+        </tr>
+        <tr>
+            <td>Labor (incl. taxes/benefits)</td>
+            <td>32%</td>
+            <td>$45,566</td>
+            <td>$547,200</td>
+        </tr>
+        <tr>
+            <td>Rent</td>
+            <td>7.9%</td>
+            <td>$11,200</td>
+            <td>$134,400</td>
+        </tr>
+        <tr>
+            <td>Utilities</td>
+            <td>3%</td>
+            <td>$4,272</td>
+            <td>$51,300</td>
+        </tr>
+        <tr>
+            <td>Insurance</td>
+            <td>2%</td>
+            <td>$2,848</td>
+            <td>$34,200</td>
+        </tr>
+        <tr>
+            <td>Marketing</td>
+            <td>3%</td>
+            <td>$4,272</td>
+            <td>$51,300</td>
+        </tr>
+        <tr>
+            <td>Supplies/Smallwares</td>
+            <td>2%</td>
+            <td>$2,848</td>
+            <td>$34,200</td>
+        </tr>
+        <tr>
+            <td>Technology/POS/Software</td>
+            <td>1%</td>
+            <td>$1,424</td>
+            <td>$17,100</td>
+        </tr>
+        <tr>
+            <td>Repairs/Maintenance</td>
+            <td>1.5%</td>
+            <td>$2,136</td>
+            <td>$25,650</td>
+        </tr>
+        <tr>
+            <td>Professional Services</td>
+            <td>1%</td>
+            <td>$1,424</td>
+            <td>$17,100</td>
+        </tr>
+        <tr>
+            <td>Miscellaneous</td>
+            <td>1.5%</td>
+            <td>$2,136</td>
+            <td>$25,650</td>
+        </tr>
+        <tr style="background: #f5f5f5; font-weight: bold;">
+            <td>TOTAL OPERATING EXPENSES</td>
+            <td>84%</td>
+            <td>$120,844</td>
+            <td>$1,451,100</td>
+        </tr>
+        <tr style="background: var(--gold); color: var(--espresso); font-weight: bold;">
+            <td>EBITDA</td>
+            <td>16%</td>
+            <td>$21,550</td>
+            <td>$258,900</td>
+        </tr>
+    </table>
+
+    <h3>Staffing Model</h3>
+
+    <h4>Daily Staffing by Daypart</h4>
+    <table>
+        <tr>
+            <th>Position</th>
+            <th>Morning (7-11)</th>
+            <th>Midday (11-3)</th>
+            <th>Afternoon (3-6)</th>
+            <th>Evening (6-10)</th>
+        </tr>
+        <tr>
+            <td>Barista</td>
+            <td>2</td>
+            <td>2</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>Line Cook</td>
+            <td>2</td>
+            <td>2</td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Server/Counter</td>
+            <td>2</td>
+            <td>3</td>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>Dishwasher</td>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>Manager on Duty</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td>TOTAL</td>
+            <td>8</td>
+            <td>9</td>
+            <td>5</td>
+            <td>8</td>
+        </tr>
+    </table>
+
+    <h4>Weekly Labor Hours & Cost</h4>
+    <table>
+        <tr>
+            <th>Position</th>
+            <th>FTEs</th>
+            <th>Hourly Rate</th>
+            <th>Weekly Hours</th>
+            <th>Weekly Cost</th>
+        </tr>
+        <tr>
+            <td>General Manager</td>
+            <td>1</td>
+            <td>$32 (salary equiv)</td>
+            <td>50</td>
+            <td>$1,600</td>
+        </tr>
+        <tr>
+            <td>Assistant Manager</td>
+            <td>1</td>
+            <td>$26</td>
+            <td>45</td>
+            <td>$1,170</td>
+        </tr>
+        <tr>
+            <td>Lead Barista</td>
+            <td>2</td>
+            <td>$22</td>
+            <td>80</td>
+            <td>$1,760</td>
+        </tr>
+        <tr>
+            <td>Barista</td>
+            <td>3</td>
+            <td>$18</td>
+            <td>100</td>
+            <td>$1,800</td>
+        </tr>
+        <tr>
+            <td>Head Chef</td>
+            <td>1</td>
+            <td>$30</td>
+            <td>50</td>
+            <td>$1,500</td>
+        </tr>
+        <tr>
+            <td>Line Cook</td>
+            <td>4</td>
+            <td>$20</td>
+            <td>140</td>
+            <td>$2,800</td>
+        </tr>
+        <tr>
+            <td>Server</td>
+            <td>5</td>
+            <td>$16 + tips</td>
+            <td>150</td>
+            <td>$2,400</td>
+        </tr>
+        <tr>
+            <td>Dishwasher</td>
+            <td>2</td>
+            <td>$17</td>
+            <td>50</td>
+            <td>$850</td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td>SUBTOTAL (before taxes)</td>
+            <td>19</td>
+            <td></td>
+            <td>665</td>
+            <td>$13,880</td>
+        </tr>
+        <tr>
+            <td>Payroll Taxes/Benefits (+25%)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>$3,470</td>
+        </tr>
+        <tr style="background: var(--gold); font-weight: bold;">
+            <td>TOTAL WEEKLY LABOR</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>$17,350</td>
+        </tr>
+    </table>
+
+    <p><strong>Monthly Labor:</strong> $75,183 | <strong>Annual Labor:</strong> $902,200 | <strong>Labor % of Revenue:</strong> 32%</p>
+
+    <h3>Build-Out Cost Estimate</h3>
+
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>Low Estimate</th>
+            <th>High Estimate</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>Design/Architecture</td>
+            <td>$25,000</td>
+            <td>$45,000</td>
+            <td>10-15% of build cost</td>
+        </tr>
+        <tr>
+            <td>Permits/Fees</td>
+            <td>$15,000</td>
+            <td>$25,000</td>
+            <td>LA permitting is slow/expensive</td>
+        </tr>
+        <tr>
+            <td>Construction/Renovation</td>
+            <td>$320,000</td>
+            <td>$480,000</td>
+            <td>$100-$150/sqft (steakhouse conversion)</td>
+        </tr>
+        <tr>
+            <td>Kitchen Equipment</td>
+            <td>$80,000</td>
+            <td>$120,000</td>
+            <td>Espresso, ovens, refrigeration, etc.</td>
+        </tr>
+        <tr>
+            <td>Furniture/Fixtures</td>
+            <td>$60,000</td>
+            <td>$90,000</td>
+            <td>Tables, chairs, banquettes, bar</td>
+        </tr>
+        <tr>
+            <td>POS/Technology</td>
+            <td>$15,000</td>
+            <td>$25,000</td>
+            <td>Toast/Square, displays, wifi</td>
+        </tr>
+        <tr>
+            <td>Signage/Branding</td>
+            <td>$10,000</td>
+            <td>$20,000</td>
+            <td>Exterior, menu boards, collateral</td>
+        </tr>
+        <tr>
+            <td>Smallwares/Opening Inventory</td>
+            <td>$25,000</td>
+            <td>$35,000</td>
+            <td>Plates, glasses, initial food/bev</td>
+        </tr>
+        <tr>
+            <td>ABC License (Type 41)</td>
+            <td>$1,000</td>
+            <td>$2,000</td>
+            <td>Beer/wine on-premise</td>
+        </tr>
+        <tr>
+            <td>Pre-Opening Labor/Training</td>
+            <td>$20,000</td>
+            <td>$30,000</td>
+            <td>4-6 weeks before opening</td>
+        </tr>
+        <tr>
+            <td>Contingency (15%)</td>
+            <td>$85,000</td>
+            <td>$130,000</td>
+            <td>Always goes over budget</td>
+        </tr>
+        <tr style="background: var(--gold); font-weight: bold;">
+            <td>TOTAL BUILD-OUT</td>
+            <td>$656,000</td>
+            <td>$1,002,000</td>
+            <td>Midpoint: ~$830,000</td>
+        </tr>
+    </table>
+
+    <h3>Working Capital Requirements</h3>
+
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>Security Deposit (2 months rent)</td>
+            <td>$22,400</td>
+            <td>Standard commercial</td>
+        </tr>
+        <tr>
+            <td>First Month Rent</td>
+            <td>$11,200</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Operating Reserve (3 months)</td>
+            <td>$360,000</td>
+            <td>~$120K/month burn rate</td>
+        </tr>
+        <tr>
+            <td>Marketing Launch</td>
+            <td>$25,000</td>
+            <td>PR, events, social, influencers</td>
+        </tr>
+        <tr style="background: var(--gold); font-weight: bold;">
+            <td>TOTAL WORKING CAPITAL</td>
+            <td>$418,600</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Total Capital Required</h3>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="number">$830K</div>
+            <div class="label">Build-Out (Midpoint)</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">$419K</div>
+            <div class="label">Working Capital</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">$1.25M</div>
+            <div class="label">Total Capital Required</div>
+        </div>
+    </div>
+
+    <h3>Break-Even Analysis</h3>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Monthly Fixed Costs</td>
+            <td>$31,600</td>
+        </tr>
+        <tr>
+            <td>Variable Cost % (COGS + Variable Labor)</td>
+            <td>45%</td>
+        </tr>
+        <tr>
+            <td>Contribution Margin</td>
+            <td>55%</td>
+        </tr>
+        <tr>
+            <td>Monthly Break-Even Revenue</td>
+            <td>$57,455</td>
+        </tr>
+        <tr>
+            <td>Daily Break-Even Revenue</td>
+            <td>$1,882</td>
+        </tr>
+        <tr>
+            <td>Break-Even Transactions/Day (@ $16 avg)</td>
+            <td>118</td>
+        </tr>
+    </table>
+
+    <h3>3-Year Projection</h3>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Year 1</th>
+            <th>Year 2</th>
+            <th>Year 3</th>
+        </tr>
+        <tr>
+            <td>Revenue</td>
+            <td>$1,368,000</td>
+            <td>$1,710,000</td>
+            <td>$1,881,000</td>
+        </tr>
+        <tr>
+            <td>Revenue Growth</td>
+            <td>—</td>
+            <td>25%</td>
+            <td>10%</td>
+        </tr>
+        <tr>
+            <td>COGS (30%)</td>
+            <td>$410,400</td>
+            <td>$513,000</td>
+            <td>$564,300</td>
+        </tr>
+        <tr>
+            <td>Labor</td>
+            <td>$478,800 (35%)</td>
+            <td>$547,200 (32%)</td>
+            <td>$564,300 (30%)</td>
+        </tr>
+        <tr>
+            <td>Other OpEx</td>
+            <td>$342,000 (25%)</td>
+            <td>$376,200 (22%)</td>
+            <td>$376,200 (20%)</td>
+        </tr>
+        <tr>
+            <td>EBITDA</td>
+            <td>$136,800</td>
+            <td>$273,600</td>
+            <td>$376,200</td>
+        </tr>
+        <tr style="background: var(--gold); font-weight: bold;">
+            <td>EBITDA Margin</td>
+            <td>10%</td>
+            <td>16%</td>
+            <td>20%</td>
+        </tr>
+    </table>
+
+    <p><strong>Year 1 Assumption:</strong> 80% of stabilized revenue (ramp-up), higher labor % (training/inefficiency)</p>
+    <p><strong>Year 3 Assumption:</strong> 10% revenue growth, improved labor efficiency through systems/experience</p>
+
+    <h3>Sensitivity Analysis</h3>
+
+    <table>
+        <tr>
+            <th>Scenario</th>
+            <th>Revenue Change</th>
+            <th>Year 2 EBITDA</th>
+            <th>EBITDA Margin</th>
+        </tr>
+        <tr>
+            <td>Base Case</td>
+            <td>—</td>
+            <td>$273,600</td>
+            <td>16%</td>
+        </tr>
+        <tr>
+            <td>Traffic -15%</td>
+            <td>-$256,500</td>
+            <td>$132,525</td>
+            <td>9%</td>
+        </tr>
+        <tr>
+            <td>Traffic +15%</td>
+            <td>+$256,500</td>
+            <td>$414,675</td>
+            <td>21%</td>
+        </tr>
+        <tr>
+            <td>Avg Ticket -$2</td>
+            <td>-$146,000</td>
+            <td>$193,300</td>
+            <td>12%</td>
+        </tr>
+        <tr>
+            <td>Labor +5%</td>
+            <td>—</td>
+            <td>$188,100</td>
+            <td>11%</td>
+        </tr>
+        <tr>
+            <td>Rent +25%</td>
+            <td>—</td>
+            <td>$240,000</td>
+            <td>14%</td>
+        </tr>
+    </table>
+
+    <div class="highlight-box">
+        <h4>Key Financial Insights</h4>
+        <ul>
+            <li><strong>Evening wine program is critical:</strong> Represents 30% of daily revenue with higher margins (40%+ vs. 30% for coffee)</li>
+            <li><strong>Sunday gospel brunch is a potential differentiator:</strong> Could command premium pricing ($35-45 pp)</li>
+            <li><strong>Labor is the controllable lever:</strong> Moving from 35% to 30% = $85K additional EBITDA</li>
+            <li><strong>Afternoon is the profit valley:</strong> Consider programming (wine happy hour, working remote promotions) to boost 3-6pm</li>
+        </ul>
+    </div>
+</section>
+
+<!-- SECTION 3: DESIGN BIBLE -->
+<section id="design">
+    <h2>Section 3: Design Bible</h2>
+
+    <h3>Design Concept Statement</h3>
+    <div class="highlight-box">
+        <p><em>"Cecil B. DeMille estate meets Sunday dinner at Grandma's house. Old Hollywood glamour filtered through soul. The place where Marilyn Monroe would have studied her lines over biscuits and honey butter, where golden hour is always happening, where the brass catches the light just right."</em></p>
+    </div>
+
+    <h3>Color Palette</h3>
+
+    <div class="color-row">
+        <div class="color-swatch" style="background: #C9A962;"></div>
+        <div>
+            <strong>Aged Brass</strong> — #C9A962<br>
+            Primary accent. Hardware, light fixtures, menu boards.
+        </div>
+    </div>
+
+    <div class="color-row">
+        <div class="color-swatch" style="background: #FDF8F0;"></div>
+        <div>
+            <strong>Cream</strong> — #FDF8F0<br>
+            Walls, tablecloths, ceiling. Warm white, not stark.
+        </div>
+    </div>
+
+    <div class="color-row">
+        <div class="color-swatch" style="background: #2C1810;"></div>
+        <div>
+            <strong>Espresso</strong> — #2C1810<br>
+            Rich dark brown. Wood tones, leather, text.
+        </div>
+    </div>
+
+    <div class="color-row">
+        <div class="color-swatch" style="background: #722F37;"></div>
+        <div>
+            <strong>Burgundy</strong> — #722F37<br>
+            Accent color. Velvet banquettes, wine references.
+        </div>
+    </div>
+
+    <div class="color-row">
+        <div class="color-swatch" style="background: #9CAF88;"></div>
+        <div>
+            <strong>Sage</strong> — #9CAF88<br>
+            Secondary accent. Plants, subtle textiles.
+        </div>
+    </div>
+
+    <div class="color-row">
+        <div class="color-swatch" style="background: #1A1A1A;"></div>
+        <div>
+            <strong>Noir</strong> — #1A1A1A<br>
+            Contrast. Iron details, frames, signage accents.
+        </div>
+    </div>
+
+    <h3>Typography</h3>
+
+    <table>
+        <tr>
+            <th>Usage</th>
+            <th>Font</th>
+            <th>Style</th>
+            <th>Rationale</th>
+        </tr>
+        <tr>
+            <td>Logo/Headlines</td>
+            <td>Playfair Display</td>
+            <td>Regular + Italic</td>
+            <td>Editorial elegance, Old Hollywood feel</td>
+        </tr>
+        <tr>
+            <td>Menu Items</td>
+            <td>Cormorant Garamond</td>
+            <td>Medium</td>
+            <td>Classic, readable, European bistro</td>
+        </tr>
+        <tr>
+            <td>Body/Descriptions</td>
+            <td>Lato</td>
+            <td>Regular</td>
+            <td>Clean, modern, accessible</td>
+        </tr>
+        <tr>
+            <td>Handwritten Accent</td>
+            <td>Sacramento</td>
+            <td>Regular</td>
+            <td>Specials board, personal touch</td>
+        </tr>
+    </table>
+
+    <h3>Furniture & Fixtures</h3>
+
+    <h4>Seating</h4>
+    <ul>
+        <li><strong>Communal Table (1):</strong> Reclaimed wood, 12-14 seats, brass hairpin legs. Centerpiece of space.</li>
+        <li><strong>Two-Top Tables (10-12):</strong> Marble tops, brass edge trim, bentwood chairs</li>
+        <li><strong>Four-Top Tables (6-8):</strong> Same marble/brass, mixed seating (2 chairs + small banquette)</li>
+        <li><strong>Banquettes:</strong> Burgundy velvet, tufted, along walls. Deep enough for 3-hour stays.</li>
+        <li><strong>Bar Stools (8-10):</strong> Aged leather, brass footrest, swivel</li>
+        <li><strong>Outdoor Patio:</strong> French bistro chairs (black metal), marble-top tables</li>
+    </ul>
+
+    <h4>Bar</h4>
+    <ul>
+        <li><strong>Bar Top:</strong> Zinc or brushed brass. Aged patina, not shiny.</li>
+        <li><strong>Back Bar:</strong> Dark wood shelving, brass rails, mirror backing</li>
+        <li><strong>Espresso Machine:</strong> La Marzocco (visible, brass accents)</li>
+        <li><strong>Coffee Display:</strong> Wood crates, glass domes for pastries</li>
+    </ul>
+
+    <h4>Fixtures</h4>
+    <ul>
+        <li><strong>Main Chandeliers:</strong> Art deco-influenced, brass + frosted glass globes. 3-4 over main dining.</li>
+        <li><strong>Wall Sconces:</strong> Brass, exposed Edison bulbs, dimmable</li>
+        <li><strong>Pendant Lights:</strong> Over bar and communal table, brass cone shades</li>
+        <li><strong>String Lights:</strong> Outdoor patio only, warm white, in canopy pattern</li>
+    </ul>
+
+    <h3>Lighting Strategy</h3>
+
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Lighting Level</th>
+            <th>Color Temp</th>
+            <th>Mood</th>
+        </tr>
+        <tr>
+            <td>Morning (7-11am)</td>
+            <td>80-100%</td>
+            <td>4000K (bright warm)</td>
+            <td>Energizing, productive</td>
+        </tr>
+        <tr>
+            <td>Midday (11am-3pm)</td>
+            <td>70-80%</td>
+            <td>3500K</td>
+            <td>Comfortable, social</td>
+        </tr>
+        <tr>
+            <td>Afternoon (3-6pm)</td>
+            <td>60-70%</td>
+            <td>3000K</td>
+            <td>"Golden hour" transition</td>
+        </tr>
+        <tr>
+            <td>Evening (6-10pm)</td>
+            <td>40-50%</td>
+            <td>2700K (warm amber)</td>
+            <td>Intimate, romantic</td>
+        </tr>
+    </table>
+
+    <h3>Art Direction</h3>
+
+    <h4>Wall Art</h4>
+    <ul>
+        <li><strong>Gallery Wall (Main):</strong> Black-and-white Old Hollywood photographs. Candid shots, not headshots. Dorothy Dandridge, Lena Horne, Sammy Davis Jr., Sidney Poitier. Thin brass frames.</li>
+        <li><strong>Feature Wall:</strong> Large-scale botanical print or vintage Los Feliz/Hollywood map. Subtle, not overpowering.</li>
+        <li><strong>Local Artist Partnership:</strong> Rotating quarterly exhibition of LA-based Black artists. Small commission on sales.</li>
+    </ul>
+
+    <h4>Textural Elements</h4>
+    <ul>
+        <li><strong>Plants:</strong> Palm fronds (single, dramatic), fiddle leaf figs, pothos trailing from shelves</li>
+        <li><strong>Textiles:</strong> Linen napkins (cream), velvet throw pillows on banquettes</li>
+        <li><strong>Wood:</strong> Warm walnut tones, visible grain, slightly worn edges</li>
+    </ul>
+
+    <h4>Signature Element (Persephone-Inspired)</h4>
+    <p><strong>The "Wooden Spoon Wall"</strong> — A collection of vintage wooden spoons, different sizes and patinas, arranged organically on one wall. References Persephone's famous spoon wall but ties to soul food heritage (grandmother's kitchen).</p>
+
+    <h3>Sonic Identity</h3>
+
+    <h4>Weekday Playlists</h4>
+
+    <table>
+        <tr>
+            <th>Daypart</th>
+            <th>Genre/Artists</th>
+            <th>Energy Level</th>
+            <th>BPM Range</th>
+        </tr>
+        <tr>
+            <td>Morning (7-11am)</td>
+            <td>Jazz standards, Erykah Badu, Sade, Norah Jones</td>
+            <td>Low-Medium</td>
+            <td>70-100</td>
+        </tr>
+        <tr>
+            <td>Midday (11am-3pm)</td>
+            <td>Neo-soul, Anderson .Paak, Tom Misch, Hiatus Kaiyote</td>
+            <td>Medium</td>
+            <td>90-115</td>
+        </tr>
+        <tr>
+            <td>Afternoon (3-6pm)</td>
+            <td>Lo-fi, instrumental soul, Khruangbin, Thundercat</td>
+            <td>Low-Medium</td>
+            <td>80-100</td>
+        </tr>
+        <tr>
+            <td>Evening (6-10pm)</td>
+            <td>Nina Simone, Donny Hathaway, Bill Withers, Marvin Gaye</td>
+            <td>Medium</td>
+            <td>85-110</td>
+        </tr>
+    </table>
+
+    <h4>Sunday Gospel Programming</h4>
+
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Music</th>
+            <th>Vibe</th>
+        </tr>
+        <tr>
+            <td>8-10am</td>
+            <td>Traditional gospel: Mahalia Jackson, Shirley Caesar, The Clark Sisters</td>
+            <td>"Church is starting"</td>
+        </tr>
+        <tr>
+            <td>10am-12pm</td>
+            <td>Contemporary gospel: Kirk Franklin, Marvin Sapp "Never Would Have Made It," CeCe Winans, Tye Tribbett</td>
+            <td>"Service in full swing"</td>
+        </tr>
+        <tr>
+            <td>12-2pm</td>
+            <td>Gospel-adjacent: Aretha Franklin (gospel albums), Al Green, Stevie Wonder spiritual songs</td>
+            <td>"After-church celebration"</td>
+        </tr>
+        <tr>
+            <td>2pm onward</td>
+            <td>Transition to regular Sunday playlist</td>
+            <td>Wind down</td>
+        </tr>
+    </table>
+
+    <h4>Volume Levels</h4>
+    <ul>
+        <li>Morning: Background level, conversation-friendly (55-60 dB)</li>
+        <li>Midday: Slightly elevated (60-65 dB)</li>
+        <li>Evening: Bar-appropriate (65-70 dB)</li>
+        <li>Sunday Gospel Brunch: Elevated but not overwhelming (65-70 dB)</li>
+    </ul>
+
+    <h3>Space Transition Guide</h3>
+
+    <div class="highlight-box">
+        <h4>The Daily Arc: From Sunrise to Sunset</h4>
+
+        <p><strong>7am:</strong> Lights bright. Coffee aroma dominant. Jazz standards low. Papers on communal table. Laptop-friendly energy.</p>
+
+        <p><strong>11am:</strong> Kitchen comes alive. Bacon, biscuits, savory smells mix with coffee. Music picks up. Conversation volume rises.</p>
+
+        <p><strong>3pm:</strong> The lull. Lights dim 20%. Music softens. Afternoon tea service. Remote workers settle in. Golden light starts coming through windows.</p>
+
+        <p><strong>6pm:</strong> THE SHIFT. Lights dim to 50%. Music transitions to evening soul. Candles lit on tables. Wine bottles appear on bar. Menu boards update. Energy shifts from productivity to conviviality.</p>
+
+        <p><strong>9pm:</strong> Full evening mode. Intimate lighting. Last call for kitchen at 9pm. Wine and small plates. Conversation-driven. Neighborhood gathering spot energy.</p>
+    </div>
+
+    <h3>Design Reference Spaces (LA)</h3>
+
+    <ul>
+        <li><strong>Kismet:</strong> The lighting transition from day to evening</li>
+        <li><strong>Petit Trois:</strong> Zinc bar, French bistro efficiency</li>
+        <li><strong>Gjusta:</strong> Communal table energy, bakery display</li>
+        <li><strong>The Butcher's Daughter:</strong> Plant integration, natural light</li>
+        <li><strong>Chateau Marmont:</strong> Old Hollywood glamour reference point</li>
+    </ul>
+</section>
+
+<!-- SECTION 4: COMPETITIVE POSITIONING -->
+<section id="positioning">
+    <h2>Section 4: Competitive Positioning Map</h2>
+
+    <h3>Positioning Framework</h3>
+
+    <table>
+        <tr>
+            <th>Competitor</th>
+            <th>Format</th>
+            <th>Price Point</th>
+            <th>Vibe</th>
+            <th>Evening Service</th>
+        </tr>
+        <tr>
+            <td>All Time</td>
+            <td>All-day cafe + dinner</td>
+            <td>$$-$$$</td>
+            <td>California-Mediterranean</td>
+            <td>Full dinner menu</td>
+        </tr>
+        <tr>
+            <td>Maru Coffee</td>
+            <td>Coffee only</td>
+            <td>$$</td>
+            <td>Minimalist Korean</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>Figaro Bistrot</td>
+            <td>French bistro</td>
+            <td>$$</td>
+            <td>Parisian romantic</td>
+            <td>Full dinner</td>
+        </tr>
+        <tr>
+            <td>Go Get Em Tiger</td>
+            <td>Coffee + light food</td>
+            <td>$$</td>
+            <td>Third-wave coffee</td>
+            <td>Limited</td>
+        </tr>
+        <tr>
+            <td>Good Friend Coffee</td>
+            <td>Coffee only</td>
+            <td>$$</td>
+            <td>Community watering hole</td>
+            <td>None</td>
+        </tr>
+        <tr style="background: var(--gold); font-weight: bold;">
+            <td>Good Bones</td>
+            <td>All-day cafe + wine bar</td>
+            <td>$$</td>
+            <td>Soul-rooted Old Hollywood</td>
+            <td>Wine + small plates</td>
+        </tr>
+    </table>
+
+    <h3>Unique Value Proposition</h3>
+
+    <div class="highlight-box" style="background: var(--espresso); color: var(--cream);">
+        <p style="font-size: 1.3rem; text-align: center; margin: 0;">
+            <em>"The only premium all-day cafe in Los Feliz where you can spend Sunday morning to Sunday night — gospel over biscuits at 9am, natural wine over small plates at 9pm — in a space that feels like Old Hollywood's living room."</em>
+        </p>
+    </div>
+
+    <h3>Core Customer Psychographic</h3>
+
+    <h4>Primary: "The Creative Professional" (60% of customers)</h4>
+    <ul>
+        <li>Age 28-45</li>
+        <li>Lives in Los Feliz, Silver Lake, or Echo Park</li>
+        <li>Works in entertainment, tech, design, or creative freelance</li>
+        <li>Values: authenticity, quality, cultural connection, community</li>
+        <li>Needs a place to work (morning), meet clients (midday), decompress (evening)</li>
+        <li>Will pay premium for quality and doesn't want to leave</li>
+    </ul>
+
+    <h4>Secondary: "The Neighborhood Regular" (25% of customers)</h4>
+    <ul>
+        <li>Age 35-55</li>
+        <li>Long-time Los Feliz resident</li>
+        <li>Looking for "their spot" — knows staff by name</li>
+        <li>Values consistency, community, feeling known</li>
+        <li>Comes 3-5x per week, often same daypart</li>
+    </ul>
+
+    <h4>Tertiary: "The Destination Visitor" (15% of customers)</h4>
+    <ul>
+        <li>Visiting from elsewhere in LA or out of town</li>
+        <li>Heard about it on Instagram or from a friend</li>
+        <li>Comes for "the experience" — Sunday gospel brunch, the aesthetic</li>
+        <li>Higher average ticket, lower frequency</li>
+    </ul>
+
+    <h3>5 Things Good Bones Does That NO ONE Else in the Neighborhood Does</h3>
+
+    <ol>
+        <li><strong>Gospel Sundays:</strong> Authentic Black gospel heritage music program with soul food menu. Not a gimmick — a homecoming. No other Los Feliz establishment offers this.</li>
+
+        <li><strong>True All-Day Transition:</strong> Same space, same team, seamless shift from coffee shop to wine bar without closing. All Time does this but with California-Mediterranean positioning. Good Bones is the soul food version.</li>
+
+        <li><strong>Black-Owned Premium in Los Feliz:</strong> Zero Black-owned premium cafes exist in Los Feliz/Silver Lake/Echo Park corridor. The closest are Sip & Sonder (Inglewood/DTLA) and Hilltop (Slauson/Inglewood).</li>
+
+        <li><strong>Old Hollywood Soul Aesthetic:</strong> Everyone does minimalist or French. Good Bones combines Old Hollywood glamour (brass, velvet, chandeliers) with soul food warmth (wooden spoons, grandmother's kitchen energy).</li>
+
+        <li><strong>Work-Friendly + Evening Social:</strong> Outlets at every seat, strong WiFi for daytime work. Then transforms into wine bar social space without feeling like a coffee shop that happens to serve alcohol.</li>
+    </ol>
+
+    <h3>Competitive Response Strategy</h3>
+
+    <table>
+        <tr>
+            <th>If Competitor...</th>
+            <th>Good Bones Response</th>
+        </tr>
+        <tr>
+            <td>All Time adds gospel brunch</td>
+            <td>Double down on authenticity — our gospel isn't programming, it's identity. Their Mediterranean positioning can't suddenly be soul.</td>
+        </tr>
+        <tr>
+            <td>Maru expands hours/adds wine</td>
+            <td>Their minimalist aesthetic can't accommodate the warmth and transition. Different customer.</td>
+        </tr>
+        <tr>
+            <td>New coffee shop opens on Vermont</td>
+            <td>We're not competing on coffee alone. The all-day experience + evening program is the moat.</td>
+        </tr>
+        <tr>
+            <td>House of Blues/corporate gospel concept</td>
+            <td>They're tourist, we're local. They're event, we're everyday. Different audience.</td>
+        </tr>
+    </table>
+</section>
+
+<!-- SECTION 5: PITCH DECK -->
+<section id="pitch">
+    <h2>Section 5: Pitch Deck Structure</h2>
+
+    <p>12-slide investor deck for friends & family or angel round.</p>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 1</span>
+        <h4>Title Slide</h4>
+        <ul>
+            <li>Good Bones logo</li>
+            <li>Tagline: "An all-day community sanctuary"</li>
+            <li>Location: Los Feliz, Los Angeles</li>
+            <li>Contact: [Name, Email]</li>
+        </ul>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 2</span>
+        <h4>The Opportunity</h4>
+        <ul>
+            <li>Alley Steakhouse at 1816 N Vermont Ave is struggling — 3,200 sqft premium space expected to become available within 12-18 months</li>
+            <li>No Black-owned premium cafe in Los Feliz/Silver Lake/Echo Park</li>
+            <li>No all-day cafe with evening wine program in the immediate area</li>
+            <li>Los Feliz: Median HH income $90K, median age 38, creative professional density</li>
+        </ul>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 3</span>
+        <h4>The Concept</h4>
+        <ul>
+            <li>Vision statement (one sentence)</li>
+            <li>Design aesthetic: "Cecil B. DeMille meets Sunday dinner at Grandma's"</li>
+            <li>Menu architecture: Coffee + soul-rooted breakfast → Lunch → Wine + small plates</li>
+            <li>Cultural positioning: Black-owned that doesn't announce itself — it just IS</li>
+            <li>Hero image: Render or mood board</li>
+        </ul>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 4</span>
+        <h4>The Differentiation: Sunday Gospel Brunch</h4>
+        <ul>
+            <li>Authentic gospel music programming (not a gimmick)</li>
+            <li>Soul food brunch menu: Shrimp & grits, chicken biscuit, sweet potato biscuits, honey butter cornbread</li>
+            <li>Premium pricing potential: $35-45/person</li>
+            <li>Only offering like this in Los Feliz</li>
+        </ul>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 5</span>
+        <h4>Market Validation</h4>
+        <ul>
+            <li>Persephone Bakery (Jackson Hole): Started as wholesale, now 4 locations, James Beard semifinalist</li>
+            <li>Maru Coffee: Bootstrapped from single Los Feliz location to 4 LA + NYC, no VC</li>
+            <li>Alta Adams: Proves market for elevated soul food + wine in LA</li>
+            <li>All Time: Proves all-day cafe model works in Los Feliz specifically</li>
+        </ul>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 6</span>
+        <h4>Financial Projections Summary</h4>
+        <table style="margin: 15px 0;">
+            <tr>
+                <th></th>
+                <th>Year 1</th>
+                <th>Year 2</th>
+                <th>Year 3</th>
+            </tr>
+            <tr>
+                <td>Revenue</td>
+                <td>$1.37M</td>
+                <td>$1.71M</td>
+                <td>$1.88M</td>
+            </tr>
+            <tr>
+                <td>EBITDA</td>
+                <td>$137K (10%)</td>
+                <td>$274K (16%)</td>
+                <td>$376K (20%)</td>
+            </tr>
+        </table>
+        <ul>
+            <li>Break-even: Month 18-24</li>
+            <li>Daily transactions needed: 118 @ $16 average</li>
+        </ul>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 7</span>
+        <h4>Revenue by Daypart</h4>
+        <ul>
+            <li>Morning (7-11am): 30% — Coffee + breakfast</li>
+            <li>Midday (11am-3pm): 28% — Lunch</li>
+            <li>Afternoon (3-6pm): 12% — Coffee + light bites</li>
+            <li>Evening (6-10pm): 30% — Wine + small plates (highest margins)</li>
+        </ul>
+        <p>Key insight: Evening program is critical for profitability</p>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 8</span>
+        <h4>The Space</h4>
+        <ul>
+            <li>Address: 1816 N Vermont Ave, Los Feliz</li>
+            <li>Size: 3,200 sqft</li>
+            <li>Features: Bow barrel truss ceiling, exposed brick, indoor-outdoor flow</li>
+            <li>Current tenant: Alley Steakhouse (struggling, expected to close 2026-2027)</li>
+            <li>Estimated rent: $11,200/month ($3.50/sqft)</li>
+            <li>Adjacent to: Skylight Theatre, Skylight Books</li>
+        </ul>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 9</span>
+        <h4>Use of Funds</h4>
+        <table style="margin: 15px 0;">
+            <tr>
+                <td>Build-out & Equipment</td>
+                <td>$830,000</td>
+                <td>66%</td>
+            </tr>
+            <tr>
+                <td>Working Capital (3 mo)</td>
+                <td>$360,000</td>
+                <td>29%</td>
+            </tr>
+            <tr>
+                <td>Pre-opening & Marketing</td>
+                <td>$60,000</td>
+                <td>5%</td>
+            </tr>
+            <tr style="font-weight: bold;">
+                <td>Total</td>
+                <td>$1,250,000</td>
+                <td>100%</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 10</span>
+        <h4>Team</h4>
+        <ul>
+            <li><strong>Terrance Chatman, Founder</strong> — Background in L&D, product development. Currently advising Aligned (negotiation coaching). [Add relevant restaurant/hospitality experience if any]</li>
+            <li><strong>[Head Chef — TBD]</strong> — Looking for someone with soul food background + fine dining training</li>
+            <li><strong>[GM — TBD]</strong> — Experienced all-day cafe operator</li>
+            <li>Advisors: [List any restaurant industry advisors]</li>
+        </ul>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 11</span>
+        <h4>Risks & Mitigations</h4>
+        <table style="margin: 15px 0;">
+            <tr>
+                <th>Risk</th>
+                <th>Mitigation</th>
+            </tr>
+            <tr>
+                <td>Space not available</td>
+                <td>Identified 2 backup locations on Vermont</td>
+            </tr>
+            <tr>
+                <td>LA restaurant failure rate</td>
+                <td>Conservative projections, 3-month reserve</td>
+            </tr>
+            <tr>
+                <td>Execution risk (first-time operator)</td>
+                <td>Hiring experienced GM, advisor network</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="pitch-slide">
+        <span class="slide-num">Slide 12</span>
+        <h4>The Ask</h4>
+        <ul>
+            <li><strong>Raising:</strong> $1,250,000</li>
+            <li><strong>Structure:</strong> [SAFE / Convertible Note / Equity — TBD based on legal advice]</li>
+            <li><strong>Minimum check:</strong> $25,000</li>
+            <li><strong>Use of funds:</strong> Build-out (66%), Working capital (29%), Pre-opening (5%)</li>
+            <li><strong>Timeline:</strong> Close raise Q[X], construction Q[X], open Q[X]</li>
+        </ul>
+    </div>
+
+    <h3>Narrative Arc for Pitch</h3>
+
+    <ol>
+        <li><strong>Hook:</strong> "There's no place in Los Feliz where you can hear gospel over biscuits at 9am and be drinking natural wine at 9pm — in the same seat."</li>
+        <li><strong>Problem:</strong> Los Feliz has great coffee shops and great restaurants, but no all-day sanctuary with cultural identity</li>
+        <li><strong>Solution:</strong> Good Bones fills this gap with a specific aesthetic and community positioning</li>
+        <li><strong>Validation:</strong> Similar concepts work (Persephone, Maru, Alta Adams, All Time)</li>
+        <li><strong>Economics:</strong> The model works — show the math</li>
+        <li><strong>Why Now:</strong> Alley Steakhouse is struggling (same hospitality group as Figaro), space likely available within 18 months, giving time to secure funding</li>
+        <li><strong>Why Me:</strong> [Personal connection to the concept, relevant experience]</li>
+        <li><strong>Ask:</strong> Specific amount, specific structure, specific timeline</li>
+    </ol>
+</section>
+
+<!-- SECTION 6: RISK ASSESSMENT -->
+<section id="risks">
+    <h2>Section 6: Risk Assessment</h2>
+
+    <h3>What Could Kill This Concept</h3>
+
+    <div class="comp-card risk-high">
+        <h4>HIGH RISK: Execution — First-Time Restaurant Operator</h4>
+        <p><strong>The Reality:</strong> Restaurant industry has 60% failure rate in first year, 80% within 5 years. First-time operators fail at even higher rates.</p>
+        <p><strong>Mitigation:</strong></p>
+        <ul>
+            <li>Hire experienced GM (someone who's opened 2+ restaurants)</li>
+            <li>Hire experienced Head Chef (fine dining background + soul food knowledge)</li>
+            <li>Build advisor network: Find 2-3 successful LA restaurant operators willing to advise</li>
+            <li>Consider partnership with experienced operator for equity stake</li>
+            <li>Work in a restaurant for 3-6 months before opening (stage at All Time, Persephone, similar)</li>
+        </ul>
+    </div>
+
+    <div class="comp-card risk-medium">
+        <h4>MEDIUM RISK: Space Timing</h4>
+        <p><strong>The Reality:</strong> Alley Steakhouse is currently operating (struggling, but operating). Space won't be available until they close — predicted 12-18 months. Another tenant could move faster.</p>
+        <p><strong>Mitigation:</strong></p>
+        <ul>
+            <li>Use 18-month runway to: secure funding, build team, refine concept</li>
+            <li>Build relationship with landlord NOW — express long-term interest in space</li>
+            <li>Monitor Alley Steakhouse performance (Yelp reviews, OpenTable availability, foot traffic)</li>
+            <li>Identify 2-3 backup spaces on Vermont Ave (there are 5 retail listings)</li>
+            <li>Get a broker who specializes in restaurant spaces — first to know when it closes</li>
+        </ul>
+    </div>
+
+    <div class="comp-card risk-high">
+        <h4>HIGH RISK: Capital Requirements</h4>
+        <p><strong>The Reality:</strong> $1.25M is significant. Friends & family round may not get you there. Build-out always goes over budget.</p>
+        <p><strong>Mitigation:</strong></p>
+        <ul>
+            <li>Phase the build-out: Open with simpler evening program, expand later</li>
+            <li>Consider second-generation restaurant space (existing kitchen = lower build-out)</li>
+            <li>Explore SBA loans for portion of capital</li>
+            <li>Build contingency into budget (15% is minimum)</li>
+            <li>Have backup plan if raise stalls at $750K (what's minimum viable?)</li>
+        </ul>
+    </div>
+
+    <div class="comp-card risk-medium">
+        <h4>MEDIUM RISK: Evening Wine Program Execution</h4>
+        <p><strong>The Reality:</strong> All-day cafes often struggle to transition to evening. Customers don't think of it as a dinner spot. Wine program requires different expertise than coffee.</p>
+        <p><strong>Mitigation:</strong></p>
+        <ul>
+            <li>Study Caffe Vita's wine happy hour model (3-5pm transition)</li>
+            <li>Hire someone with wine bar experience, not just restaurant wine list experience</li>
+            <li>Start with limited wine list (20-25 bottles) focused on story/curation</li>
+            <li>Program events: Wine tastings, winemaker dinners (Volunteer Park Cafe model)</li>
+            <li>Physical transformation: Candles, lighting change, visual cues that it's "evening now"</li>
+        </ul>
+    </div>
+
+    <div class="comp-card risk-medium">
+        <h4>MEDIUM RISK: Gospel Positioning Backlash</h4>
+        <p><strong>The Reality:</strong> Gospel music in a place that serves alcohol could alienate religious community. Or could feel appropriative/inauthentic to some.</p>
+        <p><strong>Mitigation:</strong></p>
+        <ul>
+            <li>Be authentic: If you have genuine connection to gospel tradition, lead with that story</li>
+            <li>Sunday alcohol service can be limited or non-existent during gospel hours</li>
+            <li>Partner with local churches for community events</li>
+            <li>Price gospel brunch accessibly (don't make it feel exclusive)</li>
+            <li>Hire staff from the community who understand the culture</li>
+        </ul>
+    </div>
+
+    <div class="comp-card risk-medium">
+        <h4>MEDIUM RISK: Labor Market</h4>
+        <p><strong>The Reality:</strong> 79% of restaurants report being short at least one position. California minimum wage increases. Competition for quality staff is fierce.</p>
+        <p><strong>Mitigation:</strong></p>
+        <ul>
+            <li>Pay above market for key positions (Head Chef, Lead Barista)</li>
+            <li>Create career paths (barista → lead → manager)</li>
+            <li>Benefits: Even basic health insurance is differentiator</li>
+            <li>Culture: Staff who believe in the mission stay longer</li>
+            <li>Cross-train everyone (builds flexibility, reduces single points of failure)</li>
+        </ul>
+    </div>
+
+    <div class="comp-card risk-low">
+        <h4>LOW RISK: Competition Response</h4>
+        <p><strong>The Reality:</strong> All Time, Maru, or others could add gospel/soul elements.</p>
+        <p><strong>Why Low Risk:</strong> Positioning is hard to copy. All Time's Mediterranean identity can't suddenly become soul. Maru's minimalism can't suddenly become Old Hollywood. The cultural authenticity is the moat.</p>
+    </div>
+
+    <div class="comp-card risk-low">
+        <h4>LOW RISK: ABC License</h4>
+        <p><strong>The Reality:</strong> Type 41 (beer/wine) is relatively straightforward to obtain.</p>
+        <p><strong>Cost:</strong> ~$945 application fee</p>
+        <p><strong>Timeline:</strong> ~90 days</p>
+        <p><strong>Requirement:</strong> 51% of revenue from food (should be easy for cafe model)</p>
+    </div>
+
+    <h3>Biggest Operational Challenges</h3>
+
+    <table>
+        <tr>
+            <th>Challenge</th>
+            <th>Why It's Hard</th>
+            <th>How Others Solve It</th>
+        </tr>
+        <tr>
+            <td>Day-to-evening transition</td>
+            <td>Same staff, same space, different energy. Customers don't know it's "dinner now."</td>
+            <td>Physical cues (lighting, candles, music). Staff transition (morning team leaves, evening team arrives). Menu board changes.</td>
+        </tr>
+        <tr>
+            <td>Afternoon valley (3-6pm)</td>
+            <td>Coffee rush over, dinner not started. Dead time = wasted labor.</td>
+            <td>Happy hour (Caffe Vita). Remote worker promotions. Tea service. Reduce staffing.</td>
+        </tr>
+        <tr>
+            <td>Balancing work-friendly + social</td>
+            <td>Laptops everywhere kills evening vibe. But daytime needs work-friendly.</td>
+            <td>Abraco intentionally NOT laptop-friendly. Or: Designate zones (communal table = social, back tables = work).</td>
+        </tr>
+        <tr>
+            <td>Fresh pastry program</td>
+            <td>Requires early AM labor, specialized skills, waste management.</td>
+            <td>Partner with bakery (Good Friend + Sugarbloom model) or hire dedicated pastry person. Start with limited items, expand.</td>
+        </tr>
+        <tr>
+            <td>Wine list curation</td>
+            <td>Small list needs to be perfect. Different expertise than coffee/food.</td>
+            <td>Hire consultant for initial list. Partner with local wine shop. Focus on story (women winemakers, Black-owned wineries).</td>
+        </tr>
+    </table>
+
+    <h3>What You Don't Know (Knowledge Gaps)</h3>
+
+    <ol>
+        <li><strong>When will Alley Steakhouse close?</strong> — Monitor reviews, OpenTable availability, foot traffic. Build landlord relationship.</li>
+        <li><strong>What was Atrium's P&L (prior tenant)?</strong> — Try to connect with former operators (Beau Laughlin, Jay Milikin)</li>
+        <li><strong>What are the specific neighborhood parking challenges?</strong> — Multiple reviews mentioned this as issue</li>
+        <li><strong>What permits are required beyond ABC?</strong> — Health dept, fire, accessibility, signage</li>
+        <li><strong>What's the actual build-out cost for THIS specific space?</strong> — Need contractor bids</li>
+        <li><strong>Is there a market for premium Sunday gospel brunch in Los Feliz?</strong> — Consider pop-up test</li>
+        <li><strong>What's your personal runway?</strong> — Can you survive 2 years without salary?</li>
+    </ol>
+
+    <h3>Who You Should Talk To</h3>
+
+    <h4>Operators (Learn from experience)</h4>
+    <ul>
+        <li><strong>Joonmo Kim & Jacob Park (Maru Coffee)</strong> — Bootstrapped growth in Los Feliz specifically</li>
+        <li><strong>Team at All Time</strong> — How they execute all-day transition</li>
+        <li><strong>Kevin & Ali Cohane (Persephone)</strong> — How they built the brand, scaled to 4 locations</li>
+        <li><strong>Keith Corbin (Alta Adams)</strong> — Elevated soul food + wine execution</li>
+        <li><strong>Shanita Nicholas (Sip & Sonder)</strong> — Black-owned cafe community building</li>
+    </ul>
+
+    <h4>Landlords/Real Estate</h4>
+    <ul>
+        <li>Landlord of 1816 N Vermont Ave (currently Alley Steakhouse)</li>
+        <li>Commercial real estate broker specializing in restaurant spaces</li>
+        <li>Note: Alley Steakhouse is same hospitality group as Figaro Bistrot — landlord may have different expectations after two struggling tenants</li>
+    </ul>
+
+    <h4>Suppliers</h4>
+    <ul>
+        <li>Coffee roasters: Intelligentsia, Counter Culture, or consider LA-based like GGET</li>
+        <li>Wine distributors specializing in natural/small producers</li>
+        <li>Local bakery partners (if not baking in-house initially)</li>
+        <li>Restaurant equipment suppliers for bids</li>
+    </ul>
+
+    <h4>Advisors/Experts</h4>
+    <ul>
+        <li>Restaurant accountant (LA-based, knows the margins)</li>
+        <li>Restaurant attorney (leases, LLC structure, ABC license)</li>
+        <li>Interior designer with restaurant experience</li>
+        <li>PR firm specializing in LA restaurant openings</li>
+    </ul>
+
+    <h4>Potential Investors</h4>
+    <ul>
+        <li>Friends & family (first $250-500K)</li>
+        <li>Angel investors in food/beverage (look at who invested in similar concepts)</li>
+        <li>Yoram Heller (invested in GGET and Sweetgreen) — long shot but relevant</li>
+        <li>GingerBread Capital (invested in Sightglass, focuses on women-led but worth conversation)</li>
+    </ul>
+
+    <h3>Pre-Commitment Checklist</h3>
+
+    <p>Before committing significant capital, complete these:</p>
+
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Status</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>Monitor Alley Steakhouse status / build landlord relationship</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Get lease terms/rent confirmation</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Get contractor bids for build-out</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Talk to 3+ restaurant operators</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Identify Head Chef candidate</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Identify GM candidate</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Run pop-up test (gospel brunch)</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Confirm personal runway (24 months)</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Get letter of intent from 3+ investors</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Consult restaurant attorney on structure</td>
+            <td>[ ]</td>
+            <td></td>
+        </tr>
+    </table>
+</section>
+
+<!-- SOURCES -->
+<section>
+    <h2>Sources & Attribution</h2>
+
+    <h3>Los Angeles Market</h3>
+    <ul>
+        <li><a href="https://alltimelosangeles.com/">All Time Los Feliz</a></li>
+        <li><a href="https://www.yelp.com/biz/all-time-los-angeles">All Time Yelp (651 reviews)</a></li>
+        <li><a href="https://www.marucoffee.com/">Maru Coffee Official</a></li>
+        <li><a href="https://sprudge.com/sprudge-maps-spotlight-maru-coffee-in-los-angeles-ca-184840.html">Maru Coffee - Sprudge</a></li>
+        <li><a href="https://www.theinfatuation.com/los-angeles/reviews/figaro-bistrot">Figaro Bistrot - The Infatuation</a></li>
+        <li><a href="https://www.yelp.com/biz/figaro-bistrot-los-angeles-2">Figaro Bistrot Yelp (1,633 reviews)</a></li>
+        <li><a href="https://tastecooking.com/go-get-em-tiger-didnt-just-raise-bar-changed/">Go Get Em Tiger - TASTE</a></li>
+        <li><a href="https://www.crunchbase.com/organization/go-get-em-tiger">Go Get Em Tiger - Crunchbase</a></li>
+        <li><a href="https://voyagela.com/interview/hidden-gems-meet-max-rand-of-good-friend-coffee/">Good Friend Coffee - Voyage LA</a></li>
+        <li><a href="https://sfstandard.com/2024/05/22/sightglass-coffee-founders-depart-new-ceo-joins/">Sightglass Leadership Change - SF Standard</a></li>
+        <li><a href="https://altaadams.com/">Alta Adams</a></li>
+        <li><a href="https://www.timeout.com/los-angeles/restaurants/black-owned-coffee-shops-los-angeles">Black-Owned Coffee Shops LA - Time Out</a></li>
+        <li><a href="https://www.kcrw.com/culture/shows/good-food/black-owned-restaurants-los-angeles-guide">Black-Owned Restaurants LA - KCRW</a></li>
+    </ul>
+
+    <h3>Target Space (Currently Alley Steakhouse)</h3>
+    <ul>
+        <li><a href="https://www.yelp.com/biz/alley-los-angeles-5">Alley Steakhouse Yelp (37 reviews)</a></li>
+        <li><a href="https://www.opentable.com/r/alley-los-angeles">Alley Steakhouse OpenTable (13 reviews)</a></li>
+        <li><a href="https://www.californiahomedesign.com/destinations/2018/11/28/design-dish-atrium-los-feliz/">Atrium (prior tenant) Design - California Home+Design</a></li>
+        <li><a href="https://www.theinfatuation.com/los-angeles/reviews/atrium">Atrium (prior tenant) - The Infatuation</a></li>
+    </ul>
+
+    <h3>Jackson Hole</h3>
+    <ul>
+        <li><a href="https://persephonebakery.com/">Persephone Bakery Official</a></li>
+        <li><a href="https://www.yelp.com/biz/persephone-bakery-jackson">Persephone Yelp (1,530 reviews)</a></li>
+        <li><a href="https://jacksonholemagazine.com/rising-dreams/">Persephone - Jackson Hole Magazine</a></li>
+        <li><a href="https://www.tripadvisor.com/Restaurant_Review-g60491-d4453231-Reviews-Persephone_Bakery-Jackson_Jackson_Hole_Wyoming.html">Persephone - TripAdvisor</a></li>
+    </ul>
+
+    <h3>Seattle</h3>
+    <ul>
+        <li><a href="https://www.caffevita.com/">Caffe Vita Official</a></li>
+        <li><a href="https://www.smithtower.com/caffe-vita/">Caffe Vita Smith Tower</a></li>
+        <li><a href="https://www.theinfatuation.com/seattle/reviews/cafe-presse">Cafe Presse - The Infatuation</a></li>
+        <li><a href="https://www.volunteerpark.cafe">Volunteer Park Cafe</a></li>
+    </ul>
+
+    <h3>Portland</h3>
+    <ul>
+        <li><a href="https://sprudge.com/at-portlands-sterling-coffee-the-space-is-bigger-but-the-intimacy-remains-131890.html">Sterling Coffee - Sprudge</a></li>
+        <li><a href="https://www.pdxmonthly.com/eat-and-drink/best-coffee-shops-cafes-portland">Portland Coffee Shops - Portland Monthly</a></li>
+        <li><a href="https://proudmarycoffee.com/pages/portland-cafe">Proud Mary Portland</a></li>
+        <li><a href="https://www.yelp.com/biz/proud-mary-coffee-portland">Proud Mary Yelp (966 reviews)</a></li>
+    </ul>
+
+    <h3>New York</h3>
+    <ul>
+        <li><a href="https://www.dinernyc.com/">Diner Brooklyn</a></li>
+        <li><a href="https://www.theinfatuation.com/new-york/reviews/diner">Diner - The Infatuation</a></li>
+        <li><a href="https://www.devocion.com/">Devocion Coffee</a></li>
+        <li><a href="https://sprudge.com/abraco-109241.html">Abraco - Sprudge</a></li>
+        <li><a href="https://www.gertie.nyc">Gertie NYC</a></li>
+        <li><a href="https://www.theinfatuation.com/new-york/reviews/gertie">Gertie - The Infatuation</a></li>
+    </ul>
+
+    <h3>Industry Data</h3>
+    <ul>
+        <li><a href="https://sharpsheets.io/blog/coffee-shop-profits/">Coffee Shop Profits - SharpSheets</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/how-much-does-it-cost-to-open-a-coffee-shop">Coffee Shop Startup Costs - Toast</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-payroll-percentage">Restaurant Labor Costs - Toast</a></li>
+        <li><a href="https://www.abc.ca.gov/licensing/">California ABC Licensing</a></li>
+        <li><a href="https://www.commercialcafe.com/commercial-real-estate/us/ca/los-angeles/los-feliz/">Los Feliz Commercial Real Estate - CommercialCafe</a></li>
+        <li><a href="https://www.houseofblues.com/gospelbrunch">House of Blues Gospel Brunch</a></li>
+    </ul>
+</section>
+
+<footer style="text-align: center; padding: 40px; background: var(--espresso); color: var(--cream);">
+    <p>Good Bones Business Plan — Prepared January 2026</p>
+    <p style="color: var(--gold);">Terrance Chatman</p>
+</footer>
+
+</div>
+</body>
+</html>
