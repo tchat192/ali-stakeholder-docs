@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stakeholder Alignment | January 15, 2026</title>
+  <style>
+    /* --- ALIGNED COLOR SYSTEM (Nic's Canon - Jan 2026) --- */
+    :root {
+      /* Primary */
+      --aligned-black: #000000;
+      --aligned-mist: #F5F3F0;
+      --aligned-white: #FFFFFF;
+
+      /* Secondary Gradients (Pillars) */
+      --aligned-asf-gradient: linear-gradient(135deg, #1A0047 0%, #0A4A3C 50%, #2D1B4E 100%);
+      --aligned-relationships: #6B4E8D; /* Purple pillar */
+      --aligned-process: #4A7BA7; /* Blue pillar */
+      --aligned-goals: #4A8B6E; /* Green pillar */
+
+      /* Tertiary (Four Types) */
+      --aligned-bargaining: #C96A3B; /* Burnt Clay */
+      --aligned-trading: #D6A84F; /* Muted Gold */
+      --aligned-creating: #7FAE93; /* Soft Sage */
+      --aligned-partnering: #6FA7C6; /* Muted Sky Blue */
+
+      /* Mapped to existing vars for compatibility */
+      --sol-bg-page: var(--aligned-mist);
+      --sol-bg-card: var(--aligned-white);
+      --sol-text-black: var(--aligned-black);
+      --sol-text-grey: #555555;
+      --sol-text-body: #404040;
+      --sol-border-light: transparent;
+      --sol-border-sharp: var(--aligned-black);
+      --sol-accent: var(--aligned-process); /* Blue for process/methodology focus */
+      --sol-font-serif: Georgia, serif;
+      --sol-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--sol-font-sans);
+      background: var(--sol-bg-page);
+      color: var(--sol-text-black);
+      line-height: 1.6;
+      padding: 40px 24px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* --- MASTHEAD --- */
+    .masthead {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .masthead-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sol-text-black);
+      padding: 8px 16px;
+      background: var(--sol-bg-card);
+      border: 1px solid var(--sol-border-sharp);
+      border-radius: 4px;
+    }
+
+    /* --- HERO --- */
+    .hero {
+      text-align: center;
+      padding: 32px 24px 48px;
+      max-width: 680px;
+      margin: 0 auto 40px auto;
+    }
+
+    .hero h1 {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      color: var(--sol-text-black);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--sol-text-body);
+      line-height: 1.7;
+    }
+
+    /* --- WHAT'S CHANGED CALLOUT --- */
+    .changes-callout {
+      background: var(--sol-bg-card);
+      border-radius: 8px;
+      padding: 24px 32px;
+      margin-bottom: 32px;
+      border-left: 4px solid var(--sol-accent);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .changes-callout h3 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sol-accent);
+      margin-bottom: 12px;
+    }
+
+    .changes-callout ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .changes-callout li {
+      font-size: 14px;
+      color: var(--sol-text-body);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .changes-callout li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--sol-accent);
+    }
+
+    /* --- TAB NAVIGATION --- */
+    .tabs {
+      display: flex;
+      gap: 0;
+      background: var(--sol-bg-card);
+      border-radius: 8px 8px 0 0;
+      padding: 0;
+      margin-bottom: 0;
+      border-bottom: 1px solid #eee;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 16px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--sol-text-black);
+      background: rgba(74, 123, 167, 0.05); /* Process blue */
+    }
+
+    .tab-btn.active {
+      color: var(--sol-text-black);
+      border-bottom-color: var(--sol-accent);
+      font-weight: 700;
+    }
+
+    /* --- TAB PANELS --- */
+    .tab-panel {
+      display: none;
+      background: var(--sol-bg-card);
+      padding: 32px;
+      border-radius: 0 0 8px 8px;
+      animation: fadeIn 0.25s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- SECTION HEADERS --- */
+    .section-header {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* --- INPUT FLOW CARDS --- */
+    .input-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+
+    .input-flow-card {
+      background: var(--sol-bg-card);
+      padding: 16px;
+      border-radius: 6px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .input-flow-card .label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      margin-bottom: 6px;
+    }
+
+    .input-flow-card .value {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--sol-text-black);
+    }
+
+    .input-flow-arrow {
+      font-size: 20px;
+      color: var(--sol-accent);
+    }
+
+    @media (max-width: 768px) {
+      .input-flow {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .input-flow-arrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    /* --- DISCUSSION QUESTIONS --- */
+    .discussion-box {
+      background: linear-gradient(135deg, rgba(74, 123, 167, 0.08) 0%, rgba(74, 123, 167, 0.02) 100%);
+      border: 1px solid rgba(74, 123, 167, 0.2);
+      border-radius: 8px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .discussion-box h4 {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-accent);
+      margin-bottom: 16px;
+    }
+
+    .discussion-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .discussion-box li {
+      font-size: 14px;
+      color: var(--sol-text-body);
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .discussion-box li::before {
+      content: "?";
+      position: absolute;
+      left: 0;
+      width: 16px;
+      height: 16px;
+      background: var(--sol-accent);
+      color: white;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 10px;
+    }
+
+    .discussion-box .owner-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: var(--sol-accent);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-left: 8px;
+    }
+
+    /* --- CHANGE RATIONALE CARDS --- */
+    .rationale-card {
+      background: var(--sol-bg-card);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--sol-accent);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .rationale-card h4 {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--sol-text-black);
+      margin-bottom: 8px;
+    }
+
+    .rationale-card .why {
+      font-size: 14px;
+      color: var(--sol-text-body);
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .rationale-card .research-link {
+      font-size: 12px;
+      color: var(--sol-accent);
+      text-decoration: none;
+    }
+
+    .rationale-card .research-link:hover {
+      text-decoration: underline;
+    }
+
+    /* --- COPY SAMPLES --- */
+    .copy-sample {
+      background: #f8f8f8;
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 16px;
+      font-family: 'SF Mono', 'Monaco', monospace;
+      font-size: 14px;
+      color: var(--sol-text-body);
+      border-left: 3px solid #ddd;
+    }
+
+    .copy-sample .source {
+      font-family: var(--sol-font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* --- VOICE SPECTRUM --- */
+    .voice-spectrum {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 24px;
+      background: #fafafa;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+
+    .spectrum-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .spectrum-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sol-text-grey);
+      width: 100px;
+      text-align: right;
+    }
+
+    .spectrum-bar {
+      flex: 1;
+      height: 8px;
+      background: linear-gradient(90deg, #ddd 0%, var(--sol-accent) 100%);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .spectrum-marker {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: var(--sol-accent);
+      border: 2px solid white;
+      border-radius: 50%;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .spectrum-label-end {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sol-text-grey);
+      width: 100px;
+    }
+
+    /* --- OWNER CARDS --- */
+    .owner-card {
+      background: var(--sol-bg-card);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      border-top: 4px solid var(--sol-accent);
+    }
+
+    .owner-card .owner-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .owner-card .owner-name {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 22px;
+      color: var(--sol-text-black);
+    }
+
+    .owner-card .owner-role {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-accent);
+      background: rgba(74, 123, 167, 0.1); /* Process blue */
+      padding: 4px 12px;
+      border-radius: 4px;
+    }
+
+    .owner-card .tasks {
+      list-style: none;
+      padding: 0;
+    }
+
+    .owner-card .tasks li {
+      font-size: 14px;
+      color: var(--sol-text-body);
+      padding: 10px 0;
+      padding-left: 28px;
+      position: relative;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .owner-card .tasks li:last-child {
+      border-bottom: none;
+    }
+
+    .owner-card .tasks li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--sol-accent);
+      border-radius: 3px;
+    }
+
+    .owner-card .tasks li.done::before {
+      background: var(--sol-accent);
+    }
+
+    .owner-card .tasks li.done::after {
+      content: "✓";
+      position: absolute;
+      left: 3px;
+      top: 10px;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .owner-card .due-date {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--sol-text-grey);
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #eee;
+    }
+
+    /* Color coding for owners - Aligned Color System */
+    /* Tom: Process/Blue pillar (SME) */
+    .owner-card.tom { border-top-color: var(--aligned-process); }
+    .owner-card.tom .owner-role { background: rgba(74, 123, 167, 0.1); color: var(--aligned-process); }
+    .owner-card.tom .tasks li::before { border-color: var(--aligned-process); }
+
+    /* Nic: Relationships/Purple pillar (brand & perception) */
+    .owner-card.nic { border-top-color: var(--aligned-relationships); }
+    .owner-card.nic .owner-role { background: rgba(107, 78, 141, 0.1); color: var(--aligned-relationships); }
+    .owner-card.nic .tasks li::before { border-color: var(--aligned-relationships); }
+
+    /* Mark: Goals/Green pillar (vision & outcomes) */
+    .owner-card.mark { border-top-color: var(--aligned-goals); }
+    .owner-card.mark .owner-role { background: rgba(74, 139, 110, 0.1); color: var(--aligned-goals); }
+    .owner-card.mark .tasks li::before { border-color: var(--aligned-goals); }
+
+    /* Lee: Trading/Muted Gold (sales & value exchange) */
+    .owner-card.lee { border-top-color: var(--aligned-trading); }
+    .owner-card.lee .owner-role { background: rgba(214, 168, 79, 0.1); color: var(--aligned-trading); }
+    .owner-card.lee .tasks li::before { border-color: var(--aligned-trading); }
+
+    /* TC: Partnering/Sky Blue (long-term building) */
+    .owner-card.tc { border-top-color: var(--aligned-partnering); }
+    .owner-card.tc .owner-role { background: rgba(111, 167, 198, 0.1); color: var(--aligned-partnering); }
+    .owner-card.tc .tasks li::before { border-color: var(--aligned-partnering); }
+
+    /* --- TABLES --- */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .data-table th {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sol-text-grey);
+      background: #fafafa;
+    }
+
+    .data-table td {
+      font-size: 14px;
+      color: var(--sol-text-body);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #ddd;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--sol-text-grey);
+    }
+
+    footer .brand {
+      font-family: var(--sol-font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--sol-text-black);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Masthead -->
+    <div class="masthead">
+      <span class="masthead-badge">Status Meeting</span>
+      <span class="masthead-badge">January 15, 2026</span>
+      <span class="masthead-badge">Internal</span>
+    </div>
+
+    <!-- Hero -->
+
+    <!-- What's Changed Callout -->
+    <div class="changes-callout">
+      <h3>⚡ Since Last Meeting</h3>
+      <ul>
+        <li><strong>Silhouette temporarily removed</strong> — Methodology updates in progress. Will return once configuration is complete.</li>
+        <li><strong>New Settings page launched</strong> — Captures profile data for personalization. Pending SME approval.</li>
+        <li><strong>UI repositioning planned</strong> — Navigation to left, profile to top-right, deal tracker concept. Need consensus today.</li>
+      </ul>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="settings">Settings Inputs</button>
+      <button class="tab-btn" data-tab="navigation">Navigation & UI</button>
+      <button class="tab-btn" data-tab="branding">Tone</button>
+      <button class="tab-btn" data-tab="positioning">Positioning</button>
+    </nav>
+
+    <!-- Tab 1: Settings Inputs -->
+    <section class="tab-panel active" id="settings">
+      <div class="section-header">How Inputs Power Personalization</div>
+
+      <p style="font-size: 14px; color: var(--sol-text-body); margin-bottom: 24px;">
+        The Settings page captures user context that Ali uses to deliver more relevant coaching. Here's how each input flows into the experience:
+      </p>
+
+      <!-- Input Flow Example 1 -->
+      <div class="input-flow">
+        <div class="input-flow-card">
+          <div class="label">Input</div>
+          <div class="value">Seniority Level</div>
+        </div>
+        <div class="input-flow-arrow">→</div>
+        <div class="input-flow-card">
+          <div class="label">System Use</div>
+          <div class="value">Calibrates advice complexity</div>
+        </div>
+        <div class="input-flow-arrow">→</div>
+        <div class="input-flow-card">
+          <div class="label">User Value</div>
+          <div class="value">Entry-level gets fundamentals; C-Suite gets strategic framing</div>
+        </div>
+      </div>
+
+      <!-- Input Flow Example 2 -->
+      <div class="input-flow">
+        <div class="input-flow-card">
+          <div class="label">Input</div>
+          <div class="value">Industry</div>
+        </div>
+        <div class="input-flow-arrow">→</div>
+        <div class="input-flow-card">
+          <div class="label">System Use</div>
+          <div class="value">Selects relevant examples</div>
+        </div>
+        <div class="input-flow-arrow">→</div>
+        <div class="input-flow-card">
+          <div class="label">User Value</div>
+          <div class="value">Healthcare negotiation ≠ Tech negotiation</div>
+        </div>
+      </div>
+
+      <!-- Input Flow Example 3 -->
+      <div class="input-flow">
+        <div class="input-flow-card">
+          <div class="label">Input</div>
+          <div class="value">Negotiation Counterparty</div>
+        </div>
+        <div class="input-flow-arrow">→</div>
+        <div class="input-flow-card">
+          <div class="label">System Use</div>
+          <div class="value">Tailors scenarios & greeting</div>
+        </div>
+        <div class="input-flow-arrow">→</div>
+        <div class="input-flow-card">
+          <div class="label">User Value</div>
+          <div class="value">Vendor negotiations differ from client negotiations</div>
+        </div>
+      </div>
+
+      <!-- Full Input Table -->
+      <div class="section-header" style="margin-top: 32px;">Complete Input Inventory</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Input Field</th>
+            <th>Options</th>
+            <th>Personalization Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Seniority Level</td>
+            <td>Entry Level → C-Suite</td>
+            <td>Complexity calibration</td>
+          </tr>
+          <tr>
+            <td>Career Stage</td>
+            <td>Early Career → Transition</td>
+            <td>Advice framing</td>
+          </tr>
+          <tr>
+            <td>Industry</td>
+            <td>12 options (Tech, Finance, Healthcare...)</td>
+            <td>Industry-specific examples</td>
+          </tr>
+          <tr>
+            <td>Company Size</td>
+            <td>1-10 → 500+</td>
+            <td>Deal scale context</td>
+          </tr>
+          <tr>
+            <td>Company Type</td>
+            <td>Startup → Government</td>
+            <td>Organizational dynamics</td>
+          </tr>
+          <tr>
+            <td>Operating Region</td>
+            <td>Americas, EMEA, APAC, Global</td>
+            <td>Cultural nuances</td>
+          </tr>
+          <tr>
+            <td>Counterparty Type</td>
+            <td>Vendors, Clients, Partners, Mixed</td>
+            <td>Scenario selection</td>
+          </tr>
+          <tr>
+            <td>Deal Cycle Length</td>
+            <td>Days → Years</td>
+            <td>Pacing guidance</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+    <!-- Tab 2: Navigation & UI -->
+    <section class="tab-panel" id="navigation">
+      <div class="section-header">Proposed UI Changes</div>
+
+      <div class="rationale-card">
+        <h4>Profile → Top Right</h4>
+        <p class="why">Removes redundancy from main navigation. Profile is a secondary action—users don't need it front and center. Moving to top-right follows platform conventions (Gmail, Slack, every SaaS app).</p>
+        <a href="https://www.nngroup.com/articles/vertical-nav/" target="_blank" class="research-link">Research: NNGroup on Navigation Patterns →</a>
+      </div>
+
+      <div class="rationale-card">
+        <h4>Navigation → Left Side</h4>
+        <p class="why">"Vertical navigation is a good fit for broad or growing information architectures... should be left-aligned, keyword front-loaded, and visible." This is the pattern users know from ChatGPT, Claude, Gemini—we're not inventing new paradigms, we're meeting users where they are.</p>
+        <a href="https://www.nngroup.com/articles/vertical-nav/" target="_blank" class="research-link">Research: NNGroup Left-Side Vertical Navigation →</a>
+      </div>
+
+      <div class="rationale-card">
+        <h4>"Chat with Ali" → "New Deal" or "New Negotiation"</h4>
+        <p class="why">Emphasizes negotiation focus over generic chat. The current label undersells Ali's purpose. Question: which framing resonates more with our ICP?</p>
+      </div>
+
+      <div class="rationale-card">
+        <h4>Deal Point Tracker (Right Panel)</h4>
+        <p class="why">Dedicated space for methodology reinforcement. As users discuss their negotiation, the right panel surfaces key signals, tracks deal points, and reminds them of Aligned methodology moments.</p>
+      </div>
+
+      <div class="section-header" style="margin-top: 32px;">Vision: Three-Column Layout</div>
+      <p style="font-size: 14px; color: var(--sol-text-body); margin-bottom: 16px;">
+        The industry is converging on a pattern: <strong>Left</strong> (navigation/history), <strong>Center</strong> (conversation), <strong>Right</strong> (context/artifacts). Claude's CoWork, ChatGPT, Gemini all use variations.
+      </p>
+      <p style="font-size: 14px; color: var(--sol-text-body); margin-bottom: 24px;">
+        For Ali, this becomes: <strong>Left</strong> (Deal list), <strong>Center</strong> (Chat with Ali), <strong>Right</strong> (Deal Point Tracker / Methodology reinforcement).
+      </p>
+
+    </section>
+
+    <!-- Tab 3: Branding -->
+    <section class="tab-panel" id="branding">
+      <div class="section-header">Current Copy in Ali</div>
+
+      <p style="font-size: 14px; color: var(--sol-text-body); margin-bottom: 24px;">
+        Here's the actual copy currently in the app. Does it sound like "Aligned"? What should change?
+      </p>
+
+      <div class="copy-sample">
+        <span class="source">Landing Page Tagline</span>
+        "Your AI powered Negotiation Coach"
+      </div>
+
+      <div class="copy-sample">
+        <span class="source">Chat Greeting (Default)</span>
+        "Hey {name} — I'm Ali, your negotiation coach."
+      </div>
+
+      <div class="copy-sample">
+        <span class="source">Chat Greeting (With Context)</span>
+        "Hey {name} — ready to prep for your {counterparty} negotiation?"
+      </div>
+
+      <div class="copy-sample">
+        <span class="source">AI Opening Line (System Prompt)</span>
+        "Hey—walk me through the deal. Start with: what's the real pressure here?"
+      </div>
+
+      <div class="copy-sample">
+        <span class="source">CTA Button</span>
+        "LET'S GET STARTED"
+      </div>
+
+      <div class="section-header" style="margin-top: 32px;">Voice Spectrum</div>
+      <p style="font-size: 14px; color: var(--sol-text-body); margin-bottom: 16px;">
+        Where should Ali sit on these spectrums? Mark the position that feels most "Aligned":
+      </p>
+
+      <div class="voice-spectrum">
+        <div class="spectrum-row">
+          <span class="spectrum-label">Formal</span>
+          <div class="spectrum-bar">
+            <div class="spectrum-marker" style="left: 35%;"></div>
+          </div>
+          <span class="spectrum-label-end">Conversational</span>
+        </div>
+        <div class="spectrum-row">
+          <span class="spectrum-label">Expert</span>
+          <div class="spectrum-bar">
+            <div class="spectrum-marker" style="left: 60%;"></div>
+          </div>
+          <span class="spectrum-label-end">Peer</span>
+        </div>
+        <div class="spectrum-row">
+          <span class="spectrum-label">Directive</span>
+          <div class="spectrum-bar">
+            <div class="spectrum-marker" style="left: 45%;"></div>
+          </div>
+          <span class="spectrum-label-end">Collaborative</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Tab 4: Positioning -->
+    <section class="tab-panel" id="positioning">
+      <div class="section-header">Marketing Positioning & Language</div>
+      <p style="font-size: 14px; color: var(--sol-text-body); margin-bottom: 24px;">
+        How we talk about Ali matters. The AI amplifies what makes Aligned unique—it doesn't define us.
+      </p>
+
+      <!-- Positioning Thesis -->
+      <div class="callout-box" style="background: linear-gradient(135deg, rgba(107, 78, 141, 0.06) 0%, rgba(74, 139, 110, 0.06) 100%); border-left: 4px solid var(--aligned-relationships); padding: 24px; border-radius: 8px; margin-bottom: 28px;">
+        <h4 style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--aligned-relationships); margin-bottom: 16px;">Positioning Thesis</h4>
+        <p style="font-size: 15px; color: var(--sol-text-black); line-height: 1.7; margin: 0 0 12px 0;">
+          Ali changes how people prepare for and navigate high-stakes conversations. Not by replacing expertise, but by making it available when it matters most—adaptive, personal, and grounded in how negotiation actually works.
+        </p>
+        <p style="font-size: 15px; color: var(--sol-text-black); line-height: 1.7; margin: 0;">
+          We don't sell features. We don't compete on price. We build confidence in moments that shape outcomes.
+        </p>
+      </div>
+
+      <!-- Core Principle -->
+      <div class="callout-box" style="background: var(--sol-bg-card); border: 2px solid var(--aligned-process); padding: 20px; border-radius: 8px; margin-bottom: 28px;">
+        <p style="font-size: 15px; color: var(--sol-text-black); margin: 0;">
+          <strong>The methodology is the hero.</strong> AI is the enabler.
+        </p>
+      </div>
+
+      <!-- Language Discipline -->
+      <div class="section-header" style="margin-top: 32px;">Language Discipline</div>
+      <p style="font-size: 13px; color: var(--sol-text-grey); margin-bottom: 16px;">
+        Lead with transformation, not transaction.
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px;">
+        <!-- Row 1 -->
+        <div style="background: #fff0f0; padding: 16px; border-radius: 8px; border-left: 4px solid #d9534f;">
+          <div style="font-size: 11px; font-weight: 700; color: #d9534f; margin-bottom: 8px;">❌ AVOID</div>
+          <p style="font-size: 14px; color: var(--sol-text-black); margin: 0;">"Affordable" / "Only $49/month"</p>
+        </div>
+        <div style="background: #f0fff4; padding: 16px; border-radius: 8px; border-left: 4px solid var(--aligned-goals);">
+          <div style="font-size: 11px; font-weight: 700; color: var(--aligned-goals); margin-bottom: 8px;">✅ PREFER</div>
+          <p style="font-size: 14px; color: var(--sol-text-black); margin: 0;">"Transform how you approach negotiation"</p>
+        </div>
+
+        <!-- Row 2 -->
+        <div style="background: #fff0f0; padding: 16px; border-radius: 8px; border-left: 4px solid #d9534f;">
+          <div style="font-size: 11px; font-weight: 700; color: #d9534f; margin-bottom: 8px;">❌ AVOID</div>
+          <p style="font-size: 14px; color: var(--sol-text-black); margin: 0;">"AI-powered chatbot"</p>
+        </div>
+        <div style="background: #f0fff4; padding: 16px; border-radius: 8px; border-left: 4px solid var(--aligned-goals);">
+          <div style="font-size: 11px; font-weight: 700; color: var(--aligned-goals); margin-bottom: 8px;">✅ PREFER</div>
+          <p style="font-size: 14px; color: var(--sol-text-black); margin: 0;">"Personalized coaching, powered by AI"</p>
+        </div>
+
+        <!-- Row 3 -->
+        <div style="background: #fff0f0; padding: 16px; border-radius: 8px; border-left: 4px solid #d9534f;">
+          <div style="font-size: 11px; font-weight: 700; color: #d9534f; margin-bottom: 8px;">❌ AVOID</div>
+          <p style="font-size: 14px; color: var(--sol-text-black); margin: 0;">"91% cheaper than workshops"</p>
+        </div>
+        <div style="background: #f0fff4; padding: 16px; border-radius: 8px; border-left: 4px solid var(--aligned-goals);">
+          <div style="font-size: 11px; font-weight: 700; color: var(--aligned-goals); margin-bottom: 8px;">✅ PREFER</div>
+          <p style="font-size: 14px; color: var(--sol-text-black); margin: 0;">"Enterprise methodology, now accessible"</p>
+        </div>
+
+        <!-- Row 4 -->
+        <div style="background: #fff0f0; padding: 16px; border-radius: 8px; border-left: 4px solid #d9534f;">
+          <div style="font-size: 11px; font-weight: 700; color: #d9534f; margin-bottom: 8px;">❌ AVOID</div>
+          <p style="font-size: 14px; color: var(--sol-text-black); margin: 0;">"Easy to use" / "Budget-friendly"</p>
+        </div>
+        <div style="background: #f0fff4; padding: 16px; border-radius: 8px; border-left: 4px solid var(--aligned-goals);">
+          <div style="font-size: 11px; font-weight: 700; color: var(--aligned-goals); margin-bottom: 8px;">✅ PREFER</div>
+          <p style="font-size: 14px; color: var(--sol-text-black); margin: 0;">"Adapts to how you work"</p>
+        </div>
+      </div>
+
+      <!-- Guiding Principles -->
+      <div class="section-header" style="margin-top: 32px;">Guiding Principles</div>
+      <div style="display: grid; gap: 12px; margin-bottom: 28px;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--sol-bg-card); border-radius: 8px; border-left: 3px solid var(--aligned-process);">
+          <span><strong>Transformation over Transaction</strong> — Lead with what changes, not what costs</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--sol-bg-card); border-radius: 8px; border-left: 3px solid var(--aligned-process);">
+          <span><strong>Substance over Features</strong> — What it does for you, not what it runs on</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--sol-bg-card); border-radius: 8px; border-left: 3px solid var(--aligned-process);">
+          <span><strong>Confidence over Claims</strong> — Let the experience speak</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p class="brand">Ali by Aligned</p>
+      <p>Stakeholder Alignment | January 15, 2026</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Tab Navigation
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        panels.forEach(p => {
+          p.classList.remove('active');
+          if (p.id === target) p.classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
