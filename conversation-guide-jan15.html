@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversation Guide | January 15, 2026</title>
+  <style>
+    :root {
+      --bg-page: #F5F3F0;
+      --bg-card: #FFFFFF;
+      --text-primary: #1a1a1a;
+      --text-secondary: #555555;
+      --text-muted: #888888;
+      --border-light: #e5e5e5;
+      --accent: #4A7BA7;
+      --accent-light: rgba(74, 123, 167, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 24px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    header .date {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .context-box {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 32px;
+    }
+
+    .context-box p {
+      margin-bottom: 8px;
+    }
+
+    .context-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .context-box strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+      display: inline-block;
+      min-width: 80px;
+    }
+
+    .context-box a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .context-box a:hover {
+      text-decoration: underline;
+    }
+
+    .notes-box {
+      background: var(--accent-light);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+
+    .notes-box h3 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .notes-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .notes-box li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .notes-box li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    section {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    section .time {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    section h3 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    section h3:first-of-type {
+      margin-top: 0;
+    }
+
+    section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    section li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    section li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 4px;
+    }
+
+    .decision-box {
+      background: #fafafa;
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+
+    .decision-box label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .decision-box input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--accent);
+    }
+
+    .wrap-up {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .wrap-up h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .action-person {
+      background: #fafafa;
+      border-radius: 6px;
+      padding: 14px;
+    }
+
+    .action-person h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .action-person input {
+      width: 100%;
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .facilitator-notes {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .facilitator-notes h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .facilitator-notes h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .facilitator-notes h3:first-of-type {
+      margin-top: 0;
+    }
+
+    .facilitator-notes ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .facilitator-notes li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 5px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .facilitator-notes li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+
+    .post-meeting {
+      background: var(--accent-light);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .post-meeting h3 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .post-meeting label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      cursor: pointer;
+    }
+
+    .post-meeting input[type="checkbox"] {
+      accent-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Conversation Guide</h1>
+      <div class="date">Thursday, January 15, 2026</div>
+    </header>
+
+    <div class="context-box">
+      <p><strong>Attendees</strong> Lee, Nic, Tom, Mark, TC (facilitator)</p>
+      <p><strong>Artifact</strong> <a href="https://tchat192.github.io/ali-stakeholder-docs/stakeholder-alignment-jan15.html" target="_blank">stakeholder-alignment-jan15.html</a></p>
+      <p><strong>Objective</strong> Get alignment on Settings, UI direction, Tone, and Positioning</p>
+    </div>
+
+    <div class="notes-box">
+      <h3>Pre-Meeting Notes</h3>
+      <ul>
+        <li>Nic hasn't given final sign-off on Settings design, but it's live for review</li>
+        <li>Tom may feel disconnected—create space for his input throughout</li>
+        <li>Mark and Tom are the methodology experts—defer to them on substance</li>
+        <li>Lee has beta user perspective—leverage for practical feedback</li>
+      </ul>
+    </div>
+
+    <!-- Tab 1 -->
+    <section>
+      <h2>Tab 1: Settings Inputs</h2>
+      <div class="time">~10 min</div>
+
+      <h3>What to Cover</h3>
+      <ul>
+        <li>Walk through the input → personalization → user value flow</li>
+        <li>Settings page is live—encourage everyone to try it, upload profile pic</li>
+        <li>Review the complete input inventory table</li>
+      </ul>
+
+      <h3>Questions to Pose</h3>
+      <ul>
+        <li>Are these the right inputs? What's missing?</li>
+        <li>Which inputs matter most for methodology reinforcement? <span class="tag">Tom</span> <span class="tag">Mark</span></li>
+        <li>From beta users, are any confusing or unnecessary? <span class="tag">Lee</span></li>
+        <li>Ready to approve for launch? <span class="tag">Nic</span></li>
+      </ul>
+
+      <div class="decision-box">
+        <label><input type="checkbox"> Settings inputs approved as-is, or modifications needed?</label>
+      </div>
+    </section>
+
+    <!-- Tab 2 -->
+    <section>
+      <h2>Tab 2: Navigation & UI</h2>
+      <div class="time">~15 min</div>
+
+      <h3>What to Cover</h3>
+      <ul>
+        <li>Profile moving to top-right (redundant in main nav)</li>
+        <li>Navigation moving to left (ChatGPT/Claude pattern)</li>
+        <li>"Chat with Ali" → "New Deal" or "New Negotiation"?</li>
+        <li>Deal point tracker concept (right panel for methodology reinforcement)</li>
+      </ul>
+
+      <h3>Questions to Pose</h3>
+      <ul>
+        <li>Does left-nav positioning work with earlier design input? <span class="tag">Nic</span></li>
+        <li>"New Deal" vs "New Negotiation"—which resonates for sales? <span class="tag">Lee</span></li>
+        <li>What methodology moments should Ali surface in the right panel? <span class="tag">Tom</span> <span class="tag">Mark</span></li>
+      </ul>
+
+      <div class="decision-box">
+        <label><input type="checkbox"> Left-nav approved?</label>
+        <label><input type="checkbox"> Naming: "New Deal" or "New Negotiation"?</label>
+        <label><input type="checkbox"> Deal tracker concept worth pursuing?</label>
+      </div>
+    </section>
+
+    <!-- Tab 3 -->
+    <section>
+      <h2>Tab 3: Tone</h2>
+      <div class="time">~10 min</div>
+
+      <h3>What to Cover</h3>
+      <ul>
+        <li>Current greeting: "Hey [name] — I'm Ali, your negotiation coach."</li>
+        <li>Current opening: "Walk me through the deal you're working on..."</li>
+        <li>This is placeholder copy—need direction</li>
+      </ul>
+
+      <h3>Questions to Pose</h3>
+      <ul>
+        <li>Does Ali's voice sound "Aligned"? What would make it more authentic? <span class="tag">Mark</span></li>
+        <li>Does the opening feel inviting or intimidating to beta users? <span class="tag">Lee</span></li>
+        <li>What tone direction should we pursue? <span class="tag">Nic</span></li>
+      </ul>
+
+      <div class="decision-box">
+        <label><input type="checkbox"> Tone direction: warmer? more direct? more conversational?</label>
+        <label><input type="checkbox"> Specific phrases to change or keep?</label>
+      </div>
+    </section>
+
+    <!-- Tab 4 -->
+    <section>
+      <h2>Tab 4: Positioning</h2>
+      <div class="time">~10 min</div>
+
+      <h3>What to Cover</h3>
+      <ul>
+        <li>Positioning thesis: "Ali changes how people prepare for and navigate high-stakes conversations..."</li>
+        <li>Language discipline: avoid transaction language, prefer transformation language</li>
+        <li>Guiding principles: Transformation over Transaction, Substance over Features, Confidence over Claims</li>
+      </ul>
+
+      <h3>Questions to Pose</h3>
+      <ul>
+        <li>Does this positioning feel right for Aligned? <span class="tag">Mark</span></li>
+        <li>Are we leading with transformation when talking to beta users? <span class="tag">Lee</span></li>
+        <li>Does the copy reflect our positioning or generic AI language? <span class="tag">Nic</span></li>
+      </ul>
+
+      <div class="decision-box">
+        <label><input type="checkbox"> Positioning thesis approved?</label>
+        <label><input type="checkbox"> Any language we need to retire immediately?</label>
+      </div>
+    </section>
+
+    <!-- Wrap-Up -->
+    <div class="wrap-up">
+      <h2>Wrap-Up</h2>
+      <div class="time" style="margin-bottom: 16px; font-size: 13px; color: #888;">~5 min</div>
+
+      <div class="action-grid">
+        <div class="action-person">
+          <h4>Tom</h4>
+          <input type="text" placeholder="Action item...">
+        </div>
+        <div class="action-person">
+          <h4>Nic</h4>
+          <input type="text" placeholder="Action item...">
+        </div>
+        <div class="action-person">
+          <h4>Mark</h4>
+          <input type="text" placeholder="Action item...">
+        </div>
+        <div class="action-person">
+          <h4>Lee</h4>
+          <input type="text" placeholder="Action item...">
+        </div>
+      </div>
+    </div>
+
+    <!-- Facilitator Notes -->
+    <div class="facilitator-notes">
+      <h2>Facilitator Notes</h2>
+
+      <h3>Creating Space for Tom</h3>
+      <ul>
+        <li>Ask for his input early in each section, not as an afterthought</li>
+        <li>Frame questions as "what should Ali never miss" rather than "validate this"</li>
+        <li>His expertise defines what makes this methodology-driven—acknowledge that</li>
+      </ul>
+
+      <h3>If Discussion Goes Long</h3>
+      <ul>
+        <li>Settings and Navigation are the most actionable—prioritize</li>
+        <li>Tone and Positioning can be async follow-up if needed</li>
+        <li>Don't rush the methodology questions—that's where Tom and Mark add value</li>
+      </ul>
+
+      <h3>Watch For</h3>
+      <ul>
+        <li>Nic has design sign-off pending—get explicit yes/no</li>
+        <li>Lee's beta user lens is practical—use it to ground abstract discussions</li>
+        <li>Mark may want to discuss broader vision—gently steer back to artifact scope</li>
+      </ul>
+    </div>
+
+    <!-- Post-Meeting -->
+    <div class="post-meeting">
+      <h3>Post-Meeting</h3>
+      <label><input type="checkbox"> Send action items summary to Slack</label>
+      <label><input type="checkbox"> Update artifact if decisions require changes</label>
+      <label><input type="checkbox"> Schedule Tom 1-on-1 if not already done</label>
+    </div>
+
+  </div>
+</body>
+</html>
