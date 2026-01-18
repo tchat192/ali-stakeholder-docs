@@ -1,0 +1,2066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ali Design Review Tool</title>
+  <style>
+    /* ============================================
+       Ali Design Review Tool
+       For Nic to review and approve brand elements
+       ============================================ */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #000000;
+      --accent: #8A41E6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --info: #3b82f6;
+      --mist: #F5F3F0;
+      --white: #ffffff;
+      --grey-300: #DBDBDB;
+      --grey-500: #7C7C7C;
+      --grey-600: #5E5E5E;
+
+      /* Status colors */
+      --figma-designed: #8A41E6;
+      --developer-added: #f59e0b;
+      --needs-decision: #ef4444;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--mist);
+      color: #121212;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-300);
+      padding: 24px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    header .subtitle {
+      color: var(--grey-500);
+      font-size: 14px;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      gap: 24px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .legend-badge {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .legend-badge.figma { background: var(--figma-designed); }
+    .legend-badge.developer { background: var(--developer-added); }
+    .legend-badge.decision { background: var(--needs-decision); }
+
+    /* Progress bar */
+    .progress-container {
+      margin-top: 16px;
+      background: var(--grey-300);
+      border-radius: 4px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--success);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .progress-text {
+      font-size: 12px;
+      color: var(--grey-500);
+      margin-top: 4px;
+    }
+
+    /* Main container */
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* Section */
+    section {
+      background: var(--white);
+      border-radius: 12px;
+      margin-bottom: 24px;
+      border: 1px solid var(--grey-300);
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--grey-300);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-count {
+      font-size: 13px;
+      color: var(--grey-500);
+    }
+
+    .category-badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .category-badge.figma {
+      background: #F3E8FF;
+      color: #7C3AED;
+    }
+
+    .category-badge.developer {
+      background: #FEF3C7;
+      color: #B45309;
+    }
+
+    .category-badge.decision {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    /* Review item */
+    .review-item {
+      padding: 20px 24px;
+      border-bottom: 1px solid #f0f0f0;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .review-item:last-child {
+      border-bottom: none;
+    }
+
+    .review-item:hover {
+      background: #FAFAFA;
+    }
+
+    /* Checkbox */
+    .checkbox-container {
+      padding-top: 4px;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--success);
+    }
+
+    /* Item content */
+    .item-content {
+      min-width: 0;
+    }
+
+    .item-name {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .item-description {
+      font-size: 13px;
+      color: var(--grey-600);
+      margin-bottom: 8px;
+    }
+
+    .item-location {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      color: var(--grey-500);
+      background: var(--mist);
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* Visual preview */
+    .item-preview {
+      width: 120px;
+      height: 80px;
+      background: var(--mist);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 1px solid var(--grey-300);
+    }
+
+    .item-preview.color-swatch {
+      width: 80px;
+    }
+
+    .item-preview.gradient {
+      background: radial-gradient(ellipse at 30% 20%, rgba(139, 92, 246, 0.8) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(124, 58, 237, 0.7) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 50%, rgba(109, 40, 217, 0.6) 0%, transparent 70%),
+                  #2c2c2c;
+    }
+
+    .item-preview.font-specimen {
+      font-size: 24px;
+      padding: 8px;
+    }
+
+    /* Status indicator */
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-dot.figma { background: var(--figma-designed); }
+    .status-dot.developer { background: var(--developer-added); }
+    .status-dot.decision { background: var(--needs-decision); }
+
+    /* Notes field */
+    .notes-field {
+      margin-top: 8px;
+    }
+
+    .notes-field textarea {
+      width: 100%;
+      min-height: 60px;
+      padding: 8px 12px;
+      border: 1px solid var(--grey-300);
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .notes-field textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+
+    .action-btn.approve {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+
+    .action-btn.approve:hover {
+      background: #A7F3D0;
+    }
+
+    .action-btn.reject {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .action-btn.reject:hover {
+      background: #FECACA;
+    }
+
+    .action-btn.needs-design {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+
+    .action-btn.needs-design:hover {
+      background: #FDE68A;
+    }
+
+    /* Subsection */
+    .subsection {
+      padding: 16px 24px;
+      background: #FAFAFA;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .subsection h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-600);
+      margin-bottom: 12px;
+    }
+
+    /* Info box */
+    .info-box {
+      padding: 16px;
+      background: #EFF6FF;
+      border-left: 4px solid var(--info);
+      margin: 16px 24px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .info-box.warning {
+      background: #FEF3C7;
+      border-color: var(--warning);
+    }
+
+    .info-box.error {
+      background: #FEE2E2;
+      border-color: var(--error);
+    }
+
+    .info-box p {
+      font-size: 13px;
+      color: var(--grey-600);
+    }
+
+    /* Color grid for palettes */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      padding: 16px 24px;
+    }
+
+    .color-card {
+      background: var(--white);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--grey-300);
+    }
+
+    .color-card .swatch {
+      height: 60px;
+    }
+
+    .color-card .info {
+      padding: 8px;
+      font-size: 12px;
+    }
+
+    .color-card .name {
+      font-weight: 600;
+    }
+
+    .color-card .value {
+      color: var(--grey-500);
+      font-family: monospace;
+    }
+
+    /* Component preview grid */
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 16px 24px;
+    }
+
+    .preview-card {
+      background: var(--mist);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .preview-card .demo {
+      margin-bottom: 12px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-card .label {
+      font-size: 12px;
+      color: var(--grey-600);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: var(--grey-500);
+      font-size: 13px;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 16px 20px;
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      .review-item {
+        grid-template-columns: auto 1fr;
+      }
+
+      .item-preview {
+        display: none;
+      }
+
+      .legend {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      header { position: static; }
+      .action-btn { display: none; }
+      .notes-field { display: none; }
+      .checkbox-container { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Ali Design Review Tool</h1>
+    <p class="subtitle">Review and approve every visual element before launch</p>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-badge figma"></div>
+        <span><strong>Figma-Designed</strong> - Nic's original designs</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-badge developer"></div>
+        <span><strong>Developer-Added</strong> - Added during development</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-badge decision"></div>
+        <span><strong>Needs Decision</strong> - Multiple implementations or conflicts</span>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px;">
+      <p class="progress-text"><span id="approvedCount">0</span> of <span id="totalCount">0</span> items reviewed</p>
+      <button onclick="exportFeedback()" style="
+        background: #8A41E6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      ">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Export Feedback to JSON
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============================================
+         SECTION 1: FIGMA-DESIGNED (Core Brand Elements)
+         Nic's designs come first
+         ============================================ -->
+    <section id="figma-designed">
+      <div class="section-header">
+        <h2>
+          <span class="status-dot figma"></span>
+          Figma-Designed Brand Elements
+          <span class="category-badge figma">Your Designs</span>
+        </h2>
+        <span class="section-count">14 items</span>
+      </div>
+
+      <div class="info-box">
+        <p><strong>Verification:</strong> These are elements you designed in Figma. Please verify the implementation matches your specs.</p>
+      </div>
+
+      <!-- Logo -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-logo" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            "Ali." Logo
+          </div>
+          <div class="item-description">
+            Text-based logo using Moret font, italic style. Appears in navigation header.
+          </div>
+          <div class="item-location">src/client/static/ali-logo.svg + NavBar.tsx</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Does the logo match your Figma design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--white); font-family: Georgia, serif; font-style: italic; font-size: 28px;">
+          Ali.
+        </div>
+      </div>
+
+      <!-- Primary Purple -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-purple" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Accent Purple (#8A41E6)
+          </div>
+          <div class="item-description">
+            Primary brand accent color. Used for buttons, links, active states, and the AI avatar.
+          </div>
+          <div class="item-location">tailwind.config.js:305 (accent token)</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Is this the correct purple from your Figma file?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview color-swatch" style="background: #8A41E6;">
+        </div>
+      </div>
+
+      <!-- Metro Sans -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-metro" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Metro Sans (Body Font)
+          </div>
+          <div class="item-description">
+            Primary font for all body text and UI elements. Weights: 300, 350, 400, 500, 600, 700.
+          </div>
+          <div class="item-location">public/fonts/metro-sans/ + tailwind.config.js</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Are we using the correct font weights?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview font-specimen" style="font-family: -apple-system, sans-serif;">
+          Aa Bb Cc
+        </div>
+      </div>
+
+      <!-- Moret -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-moret" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Moret (Display Font)
+          </div>
+          <div class="item-description">
+            Serif font for headlines, logo, and display text. Login page uses 96px. Italic style for "Ali." logo.
+          </div>
+          <div class="item-location">public/fonts/moret/ + tailwind.config.js</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Is Moret rendering correctly?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview font-specimen" style="font-family: Georgia, serif; font-style: italic;">
+          Aa Bb
+        </div>
+      </div>
+
+      <!-- Mist Background -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-mist-bg" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Mist Background (#F5F3F0)
+          </div>
+          <div class="item-description">
+            Main app background color. Warm off-white tone. Used for page backgrounds and subtle UI areas.
+          </div>
+          <div class="item-location">tailwind.config.js:304 (base-100)</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Is this the correct warm off-white?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview color-swatch" style="background: #F5F3F0; border: 1px solid #ddd;">
+        </div>
+      </div>
+
+      <!-- Grey Scale -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-greys" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Grey Scale (200-600)
+          </div>
+          <div class="item-description">
+            Neutral grey palette for text, borders, and UI chrome.
+          </div>
+          <div style="display: flex; gap: 8px; margin: 12px 0;">
+            <div style="text-align: center;">
+              <div style="width: 40px; height: 40px; background: #ECECEC; border-radius: 4px;"></div>
+              <span style="font-size: 10px;">200</span>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 40px; height: 40px; background: #DBDBDB; border-radius: 4px;"></div>
+              <span style="font-size: 10px;">300</span>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 40px; height: 40px; background: #A5A5A5; border-radius: 4px;"></div>
+              <span style="font-size: 10px;">400</span>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 40px; height: 40px; background: #7C7C7C; border-radius: 4px;"></div>
+              <span style="font-size: 10px;">500</span>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 40px; height: 40px; background: #5E5E5E; border-radius: 4px;"></div>
+              <span style="font-size: 10px;">600</span>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Do these grey values match your palette?"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Avatar -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-avatar" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            AI Avatar ("A." with Aurora)
+          </div>
+          <div class="item-description">
+            Circular avatar showing "A." in Moret italic on aurora gradient background. Appears next to AI messages.
+          </div>
+          <div class="item-location">src/chatbot/components/MessageBubble.tsx:324-374</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Does the AI avatar match your Figma design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview gradient" style="width: 60px; height: 60px; border-radius: 50%; color: white; font-family: Georgia, serif; font-style: italic; font-size: 24px;">
+          A.
+        </div>
+      </div>
+
+      <!-- Message Bubbles -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-bubbles" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Chat Message Bubbles
+          </div>
+          <div class="item-description">
+            User messages (right-aligned, purple background) and AI messages (left-aligned, white background with grey border).
+          </div>
+          <div class="item-location">src/chatbot/components/MessageBubble.tsx</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Do the message bubbles match your Figma design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--mist); flex-direction: column; gap: 8px; padding: 8px;">
+          <div style="background: #8A41E6; color: white; padding: 6px 10px; border-radius: 12px; font-size: 11px; align-self: flex-end;">User</div>
+          <div style="background: white; border: 1px solid #ddd; padding: 6px 10px; border-radius: 12px; font-size: 11px; align-self: flex-start;">AI</div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-nav" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Navigation Header
+          </div>
+          <div class="item-description">
+            Top navigation with Ali logo, nav tabs (Ali Coach, Silhouette, Profile), and user avatar dropdown.
+          </div>
+          <div class="item-location">src/client/components/NavBar/NavBar.tsx</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Does the navigation match your Figma design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: white; border: 1px solid #ddd; font-size: 11px; gap: 12px;">
+          <span style="font-family: Georgia, serif; font-style: italic;">Ali.</span>
+          <span style="color: #7C7C7C;">Tabs</span>
+          <span style="width: 20px; height: 20px; background: #8A41E6; border-radius: 50%;"></span>
+        </div>
+      </div>
+
+      <!-- Login Page Aurora -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-login" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Login Page (Aurora Background)
+          </div>
+          <div class="item-description">
+            Dark theme login with full-screen aurora gradient, large "Ali." logo (96px Moret), and white text.
+          </div>
+          <div class="item-location">Figma Node: 11:1759 | src/auth/AuthPageLayout.tsx</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Does the login page match your Figma design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview gradient" style="color: white; font-family: Georgia, serif; font-style: italic; font-size: 20px;">
+          Ali.
+        </div>
+      </div>
+
+      <!-- Favicon -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-favicon" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Favicon (SVG with Aurora)
+          </div>
+          <div class="item-description">
+            Browser tab favicon showing "A." on aurora gradient background. SVG format for crisp rendering.
+          </div>
+          <div class="item-location">public/favicon.svg</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Does the favicon match your design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview gradient" style="width: 48px; height: 48px; border-radius: 8px; color: white; font-family: Georgia, serif; font-style: italic; font-size: 18px;">
+          A.
+        </div>
+      </div>
+
+      <!-- Silhouette Assessment -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-silhouette" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Silhouette Assessment Flow
+          </div>
+          <div class="item-description">
+            40-question personality assessment with progress bar, radio button options, and results visualization.
+          </div>
+          <div class="item-location">src/silhouette/ directory</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Does the assessment flow match your Figma design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--mist); flex-direction: column; gap: 4px; font-size: 10px;">
+          <div style="width: 80%; height: 6px; background: #ddd; border-radius: 3px;">
+            <div style="width: 60%; height: 100%; background: #8A41E6; border-radius: 3px;"></div>
+          </div>
+          <span>Question 24/40</span>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-tabs" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Tab Navigation (Pill Style)
+          </div>
+          <div class="item-description">
+            Rounded pill-style tabs with white active background and 4-layer shadow for depth. Used for switching between chat views.
+          </div>
+          <div class="item-location">src/chatbot/components/TabNavigation.tsx (Figma Node 32:2776)</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Does the tab navigation match your Figma design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: #f5f3f0; gap: 4px; padding: 4px; border-radius: 20px;">
+          <span style="background: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">Active</span>
+          <span style="padding: 6px 12px; font-size: 12px; color: #7C7C7C;">Inactive</span>
+        </div>
+      </div>
+
+      <!-- Message Input Pill -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-input-pill" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot figma"></span>
+            Message Input Pill (Initial State)
+          </div>
+          <div class="item-description">
+            Single-row pill input for empty chat state. 627px wide, 49px height, white bg with grey border (#ECECEC), rounded-[22px] pill shape, grey send button on right.
+          </div>
+          <div class="item-location">src/chatbot/components/MessageInputPill.tsx (Figma Node 546:7652)</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Matches Figma</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Does NOT Match</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Does the pill input match your Figma design?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: white; border: 1px solid #ECECEC; border-radius: 22px; padding: 8px 16px; width: 180px; font-size: 11px; color: #7C7C7C; display: flex; justify-content: space-between; align-items: center;">
+          <span>Ask Ali...</span>
+          <span style="width: 24px; height: 24px; background: #DBDBDB; border-radius: 50%; display: flex; align-items: center; justify-content: center;">↑</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 2: NEEDS DECISION (Multiple Implementations)
+         ============================================ -->
+    <section id="needs-decision">
+      <div class="section-header">
+        <h2>
+          <span class="status-dot decision"></span>
+          Needs Decision
+          <span class="category-badge decision">Conflicts</span>
+        </h2>
+        <span class="section-count">2 items</span>
+      </div>
+
+      <div class="info-box error">
+        <p><strong>Attention:</strong> These elements have multiple implementations or hardcoded values that bypass your design system. Please decide which version should be canonical.</p>
+      </div>
+
+      <!-- Aurora Gradient - 3 implementations -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-aurora" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot decision"></span>
+            Aurora Gradient - 3 Different Implementations!
+          </div>
+          <div class="item-description">
+            Your signature aurora gradient is implemented differently in 3 places. They need to be consolidated into one canonical version.
+          </div>
+
+          <div style="margin: 16px 0; display: grid; gap: 12px;">
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <div style="width: 80px; height: 50px; border-radius: 6px; background: radial-gradient(ellipse at 30% 20%, rgba(139, 92, 246, 0.8) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(124, 58, 237, 0.7) 0%, transparent 50%), #2c2c2c;"></div>
+              <div>
+                <strong>Version 1:</strong> MessageBubble Avatar (radial gradient layers)<br>
+                <code style="font-size: 11px; color: #7C7C7C;">MessageBubble.tsx:350-360</code>
+              </div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <div style="width: 80px; height: 50px; border-radius: 6px; background: linear-gradient(135deg, #1a1428 0%, #241a38 50%, #161220 100%);"></div>
+              <div>
+                <strong>Version 2:</strong> AppHeader Avatar (linear gradient)<br>
+                <code style="font-size: 11px; color: #7C7C7C;">AppHeader.tsx:181-183</code>
+              </div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <div style="width: 80px; height: 50px; border-radius: 6px; background: linear-gradient(135deg, #2c2c2c 0%, #1a1428 50%, #161220 100%);"></div>
+              <div>
+                <strong>Version 3:</strong> Auth Page (uses PNG image file 4.7MB)<br>
+                <code style="font-size: 11px; color: #7C7C7C;">public/dts-aura-bg.png</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Use Version 1 (Radial)</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Create Single Canonical Spec</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Which version should be the canonical aurora gradient?"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hardcoded Mist Background -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-mist" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot decision"></span>
+            Hardcoded Mist Background (#F5F3F0)
+          </div>
+          <div class="item-description">
+            The Mist background color is hardcoded in 3 files instead of using the design token. If you change the token, these won't update.
+          </div>
+          <div style="margin: 12px 0; font-size: 13px;">
+            <div><code>bg-[#F5F3F0]</code> in App.tsx:88</div>
+            <div><code>bg-[#F5F3F0]</code> in ChatLayout.tsx:59</div>
+            <div><code>bg-[#F5F3F0]</code> in HomePage.tsx:32</div>
+          </div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Keep Current Color</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Fix to Use Token</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Should developers fix these to use the design token instead?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview color-swatch" style="background: #F5F3F0;">
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================
+         SECTION 3: TERRANCE-ADDED ELEMENTS
+         These need Nic's review and approval
+         ============================================ -->
+    <section id="terrance-added">
+      <div class="section-header">
+        <h2>
+          <span class="status-dot developer"></span>
+          Terrance-Added Features
+          <span class="category-badge developer">Needs Review</span>
+        </h2>
+        <span class="section-count">10 items</span>
+      </div>
+
+      <div class="info-box warning">
+        <p><strong>Action Required:</strong> These features were added by Terrance during development and need your design approval. Please review each one and mark as Approved, Reject (needs removal), or Needs Design (create Figma specs).</p>
+      </div>
+
+      <!-- Copy to Clipboard -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-copy" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Copy to Clipboard Button
+          </div>
+          <div class="item-description">
+            Users can copy AI responses to clipboard. Shows a small copy icon on hover over message bubbles.
+          </div>
+          <div class="item-location">src/chatbot/components/MessageBubble.tsx:78-92</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Notes for this element..."></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--white);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C7C7C" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Thumbs Up/Down Feedback -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-thumbs" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Thumbs Up / Thumbs Down Feedback
+          </div>
+          <div class="item-description">
+            Users can rate AI responses as helpful or not. Shows thumbs up/down icons below each AI message. Feedback is stored for quality improvement.
+          </div>
+          <div class="item-location">src/chatbot/components/MessageBubble.tsx:94-109</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Notes for this element..."></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--white); gap: 12px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+            <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Powered by Claude Opus Footer -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-footer" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            "Powered by Claude Opus" Footer
+          </div>
+          <div class="item-description">
+            Footer badge in chat area showing AI attribution. Inspired by Gemini's "Powered by" pattern. Uses purple accent color with small text.
+          </div>
+          <div class="item-location">src/chatbot/ChatPageNew.tsx:425-440</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Notes for this element..."></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: #f5f3f0; font-size: 11px; color: #7C7C7C;">
+          Powered by Claude Opus
+        </div>
+      </div>
+
+      <!-- Emoji-to-Icon Replacement -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-emoji" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Emoji-to-Icon Replacement System
+          </div>
+          <div class="item-description">
+            50+ emoji mappings replaced with Phosphor Icons (duotone style). Examples: Target, Lightbulb, Handshake, Trophy, etc. Gives more professional look to AI responses.
+          </div>
+          <div class="item-location">src/chatbot/components/EmojiToIcon.tsx</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Notes for this element..."></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--white); gap: 8px; color: #8A41E6;">
+          <span style="font-size: 18px;">Target</span>
+          <span style="font-size: 18px;">Lightbulb</span>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-typing" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Typing Indicator Animation
+          </div>
+          <div class="item-description">
+            Three bouncing dots shown while Ali is generating a response. Uses CSS keyframe animation with staggered timing.
+          </div>
+          <div class="item-location">src/chatbot/components/TypingIndicator.tsx</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Notes for this element..."></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--white); gap: 6px;">
+          <span style="width: 8px; height: 8px; background: #8A41E6; border-radius: 50%; animation: bounce 1.4s infinite;"></span>
+          <span style="width: 8px; height: 8px; background: #8A41E6; border-radius: 50%; animation: bounce 1.4s infinite 0.2s;"></span>
+          <span style="width: 8px; height: 8px; background: #8A41E6; border-radius: 50%; animation: bounce 1.4s infinite 0.4s;"></span>
+        </div>
+      </div>
+
+      <!-- Error Toast Messages -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-error" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Error Toast Messages
+          </div>
+          <div class="item-description">
+            Red error toasts shown when API calls fail or validation errors occur. Uses shadcn/ui Alert component with destructive variant.
+          </div>
+          <div class="item-location">src/components/ui/alert.tsx + various files</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Notes for this element..."></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: #FEE2E2; color: #991B1B; font-size: 12px; padding: 8px;">
+          Error message
+        </div>
+      </div>
+
+      <!-- Loading Skeleton -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-skeleton" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Loading Skeleton States
+          </div>
+          <div class="item-description">
+            Shimmer animation placeholders shown while content loads. Used for chat history, profile data, and assessment results.
+          </div>
+          <div class="item-location">src/client/Main.css (shimmer keyframe)</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Notes for this element..."></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%;">
+        </div>
+      </div>
+
+      <!-- Success States -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-success" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Success/Warning/Error Color System
+          </div>
+          <div class="item-description">
+            Standard status colors: Success (#10b981 Emerald), Warning (#f59e0b Amber), Error (#ef4444 Red). Used across forms, toasts, and validation states.
+          </div>
+          <div class="item-location">tailwind.config.js:310-312 (DaisyUI theme)</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Notes for this element..."></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--white); gap: 8px;">
+          <span style="width: 20px; height: 20px; background: #10b981; border-radius: 4px;"></span>
+          <span style="width: 20px; height: 20px; background: #f59e0b; border-radius: 4px;"></span>
+          <span style="width: 20px; height: 20px; background: #ef4444; border-radius: 4px;"></span>
+        </div>
+      </div>
+
+      <!-- Personalized Chat Greeting -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-greeting" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Personalized Chat Greeting
+          </div>
+          <div class="item-description">
+            Dynamic greeting based on user profile data. Shows "Hey [Name] — I'm Ali, your negotiation coach" or contextualizes based on their negotiation counterparty setting (vendor, client, employer, etc.).
+          </div>
+          <div class="item-location">src/chatbot/components/ChatGreeting.tsx:45-67</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Should we show personalized greetings based on user settings?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: #f5f3f0; font-family: Georgia, serif; font-style: italic; font-size: 14px; text-align: center;">
+          Hey Terrance —
+        </div>
+      </div>
+
+      <!-- Emoji to Icon Replacement -->
+      <div class="review-item" data-status="pending">
+        <div class="checkbox-container">
+          <input type="checkbox" id="item-emoji-icons" onchange="updateProgress()">
+        </div>
+        <div class="item-content">
+          <div class="item-name">
+            <span class="status-dot developer"></span>
+            Emoji → Phosphor Icon Replacement
+          </div>
+          <div class="item-description">
+            AI responses use standard emojis (checkmark, bulb, warning) but we replace them with Phosphor Icons for a polished, consistent look. Icons use duotone weight with Ali's purple accent. Maps 40+ emoji to icon equivalents.
+          </div>
+          <div class="item-location">src/chatbot/components/EmojiToIcon.tsx:1-175</div>
+          <div class="action-buttons">
+            <button class="action-btn approve" onclick="setStatus(this, 'approved')">Approve</button>
+            <button class="action-btn reject" onclick="setStatus(this, 'rejected')">Reject (Keep Emojis)</button>
+            <button class="action-btn needs-design" onclick="setStatus(this, 'needs-design')">Needs Figma Design</button>
+          </div>
+          <div class="notes-field">
+            <textarea placeholder="Do you prefer Phosphor icons over platform emojis?"></textarea>
+          </div>
+        </div>
+        <div class="item-preview" style="background: var(--white); gap: 12px; font-size: 18px;">
+          <span>bulb → purple</span>
+          <span>check → purple</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 4: COMPONENT LIBRARY
+         ============================================ -->
+    <section id="components">
+      <div class="section-header">
+        <h2>
+          Component Library
+          <span class="category-badge figma">21 Components</span>
+        </h2>
+      </div>
+
+      <div class="info-box">
+        <p>These are shadcn/ui components customized for Ali. <a href="https://ui.shadcn.com" target="_blank" style="color: #8A41E6;">View shadcn/ui docs</a></p>
+      </div>
+
+      <div class="preview-grid">
+        <div class="preview-card">
+          <div class="demo">
+            <button style="padding: 8px 16px; background: #000; color: white; border: none; border-radius: 6px; cursor: pointer;">Button</button>
+          </div>
+          <div class="label">Default Button</div>
+        </div>
+        <div class="preview-card">
+          <div class="demo">
+            <button style="padding: 8px 16px; background: transparent; border: 1px solid #ddd; border-radius: 6px; cursor: pointer;">Outline</button>
+          </div>
+          <div class="label">Outline Button</div>
+        </div>
+        <div class="preview-card">
+          <div class="demo">
+            <span style="padding: 4px 10px; background: #8A41E6; color: white; border-radius: 12px; font-size: 12px;">Badge</span>
+          </div>
+          <div class="label">Badge</div>
+        </div>
+        <div class="preview-card">
+          <div class="demo">
+            <input type="text" placeholder="Input field" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; width: 140px;">
+          </div>
+          <div class="label">Input</div>
+        </div>
+        <div class="preview-card">
+          <div class="demo">
+            <div style="background: white; border: 1px solid #ddd; border-radius: 8px; padding: 12px; width: 100%;">
+              <div style="font-size: 12px; font-weight: 600;">Card Title</div>
+              <div style="font-size: 11px; color: #7C7C7C;">Card content</div>
+            </div>
+          </div>
+          <div class="label">Card</div>
+        </div>
+        <div class="preview-card">
+          <div class="demo" style="gap: 8px;">
+            <div style="width: 32px; height: 32px; background: #8A41E6; border-radius: 50%;"></div>
+            <span style="font-size: 11px;">Avatar</span>
+          </div>
+          <div class="label">Avatar</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 5: EXTERNAL RESOURCES & INSPIRATION
+         ============================================ -->
+    <section id="resources">
+      <div class="section-header">
+        <h2>Design Resources & Inspiration</h2>
+      </div>
+
+      <div style="padding: 24px;">
+        <!-- Current Stack -->
+        <h3 style="font-size: 16px; margin-bottom: 16px; color: #333;">Current Technology Stack</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+          <tr>
+            <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;"><strong>Figma File</strong></td>
+            <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;"><a href="https://www.figma.com/design/HTa2pGqP1coYDTAGEZityp/Ali-Playground" target="_blank" style="color: #8A41E6;">Ali-Playground</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;"><strong>Icon Library</strong></td>
+            <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;"><a href="https://phosphoricons.com" target="_blank" style="color: #8A41E6;">Phosphor Icons (Duotone)</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;"><strong>UI Components</strong></td>
+            <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;"><a href="https://ui.shadcn.com" target="_blank" style="color: #8A41E6;">shadcn/ui</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;"><strong>CSS Framework</strong></td>
+            <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;"><a href="https://tailwindcss.com" target="_blank" style="color: #8A41E6;">Tailwind CSS</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 0;"><strong>Theme System</strong></td>
+            <td style="padding: 12px 0;"><a href="https://daisyui.com" target="_blank" style="color: #8A41E6;">DaisyUI</a></td>
+          </tr>
+        </table>
+
+        <!-- MESSAGE OUTPUT FORMATTING -->
+        <h3 style="font-size: 16px; margin-bottom: 16px; color: #333; border-top: 2px solid #8A41E6; padding-top: 24px;">
+          AI Message Output Formatting
+        </h3>
+        <div class="info-box" style="background: #F5F3F0; border-left: 4px solid #8A41E6; padding: 16px; margin-bottom: 20px;">
+          <strong>Current Implementation:</strong> Ali uses ReactMarkdown with remark-gfm for rich text formatting.
+          Messages support headers, lists, bold/italic, code blocks, links, and blockquotes.
+          Emojis are auto-replaced with Phosphor Icons for visual consistency.
+        </div>
+
+        <h4 style="font-size: 14px; margin: 16px 0 12px; color: #555;">Current Markdown Capabilities</h4>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+          <tr style="background: #f9f9f9;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Feature</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Status</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">File Location</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Headers (H1-H3)</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:169-171</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Bullet Lists</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:176-178</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Numbered Lists</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:177</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Bold/Italic</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:173-174</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Inline Code</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:183</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Code Blocks</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:185-186</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Blockquotes</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:188-189</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Links</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:181</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Tables (GFM)</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>remarkGfm plugin</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Emoji → Icon Replace</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>EmojiToIcon.tsx:84-173</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Streaming Cursor</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #10b981;">Enabled</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><code>MessageBubble.tsx:230-232</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Syntax Highlighting</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #f59e0b;">Potential</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><em>Add: react-syntax-highlighter</em></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">LaTeX/Math</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #f59e0b;">Potential</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><em>Add: remark-math + rehype-katex</em></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;">Collapsible Sections</td>
+            <td style="padding: 10px; border: 1px solid #eee; color: #f59e0b;">Potential</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><em>Add: &lt;details&gt; support</em></td>
+          </tr>
+        </table>
+
+        <h4 style="font-size: 14px; margin: 16px 0 12px; color: #555;">AI Response Capabilities</h4>
+        <div class="info-box" style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px 16px; margin-bottom: 16px; font-size: 13px;">
+          <strong>Decision Required:</strong> Terrance to set priority for each capability.
+        </div>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+          <tr style="background: #f9f9f9;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Feature</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Description</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee; width: 120px;">Priority</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>"Thinking" Indicator</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Show "Thinking..." or "Thought for Xs" before response streams</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('thinking', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Step-by-Step Progress</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Show actions like "Analyzing your scenario...", "Generating framework..."</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('steps', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Typing Animation</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Word-by-word fade-in instead of character streaming</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('typing', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Source Citations</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Inline [1] [2] citations with hover cards</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('citations', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Structured Cards</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Framework cards, action items, key insights as styled blocks</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('cards', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Interactive Elements</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Clickable buttons in responses (e.g., "Try this approach")</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('interactive', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Follow-up Suggestions</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Chips below response suggesting next questions</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('followup', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Voice Readout</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">TTS button to read response aloud</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('voice', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Response Regenerate</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Button to regenerate AI response with different framing</td>
+            <td style="padding: 10px; border: 1px solid #eee;">
+              <select style="width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px;" onchange="saveCapabilityPriority('regenerate', this.value)">
+                <option value="">—</option>
+                <option value="P1">P1 - MVP</option>
+                <option value="P2">P2 - Soon</option>
+                <option value="P3">P3 - Later</option>
+                <option value="P4">P4 - Maybe</option>
+                <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <!-- TYPOGRAPHY INSPIRATION -->
+        <h3 style="font-size: 16px; margin: 32px 0 16px; color: #333; border-top: 1px solid #eee; padding-top: 24px;">
+          Typography Systems Inspiration
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+          <tr style="background: #f9f9f9;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Resource</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Description</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Link</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Figma Typography Guide</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Official best practices for type systems</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://www.figma.com/best-practices/typography-systems-in-figma/" target="_blank" style="color: #8A41E6;">figma.com/typography</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Untitled UI</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Complete design system with type tokens</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://www.untitledui.com" target="_blank" style="color: #8A41E6;">untitledui.com</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Tailwind Typography</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Prose styling plugin (used in Ali)</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://tailwindcss.com/docs/typography-plugin" target="_blank" style="color: #8A41E6;">tailwindcss.com/typography</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Type Scale Calculator</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Generate harmonious font size scales</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://typescale.com" target="_blank" style="color: #8A41E6;">typescale.com</a></td>
+          </tr>
+        </table>
+
+        <!-- ICON ALTERNATIVES -->
+        <h3 style="font-size: 16px; margin: 32px 0 16px; color: #333; border-top: 1px solid #eee; padding-top: 24px;">
+          Icon Library Alternatives
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+          <tr style="background: #f9f9f9;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Library</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Style</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Icons</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Link</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Phosphor</strong> (Current)</td>
+            <td style="padding: 10px; border: 1px solid #eee;">Flexible weights, duotone</td>
+            <td style="padding: 10px; border: 1px solid #eee;">1,200+</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://phosphoricons.com" target="_blank" style="color: #8A41E6;">phosphoricons.com</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Lucide</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Clean line icons, Feather successor</td>
+            <td style="padding: 10px; border: 1px solid #eee;">1,400+</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://lucide.dev" target="_blank" style="color: #8A41E6;">lucide.dev</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Heroicons</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">By Tailwind team, solid/outline</td>
+            <td style="padding: 10px; border: 1px solid #eee;">300+</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://heroicons.com" target="_blank" style="color: #8A41E6;">heroicons.com</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Tabler Icons</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Consistent stroke width</td>
+            <td style="padding: 10px; border: 1px solid #eee;">4,500+</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://tabler-icons.io" target="_blank" style="color: #8A41E6;">tabler-icons.io</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Iconoir</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Rounded, friendly aesthetic</td>
+            <td style="padding: 10px; border: 1px solid #eee;">1,500+</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://iconoir.com" target="_blank" style="color: #8A41E6;">iconoir.com</a></td>
+          </tr>
+        </table>
+
+        <!-- COLOR PALETTE TOOLS -->
+        <h3 style="font-size: 16px; margin: 32px 0 16px; color: #333; border-top: 1px solid #eee; padding-top: 24px;">
+          Color & Palette Tools
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+          <tr style="background: #f9f9f9;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Tool</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Use Case</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Link</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Figma Color</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Purple palette inspiration (Ali accent)</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://www.figma.com/colors/purple/" target="_blank" style="color: #8A41E6;">figma.com/colors/purple</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Coolors</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Generate color schemes, export to CSS</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://coolors.co" target="_blank" style="color: #8A41E6;">coolors.co</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Realtime Colors</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Preview colors on live UI mockup</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://www.realtimecolors.com" target="_blank" style="color: #8A41E6;">realtimecolors.com</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>WebAIM Contrast</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">WCAG accessibility checker</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://webaim.org/resources/contrastchecker/" target="_blank" style="color: #8A41E6;">webaim.org/contrast</a></td>
+          </tr>
+        </table>
+
+        <!-- FEEDBACK/UX PATTERNS -->
+        <h3 style="font-size: 16px; margin: 32px 0 16px; color: #333; border-top: 1px solid #eee; padding-top: 24px;">
+          Feedback & UX Pattern References
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+          <tr style="background: #f9f9f9;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Resource</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Description</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Link</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>AWS Cloudscape GenAI</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">AI chat patterns, feedback guidelines</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://cloudscape.design/patterns/genai/generative-AI-chat/" target="_blank" style="color: #8A41E6;">cloudscape.design/genai</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Nielsen Norman AI UX</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Research on AI interface design</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://www.nngroup.com/topic/ai-machine-learning/" target="_blank" style="color: #8A41E6;">nngroup.com/ai</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Mobbin AI Patterns</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Real-world AI app screenshots</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://mobbin.com/browse/ios/apps?tag=ai" target="_blank" style="color: #8A41E6;">mobbin.com/ai</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>assistant-ui</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Open-source AI chat components</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://www.assistant-ui.com" target="_blank" style="color: #8A41E6;">assistant-ui.com</a></td>
+          </tr>
+        </table>
+
+        <!-- TECHNICAL DOCS -->
+        <h3 style="font-size: 16px; margin: 32px 0 16px; color: #333; border-top: 1px solid #eee; padding-top: 24px;">
+          Technical Documentation
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+          <tr style="background: #f9f9f9;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Library</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Used For</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #eee;">Link</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>ReactMarkdown</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Renders AI message markdown</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://github.com/remarkjs/react-markdown" target="_blank" style="color: #8A41E6;">react-markdown</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>remark-gfm</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Tables, strikethrough, autolinks</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://github.com/remarkjs/remark-gfm" target="_blank" style="color: #8A41E6;">remark-gfm</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Framer Motion</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Message animations, typing indicator</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://www.framer.com/motion/" target="_blank" style="color: #8A41E6;">framer.com/motion</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Vercel AI SDK</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Streaming, tool calls, thinking blocks</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://sdk.vercel.ai/docs" target="_blank" style="color: #8A41E6;">sdk.vercel.ai</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #eee;"><strong>Anthropic Streaming</strong></td>
+            <td style="padding: 10px; border: 1px solid #eee;">Claude API streaming events</td>
+            <td style="padding: 10px; border: 1px solid #eee;"><a href="https://docs.anthropic.com/claude/reference/streaming" target="_blank" style="color: #8A41E6;">docs.anthropic.com/streaming</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Ali Design Review Tool | Generated January 18, 2026</p>
+    <p style="margin-top: 8px; font-size: 12px;">
+      Review items in order: Figma-Designed (verify implementation) &#8594; Needs Decision &#8594; Terrance-Added (needs approval)
+    </p>
+  </footer>
+
+  <script>
+    // Count items and update progress
+    function updateProgress() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const total = checkboxes.length;
+      const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+
+      document.getElementById('totalCount').textContent = total;
+      document.getElementById('approvedCount').textContent = checked;
+      document.getElementById('progressBar').style.width = (checked / total * 100) + '%';
+
+      // Save to localStorage
+      saveState();
+    }
+
+    // Set approval status
+    function setStatus(button, status) {
+      const item = button.closest('.review-item');
+      const checkbox = item.querySelector('input[type="checkbox"]');
+
+      // Remove existing status classes
+      item.classList.remove('approved', 'rejected', 'needs-design');
+      item.classList.add(status);
+
+      // Update visual
+      if (status === 'approved') {
+        checkbox.checked = true;
+        item.style.borderLeft = '4px solid #10b981';
+      } else if (status === 'rejected') {
+        checkbox.checked = true;
+        item.style.borderLeft = '4px solid #ef4444';
+      } else if (status === 'needs-design') {
+        checkbox.checked = true;
+        item.style.borderLeft = '4px solid #f59e0b';
+      }
+
+      updateProgress();
+    }
+
+    // Save state to localStorage
+    function saveState() {
+      const state = {};
+      document.querySelectorAll('.review-item').forEach((item, index) => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const textarea = item.querySelector('textarea');
+        state[index] = {
+          checked: checkbox ? checkbox.checked : false,
+          notes: textarea ? textarea.value : '',
+          status: item.classList.contains('approved') ? 'approved' :
+                  item.classList.contains('rejected') ? 'rejected' :
+                  item.classList.contains('needs-design') ? 'needs-design' : null
+        };
+      });
+      localStorage.setItem('aliDesignReview', JSON.stringify(state));
+    }
+
+    // Save capability priority selections
+    function saveCapabilityPriority(feature, value) {
+      const priorities = JSON.parse(localStorage.getItem('aliCapabilityPriorities') || '{}');
+      priorities[feature] = value;
+      localStorage.setItem('aliCapabilityPriorities', JSON.stringify(priorities));
+    }
+
+    // Load capability priority selections
+    function loadCapabilityPriorities() {
+      const priorities = JSON.parse(localStorage.getItem('aliCapabilityPriorities') || '{}');
+      Object.entries(priorities).forEach(([feature, value]) => {
+        const select = document.querySelector(`select[onchange*="'${feature}'"]`);
+        if (select && value) {
+          select.value = value;
+        }
+      });
+    }
+
+    // Load state from localStorage
+    function loadState() {
+      const saved = localStorage.getItem('aliDesignReview');
+      if (saved) {
+        const state = JSON.parse(saved);
+        document.querySelectorAll('.review-item').forEach((item, index) => {
+          if (state[index]) {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            const textarea = item.querySelector('textarea');
+
+            if (checkbox && state[index].checked) {
+              checkbox.checked = true;
+            }
+            if (textarea && state[index].notes) {
+              textarea.value = state[index].notes;
+            }
+            if (state[index].status) {
+              item.classList.add(state[index].status);
+              if (state[index].status === 'approved') {
+                item.style.borderLeft = '4px solid #10b981';
+              } else if (state[index].status === 'rejected') {
+                item.style.borderLeft = '4px solid #ef4444';
+              } else if (state[index].status === 'needs-design') {
+                item.style.borderLeft = '4px solid #f59e0b';
+              }
+            }
+          }
+        });
+      }
+      updateProgress();
+    }
+
+    // Export feedback as JSON file for Terrance
+    function exportFeedback() {
+      const feedback = {
+        exportedAt: new Date().toISOString(),
+        reviewer: "Nic",
+        summary: {
+          total: 0,
+          approved: 0,
+          rejected: 0,
+          needsDesign: 0,
+          pending: 0
+        },
+        items: []
+      };
+
+      document.querySelectorAll('.review-item').forEach((item) => {
+        const nameEl = item.querySelector('.item-name');
+        const descEl = item.querySelector('.item-description');
+        const locEl = item.querySelector('.item-location');
+        const textarea = item.querySelector('textarea');
+
+        // Get the text content, stripping the status dot
+        const name = nameEl ? nameEl.textContent.trim() : 'Unknown';
+        const description = descEl ? descEl.textContent.trim() : '';
+        const location = locEl ? locEl.textContent.trim() : '';
+        const notes = textarea ? textarea.value : '';
+
+        // Determine status
+        let status = 'pending';
+        if (item.classList.contains('approved')) status = 'approved';
+        else if (item.classList.contains('rejected')) status = 'rejected';
+        else if (item.classList.contains('needs-design')) status = 'needs-design';
+
+        // Determine category
+        let category = 'unknown';
+        const section = item.closest('section');
+        if (section) {
+          if (section.id === 'terrance-added') category = 'Terrance-Added';
+          else if (section.id === 'needs-decision') category = 'Needs Decision';
+          else if (section.id === 'figma-designed') category = 'Figma-Designed';
+        }
+
+        feedback.items.push({
+          name,
+          category,
+          status,
+          notes,
+          location,
+          description
+        });
+
+        // Update summary
+        feedback.summary.total++;
+        if (status === 'approved') feedback.summary.approved++;
+        else if (status === 'rejected') feedback.summary.rejected++;
+        else if (status === 'needs-design') feedback.summary.needsDesign++;
+        else feedback.summary.pending++;
+      });
+
+      // Add capability priorities (Terrance's decisions)
+      feedback.capabilityPriorities = JSON.parse(localStorage.getItem('aliCapabilityPriorities') || '{}');
+
+      // Create downloadable file
+      const blob = new Blob([JSON.stringify(feedback, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ali-design-feedback-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      alert('Feedback exported! Send the downloaded JSON file to Terrance.');
+    }
+
+    // Auto-save notes
+    document.querySelectorAll('textarea').forEach(textarea => {
+      textarea.addEventListener('input', saveState);
+    });
+
+    // Initialize
+    loadState();
+    loadCapabilityPriorities();
+  </script>
+
+  <style>
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+  </style>
+</body>
+</html>
