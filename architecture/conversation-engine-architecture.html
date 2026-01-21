@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Ali Delivers the Aligned Methodology</title>
+  <style>
+    :root {
+      --purple-primary: #6B46C1;
+      --purple-light: #F3E8FF;
+      --purple-dark: #553C9A;
+      --green-success: #38A169;
+      --green-light: #C6F6D5;
+      --blue-info: #3182CE;
+      --blue-light: #BEE3F8;
+      --orange-warning: #DD6B20;
+      --orange-light: #FEEBC8;
+      --red-danger: #E53E3E;
+      --red-light: #FED7D7;
+      --gray-50: #F7FAFC;
+      --gray-100: #EDF2F7;
+      --gray-200: #E2E8F0;
+      --gray-600: #718096;
+      --gray-700: #4A5568;
+      --gray-800: #2D3748;
+      --gray-900: #1A202C;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--gray-800);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: white;
+    }
+
+    h1 {
+      color: var(--purple-primary);
+      border-bottom: 3px solid var(--purple-primary);
+      padding-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    h2 {
+      color: var(--gray-800);
+      margin-top: 2rem;
+      padding: 0.5rem 0;
+      border-bottom: 2px solid var(--gray-200);
+    }
+
+    h3 {
+      color: var(--purple-dark);
+      margin-top: 1.5rem;
+    }
+
+    .header-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: var(--gray-50);
+      border-radius: 8px;
+    }
+
+    .header-meta .date {
+      color: var(--gray-600);
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge-purple { background: var(--purple-light); color: var(--purple-dark); }
+    .badge-green { background: var(--green-light); color: var(--green-success); }
+    .badge-blue { background: var(--blue-light); color: var(--blue-info); }
+    .badge-orange { background: var(--orange-light); color: var(--orange-warning); }
+    .badge-red { background: var(--red-light); color: var(--red-danger); }
+
+    .key-numbers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .key-number {
+      text-align: center;
+      padding: 1.25rem;
+      background: var(--gray-50);
+      border-radius: 8px;
+      border-left: 4px solid var(--purple-primary);
+    }
+
+    .key-number .number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--purple-primary);
+    }
+
+    .key-number .label {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      margin-top: 0.25rem;
+    }
+
+    pre {
+      background: var(--gray-900);
+      color: #E2E8F0;
+      padding: 1.25rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 0.9em;
+      background: var(--gray-100);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--gray-200);
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    th {
+      background: var(--gray-50);
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: var(--gray-50);
+    }
+
+    details {
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+
+    summary {
+      background: var(--gray-50);
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--gray-700);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: '▶';
+      font-size: 0.7rem;
+      transition: transform 0.2s;
+    }
+
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    summary:hover {
+      background: var(--gray-100);
+    }
+
+    details > div {
+      padding: 1rem;
+    }
+
+    .callout {
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .callout-info {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue-info);
+    }
+
+    .callout-success {
+      background: var(--green-light);
+      border-left: 4px solid var(--green-success);
+    }
+
+    .callout-warning {
+      background: var(--orange-light);
+      border-left: 4px solid var(--orange-warning);
+    }
+
+    .callout-danger {
+      background: var(--red-light);
+      border-left: 4px solid var(--red-danger);
+    }
+
+    .flow-diagram {
+      background: var(--gray-900);
+      color: #E2E8F0;
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      white-space: pre;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .section-card {
+      padding: 0.75rem;
+      background: var(--gray-50);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      border-left: 3px solid var(--purple-primary);
+    }
+
+    .section-card strong {
+      color: var(--purple-dark);
+    }
+
+    .pattern-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      margin: 0.75rem 0;
+      padding: 1rem;
+    }
+
+    .pattern-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pattern-header h4 {
+      margin: 0;
+      color: var(--gray-800);
+    }
+
+    .effectiveness-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .effectiveness-item {
+      padding: 0.25rem 0.5rem;
+      background: var(--gray-100);
+      border-radius: 4px;
+    }
+
+    .toc {
+      background: var(--gray-50);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .toc h3 {
+      margin-top: 0;
+    }
+
+    .toc ol {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+
+    .toc li {
+      margin: 0.5rem 0;
+    }
+
+    .toc a {
+      color: var(--purple-primary);
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    /* ---- TAB NAVIGATION ---- */
+    .tab-nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--gray-200);
+      margin: 1.5rem 0 0;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 0.75rem 1.25rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      margin-bottom: -2px;
+    }
+
+    .tab-btn:hover {
+      color: var(--purple-primary);
+      background: var(--gray-50);
+    }
+
+    .tab-btn.active {
+      color: var(--purple-primary);
+      border-bottom-color: var(--purple-primary);
+    }
+
+    .tab-panel {
+      display: none;
+      padding: 1.5rem 0;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* Tab indicator pills */
+    .tab-btn .count {
+      font-size: 0.7rem;
+      background: var(--gray-200);
+      color: var(--gray-600);
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 6px;
+    }
+
+    .tab-btn.active .count {
+      background: var(--purple-light);
+      color: var(--purple-dark);
+    }
+
+    /* ---- PERSISTENT SIDEBAR ---- */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .page-wrapper {
+      display: flex;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 2rem;
+      width: 200px;
+      flex-shrink: 0;
+      height: fit-content;
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray-600);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .sidebar-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--purple-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 0.35rem 0;
+      padding-left: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .sidebar a:hover {
+      color: var(--purple-primary);
+      border-left-color: var(--purple-light);
+    }
+
+    .sidebar a.active {
+      color: var(--purple-primary);
+      border-left-color: var(--purple-primary);
+      font-weight: 600;
+    }
+
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      max-width: 900px;
+    }
+
+    /* Override old body styles */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--gray-800);
+      margin: 0;
+      padding: 0;
+      background: white;
+    }
+
+    /* Scroll offset for anchors */
+    [id] {
+      scroll-margin-top: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        display: none;
+      }
+      .page-wrapper {
+        padding: 1.5rem;
+      }
+    }
+
+    @media print {
+      .sidebar {
+        display: none;
+      }
+      .page-wrapper {
+        display: block;
+        padding: 1rem;
+      }
+      body {
+        max-width: none;
+        padding: 1rem;
+        font-size: 11pt;
+      }
+
+      details {
+        break-inside: avoid;
+      }
+
+      details[open] {
+        break-inside: auto;
+      }
+
+      pre, .flow-diagram {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      .tab-nav {
+        display: none;
+      }
+
+      .tab-panel {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+<!-- PERSISTENT SIDEBAR NAVIGATION -->
+<nav class="sidebar">
+  <div class="sidebar-title">Navigation</div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Overview</div>
+    <a href="#business-context">Business Context</a>
+    <a href="#executive-summary">5 Intelligence Layers</a>
+    <a href="#architecture-overview">Architecture Diagram</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Flow</div>
+    <a href="#phase-state-machine">Phase Machine</a>
+    <a href="#entity-extraction">Entity Extraction</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Intelligence</div>
+    <a href="#classification-engine">Classification</a>
+    <a href="#knowledge-canon">Knowledge Canon</a>
+    <a href="#pattern-library">Pattern Library</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Implementation</div>
+    <a href="#system-prompt">System Prompt</a>
+    <a href="#observability">Monitoring</a>
+    <a href="#silhouette-integration">Silhouette</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Technical</div>
+    <a href="#embedding-pipeline">Embeddings</a>
+    <a href="#recent-changes">Recent Updates</a>
+    <a href="#design-decisions">Design Decisions</a>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+<h1>How Ali Delivers the Aligned Methodology</h1>
+
+<div class="header-meta">
+  <div>
+    <strong>From Facilitation to AI: A Business & Technical Reference</strong><br>
+    <span class="date">Generated: January 20, 2026</span>
+  </div>
+  <div>
+    <span class="badge badge-purple">v3.1</span>
+    <span class="badge badge-green">Production</span>
+  </div>
+</div>
+
+<!-- TAB NAVIGATION -->
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="overview">Overview <span class="count">3</span></button>
+  <button class="tab-btn" data-tab="flow">Flow <span class="count">2</span></button>
+  <button class="tab-btn" data-tab="intelligence">Intelligence <span class="count">3</span></button>
+  <button class="tab-btn" data-tab="implementation">Implementation <span class="count">3</span></button>
+  <button class="tab-btn" data-tab="technical">Technical <span class="count">3</span></button>
+</nav>
+
+<!-- ===================================================================== -->
+<!-- TAB: OVERVIEW -->
+<!-- ===================================================================== -->
+<div class="tab-panel active" id="tab-overview">
+
+<!-- ORIENTATION INTRO -->
+<div class="callout callout-info" style="margin-top: 0;">
+  <strong>About This Document</strong><br>
+  This reference explains how Ali's conversation engine translates 20 years of Aligned facilitation expertise into an AI coaching experience. Use the <strong>sidebar navigation</strong> to jump to any section, or explore the <strong>tabs above</strong> to browse by topic area.
+</div>
+
+<div class="key-numbers" style="margin-top: 1.5rem;">
+  <div class="key-number">
+    <div class="number">5</div>
+    <div class="label">Tabs to Explore</div>
+  </div>
+  <div class="key-number">
+    <div class="number">14</div>
+    <div class="label">Sections Total</div>
+  </div>
+  <div class="key-number">
+    <div class="number">5</div>
+    <div class="label">Intelligence Layers</div>
+  </div>
+  <div class="key-number">
+    <div class="number">20</div>
+    <div class="label">ASF Methodology Sections</div>
+  </div>
+</div>
+
+<!-- SECTION 1: BUSINESS CONTEXT -->
+
+<h2 id="business-context">1. Business Context: From Facilitator to AI Coach</h2>
+
+<p>For 20 years, Aligned has delivered negotiation training through expert facilitators who guide participants through a proven methodology. <strong>Ali translates this human expertise into an AI coaching experience</strong> that can scale to thousands of users while preserving what makes Aligned's approach effective.</p>
+
+<div class="callout callout-success">
+  <strong>The Core Question:</strong> How does what a skilled Aligned facilitator does in a workshop translate into what Ali does in a conversation?
+</div>
+
+<h3>The Facilitator-to-Ali Translation</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 35%">What an Aligned Facilitator Does</th>
+      <th style="width: 35%">What Ali Does</th>
+      <th style="width: 30%">How It Works</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Listens for context</strong><br>Who are you negotiating with? What's at stake? When does this need to happen?</td>
+      <td><strong>Entity Extraction</strong><br>Identifies counterparty, deal value, deadlines, products, and relationship history from conversation</td>
+      <td>Pattern recognition on every message - no questions needed if context is given naturally</td>
+    </tr>
+    <tr>
+      <td><strong>Builds rapport first</strong><br>Doesn't jump into frameworks immediately; establishes connection</td>
+      <td><strong>Phase Progression</strong><br>Starts in GREETING/QUESTIONING phases before moving to coaching</td>
+      <td>State machine ensures Ali gathers context before diagnosing</td>
+    </tr>
+    <tr>
+      <td><strong>Diagnoses the negotiation type</strong><br>"This sounds like a trading situation" or "You're in a weak position here"</td>
+      <td><strong>Classification Engine</strong><br>Determines if it's Bargaining, Trading, Creating, Partnering, or Weak Position</td>
+      <td>AI analysis of entities + context, only when confident (75%+ threshold)</td>
+    </tr>
+    <tr>
+      <td><strong>Pulls relevant frameworks</strong><br>Opens the right section of the ASF based on what the participant needs</td>
+      <td><strong>Knowledge Retrieval</strong><br>Injects the specific ASF sections that match the diagnosis</td>
+      <td>20 methodology sections mapped to negotiation types and phases</td>
+    </tr>
+    <tr>
+      <td><strong>Adapts to personality</strong><br>Recognizes when someone is analytical vs. relationship-focused</td>
+      <td><strong>Silhouette Integration</strong><br>Uses assessment results to tailor communication style and recommendations</td>
+      <td>Methodical gets data; Assertive gets reminded to listen; Empathetic gets encouraged to push</td>
+    </tr>
+    <tr>
+      <td><strong>Teaches tactics appropriately</strong><br>Explains anchoring to some, warns about Good Cop/Bad Cop to others</td>
+      <td><strong>Pattern Library</strong><br>10 tactics with personality-aware guidance on when to use vs. when to watch for</td>
+      <td>Each pattern has effectiveness ratings per personality type + ethical flags</td>
+    </tr>
+    <tr>
+      <td><strong>Speaks in the participant's language</strong><br>Uses their industry examples, addresses them by name</td>
+      <td><strong>Profile Personalization</strong><br>References their industry, role, typical counterparties in responses</td>
+      <td>Settings page data flows into every coaching response</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Why This Matters for Aligned</h3>
+
+<div class="callout callout-info">
+  <strong>Methodology Preservation, Not Replacement:</strong> Ali doesn't invent new advice. Every response draws from the Aligned Strategic Framework (ASF) content - the same frameworks taught in workshops. The AI's job is delivery and personalization at scale, not methodology creation.
+</div>
+
+<p><strong>Three levels of methodology integration:</strong></p>
+
+<ol>
+  <li><strong>Always Present:</strong> Core coaching principles are in every conversation (7,600 tokens of methodology DNA)</li>
+  <li><strong>Diagnosis-Driven:</strong> When Ali diagnoses a Trading situation, it pulls Trading-specific ASF sections</li>
+  <li><strong>Edge Case Handling:</strong> Semantic search finds relevant content for unusual questions the classification didn't anticipate</li>
+</ol>
+
+<h3>The Business Value</h3>
+
+<div class="key-numbers">
+  <div class="key-number">
+    <div class="number">24/7</div>
+    <div class="label">Availability (vs. workshop scheduling)</div>
+  </div>
+  <div class="key-number">
+    <div class="number">1:1</div>
+    <div class="label">Personalized attention (vs. group ratio)</div>
+  </div>
+  <div class="key-number">
+    <div class="number">~$0.05</div>
+    <div class="label">Per coaching exchange (scalable unit economics)</div>
+  </div>
+  <div class="key-number">
+    <div class="number">100%</div>
+    <div class="label">Methodology consistency (no facilitator variance)</div>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 2: EXECUTIVE SUMMARY -->
+<!-- ===================================================================== -->
+
+<h2 id="executive-summary">2. How Ali Works: The 5 Intelligence Layers</h2>
+
+<p>When a user sends a message, Ali processes it through five layers - each one mirroring something a skilled facilitator does instinctively:</p>
+
+<div class="key-numbers">
+  <div class="key-number">
+    <div class="number">20</div>
+    <div class="label">ASF Sections (methodology content)</div>
+  </div>
+  <div class="key-number">
+    <div class="number">10</div>
+    <div class="label">Negotiation Patterns (tactics library)</div>
+  </div>
+  <div class="key-number">
+    <div class="number">5</div>
+    <div class="label">Conversation Phases</div>
+  </div>
+  <div class="key-number">
+    <div class="number">5</div>
+    <div class="label">Context Types Listened For</div>
+  </div>
+  <div class="key-number">
+    <div class="number">4</div>
+    <div class="label">Silhouette Personality Types</div>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 2: ARCHITECTURE OVERVIEW -->
+<!-- ===================================================================== -->
+
+<h2 id="architecture-overview">3. Architecture Overview Diagram</h2>
+
+<p>This diagram shows the complete flow from user message to streaming response:</p>
+
+<div class="flow-diagram">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            USER MESSAGE                                      │
+│            "I'm negotiating a $500K SaaS renewal with Acme Corp.            │
+│             Contract expires March 2026. We've worked with them 3 years."   │
+└─────────────────────────────────┬───────────────────────────────────────────┘
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 1: ENTITY EXTRACTION (regex-based, zero LLM cost)                    │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │ counterparty: "Acme Corp"           (confidence: 0.95)               │   │
+│  │ dealValue: $500,000 USD             (confidence: 0.85)               │   │
+│  │ deadline: March 2026                (confidence: 0.80)               │   │
+│  │ product: "SaaS renewal"             (confidence: 0.70)               │   │
+│  │ relationshipLength: 3 years         (confidence: 0.90)               │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────┬───────────────────────────────────────────┘
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 2: PHASE STATE MACHINE                                               │
+│  ┌────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────┐   ┌────────┐ │
+│  │GREETING│──▶│ QUESTIONING │──▶│ CLASSIFYING │──▶│ GUIDING │──▶│CLOSING │ │
+│  └────────┘   └─────────────┘   └─────────────┘   └─────────┘   └────────┘ │
+│       │              │                 │                │                   │
+│   msg > 1     critical entities   classification    full coaching          │
+│              (counterparty +        complete                                │
+│               deadline)                                                     │
+└─────────────────────────────────┬───────────────────────────────────────────┘
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 3: CLASSIFICATION ENGINE (Claude Haiku - fast, cheap)                │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │ Input: Extracted entities + conversation summary                      │   │
+│  │ Output: { type: "TRADING", confidence: 0.87, reasoning: "..." }      │   │
+│  │                                                                       │   │
+│  │ Types: WEAK_POSITION | BARGAINING | TRADING | CREATING | PARTNERING  │   │
+│  │ Threshold: 75% confidence (below = no classification)                │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────┬───────────────────────────────────────────┘
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 4: KNOWLEDGE RETRIEVAL (Hybrid RAG)                                  │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │ STATIC (always):     Coaching Methodology              ~7,600 tokens │   │
+│  │ CLASSIFICATION:      TRADING sections (Conditional,    ~5,000 tokens │   │
+│  │                      Value, Zones, BATNA/WATNA)                      │   │
+│  │ VECTOR (conditional): Semantic search results          ~2,000 tokens │   │
+│  │                       (enabled when confidence ≥ 75%)                │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────┬───────────────────────────────────────────┘
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 5: SYSTEM PROMPT CONSTRUCTION + CLAUDE SONNET                        │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │ [1] Ali Identity & Behavior Rules                                     │   │
+│  │ [2] Knowledge Canon (all 3 layers from above)                        │   │
+│  │ [3] User Profile Context (name, role, industry, counterparty type)   │   │
+│  │ [4] Coaching Guidelines (personalized to profile)                    │   │
+│  │ [5] Response Format Instructions (markdown, blockquotes)             │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  Model Routing:                                                             │
+│  • Simple messages (≤30 words, early turns): Claude Haiku (10x faster)     │
+│  • Complex coaching: Claude Sonnet (higher quality)                         │
+└─────────────────────────────────┬───────────────────────────────────────────┘
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  OUTPUT: STREAMING RESPONSE + OBSERVABILITY                                 │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │ • Streaming via AI SDK 6 (pipeUIMessageStreamToResponse)             │   │
+│  │ • Token tracking (input/output per message)                          │   │
+│  │ • Cost estimation (~$0.03-0.08 per exchange)                         │   │
+│  │ • Sentry error tracking (client + server)                            │   │
+│  │ • Cache token tracking (prompt caching optimization)                 │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────┘
+</div>
+
+</div><!-- END TAB: OVERVIEW -->
+
+<!-- ===================================================================== -->
+<!-- TAB: FLOW -->
+<!-- ===================================================================== -->
+<div class="tab-panel" id="tab-flow">
+
+<!-- ===================================================================== -->
+<!-- SECTION 3: PHASE STATE MACHINE -->
+<!-- ===================================================================== -->
+
+<h2 id="phase-state-machine">4. Conversation Flow (The 5-Phase Journey)</h2>
+
+<p>Just as a skilled facilitator doesn't jump straight to frameworks, Ali guides users through a natural progression. The conversation starts with relationship-building, moves through context-gathering, and only then provides methodology-backed coaching.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Trigger</th>
+      <th>What Ali Does</th>
+      <th>Knowledge Injected</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-purple">GREETING</span></td>
+      <td>First message</td>
+      <td>Welcome, assess mood, build rapport</td>
+      <td>Coaching Methodology only</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-blue">QUESTIONING</span></td>
+      <td>messageCount > 1</td>
+      <td>Gather context, extract entities</td>
+      <td>Coaching Methodology</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-orange">CLASSIFYING</span></td>
+      <td>Critical entities gathered</td>
+      <td>Determine negotiation type via LLM</td>
+      <td>Coaching Methodology</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-green">GUIDING</span></td>
+      <td>Classification complete</td>
+      <td>Full coaching with matched content</td>
+      <td><strong>All 3 layers</strong> (Static + Classification + Vector)</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-red">CLOSING</span></td>
+      <td>Session end signal (future)</td>
+      <td>Summarize, next steps, action items</td>
+      <td>Summary sections</td>
+    </tr>
+  </tbody>
+</table>
+
+<details>
+  <summary>Phase Transition Logic (from ai-streaming.ts:47-80)</summary>
+  <div>
+<pre><code>function determinePhaseTransition(currentPhase, messageCount, extractedEntities) {
+  switch (currentPhase) {
+    case "GREETING":
+      // Transition after first exchange
+      if (messageCount > 1) return "QUESTIONING";
+      break;
+
+    case "QUESTIONING":
+      // Transition when critical entities are gathered
+      const missing = getMissingCriticalEntities(extractedEntities);
+      if (missing.length === 0) return "CLASSIFYING";
+      break;
+
+    case "CLASSIFYING":
+      // Classification service transitions to GUIDING after successful classification
+      break;
+
+    case "GUIDING":
+      // Future: detect closing signals ("thank you", "that's all", etc.)
+      break;
+  }
+  return null; // No transition
+}</code></pre>
+  </div>
+</details>
+
+<!-- ===================================================================== -->
+<!-- SECTION 4: ENTITY EXTRACTION -->
+<!-- ===================================================================== -->
+
+<h2 id="entity-extraction">5. Listening for Context (Entity Extraction)</h2>
+
+<p>A good facilitator picks up on context naturally: "You mentioned Acme Corp - who are they to you?" Ali does this automatically, recognizing key negotiation details as users share their situation. This allows Ali to understand the scenario without asking a rigid intake questionnaire.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Entity</th>
+      <th>Example Detection</th>
+      <th>Why It Matters</th>
+      <th>Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>counterparty</code></td>
+      <td>"negotiating with <strong>Acme Corp</strong>"</td>
+      <td>Required for classification</td>
+      <td>0.75-0.95</td>
+    </tr>
+    <tr>
+      <td><code>dealValue</code></td>
+      <td>"<strong>$500K</strong> contract", "<strong>$1.5M-$2M</strong> range"</td>
+      <td>Determines stakes, influences tactics</td>
+      <td>0.80-0.90</td>
+    </tr>
+    <tr>
+      <td><code>deadline</code></td>
+      <td>"contract expires <strong>March 2026</strong>", "need answer by <strong>Friday</strong>"</td>
+      <td>Critical for urgency, BATNA timing</td>
+      <td>0.75-0.95</td>
+    </tr>
+    <tr>
+      <td><code>product</code></td>
+      <td>"<strong>enterprise license</strong>", "<strong>SaaS renewal</strong>"</td>
+      <td>Context for relevant examples</td>
+      <td>0.70-0.75</td>
+    </tr>
+    <tr>
+      <td><code>relationshipLength</code></td>
+      <td>"<strong>2 years</strong> with them", "since <strong>2019</strong>"</td>
+      <td>Trust/tenure signal, affects type</td>
+      <td>0.60-0.95</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout callout-success">
+  <strong>Classification Trigger:</strong> When both <code>counterparty</code> AND <code>deadline</code> are present, Ali transitions to the CLASSIFYING phase.
+</div>
+
+<details>
+  <summary>Regex Patterns for Deal Value (from entity-extraction.ts:76-86)</summary>
+  <div>
+<pre><code>const CURRENCY_PATTERNS = {
+  // $500K, $1.5M, $2B, etc.
+  shorthand: /\$\s*([\d,.]+)\s*(K|M|B|k|m|b|thousand|million|billion)/gi,
+
+  // $500,000 or $500000
+  full: /\$\s*([\d,]+(?:\.\d{2})?)/g,
+
+  // 500K USD, 1.5M EUR, etc.
+  withCurrency: /([\d,.]+)\s*(K|M|B)?\s*(USD|EUR|GBP|CAD|AUD)/gi,
+
+  // Range: $100K-$150K or $100K to $150K
+  range: /\$\s*([\d,.]+)\s*(K|M|B)?\s*(?:to|-)\s*\$?\s*([\d,.]+)\s*(K|M|B)?/gi,
+};</code></pre>
+  </div>
+</details>
+
+<details>
+  <summary>Regex Patterns for Deadlines (from entity-extraction.ts:91-111)</summary>
+  <div>
+<pre><code>const DATE_PATTERNS = {
+  // Quarter references: Q1 2025, Q4 2026
+  quarter: /Q([1-4])\s*['"]?\s*(\d{4})/gi,
+
+  // Month Year: March 2026, Dec 2025
+  monthYear: /(January|February|...|Dec)\s+(\d{4})/gi,
+
+  // Relative: "in X weeks/months/days"
+  relative: /(?:in|within|next)\s+(\d+)\s+(day|week|month|year)s?/gi,
+
+  // Contract-specific: "contract expires in X months"
+  contractDate: /(?:contract|agreement|deal)\s+(?:expires?|renews?|ends?)\s+(?:in\s+)?(\d+)\s+(day|week|month|year)s?/gi,
+
+  // Weekday: "next Friday", "by Monday"
+  weekday: /(?:next|this|by|on)\s+(Monday|Tuesday|...|Sunday)/gi,
+
+  // Shorthand: "tomorrow", "end of week"
+  shorthand: /(?:by\s+)?(?:tomorrow|today|end\s+of\s+(?:week|day|month))/gi,
+};</code></pre>
+  </div>
+</details>
+
+</div><!-- END TAB: FLOW -->
+
+<!-- ===================================================================== -->
+<!-- TAB: INTELLIGENCE -->
+<!-- ===================================================================== -->
+<div class="tab-panel" id="tab-intelligence">
+
+<!-- ===================================================================== -->
+<!-- SECTION 5: CLASSIFICATION ENGINE -->
+<!-- ===================================================================== -->
+
+<h2 id="classification-engine">6. Diagnosing the Negotiation (Classification)</h2>
+
+<p>When a facilitator says "This sounds like a trading situation," they're drawing on experience to diagnose the negotiation type. Ali does the same - analyzing the context to determine which of the five negotiation types best fits, then pulling the appropriate frameworks.</p>
+
+<h3>5 Negotiation Types</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Key Signals</th>
+      <th>Typical ASF Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-red">WEAK_POSITION</span></td>
+      <td>Limited leverage, defensive</td>
+      <td>Counterparty has strong BATNA, user facing deadline pressure</td>
+      <td>BATNA/WATNA, Market Forces, Discomfort, Cognitive Biases</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-orange">BARGAINING</span></td>
+      <td>Single-issue, distributive</td>
+      <td>Focus on one variable (price), competitive dynamic</td>
+      <td>Anchoring, Language, Body Language, Zones</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-blue">TRADING</span></td>
+      <td>Multiple issues, exchange</td>
+      <td>3+ negotiable variables, "if you, then I" possible</td>
+      <td>Conditional Trading, Value, Zones, BATNA/WATNA</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-green">CREATING</span></td>
+      <td>Collaborative, expanding pie</td>
+      <td>Shared interests, opportunity to innovate</td>
+      <td>Value Creation, External Forces, Conditional</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-purple">PARTNERING</span></td>
+      <td>Long-term, interdependent</td>
+      <td>Multi-year relationship, high trust, shared planning</td>
+      <td>Trust, Internal Forces, Value, Cognitive Biases</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Classification Configuration</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+      <th>Rationale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model</td>
+      <td><code>claude-3-5-haiku-20241022</code></td>
+      <td>10x faster, 80% cheaper than Sonnet for structured tasks</td>
+    </tr>
+    <tr>
+      <td>Confidence Threshold</td>
+      <td><strong>75%</strong></td>
+      <td>Below this = classification is guessing, better to inject general content</td>
+    </tr>
+    <tr>
+      <td>Max Tokens</td>
+      <td>512</td>
+      <td>Classification returns compact JSON</td>
+    </tr>
+  </tbody>
+</table>
+
+<details>
+  <summary>Classification Prompt (from classification.ts:52-85)</summary>
+  <div>
+<pre><code>const CLASSIFICATION_PROMPT = `You are an expert negotiation analyst. Based on the conversation context and extracted entities, classify this negotiation into ONE of these types:
+
+1. **WEAK_POSITION**: Limited leverage, few alternatives, defensive position
+2. **BARGAINING**: Single-issue, distributive, competitive
+3. **TRADING**: Multiple issues that can be exchanged
+4. **CREATING**: Collaborative, expanding value
+5. **PARTNERING**: Long-term strategic alignment
+
+Respond with ONLY a JSON object:
+{
+  "type": "BARGAINING" | "TRADING" | "CREATING" | "PARTNERING" | "WEAK_POSITION",
+  "confidence": 0.0 to 1.0,
+  "reasoning": "Brief explanation",
+  "missingVariables": ["list of info that would improve classification"]
+}`;</code></pre>
+  </div>
+</details>
+
+<details>
+  <summary>Quick Classify Heuristics (No LLM) - from classification.ts:270-303</summary>
+  <div>
+<pre><code>export function quickClassify(entities: ExtractedEntities): NegotiationType | null {
+  // Long relationship (5+ years) → likely PARTNERING
+  if (entities.relationshipLength?.value.years >= 5) {
+    return NegotiationType.PARTNERING;
+  }
+
+  // New relationship with single focus → likely BARGAINING
+  if (entities.relationshipLength?.value.years === 0 && !entities.product) {
+    return NegotiationType.BARGAINING;
+  }
+
+  // Multiple extracted variables → likely TRADING
+  let variableCount = 0;
+  if (entities.dealValue) variableCount++;
+  if (entities.deadline) variableCount++;
+  if (entities.product) variableCount++;
+  if (entities.relationshipLength) variableCount++;
+
+  if (variableCount >= 3) {
+    return NegotiationType.TRADING;
+  }
+
+  return null; // Not enough signal
+}</code></pre>
+  </div>
+</details>
+
+<!-- ===================================================================== -->
+<!-- SECTION 6: KNOWLEDGE CANON -->
+<!-- ===================================================================== -->
+
+<h2 id="knowledge-canon">7. The Methodology Brain (Aligned Knowledge Canon)</h2>
+
+<p>The Aligned Knowledge Canon (AKC) contains the full Aligned Strategic Framework - the same content taught in workshops. Ali draws from this methodology brain to ensure every response is grounded in proven frameworks, not generic AI advice.</p>
+
+<p>The system uses three layers of content injection:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Content</th>
+      <th>Tokens</th>
+      <th>When Injected</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-green">Static</span></td>
+      <td>Coaching Methodology (core identity, behaviors)</td>
+      <td>~7,600</td>
+      <td><strong>ALWAYS</strong></td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-blue">Classification</span></td>
+      <td>ASF sections matched to type + phase</td>
+      <td>~5-10K</td>
+      <td>GUIDING phase only</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-purple">Vector</span></td>
+      <td>Semantic search results (edge cases)</td>
+      <td>~2-4K</td>
+      <td>GUIDING + confidence ≥ 75%</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>20 ASF Sections Organized</h3>
+
+<div class="section-grid">
+  <div class="section-card"><strong>Forces (4):</strong> Market, External, Internal, BATNA/WATNA</div>
+  <div class="section-card"><strong>Types (4):</strong> Bargaining, Trading, Creating, Partnering</div>
+  <div class="section-card"><strong>Goals (1):</strong> Zone Framework</div>
+  <div class="section-card"><strong>Phases (4):</strong> Prepare, Communicate, Propose, Align</div>
+  <div class="section-card"><strong>Biases (1):</strong> Cognitive Biases</div>
+  <div class="section-card"><strong>Learning (6):</strong> Discomfort, Anchoring, Language, Body Language, Conditional, Value</div>
+</div>
+
+<h3>Section Mapping (Type → Content)</h3>
+
+<details>
+  <summary>TYPE_TO_SECTIONS mapping (from section-map.ts:58-110)</summary>
+  <div>
+<pre><code>export const TYPE_TO_SECTIONS = {
+  WEAK_POSITION: [
+    SECTION_FORCES_MARKET,
+    SECTION_FORCES_EXTERNAL,
+    SECTION_BATNA_WATNA,
+    SECTION_LEARNING_DISCOMFORT,
+    SECTION_COGNITIVE_BIASES,
+  ],
+
+  BARGAINING: [
+    SECTION_TYPE_BARGAINING,
+    SECTION_LEARNING_ANCHORING,
+    SECTION_LEARNING_LANGUAGE,
+    SECTION_LEARNING_BODY_LANGUAGE,
+    SECTION_GOALS_ZONES,
+  ],
+
+  TRADING: [
+    SECTION_TYPE_TRADING,
+    SECTION_LEARNING_CONDITIONAL,
+    SECTION_LEARNING_VALUE,
+    SECTION_GOALS_ZONES,
+    SECTION_BATNA_WATNA,
+  ],
+
+  CREATING: [
+    SECTION_TYPE_CREATING,
+    SECTION_LEARNING_VALUE,
+    SECTION_LEARNING_CONDITIONAL,
+    SECTION_FORCES_EXTERNAL,
+    SECTION_GOALS_ZONES,
+  ],
+
+  PARTNERING: [
+    SECTION_TYPE_PARTNERING,
+    SECTION_FORCES_INTERNAL,
+    SECTION_FORCES_EXTERNAL,
+    SECTION_LEARNING_VALUE,
+    SECTION_COGNITIVE_BIASES,
+  ],
+};</code></pre>
+  </div>
+</details>
+
+<!-- ===================================================================== -->
+<!-- SECTION 7: PATTERN LIBRARY -->
+<!-- ===================================================================== -->
+
+<h2 id="pattern-library">8. Tactics Library (10 Negotiation Patterns)</h2>
+
+<p>Facilitators teach tactics selectively - anchoring might be right for one participant, while another needs to watch for Good Cop/Bad Cop being used against them. Ali's pattern library captures this nuance: each tactic has effectiveness ratings per personality type, plus ethical flags for tactics that should only be recognized, not recommended.</p>
+
+<h3>10 Seed Patterns</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Pattern</th>
+      <th>Category</th>
+      <th>Risk</th>
+      <th>Recommend?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ANCHOR-001</code></td>
+      <td>Anchoring</td>
+      <td>ANCHORING</td>
+      <td><span class="badge badge-green">LOW</span></td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td><code>BATNA-001</code></td>
+      <td>BATNA Leverage</td>
+      <td>PRESSURE</td>
+      <td><span class="badge badge-orange">MEDIUM</span></td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td><code>DEADLINE-001</code></td>
+      <td>Deadline Pressure</td>
+      <td>PRESSURE</td>
+      <td><span class="badge badge-orange">MEDIUM</span></td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td><code>GCBC-001</code></td>
+      <td>Good Cop/Bad Cop</td>
+      <td>EMOTIONAL</td>
+      <td><span class="badge badge-red">HIGH</span></td>
+      <td>✗ Detect only</td>
+    </tr>
+    <tr>
+      <td><code>NIBBLE-001</code></td>
+      <td>Nibbling</td>
+      <td>PRESSURE</td>
+      <td><span class="badge badge-orange">MEDIUM</span></td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td><code>FLINCH-001</code></td>
+      <td>The Flinch</td>
+      <td>EMOTIONAL</td>
+      <td><span class="badge badge-green">LOW</span></td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td><code>BRACKET-001</code></td>
+      <td>Bracketing</td>
+      <td>ANCHORING</td>
+      <td><span class="badge badge-green">LOW</span></td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td><code>SILENCE-001</code></td>
+      <td>Strategic Silence</td>
+      <td>INFORMATION</td>
+      <td><span class="badge badge-green">LOW</span></td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td><code>LIMIT-001</code></td>
+      <td>Limited Authority</td>
+      <td>PRESSURE</td>
+      <td><span class="badge badge-orange">MEDIUM</span></td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td><code>DECOY-001</code></td>
+      <td>Decoy/Red Herring</td>
+      <td>DECEPTIVE</td>
+      <td><span class="badge badge-red">HIGH</span></td>
+      <td>✗ Detect only</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout callout-warning">
+  <strong>Ethical Guard:</strong> 2 patterns (Good Cop/Bad Cop, Decoy) are <strong>detect-only</strong> - Ali will help users recognize when these are used against them, but won't recommend using them.
+</div>
+
+<details>
+  <summary>Example Pattern Structure: Anchoring (from library.ts:26-104)</summary>
+  <div>
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <h4>ANCHOR-001: Anchoring</h4>
+        <span class="badge badge-green">LOW RISK</span>
+      </div>
+      <p><strong>Summary:</strong> Setting an initial reference point that influences subsequent negotiations.</p>
+      <p><strong>Psychology:</strong> Anchoring exploits the anchoring-and-adjustment heuristic. Our brains use the first number as a starting point and make insufficient adjustments from it.</p>
+
+      <h5>Verbal Cues (Triggers)</h5>
+      <ul>
+        <li>"Let me start by saying..."</li>
+        <li>"Our asking price is..."</li>
+        <li>"Industry standard is..."</li>
+        <li>"Comparable deals have been..."</li>
+      </ul>
+
+      <h5>Effectiveness by Personality (1-10)</h5>
+      <div class="effectiveness-row">
+        <div class="effectiveness-item"><strong>Used BY:</strong> Methodical: 8, Assertive: 9, Empathetic: 5, Sociable: 6</div>
+      </div>
+      <div class="effectiveness-row">
+        <div class="effectiveness-item"><strong>Used AGAINST:</strong> Methodical: 6, Assertive: 4, Empathetic: 8, Sociable: 7</div>
+      </div>
+
+      <h5>Responses</h5>
+      <table>
+        <tr>
+          <th>Response</th>
+          <th>Best For</th>
+          <th>Example Script</th>
+        </tr>
+        <tr>
+          <td>Counter-Anchor</td>
+          <td>Assertive, Methodical</td>
+          <td>"I appreciate you sharing that. Based on my research, I was thinking more along the lines of [your anchor]."</td>
+        </tr>
+        <tr>
+          <td>Acknowledge and Reframe</td>
+          <td>Empathetic, Sociable</td>
+          <td>"That's one perspective. Before we discuss numbers, can we explore what's most important to each of us here?"</td>
+        </tr>
+        <tr>
+          <td>Request Justification</td>
+          <td>Methodical</td>
+          <td>"Help me understand how you arrived at that figure. What factors went into it?"</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</details>
+
+</div><!-- END TAB: INTELLIGENCE -->
+
+<!-- ===================================================================== -->
+<!-- TAB: IMPLEMENTATION -->
+<!-- ===================================================================== -->
+<div class="tab-panel" id="tab-implementation">
+
+<!-- ===================================================================== -->
+<!-- SECTION 8: SYSTEM PROMPT -->
+<!-- ===================================================================== -->
+
+<h2 id="system-prompt">9. How Responses Are Assembled</h2>
+
+<p>The system prompt is dynamically assembled from user profile data and retrieved knowledge:</p>
+
+<div class="flow-diagram">
+┌─────────────────────────────────────────────────────────────────────┐
+│ SYSTEM PROMPT (~12-18K tokens)                                      │
+├─────────────────────────────────────────────────────────────────────┤
+│ [1] ALI IDENTITY & BEHAVIOR RULES                                   │
+│     "You are Ali, an expert negotiation coach trained on 20 years   │
+│      of Fortune 500 methodology..."                                 │
+├─────────────────────────────────────────────────────────────────────┤
+│ [2] KNOWLEDGE CANON (hybrid RAG output)                             │
+│     ## Ali Coaching Methodology                                     │
+│     [Static ~7,600 tokens - ALWAYS present]                         │
+│                                                                     │
+│     ## Relevant Framework Guidance                                  │
+│     [Classification-based ~5-10K tokens - GUIDING phase]            │
+│                                                                     │
+│     ## Additional Context (Semantically Retrieved)                  │
+│     [Vector search results ~2-4K tokens - if confidence ≥ 75%]      │
+├─────────────────────────────────────────────────────────────────────┤
+│ [3] USER PROFILE CONTEXT                                            │
+│     NAME: John Smith                                                │
+│     ROLE: VP Sales (Executive)                                      │
+│     INDUSTRY: Technology                                            │
+│     COMPANY: Acme Corp, Enterprise, 500-1000 employees              │
+│     NEGOTIATION CONTEXT:                                            │
+│       Region: North America                                         │
+│       Counterparty: Vendor/Supplier                                 │
+│       Setting: Remote/Video                                         │
+│       Deal Cycle: 3-6 months                                        │
+├─────────────────────────────────────────────────────────────────────┤
+│ [4] COACHING GUIDELINES (personalized)                              │
+│     1. Address John by name naturally in conversation               │
+│     2. Provide practical, actionable advice                         │
+│     3. Use specific scenarios and role-play exercises               │
+│     4. Reference Technology industry contexts                       │
+│     5. Focus on vendor/supplier negotiation dynamics                │
+│     6. Be strategic and high-level, respect their experience        │
+├─────────────────────────────────────────────────────────────────────┤
+│ [5] RESPONSE FORMAT INSTRUCTIONS                                    │
+│     - Use **bold** for key terms                                    │
+│     - Use bullet points for lists                                   │
+│     - Use > blockquotes for important callouts                      │
+│     - Keep paragraphs short (2-3 sentences)                         │
+└─────────────────────────────────────────────────────────────────────┘
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 9: OBSERVABILITY -->
+<!-- ===================================================================== -->
+
+<h2 id="observability">10. Monitoring & Cost</h2>
+
+<h3>Monitoring Stack</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Tool</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Error Tracking</td>
+      <td>Sentry</td>
+      <td>Client + Server error capture</td>
+    </tr>
+    <tr>
+      <td>Token Tracking</td>
+      <td>TokenUsage table</td>
+      <td>Input/output per message</td>
+    </tr>
+    <tr>
+      <td>Cost Estimation</td>
+      <td>calculateCost()</td>
+      <td>~$0.03-0.08 per exchange</td>
+    </tr>
+    <tr>
+      <td>Dashboard</td>
+      <td><code>/admin/observability</code></td>
+      <td>Real-time metrics visualization</td>
+    </tr>
+    <tr>
+      <td>Logging</td>
+      <td>Structured Logger</td>
+      <td>AI requests/responses with metadata</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Token Budget per Message</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Tokens</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Coaching Methodology</td>
+      <td>7,600</td>
+      <td>Always present</td>
+    </tr>
+    <tr>
+      <td>ASF Sections</td>
+      <td>5,000-10,000</td>
+      <td>Varies by classification</td>
+    </tr>
+    <tr>
+      <td>Vector Results</td>
+      <td>2,000-4,000</td>
+      <td>Max 3 results</td>
+    </tr>
+    <tr>
+      <td>User Profile</td>
+      <td>200-400</td>
+      <td>From Settings page</td>
+    </tr>
+    <tr>
+      <td>Conversation History</td>
+      <td>200-2,000</td>
+      <td>Grows with session</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td><strong>15,000-24,000</strong></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Model Routing</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Model</th>
+      <th>Max Tokens</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Simple messages (≤30 words, early turns)</td>
+      <td>Claude Haiku</td>
+      <td>512</td>
+      <td>10x faster, 80% cheaper</td>
+    </tr>
+    <tr>
+      <td>Complex coaching</td>
+      <td>Claude Sonnet</td>
+      <td>1,024</td>
+      <td>Higher quality responses</td>
+    </tr>
+    <tr>
+      <td>Classification</td>
+      <td>Claude Haiku</td>
+      <td>512</td>
+      <td>Structured task, fast</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===================================================================== -->
+<!-- SECTION 10: SILHOUETTE INTEGRATION -->
+<!-- ===================================================================== -->
+
+<h2 id="silhouette-integration">11. Personality-Aware Coaching (Silhouette Integration)</h2>
+
+<p>The best facilitators adjust their approach based on who's in front of them. A data-driven engineer needs frameworks and numbers. A relationship-focused sales leader needs to hear when their natural style might backfire. Ali uses Silhouette assessment results to provide this same personalized coaching.</p>
+
+<div class="flow-diagram">
+User completes Silhouette Assessment (40-70 questions)
+    │
+    ▼
+Assessment stored: personalityType, conflictStyle, traitScores
+    │
+    ▼
+Conversation linked to Assessment via foreign key
+    │
+    ▼
+System prompt includes personality context:
+  • "User is ASSERTIVE type - encourage win-win thinking"
+  • "Conflict style: COMPETING - help balance with listening"
+  • Trait percentages: R:45%, Y:25%, B:20%, G:10%
+    │
+    ▼
+Pattern responses tailored to personality type
+</div>
+
+<h3>4 Silhouette Types & Coaching Adjustments</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Color</th>
+      <th>Characteristics</th>
+      <th>Ali's Coaching Style</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>METHODICAL</strong></td>
+      <td><span class="badge badge-blue">Blue</span></td>
+      <td>Analytical, detail-oriented, process-driven</td>
+      <td>Provide data, structured frameworks, step-by-step</td>
+    </tr>
+    <tr>
+      <td><strong>ASSERTIVE</strong></td>
+      <td><span class="badge badge-red">Red</span></td>
+      <td>Direct, results-focused, decisive</td>
+      <td>Balance with collaborative approaches, listen reminders</td>
+    </tr>
+    <tr>
+      <td><strong>EMPATHETIC</strong></td>
+      <td><span class="badge badge-green">Green</span></td>
+      <td>Understanding, supportive, harmony-seeking</td>
+      <td>Build on strengths, add assertiveness techniques</td>
+    </tr>
+    <tr>
+      <td><strong>SOCIABLE</strong></td>
+      <td><span class="badge badge-orange">Yellow</span></td>
+      <td>Relationship-focused, enthusiastic, adaptable</td>
+      <td>Channel rapport into negotiation leverage</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout callout-info">
+  <strong>Personalization is the Differentiator:</strong> Pattern effectiveness ratings (1-10) are calibrated per personality type. For example, Strategic Silence is highly effective used BY Methodical types (8/10) but very effective used AGAINST Sociable types (9/10).
+</div>
+
+</div><!-- END TAB: IMPLEMENTATION -->
+
+<!-- ===================================================================== -->
+<!-- TAB: TECHNICAL -->
+<!-- ===================================================================== -->
+<div class="tab-panel" id="tab-technical">
+
+<!-- ===================================================================== -->
+<!-- SECTION 11: EMBEDDING PIPELINE -->
+<!-- ===================================================================== -->
+
+<h2 id="embedding-pipeline">12. Technical: How Content Gets Searchable</h2>
+
+<p>How knowledge gets vectorized for semantic search:</p>
+
+<div class="flow-diagram">
+Step 1: ASF Content in TypeScript (asf-sections.ts)
+        └─ 20 semantic chunks, ~1.5-2K tokens each
+            │
+            ▼
+Step 2: Run generate-embeddings.ts script
+        └─ Calls Voyage AI API (voyage-3-lite model)
+        └─ 512-dimension vectors
+        └─ Batch size: 8 sections at a time
+            │
+            ▼
+Step 3: Store in Supabase pgvector
+        └─ knowledge_embeddings table
+        └─ IVFFlat index for fast cosine similarity
+            │
+            ▼
+Step 4: At runtime, query via RPC
+        └─ match_knowledge_sections(query_embedding, threshold, limit)
+</div>
+
+<h3>Technical Specs</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Value</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Embedding Model</td>
+      <td>Voyage AI <code>voyage-3-lite</code></td>
+      <td>Best cost/quality for retrieval, Anthropic recommended</td>
+    </tr>
+    <tr>
+      <td>Dimensions</td>
+      <td>512</td>
+      <td>Smaller = faster search, sufficient quality</td>
+    </tr>
+    <tr>
+      <td>Similarity Threshold</td>
+      <td>0.7</td>
+      <td>Below = irrelevant results</td>
+    </tr>
+    <tr>
+      <td>Max Results</td>
+      <td>3</td>
+      <td>Token budget constraint</td>
+    </tr>
+    <tr>
+      <td>Circuit Breaker</td>
+      <td>30s cooldown</td>
+      <td>Prevent cascade failures</td>
+    </tr>
+    <tr>
+      <td>Timeout</td>
+      <td>2s</td>
+      <td>User experience (don't block response)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout callout-success">
+  <strong>Graceful Degradation:</strong> If Voyage AI or Supabase is down, Ali still works. Falls back to static + classification-based injection. Vector search is additive, not required.
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 12: RECENT CHANGES -->
+<!-- ===================================================================== -->
+
+<h2 id="recent-changes">13. Recent Updates (Jan 2026)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Change</th>
+      <th>Commit</th>
+      <th>Impact</th>
+      <th>Why It Was Done</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pattern Library</td>
+      <td><code>712a289</code></td>
+      <td>10 tactics with personality matrices</td>
+      <td>Pattern detection needed for coaching</td>
+    </tr>
+    <tr>
+      <td>Vector Search</td>
+      <td><code>850c195</code></td>
+      <td>Voyage AI + circuit breaker</td>
+      <td>Handle edge cases beyond classification</td>
+    </tr>
+    <tr>
+      <td>Observability</td>
+      <td><code>2ce9ac0</code></td>
+      <td>Sentry + token tracking + dashboard</td>
+      <td>Need visibility into production behavior</td>
+    </tr>
+    <tr>
+      <td>AKC Integration</td>
+      <td><code>2ce9ac0</code></td>
+      <td>20 ASF sections + section mapping</td>
+      <td>Ali needs Aligned methodology in its brain</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===================================================================== -->
+<!-- SECTION 13: DESIGN DECISIONS -->
+<!-- ===================================================================== -->
+
+<h2 id="design-decisions">14. Design Decision Rationale</h2>
+
+<details>
+  <summary><strong>Why Hybrid RAG (not pure vector search)?</strong></summary>
+  <div>
+    <ul>
+      <li>Pure vector search is unpredictable for negotiation coaching - might surface tangentially related content</li>
+      <li>Classification gives <strong>deterministic, explainable</strong> content injection - we know exactly what goes in based on type</li>
+      <li>Vector search handles edge cases that classification misses (unusual scenarios, cross-domain questions)</li>
+      <li>Three layers = belt + suspenders + backup pants</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><strong>Why 75% Confidence Threshold?</strong></summary>
+  <div>
+    <ul>
+      <li>Below 75% = classification is guessing based on limited data</li>
+      <li>Better to inject general content than wrong content</li>
+      <li>Threshold can be adjusted based on observed accuracy in production</li>
+      <li>Can be configured per-deployment if needed</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><strong>Why Haiku for Classification?</strong></summary>
+  <div>
+    <ul>
+      <li><strong>10x faster</strong> than Sonnet</li>
+      <li><strong>80% cheaper</strong> per token</li>
+      <li>Classification is a structured task (extract JSON) - doesn't need creativity</li>
+      <li>Quality is comparable for JSON extraction tasks</li>
+      <li>Keeps user-facing latency low while classification runs</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><strong>Why 5 Negotiation Types (not 33-variable model)?</strong></summary>
+  <div>
+    <ul>
+      <li>Product Spec decision: MVP simplicity over research complexity</li>
+      <li>33-variable matrix is R&D phase (future: Negotiation DNA)</li>
+      <li>5 types cover 90% of scenarios with high accuracy</li>
+      <li>Can expand later without breaking changes (types are additive)</li>
+      <li>Easier for users to understand "you're in a TRADING negotiation"</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><strong>Why Regex for Entity Extraction (not LLM)?</strong></summary>
+  <div>
+    <ul>
+      <li><strong>Zero latency</strong> - runs in microseconds</li>
+      <li><strong>Zero cost</strong> - no API calls</li>
+      <li>Patterns are well-defined (money, dates, company names)</li>
+      <li>LLM adds no value for structured extraction</li>
+      <li>Easier to debug - regex either matches or doesn't</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><strong>Why Circuit Breaker on Vector Search?</strong></summary>
+  <div>
+    <ul>
+      <li>Vector search is <strong>optional</strong> - Ali works without it</li>
+      <li>If Voyage AI or Supabase is down, we shouldn't retry every request</li>
+      <li>30s cooldown prevents cascading failures</li>
+      <li>2s timeout ensures user experience isn't degraded</li>
+      <li>Graceful degradation > hard failure</li>
+    </ul>
+  </div>
+</details>
+
+</div><!-- END TAB: TECHNICAL -->
+
+<!-- ===================================================================== -->
+<!-- FOOTER -->
+<!-- ===================================================================== -->
+
+<hr>
+<p style="color: var(--gray-600); font-size: 0.85rem; text-align: center;">
+  Ali MVP Architecture Reference<br>
+  Source files: <code>ai-streaming.ts</code>, <code>classification.ts</code>, <code>knowledge-retrieval.ts</code>, <code>section-map.ts</code>, <code>library.ts</code>, <code>entity-extraction.ts</code>
+</p>
+
+</div><!-- END main-content -->
+</div><!-- END page-wrapper -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+
+    // Tab switching functionality
+    tabButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const tabId = this.getAttribute('data-tab');
+
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabPanels.forEach(panel => panel.classList.remove('active'));
+
+        this.classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Sidebar link click - switch to correct tab
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const hash = this.getAttribute('href').slice(1);
+        const targetElement = document.getElementById(hash);
+        if (!targetElement) return;
+
+        const parentPanel = targetElement.closest('.tab-panel');
+        if (!parentPanel) return;
+
+        const panelId = parentPanel.id.replace('tab-', '');
+
+        // Activate correct tab
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabPanels.forEach(panel => panel.classList.remove('active'));
+
+        document.querySelector(`[data-tab="${panelId}"]`).classList.add('active');
+        parentPanel.classList.add('active');
+
+        // Highlight this sidebar link
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Highlight sidebar links on scroll
+    function updateSidebarHighlight() {
+      const scrollPosition = window.scrollY + 100;
+
+      sidebarLinks.forEach(link => {
+        const hash = link.getAttribute('href').slice(1);
+        const section = document.getElementById(hash);
+        if (!section) return;
+
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight || 200;
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight + 300) {
+          sidebarLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateSidebarHighlight);
+    updateSidebarHighlight();
+
+    // Handle hash navigation on page load
+    function handleHashNavigation() {
+      const hash = window.location.hash.slice(1);
+      if (!hash) return;
+
+      const targetElement = document.getElementById(hash);
+      if (!targetElement) return;
+
+      const parentPanel = targetElement.closest('.tab-panel');
+      if (!parentPanel) return;
+
+      const panelId = parentPanel.id.replace('tab-', '');
+
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabPanels.forEach(panel => panel.classList.remove('active'));
+
+      document.querySelector(`[data-tab="${panelId}"]`).classList.add('active');
+      parentPanel.classList.add('active');
+
+      setTimeout(() => {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    handleHashNavigation();
+    window.addEventListener('hashchange', handleHashNavigation);
+  });
+</script>
+
+</body>
+</html>
