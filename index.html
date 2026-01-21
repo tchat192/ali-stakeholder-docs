@@ -10,37 +10,71 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1e293b, #334155);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 2rem;
         }
         .container {
             background: white;
             border-radius: 16px;
-            padding: 3rem;
-            max-width: 600px;
-            width: 100%;
+            padding: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
         h1 {
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
+            font-size: 2rem;
             color: #1e293b;
+            margin-bottom: 0.25rem;
         }
         .subtitle {
             color: #64748b;
+            font-size: 1.1rem;
+        }
+        .updated {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .section {
             margin-bottom: 2rem;
         }
-        .doc-list {
-            list-style: none;
-        }
-        .doc-list li {
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             margin-bottom: 1rem;
         }
-        .doc-list a {
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .section-icon.architecture { background: #dbeafe; }
+        .section-icon.product { background: #dcfce7; }
+        .section-icon.design { background: #fce7f3; }
+        .section-icon.meetings { background: #fef3c7; }
+        h2 {
+            font-size: 1.1rem;
+            color: #374151;
+            font-weight: 600;
+        }
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
+        }
+        .doc-link {
             display: block;
-            padding: 1rem 1.25rem;
+            padding: 1rem;
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -48,70 +82,165 @@
             color: #1e293b;
             transition: all 0.2s;
         }
-        .doc-list a:hover {
+        .doc-link:hover {
             background: #3b82f6;
             color: white;
             border-color: #3b82f6;
-            transform: translateX(4px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
+        .doc-link:hover .doc-desc { color: rgba(255,255,255,0.85); }
         .doc-title {
             font-weight: 600;
+            font-size: 0.95rem;
             margin-bottom: 0.25rem;
         }
         .doc-desc {
-            font-size: 0.875rem;
-            opacity: 0.7;
+            font-size: 0.8rem;
+            color: #64748b;
+            line-height: 1.4;
         }
         .badge {
             display: inline-block;
             background: #10b981;
             color: white;
-            padding: 0.125rem 0.5rem;
+            padding: 0.1rem 0.4rem;
             border-radius: 4px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
-            margin-left: 0.5rem;
+            margin-left: 0.4rem;
             vertical-align: middle;
         }
+        .badge.new { background: #10b981; }
+        .badge.tom { background: #8b5cf6; }
+        .badge.mark { background: #3b82f6; }
+        .badge.nic { background: #ec4899; }
         footer {
             margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid #e2e8f0;
             text-align: center;
             color: #94a3b8;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
         }
+        footer a {
+            color: #64748b;
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Ali MVP</h1>
-        <p class="subtitle">Stakeholder Resources</p>
+        <header>
+            <h1>Ali MVP</h1>
+            <p class="subtitle">Stakeholder Resources Hub</p>
+            <p class="updated">Last updated: January 20, 2026</p>
+        </header>
 
-        <ul class="doc-list">
-            <li>
-                <a href="product-brief-2.html">
-                    <div class="doc-title">Product Brief #2: The Anatomy of Ali <span class="badge">NEW</span></div>
-                    <div class="doc-desc">Strategic overview, Silhouette assessment, roadmap, and tech specs</div>
+        <!-- Architecture Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon architecture">🏗️</div>
+                <h2>Architecture & Technical</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="architecture/conversation-engine-architecture.html" class="doc-link">
+                    <div class="doc-title">Conversation Engine Architecture <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">How Ali delivers the Aligned methodology - classification, phases, prompts</div>
                 </a>
-            </li>
-            <li>
-                <a href="classification-engine.html">
-                    <div class="doc-title">Classification Engine - Mark Review <span class="badge">NEW</span></div>
-                    <div class="doc-desc">The 5 types, 6 signals, inference rules - Mark-validated Dec 5</div>
+                <a href="architecture/classification-engine.html" class="doc-link">
+                    <div class="doc-title">Classification Engine <span class="badge tom">TOM</span></div>
+                    <div class="doc-desc">5 types, 6 signals, inference rules - Mark-validated Dec 5</div>
                 </a>
-            </li>
-            <li>
-                <a href="guides/v3-classification-guide.html">
-                    <div class="doc-title">V3 Classification Architecture</div>
+                <a href="architecture/v3-classification-guide.html" class="doc-link">
+                    <div class="doc-title">V3 Classification Guide</div>
                     <div class="doc-desc">Technical deep-dive on conversational classification</div>
                 </a>
-            </li>
-        </ul>
+                <a href="architecture/technical-reference-jan15.html" class="doc-link">
+                    <div class="doc-title">Technical Reference</div>
+                    <div class="doc-desc">API endpoints, data models, system architecture</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Product Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon product">📊</div>
+                <h2>Product & Strategy</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="product/product-brief-2.html" class="doc-link">
+                    <div class="doc-title">Product Brief #2: Anatomy of Ali <span class="badge mark">MARK</span></div>
+                    <div class="doc-desc">Strategic overview, Silhouette assessment, roadmap, tech specs</div>
+                </a>
+                <a href="product/stakeholder-alignment-jan15.html" class="doc-link">
+                    <div class="doc-title">Stakeholder Alignment <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">Settings inputs, navigation, tone & marketing positioning</div>
+                </a>
+                <a href="product/roadmap.html" class="doc-link">
+                    <div class="doc-title">Product Roadmap</div>
+                    <div class="doc-desc">Feature timeline and release planning</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Design Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon design">🎨</div>
+                <h2>Design & UX</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="design/brand-registry.html" class="doc-link">
+                    <div class="doc-title">Brand Registry <span class="badge nic">NIC</span></div>
+                    <div class="doc-desc">Complete brand assets, colors, typography, logos</div>
+                </a>
+                <a href="design/design-tokens-guide-nic.html" class="doc-link">
+                    <div class="doc-title">Design Tokens Guide</div>
+                    <div class="doc-desc">CSS variables, spacing, color system reference</div>
+                </a>
+                <a href="design/screen-inventory-nic.html" class="doc-link">
+                    <div class="doc-title">Screen Inventory</div>
+                    <div class="doc-desc">All app screens with annotations</div>
+                </a>
+                <a href="design/ux-design-session.html" class="doc-link">
+                    <div class="doc-title">UX Design Session</div>
+                    <div class="doc-desc">Design workshop outcomes and decisions</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Meetings Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon meetings">📅</div>
+                <h2>Meetings & Guides</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="meetings/conversation-guide-jan15.html" class="doc-link">
+                    <div class="doc-title">Conversation Guide</div>
+                    <div class="doc-desc">Stakeholder sync conversation framework</div>
+                </a>
+                <a href="meetings/session-1-agenda.html" class="doc-link">
+                    <div class="doc-title">Session 1 Agenda</div>
+                    <div class="doc-desc">Working session structure and goals</div>
+                </a>
+                <a href="meetings/nic-meeting-guide.html" class="doc-link">
+                    <div class="doc-title">Nic Meeting Guide</div>
+                    <div class="doc-desc">Design review session preparation</div>
+                </a>
+                <a href="meetings/NIC_SYNC_DEBRIEF_DEC3.html" class="doc-link">
+                    <div class="doc-title">Nic Sync Debrief</div>
+                    <div class="doc-desc">Dec 3 design sync outcomes</div>
+                </a>
+            </div>
+        </div>
 
         <footer>
-            Ali MVP &bull; Aligned Negotiation Platform<br>
-            Questions? Contact Terrance
+            <strong>Ali MVP</strong> &bull; Aligned Negotiation Platform<br>
+            <a href="archive/">View Archive</a> &bull; Questions? Contact Terrance
         </footer>
     </div>
 </body>
