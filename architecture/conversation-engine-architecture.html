@@ -784,7 +784,8 @@
 │  │ Input: Extracted entities + conversation summary                      │   │
 │  │ Output: { type: "TRADING", confidence: 0.87, reasoning: "..." }      │   │
 │  │                                                                       │   │
-│  │ Types: WEAK_POSITION | BARGAINING | TRADING | CREATING | PARTNERING  │   │
+│  │ Types: BARGAINING | TRADING | CREATING | PARTNERING                  │   │
+│  │ Circumstance: BATNA_DEFICIENCY (modifier, can apply to any type)    │   │
 │  │ Threshold: 75% confidence (below = no classification)                │   │
 │  └──────────────────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────┬───────────────────────────────────────────┘
@@ -1026,9 +1027,23 @@
 
 <h2 id="classification-engine">6. Diagnosing the Negotiation (Classification)</h2>
 
-<p>When a facilitator says "This sounds like a trading situation," they're drawing on experience to diagnose the negotiation type. Ali does the same - analyzing the context to determine which of the five negotiation types best fits, then pulling the appropriate frameworks.</p>
+<p>When a facilitator says "This sounds like a trading situation," they're drawing on experience to diagnose the negotiation type. Ali does the same - analyzing the context to determine which of the four negotiation types best fits (and whether BATNA deficiency applies), then pulling the appropriate frameworks.</p>
 
-<h3>5 Negotiation Types</h3>
+<h3>4 Negotiation Types + 1 Circumstance</h3>
+
+<!-- BATNA Deficiency: Circumstance (not a type) - Tom Eno validated Jan 20, 2026 -->
+<div class="callout callout-warning" style="margin-bottom: 1.5rem; padding: 1rem; background: #fff8e6; border-left: 4px solid #f59e0b; border-radius: 4px;">
+  <p style="margin: 0 0 0.5rem 0; font-weight: 600;">⚠️ Circumstance: BATNA Deficiency (not a negotiation type)</p>
+  <table style="margin: 0.5rem 0;">
+    <tr>
+      <td><span class="badge badge-red">BATNA_DEFICIENCY</span></td>
+      <td>Limited leverage, defensive position</td>
+      <td>Counterparty has strong BATNA, user facing deadline pressure</td>
+      <td>BATNA/WATNA, Market Forces, Discomfort, Cognitive Biases</td>
+    </tr>
+  </table>
+  <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;"><em>Per Tom Eno (Jan 20, 2026): BATNA Deficiency is a circumstance that can apply to ANY of the 4 types below. It triggers position-strengthening guidance regardless of the underlying negotiation dynamic.</em></p>
+</div>
 
 <table>
   <thead>
@@ -1040,12 +1055,6 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><span class="badge badge-red">WEAK_POSITION</span></td>
-      <td>Limited leverage, defensive</td>
-      <td>Counterparty has strong BATNA, user facing deadline pressure</td>
-      <td>BATNA/WATNA, Market Forces, Discomfort, Cognitive Biases</td>
-    </tr>
     <tr>
       <td><span class="badge badge-orange">BARGAINING</span></td>
       <td>Single-issue, distributive</td>
@@ -1105,17 +1114,21 @@
 <details>
   <summary>Classification Prompt (from classification.ts:52-85)</summary>
   <div>
-<pre><code>const CLASSIFICATION_PROMPT = `You are an expert negotiation analyst. Based on the conversation context and extracted entities, classify this negotiation into ONE of these types:
+<pre><code>const CLASSIFICATION_PROMPT = `You are an expert negotiation analyst. Based on the conversation context and extracted entities, classify this negotiation into ONE of these types AND determine if BATNA deficiency applies:
 
-1. **WEAK_POSITION**: Limited leverage, few alternatives, defensive position
-2. **BARGAINING**: Single-issue, distributive, competitive
-3. **TRADING**: Multiple issues that can be exchanged
-4. **CREATING**: Collaborative, expanding value
-5. **PARTNERING**: Long-term strategic alignment
+## 4 Negotiation Types:
+1. **BARGAINING**: Single-issue, distributive, competitive
+2. **TRADING**: Multiple issues that can be exchanged
+3. **CREATING**: Collaborative, expanding value
+4. **PARTNERING**: Long-term strategic alignment
+
+## 1 Circumstance (can apply to any type):
+- **BATNA_DEFICIENCY**: Limited leverage, few alternatives, defensive position
 
 Respond with ONLY a JSON object:
 {
-  "type": "BARGAINING" | "TRADING" | "CREATING" | "PARTNERING" | "WEAK_POSITION",
+  "type": "BARGAINING" | "TRADING" | "CREATING" | "PARTNERING",
+  "hasBatnaDeficiency": true | false,
   "confidence": 0.0 to 1.0,
   "reasoning": "Brief explanation",
   "missingVariables": ["list of info that would improve classification"]
@@ -1828,14 +1841,15 @@ Step 4: At runtime, query via RPC
 </details>
 
 <details>
-  <summary><strong>Why 5 Negotiation Types (not 33-variable model)?</strong></summary>
+  <summary><strong>Why 4 Types + 1 Circumstance (not 33-variable model)?</strong></summary>
   <div>
     <ul>
       <li>Product Spec decision: MVP simplicity over research complexity</li>
       <li>33-variable matrix is R&D phase (future: Negotiation DNA)</li>
-      <li>5 types cover 90% of scenarios with high accuracy</li>
+      <li>4 types + BATNA circumstance cover 90% of scenarios with high accuracy</li>
+      <li>BATNA deficiency is a modifier, not a separate type (Tom Eno, Jan 2026)</li>
       <li>Can expand later without breaking changes (types are additive)</li>
-      <li>Easier for users to understand "you're in a TRADING negotiation"</li>
+      <li>Easier for users to understand "you're in a TRADING negotiation with weak leverage"</li>
     </ul>
   </div>
 </details>
