@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ali Rendering Constraints | Design Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --mist: #F5F3F0;
+      --obsidian: #1A1A1A;
+      --accent: #7C3AED;
+      --accent-light: #A78BFA;
+      --success: #16A34A;
+      --warning: #F59E0B;
+      --error: #DC2626;
+      --border: #E5E5E5;
+      --muted: #F3F4F6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--mist);
+      color: var(--obsidian);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 24px 48px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .badge {
+      background: var(--accent);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 8px 12px;
+      color: var(--obsidian);
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link:hover {
+      background: white;
+      color: var(--accent);
+    }
+
+    .nav-link.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Main Content */
+    .main {
+      min-width: 0;
+    }
+
+    .hero {
+      background: white;
+      border-radius: 16px;
+      padding: 48px;
+      margin-bottom: 32px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #666;
+      max-width: 600px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Section Cards */
+    section {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    section h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 24px 0 12px 0;
+      color: var(--obsidian);
+    }
+
+    /* Support Status Table */
+    .support-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .support-table th {
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--mist);
+      font-weight: 600;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .support-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .support-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status.yes {
+      background: #DCFCE7;
+      color: var(--success);
+    }
+
+    .status.partial {
+      background: #FEF3C7;
+      color: var(--warning);
+    }
+
+    .status.no {
+      background: #FEE2E2;
+      color: var(--error);
+    }
+
+    /* Code Examples */
+    .example-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .example-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .example-label {
+      background: var(--mist);
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #666;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .example-content {
+      padding: 16px;
+      font-size: 14px;
+    }
+
+    .example-content.markdown {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      background: #1a1a1a;
+      color: #e5e5e5;
+      white-space: pre-wrap;
+    }
+
+    .example-content.rendered {
+      background: var(--mist);
+    }
+
+    /* Rendered Examples */
+    .rendered h1 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .rendered h2 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .rendered h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+    .rendered p { margin-bottom: 8px; }
+    .rendered strong { font-weight: 600; }
+    .rendered em { font-style: italic; }
+    .rendered ul, .rendered ol { margin-left: 20px; margin-bottom: 8px; }
+    .rendered li { margin-bottom: 4px; }
+    .rendered code {
+      background: var(--muted);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'SF Mono', monospace;
+      font-size: 13px;
+    }
+    .rendered pre {
+      background: var(--muted);
+      padding: 12px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'SF Mono', monospace;
+      font-size: 13px;
+    }
+    .rendered blockquote {
+      border-left: 4px solid var(--accent);
+      background: rgba(124, 58, 237, 0.1);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 8px;
+    }
+    .rendered table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .rendered th, .rendered td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .rendered th {
+      background: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Constraint Cards */
+    .constraint-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .constraint-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .constraint-card.warn {
+      border-color: var(--warning);
+      background: #FFFBEB;
+    }
+
+    .constraint-card.info {
+      border-color: var(--accent);
+      background: #F5F3FF;
+    }
+
+    .constraint-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .constraint-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--obsidian);
+    }
+
+    .constraint-note {
+      font-size: 13px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    /* Icon Mapping */
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .icon-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--mist);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .icon-item .emoji {
+      font-size: 20px;
+    }
+
+    .icon-item .arrow {
+      color: #999;
+    }
+
+    .icon-item .result {
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    /* Tips */
+    .tip {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+
+    .tip-icon {
+      font-size: 20px;
+    }
+
+    .tip-content {
+      font-size: 14px;
+    }
+
+    .tip-content strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Warning */
+    .warning {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: #FEF3C7;
+      border: 1px solid #FDE68A;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 48px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+        padding: 24px;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .example-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .constraint-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">Ali Design System</div>
+      <span class="badge">Rendering Reference</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <nav class="sidebar">
+      <div class="nav-section">
+        <div class="nav-title">Overview</div>
+        <a href="#constraints" class="nav-link active">Key Constraints</a>
+        <a href="#support" class="nav-link">Format Support</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-title">Formatting</div>
+        <a href="#text" class="nav-link">Text Styles</a>
+        <a href="#lists" class="nav-link">Lists</a>
+        <a href="#code" class="nav-link">Code Blocks</a>
+        <a href="#tables" class="nav-link">Tables</a>
+        <a href="#quotes" class="nav-link">Blockquotes</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-title">Special</div>
+        <a href="#icons" class="nav-link">Emoji → Icons</a>
+        <a href="#overflow" class="nav-link">Overflow Handling</a>
+        <a href="#dont" class="nav-link">What NOT to Use</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-title">Reference</div>
+        <a href="#sources" class="nav-link">Sources & Docs</a>
+      </div>
+    </nav>
+
+    <main class="main">
+      <div class="hero">
+        <h1>Ali Rendering Constraints</h1>
+        <p>A comprehensive guide to what Ali can render in chat responses. Use this to design within known boundaries.</p>
+        <div class="meta">
+          <span class="meta-item">
+            <strong>Stack:</strong> react-markdown + remark-gfm
+          </span>
+          <span class="meta-item">
+            <strong>Icons:</strong> Phosphor → Lucide (migrating)
+          </span>
+          <span class="meta-item">
+            <strong>Updated:</strong> January 22, 2026
+          </span>
+        </div>
+      </div>
+
+      <!-- Key Constraints -->
+      <section id="constraints">
+        <h2>📐 Key Layout Constraints</h2>
+        <div class="constraint-grid">
+          <div class="constraint-card info">
+            <div class="constraint-label">Max Message Width</div>
+            <div class="constraint-value">85%</div>
+            <div class="constraint-note">of container width. Messages won't span full viewport.</div>
+          </div>
+          <div class="constraint-card info">
+            <div class="constraint-label">Base Font Size</div>
+            <div class="constraint-value">16px</div>
+            <div class="constraint-note">Line height: 24px (150% ratio)</div>
+          </div>
+          <div class="constraint-card warn" style="border-left-color: #dc2626;">
+            <div class="constraint-label">Table Overflow</div>
+            <div class="constraint-value" style="color: #dc2626;">⚠️ CLIPPED</div>
+            <div class="constraint-note">Wide tables are CLIPPED (overflow-hidden). Keep tables narrow or add scroll wrapper.</div>
+          </div>
+          <div class="constraint-card warn">
+            <div class="constraint-label">Code Block Overflow</div>
+            <div class="constraint-value">Scroll</div>
+            <div class="constraint-note">Long lines scroll horizontally, not wrap</div>
+          </div>
+        </div>
+
+        <h3>Spacing Specs</h3>
+        <table class="support-table">
+          <tr>
+            <th>Element</th>
+            <th>Spacing</th>
+            <th>CSS</th>
+          </tr>
+          <tr>
+            <td>Paragraph</td>
+            <td>8px top/bottom margin</td>
+            <td><code>prose-p:my-2</code></td>
+          </tr>
+          <tr>
+            <td>List Item</td>
+            <td>2px top/bottom margin</td>
+            <td><code>prose-li:my-0.5</code></td>
+          </tr>
+          <tr>
+            <td>Headers</td>
+            <td>16px top, 8px bottom</td>
+            <td><code>prose-headings:mt-4 prose-headings:mb-2</code></td>
+          </tr>
+          <tr>
+            <td>Message Padding</td>
+            <td>12px horizontal, 6px vertical</td>
+            <td><code>px-3 py-1.5</code></td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- Format Support -->
+      <section id="support">
+        <h2>✅ Format Support Matrix</h2>
+        <table class="support-table">
+          <thead>
+            <tr>
+              <th>Format</th>
+              <th>Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bold</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Use <code>**text**</code> or <code>__text__</code></td>
+            </tr>
+            <tr>
+              <td><strong>Italic</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Use <code>*text*</code> or <code>_text_</code></td>
+            </tr>
+            <tr>
+              <td><strong>Headers (H1-H6)</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>H1: 18px, H2: 16px, H3: 14px (scaled down)</td>
+            </tr>
+            <tr>
+              <td><strong>Bullet Lists</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Disc style, 20px left indent</td>
+            </tr>
+            <tr>
+              <td><strong>Numbered Lists</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Decimal style, 20px left indent</td>
+            </tr>
+            <tr>
+              <td><strong>Inline Code</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Gray background, 13px mono font</td>
+            </tr>
+            <tr>
+              <td><strong>Code Blocks</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Horizontal scroll for overflow</td>
+            </tr>
+            <tr>
+              <td><strong>Tables (GFM)</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Via remark-gfm plugin</td>
+            </tr>
+            <tr>
+              <td><strong>Blockquotes</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Purple left border, tinted background</td>
+            </tr>
+            <tr>
+              <td><strong>Links</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Purple accent, underline on hover</td>
+            </tr>
+            <tr>
+              <td><strong>Horizontal Rules</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Use <code>---</code> or <code>***</code></td>
+            </tr>
+            <tr>
+              <td><strong>Strikethrough</strong></td>
+              <td><span class="status yes">✓ Supported</span></td>
+              <td>Via GFM: <code>~~text~~</code></td>
+            </tr>
+            <tr>
+              <td><strong>Images</strong></td>
+              <td><span class="status partial">⚠ Limited</span></td>
+              <td>Markdown images render but may overflow</td>
+            </tr>
+            <tr>
+              <td><strong>HTML Tags</strong></td>
+              <td><span class="status no">✗ Stripped</span></td>
+              <td>Raw HTML is sanitized out</td>
+            </tr>
+            <tr>
+              <td><strong>LaTeX/Math</strong></td>
+              <td><span class="status no">✗ Not Supported</span></td>
+              <td>Would require additional plugin</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Text Styles -->
+      <section id="text">
+        <h2>📝 Text Formatting</h2>
+        <div class="example-grid">
+          <div class="example-box">
+            <div class="example-label">Markdown Input</div>
+            <div class="example-content markdown"># Main Heading
+## Section Heading
+### Subsection
+
+This is **bold text** and *italic text*.
+
+You can also use __bold__ and _italic_.
+
+Here's some `inline code` in a sentence.</div>
+          </div>
+          <div class="example-box">
+            <div class="example-label">Rendered Output</div>
+            <div class="example-content rendered">
+              <h1>Main Heading</h1>
+              <h2>Section Heading</h2>
+              <h3>Subsection</h3>
+              <p>This is <strong>bold text</strong> and <em>italic text</em>.</p>
+              <p>You can also use <strong>bold</strong> and <em>italic</em>.</p>
+              <p>Here's some <code>inline code</code> in a sentence.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <div class="tip-content">
+            <strong>Design Tip</strong>
+            Headers are scaled down from typical web sizes. H1 renders at 18px (not 32px). Plan your visual hierarchy accordingly.
+          </div>
+        </div>
+      </section>
+
+      <!-- Lists -->
+      <section id="lists">
+        <h2>📋 Lists</h2>
+        <div class="example-grid">
+          <div class="example-box">
+            <div class="example-label">Markdown Input</div>
+            <div class="example-content markdown">**Unordered List:**
+- First item
+- Second item
+  - Nested item
+  - Another nested
+- Third item
+
+**Ordered List:**
+1. Step one
+2. Step two
+3. Step three</div>
+          </div>
+          <div class="example-box">
+            <div class="example-label">Rendered Output</div>
+            <div class="example-content rendered">
+              <p><strong>Unordered List:</strong></p>
+              <ul>
+                <li>First item</li>
+                <li>Second item
+                  <ul>
+                    <li>Nested item</li>
+                    <li>Another nested</li>
+                  </ul>
+                </li>
+                <li>Third item</li>
+              </ul>
+              <p><strong>Ordered List:</strong></p>
+              <ol>
+                <li>Step one</li>
+                <li>Step two</li>
+                <li>Step three</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Code Blocks -->
+      <section id="code">
+        <h2>💻 Code Blocks</h2>
+        <div class="example-grid">
+          <div class="example-box">
+            <div class="example-label">Markdown Input</div>
+            <div class="example-content markdown">```javascript
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+// This is a longer line that might overflow the container and trigger horizontal scrolling
+console.log(greet("World"));
+```</div>
+          </div>
+          <div class="example-box">
+            <div class="example-label">Rendered Output</div>
+            <div class="example-content rendered">
+              <pre><code>function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+// This is a longer line that might overflow...
+console.log(greet("World"));</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <span class="tip-icon">⚠️</span>
+          <div class="tip-content">
+            <strong>Overflow Behavior</strong>
+            Long lines in code blocks trigger horizontal scrolling. They do NOT wrap. Design your UI to accommodate the scroll bar appearing.
+          </div>
+        </div>
+      </section>
+
+      <!-- Tables -->
+      <section id="tables">
+        <h2>📊 Tables</h2>
+        <div class="example-grid">
+          <div class="example-box">
+            <div class="example-label">Markdown Input</div>
+            <div class="example-content markdown">| Phase | Description | Duration |
+|-------|-------------|----------|
+| Discovery | Understand needs | 1-2 weeks |
+| Planning | Define approach | 1 week |
+| Execution | Do the work | 4-6 weeks |
+| Review | Assess outcomes | 1 week |</div>
+          </div>
+          <div class="example-box">
+            <div class="example-label">Rendered Output</div>
+            <div class="example-content rendered">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Phase</th>
+                    <th>Description</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Discovery</td>
+                    <td>Understand needs</td>
+                    <td>1-2 weeks</td>
+                  </tr>
+                  <tr>
+                    <td>Planning</td>
+                    <td>Define approach</td>
+                    <td>1 week</td>
+                  </tr>
+                  <tr>
+                    <td>Execution</td>
+                    <td>Do the work</td>
+                    <td>4-6 weeks</td>
+                  </tr>
+                  <tr>
+                    <td>Review</td>
+                    <td>Assess outcomes</td>
+                    <td>1 week</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <span class="tip-icon">⚠️</span>
+          <div class="tip-content">
+            <strong>Table Width Constraint</strong>
+            Tables that exceed the 85% message width will trigger horizontal scroll. For the 4-phase example Nic mentioned, keep column content concise or the table will scroll.
+          </div>
+        </div>
+
+        <h3>Table Best Practices</h3>
+        <ul style="margin-left: 20px; margin-top: 12px;">
+          <li>Keep to 3-4 columns maximum for readability</li>
+          <li>Use short column headers (1-2 words)</li>
+          <li>Truncate long cell content or break into multiple rows</li>
+          <li>Consider using lists instead for simple key-value data</li>
+        </ul>
+      </section>
+
+      <!-- Blockquotes -->
+      <section id="quotes">
+        <h2>💬 Blockquotes</h2>
+        <div class="example-grid">
+          <div class="example-box">
+            <div class="example-label">Markdown Input</div>
+            <div class="example-content markdown">> This is a blockquote. It's useful
+> for highlighting important information
+> or quoting the user's input back.
+
+Regular text continues here.</div>
+          </div>
+          <div class="example-box">
+            <div class="example-label">Rendered Output</div>
+            <div class="example-content rendered">
+              <blockquote>
+                This is a blockquote. It's useful for highlighting important information or quoting the user's input back.
+              </blockquote>
+              <p>Regular text continues here.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <div class="tip-content">
+            <strong>Design Note</strong>
+            Blockquotes use the accent color (purple) for the left border. This creates visual consistency with the Ali brand.
+          </div>
+        </div>
+      </section>
+
+      <!-- Emoji to Icons -->
+      <section id="icons">
+        <h2>🎨 Emoji → Icon Mapping</h2>
+        <p style="margin-bottom: 16px;">Ali automatically converts emojis to <strong>Phosphor icons</strong> for a more professional, consistent appearance.</p>
+        <p style="margin-bottom: 16px; padding: 8px 12px; background: #fef3c7; border-radius: 6px; font-size: 13px;"><strong>⚠️ Migration Planned:</strong> Per Jan 22, 2026 decision, standardizing on <strong>Lucide</strong>. Current code uses Phosphor (<code>EmojiToIcon.tsx</code>).</p>
+
+        <div class="icon-grid">
+          <div class="icon-item">
+            <span class="emoji">✅</span>
+            <span class="arrow">→</span>
+            <span class="result">CheckCircle</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">❌</span>
+            <span class="arrow">→</span>
+            <span class="result">XCircle</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">⚠️</span>
+            <span class="arrow">→</span>
+            <span class="result">Warning</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">💡</span>
+            <span class="arrow">→</span>
+            <span class="result">Lightbulb</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">🎯</span>
+            <span class="arrow">→</span>
+            <span class="result">Target</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">🚀</span>
+            <span class="arrow">→</span>
+            <span class="result">Rocket</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">📝</span>
+            <span class="arrow">→</span>
+            <span class="result">NotePencil</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">🤝</span>
+            <span class="arrow">→</span>
+            <span class="result">Handshake</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">📊</span>
+            <span class="arrow">→</span>
+            <span class="result">ChartBar</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">⏰</span>
+            <span class="arrow">→</span>
+            <span class="result">Clock</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">💰</span>
+            <span class="arrow">→</span>
+            <span class="result">CurrencyDollar</span>
+          </div>
+          <div class="icon-item">
+            <span class="emoji">🔒</span>
+            <span class="arrow">→</span>
+            <span class="result">Lock</span>
+          </div>
+        </div>
+
+        <p style="margin-top: 16px; color: #666; font-size: 14px;">
+          <strong>59 emojis</strong> are mapped to Phosphor icons (Lucide migration pending). Unknown emojis render as-is.
+          Icon size: 18px. Colors are semantic (green=success, amber=warning, red=error, purple=accent).
+        </p>
+      </section>
+
+      <!-- Overflow -->
+      <section id="overflow">
+        <h2>📏 Overflow Handling</h2>
+
+        <h3>Text Content</h3>
+        <p>Long words and URLs break with <code>word-break: break-word</code> and <code>overflow-wrap: anywhere</code>.</p>
+
+        <h3>Code Blocks</h3>
+        <p>Uses <code>overflow-x: auto</code> — horizontal scroll bar appears for long lines.</p>
+
+        <h3>Tables</h3>
+        <p>Tables inherit 85% max-width constraint. Wide tables get horizontal scroll.</p>
+
+        <div class="warning">
+          <span class="tip-icon">⚠️</span>
+          <div class="tip-content">
+            <strong>Mobile Consideration</strong>
+            On mobile, 85% of a narrow viewport is still narrow. Tables with 4+ columns may be difficult to read. Consider suggesting alternative formats (lists, cards) for mobile users.
+          </div>
+        </div>
+      </section>
+
+      <!-- Don't Use -->
+      <section id="dont">
+        <h2>🚫 What NOT to Design For</h2>
+
+        <table class="support-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Why Not Supported</th>
+              <th>Alternative</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Raw HTML</strong></td>
+              <td>Sanitized for security</td>
+              <td>Use markdown equivalents</td>
+            </tr>
+            <tr>
+              <td><strong>LaTeX / Math</strong></td>
+              <td>No KaTeX/MathJax plugin</td>
+              <td>Describe formulas in text</td>
+            </tr>
+            <tr>
+              <td><strong>Embedded Media</strong></td>
+              <td>No iframe/video support</td>
+              <td>Link to external resources</td>
+            </tr>
+            <tr>
+              <td><strong>Custom Fonts</strong></td>
+              <td style="color: #16a34a;"><strong>✓ Supported</strong></td>
+              <td>Moret (serif), Metro Sans, Inter via inline styles</td>
+            </tr>
+            <tr>
+              <td><strong>Colored Text</strong></td>
+              <td>No inline color support</td>
+              <td>Use bold/italic for emphasis</td>
+            </tr>
+            <tr>
+              <td><strong>Collapsible Sections</strong></td>
+              <td>No details/summary tags</td>
+              <td>Use headers and structure</td>
+            </tr>
+            <tr>
+              <td><strong>Footnotes</strong></td>
+              <td>Not in base remark-gfm</td>
+              <td>Use inline parentheticals</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <div class="tip-content">
+            <strong>Future Possibilities</strong>
+            We could add support for custom components (cards, accordions, progress bars) by extending the react-markdown renderer. Flag these as "future enhancement" rather than "not possible."
+          </div>
+        </div>
+      </section>
+
+      <!-- Sources & References -->
+      <section id="sources">
+        <h2>📚 Sources & References</h2>
+        <p style="margin-bottom: 24px;">Official documentation and best practices that informed this guide.</p>
+
+        <h3>Core Libraries</h3>
+        <table class="support-table">
+          <thead>
+            <tr>
+              <th>Library</th>
+              <th>Version</th>
+              <th>Documentation</th>
+              <th>Used For</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>react-markdown</strong></td>
+              <td>v10.1.0</td>
+              <td><a href="https://github.com/remarkjs/react-markdown" target="_blank" style="color: var(--accent);">GitHub →</a></td>
+              <td>Markdown parsing and rendering in React</td>
+            </tr>
+            <tr>
+              <td><strong>remark-gfm</strong></td>
+              <td>v4.0.1</td>
+              <td><a href="https://github.com/remarkjs/remark-gfm" target="_blank" style="color: var(--accent);">GitHub →</a></td>
+              <td>GitHub Flavored Markdown (tables, strikethrough, autolinks)</td>
+            </tr>
+            <tr>
+              <td><strong>Tailwind Typography</strong></td>
+              <td>Latest</td>
+              <td><a href="https://tailwindcss.com/docs/typography-plugin" target="_blank" style="color: var(--accent);">Tailwind Docs →</a></td>
+              <td>Prose styling classes for markdown content</td>
+            </tr>
+            <tr>
+              <td><strong>Phosphor Icons</strong> <span style="font-size: 11px; color: #f59e0b;">(current)</span></td>
+              <td>v2.1.10</td>
+              <td><a href="https://phosphoricons.com/" target="_blank" style="color: var(--accent);">phosphoricons.com →</a></td>
+              <td>Emoji-to-icon mapping (EmojiToIcon.tsx)</td>
+            </tr>
+            <tr>
+              <td><strong>Lucide Icons</strong> <span style="font-size: 11px; color: #16a34a;">(target)</span></td>
+              <td>v0.525.0</td>
+              <td><a href="https://lucide.dev/" target="_blank" style="color: var(--accent);">lucide.dev →</a></td>
+              <td>UI controls + planned emoji migration</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Specifications & Standards</h3>
+        <table class="support-table">
+          <thead>
+            <tr>
+              <th>Specification</th>
+              <th>Link</th>
+              <th>Relevant To</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>GitHub Flavored Markdown</strong></td>
+              <td><a href="https://github.github.com/gfm/" target="_blank" style="color: var(--accent);">GFM Spec →</a></td>
+              <td>Table syntax, strikethrough, autolinks, task lists</td>
+            </tr>
+            <tr>
+              <td><strong>CommonMark</strong></td>
+              <td><a href="https://commonmark.org/" target="_blank" style="color: var(--accent);">commonmark.org →</a></td>
+              <td>Core markdown parsing (bold, italic, headers, lists, code)</td>
+            </tr>
+            <tr>
+              <td><strong>Unicode Emoji</strong></td>
+              <td><a href="https://unicode.org/emoji/charts/full-emoji-list.html" target="_blank" style="color: var(--accent);">Unicode Charts →</a></td>
+              <td>Emoji detection regex patterns</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Best Practices & Guides</h3>
+        <table class="support-table">
+          <thead>
+            <tr>
+              <th>Resource</th>
+              <th>Link</th>
+              <th>Topic</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Tailwind CSS Typography</strong></td>
+              <td><a href="https://tailwindcss.com/docs/typography-plugin#customizing-the-css" target="_blank" style="color: var(--accent);">Customization Guide →</a></td>
+              <td>Customizing prose styles with utility classes</td>
+            </tr>
+            <tr>
+              <td><strong>react-markdown Custom Components</strong></td>
+              <td><a href="https://github.com/remarkjs/react-markdown#use-custom-components-syntax-highlight" target="_blank" style="color: var(--accent);">Custom Renderers →</a></td>
+              <td>How to override default element rendering</td>
+            </tr>
+            <tr>
+              <td><strong>MDX (Future Reference)</strong></td>
+              <td><a href="https://mdxjs.com/" target="_blank" style="color: var(--accent);">mdxjs.com →</a></td>
+              <td>If we need JSX components in markdown later</td>
+            </tr>
+            <tr>
+              <td><strong>Remark Plugins List</strong></td>
+              <td><a href="https://github.com/remarkjs/remark/blob/main/doc/plugins.md" target="_blank" style="color: var(--accent);">Plugin Directory →</a></td>
+              <td>Available plugins for future enhancements (math, footnotes, etc.)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Ali MVP Source Files</h3>
+        <table class="support-table">
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Path</th>
+              <th>Contains</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>MessageBubble</strong></td>
+              <td><code>src/chatbot/components/MessageBubble.tsx</code></td>
+              <td>Main rendering component, prose classes, markdown config</td>
+            </tr>
+            <tr>
+              <td><strong>EmojiToIcon</strong></td>
+              <td><code>src/chatbot/components/EmojiToIcon.tsx</code></td>
+              <td>59 emoji → Phosphor icon mappings (Lucide migration pending)</td>
+            </tr>
+            <tr>
+              <td><strong>ChatPageNew</strong></td>
+              <td><code>src/chatbot/ChatPageNew.tsx</code></td>
+              <td>Streaming bubble, message layout</td>
+            </tr>
+            <tr>
+              <td><strong>Tailwind Config</strong></td>
+              <td><code>tailwind.config.js</code></td>
+              <td>Typography plugin registration, theme colors</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="tip">
+          <span class="tip-icon">🔗</span>
+          <div class="tip-content">
+            <strong>Quick Links for Common Tasks</strong>
+            <ul style="margin-top: 8px; margin-left: 20px;">
+              <li><a href="https://github.com/remarkjs/react-markdown#appendix-a-html-in-markdown" target="_blank" style="color: var(--accent);">Why HTML is stripped</a> - Security explanation</li>
+              <li><a href="https://github.com/remarkjs/remark-math" target="_blank" style="color: var(--accent);">remark-math</a> - If we need LaTeX support later</li>
+              <li><a href="https://github.com/remarkjs/remark-gfm#use" target="_blank" style="color: var(--accent);">GFM table alignment</a> - Left/center/right column syntax</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p>Ali MVP Design System • Rendering Constraints Reference</p>
+    <p style="margin-top: 8px; color: #999;">For Nic Mirra • January 2026</p>
+  </footer>
+
+  <script>
+    // Highlight active nav on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 150;
+        if (scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
