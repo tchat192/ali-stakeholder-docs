@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zahir Design Session | Ali MVP | January 25, 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Warm light theme */
+            --ali-purple: #7c3aed;
+            --ali-purple-light: #8b5cf6;
+            --ali-purple-soft: #ede9fe;
+            --ali-bg: #faf9f7;
+            --ali-bg-warm: #f7f6f3;
+            --ali-card: #ffffff;
+            --ali-surface: #f3f2ef;
+            --ali-border: #e8e6e1;
+            --ali-border-strong: #d5d3cd;
+            --ali-text: #1a1a1a;
+            --ali-text-secondary: #4a4a4a;
+            --ali-text-muted: #737373;
+            --ali-text-subtle: #a3a3a3;
+            /* Accent colors for sections */
+            --ali-blue: #3b82f6;
+            --ali-green: #10b981;
+            --ali-yellow: #f59e0b;
+            --ali-red: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--ali-bg);
+            color: var(--ali-text);
+        }
+
+        .font-serif {
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .gradient-border {
+            background: linear-gradient(135deg, var(--ali-purple), var(--ali-blue));
+            padding: 2px;
+            border-radius: 12px;
+        }
+
+        .gradient-border > div {
+            background: var(--ali-card);
+            border-radius: 10px;
+        }
+
+        .glow {
+            box-shadow: 0 4px 24px rgba(124, 58, 237, 0.08);
+        }
+
+        .section-card {
+            background: var(--ali-card);
+            border: 1px solid var(--ali-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .tab-active {
+            background: var(--ali-purple);
+            color: white;
+        }
+
+        .tab-inactive {
+            background: var(--ali-card);
+            color: var(--ali-text-muted);
+            border: 1px solid var(--ali-border);
+        }
+
+        .tab-inactive:hover {
+            background: var(--ali-surface);
+            color: var(--ali-text-secondary);
+        }
+
+        .component-card {
+            background: var(--ali-card);
+            border: 1px solid var(--ali-border);
+            transition: all 0.2s ease;
+        }
+
+        .component-card:hover {
+            border-color: var(--ali-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+        }
+
+        .badge-aceternity { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+        .badge-magic { background: var(--ali-purple-soft); color: #5b21b6; border: 1px solid #c4b5fd; }
+        .badge-shadcn { background: var(--ali-surface); color: var(--ali-text); border: 1px solid var(--ali-border-strong); }
+        .badge-custom { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--ali-purple);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            width: calc(100% + 20px);
+            height: 2px;
+            background: var(--ali-border);
+        }
+
+        details summary {
+            cursor: pointer;
+            list-style: none;
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open] summary .chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Form inputs for light theme */
+        input[type="text"], input[type="date"], input[type="datetime-local"], textarea, select {
+            background: var(--ali-bg-warm) !important;
+            border-color: var(--ali-border) !important;
+            color: var(--ali-text) !important;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            border-color: var(--ali-purple) !important;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--ali-text-subtle) !important;
+        }
+
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            accent-color: var(--ali-purple);
+        }
+
+        input[type="radio"] {
+            accent-color: var(--ali-purple);
+        }
+
+        .print-hide { }
+        @media print {
+            .print-hide { display: none; }
+            body { background: white; color: black; }
+            .section-card { border: 1px solid #ddd; background: #f9f9f9; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b sticky top-0 backdrop-blur-sm z-50" style="border-color: var(--ali-border); background: rgba(250, 249, 247, 0.9);">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center font-bold text-lg text-white">A</div>
+                <div>
+                    <h1 class="font-semibold" style="color: var(--ali-text);">Design Session with Zahir</h1>
+                    <p class="text-sm" style="color: var(--ali-text-muted);">January 25, 2026 | 1:00 PM - 5:00 PM PST</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 print-hide">
+                <span class="text-xs" style="color: var(--ali-text-muted);">4 Hours</span>
+                <span class="px-3 py-1 rounded-full text-sm" style="background: var(--ali-purple-soft); color: var(--ali-purple);">In-Person</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="border-b print-hide" style="border-color: var(--ali-border); background: var(--ali-card);">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex gap-1 py-2 overflow-x-auto">
+                <button onclick="showSection('charter')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium tab-active" data-section="charter">Ali Charter</button>
+                <button onclick="showSection('agenda')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium tab-inactive" data-section="agenda">4-Hour Agenda</button>
+                <button onclick="showSection('inspiration')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium tab-inactive" data-section="inspiration">Design Inspiration</button>
+                <button onclick="showSection('components')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium tab-inactive" data-section="components">Component Library</button>
+                <button onclick="showSection('tokens')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium tab-inactive" data-section="tokens">Design Tokens</button>
+                <button onclick="showSection('capture')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium tab-inactive" data-section="capture">Capture Notes</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- SECTION: Ali Character Charter -->
+        <section id="section-charter" class="space-y-8">
+            <div class="text-center mb-12">
+                <p class="text-purple-600 text-sm font-medium mb-2">The Foundation</p>
+                <h2 class="font-serif text-4xl italic mb-4" style="color: var(--ali-text);">Ali Character Charter</h2>
+                <p class="max-w-2xl mx-auto" style="color: var(--ali-text-muted);">The definitive guide to Ali's identity, principles, and boundaries. Every design decision should trace back to this charter.</p>
+            </div>
+
+            <!-- Identity Block -->
+            <div class="gradient-border glow">
+                <div class="p-8">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center gap-2" style="color: var(--ali-text);">
+                        <span class="w-8 h-8 rounded-lg flex items-center justify-center text-purple-600" style="background: var(--ali-purple-soft);">1</span>
+                        Identity
+                    </h3>
+                    <blockquote class="text-2xl font-serif italic border-l-4 border-purple-500 pl-6 my-6" style="color: var(--ali-text-secondary);">
+                        "Ali is a negotiation coach. Two decades of Fortune 500 methodology, distilled. Negotiation is human. This is the foundation."
+                    </blockquote>
+                    <div class="grid md:grid-cols-3 gap-4 mt-6">
+                        <div class="section-card p-4" style="background: var(--ali-surface);">
+                            <p class="text-sm mb-1" style="color: var(--ali-text-muted);">Role</p>
+                            <p class="font-medium" style="color: var(--ali-text);">Negotiation Coach</p>
+                        </div>
+                        <div class="section-card p-4" style="background: var(--ali-surface);">
+                            <p class="text-sm mb-1" style="color: var(--ali-text-muted);">Heritage</p>
+                            <p class="font-medium" style="color: var(--ali-text);">20 Years Fortune 500</p>
+                        </div>
+                        <div class="section-card p-4" style="background: var(--ali-surface);">
+                            <p class="text-sm mb-1" style="color: var(--ali-text-muted);">Philosophy</p>
+                            <p class="font-medium" style="color: var(--ali-text);">Negotiation is Human</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Principles -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6 flex items-center gap-2" style="color: var(--ali-text);">
+                    <span class="w-8 h-8 rounded-lg flex items-center justify-center text-purple-600" style="background: var(--ali-purple-soft);">2</span>
+                    Principles
+                </h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: var(--ali-purple-soft);">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        </div>
+                        <h4 class="font-semibold" style="color: var(--ali-text);">Personality is Leverage</h4>
+                        <p class="text-sm" style="color: var(--ali-text-muted);">There is no correct approach—only yours, refined.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h4 class="font-semibold">Preparation Precedes Confidence</h4>
+                        <p class="text-gray-600 text-sm">Presence follows preparation.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        </div>
+                        <h4 class="font-semibold">Incremental Gains Compound</h4>
+                        <p class="text-gray-600 text-sm">One sharper question changes a room.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adaptation / Silhouette -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6 flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">3</span>
+                    Adaptation (Silhouette Calibration)
+                </h3>
+                <p class="text-gray-600 mb-6">Ali reads your Silhouette and calibrates accordingly:</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="section-card p-5 border-l-4 border-blue-500">
+                        <h4 class="font-semibold text-blue-600 mb-2">Methodical</h4>
+                        <p class="text-sm text-gray-600">Precision. Structure. Earned conclusions.</p>
+                    </div>
+                    <div class="section-card p-5 border-l-4 border-red-500">
+                        <h4 class="font-semibold text-red-600 mb-2">Assertive</h4>
+                        <p class="text-sm text-gray-600">Brevity. Outcomes. Forward motion.</p>
+                    </div>
+                    <div class="section-card p-5 border-l-4 border-yellow-500">
+                        <h4 class="font-semibold text-yellow-600 mb-2">Sociable</h4>
+                        <p class="text-sm text-gray-600">Warmth. Narrative. Relational intelligence.</p>
+                    </div>
+                    <div class="section-card p-5 border-l-4 border-green-500">
+                        <h4 class="font-semibold text-green-600 mb-2">Empathetic</h4>
+                        <p class="text-sm text-gray-600">Safety first. Pacing honored. Mutual gain centered.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Framework -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6 flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">4</span>
+                    Framework (ALIGNED Methodology)
+                </h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <p class="text-sm text-gray-500 mb-3">Four Phases</p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-300 text-sm">Prepare</span>
+                            <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-300 text-sm">Propose</span>
+                            <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-300 text-sm">Discuss</span>
+                            <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-300 text-sm">Close</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-3">Four Types</p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm">Hard Bargaining</span>
+                            <span class="px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm">Concession Trading</span>
+                            <span class="px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm">Value Creation</span>
+                            <span class="px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm">Partnership</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-3">Gets & Gives</p>
+                        <p class="text-gray-700">Positions mapped. Trades surfaced.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scope & Boundaries -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="section-card p-8 border-l-4 border-green-500">
+                    <h3 class="text-lg font-semibold mb-4 text-green-600">What Ali DOES</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            Prepares you for negotiations
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            Pressure-tests your thinking
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            Holds the mirror steady
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            Maintains absolute discretion
+                        </li>
+                    </ul>
+                </div>
+                <div class="section-card p-8 border-l-4 border-red-500">
+                    <h3 class="text-lg font-semibold mb-4 text-red-600">What Ali DOESN'T</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            Negotiate on your behalf
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            Offer legal or financial counsel
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            Optimize for manipulation
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            Tell you what terms to accept/reject
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Posture & Commitment -->
+            <div class="section-card p-8 text-center">
+                <h3 class="text-xl font-semibold mb-6 flex items-center justify-center gap-2">
+                    <span class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">5</span>
+                    Posture & Commitment
+                </h3>
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <p class="text-xl text-gray-700 font-serif italic">"Candor without abrasion. Rigor without pretense. Alignment, not agreement."</p>
+                    <div class="h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
+                    <p class="text-gray-600">Clarity on what you want. Confidence in your approach. Readiness you can feel.</p>
+                    <p class="text-lg font-semibold text-purple-600">This is the work.</p>
+                    <p class="text-2xl font-serif italic text-gray-800 mt-8">Negotiation Understood.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: 4-Hour Agenda -->
+        <section id="section-agenda" class="space-y-8 hidden">
+            <div class="text-center mb-12">
+                <p class="text-purple-600 text-sm font-medium mb-2">Session Structure</p>
+                <h2 class="font-serif text-4xl italic mb-4">4-Hour Design Session</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">A structured journey from context through capture. Each hour builds on the last.</p>
+            </div>
+
+            <!-- Timeline Overview -->
+            <div class="section-card p-6 mb-8">
+                <div class="flex items-center justify-between overflow-x-auto pb-4">
+                    <div class="flex flex-col items-center min-w-[120px]">
+                        <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-lg mb-2">1</div>
+                        <p class="text-sm font-medium">Context</p>
+                        <p class="text-xs text-gray-500">1:00 - 2:00</p>
+                    </div>
+                    <div class="flex-1 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-2"></div>
+                    <div class="flex flex-col items-center min-w-[120px]">
+                        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg mb-2">2</div>
+                        <p class="text-sm font-medium">System</p>
+                        <p class="text-xs text-gray-500">2:00 - 3:00</p>
+                    </div>
+                    <div class="flex-1 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-2"></div>
+                    <div class="flex flex-col items-center min-w-[120px]">
+                        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-lg mb-2">3</div>
+                        <p class="text-sm font-medium">Flows</p>
+                        <p class="text-xs text-gray-500">3:00 - 4:00</p>
+                    </div>
+                    <div class="flex-1 h-1 bg-gradient-to-r from-green-500 to-yellow-500 mx-2"></div>
+                    <div class="flex flex-col items-center min-w-[120px]">
+                        <div class="w-16 h-16 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold text-lg mb-2">4</div>
+                        <p class="text-sm font-medium">Capture</p>
+                        <p class="text-xs text-gray-500">4:00 - 5:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hour 1 -->
+            <div class="section-card p-8 border-l-4 border-purple-500">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-4xl font-bold text-purple-500/30">01</span>
+                    <div>
+                        <h3 class="text-xl font-semibold">Context & Vision</h3>
+                        <p class="text-gray-500">1:00 PM - 2:00 PM (60 minutes)</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <span class="text-xs text-gray-500 mt-1 w-12">10 min</span>
+                            <div>
+                                <p class="font-medium">Welcome & Objectives</p>
+                                <p class="text-sm text-gray-600">Align on session goals, share Ali Character Charter</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-xs text-gray-500 mt-1 w-12">15 min</span>
+                            <div>
+                                <p class="font-medium">The Ali Story</p>
+                                <p class="text-sm text-gray-600">Target user (HENRYs, $150K+), beta timeline (March 1)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-xs text-gray-500 mt-1 w-12">20 min</span>
+                            <div>
+                                <p class="font-medium">Live Product Demo</p>
+                                <p class="text-sm text-gray-600">Chat experience, phase tracking, current UI state</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-xs text-gray-500 mt-1 w-12">15 min</span>
+                            <div>
+                                <p class="font-medium">Inspiration Review</p>
+                                <p class="text-sm text-gray-600">Linear, Perplexity, Notion, Raycast, Vercel</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-card p-4 bg-purple-50">
+                        <p class="text-sm font-medium text-purple-600 mb-2">Key Questions</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li>• What elements from each reference resonate with Ali?</li>
+                            <li>• Dark mode vs light mode for primary experience?</li>
+                            <li>• How much animation for a "serious" coaching tool?</li>
+                            <li>• What says "premium" without being flashy?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hour 2 -->
+            <div class="section-card p-8 border-l-4 border-blue-500">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-4xl font-bold text-blue-500/30">02</span>
+                    <div>
+                        <h3 class="text-xl font-semibold">Design System Foundations</h3>
+                        <p class="text-gray-500">2:00 PM - 3:00 PM (60 minutes)</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="space-y-4">
+                        <p class="text-sm font-medium text-blue-600">Color System (20 min)</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Primary, secondary, accent</li>
+                            <li>• Background treatments</li>
+                            <li>• Text hierarchy</li>
+                            <li>• Dark/light mode strategy</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-sm font-medium text-blue-600">Typography (15 min)</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Display font for headlines</li>
+                            <li>• Body font (Inter approved)</li>
+                            <li>• Code/monospace elements</li>
+                            <li>• Message differentiation</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-sm font-medium text-blue-600">Components (25 min)</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• shadcn/ui base layer</li>
+                            <li>• Aceternity premium effects</li>
+                            <li>• Magic UI animations</li>
+                            <li>• Custom Ali components</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hour 3 -->
+            <div class="section-card p-8 border-l-4 border-green-500">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-4xl font-bold text-green-500/30">03</span>
+                    <div>
+                        <h3 class="text-xl font-semibold">Key Flows Deep Dive</h3>
+                        <p class="text-gray-500">3:00 PM - 4:00 PM (60 minutes)</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="section-card p-4 bg-green-50">
+                        <p class="text-sm font-medium text-green-600 mb-3">Chat Interface (30 min)</p>
+                        <p class="text-xs text-gray-500 mb-2">80%+ of user time spent here</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Message bubble design</li>
+                            <li>• Ali vs user differentiation</li>
+                            <li>• Framework callout treatment</li>
+                            <li>• Citation display options</li>
+                            <li>• Typing indicator design</li>
+                        </ul>
+                    </div>
+                    <div class="section-card p-4 bg-green-50">
+                        <p class="text-sm font-medium text-green-600 mb-3">Landing Page (20 min)</p>
+                        <p class="text-xs text-gray-500 mb-2">Convert visitors → trial</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Hero section treatment</li>
+                            <li>• Feature showcases</li>
+                            <li>• Social proof section</li>
+                            <li>• Animation budget</li>
+                        </ul>
+                    </div>
+                    <div class="section-card p-4 bg-green-50">
+                        <p class="text-sm font-medium text-green-600 mb-3">Onboarding (10 min)</p>
+                        <p class="text-xs text-gray-500 mb-2">First 5 minutes matter most</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Welcome experience</li>
+                            <li>• Context gathering</li>
+                            <li>• Trust building</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hour 4 -->
+            <div class="section-card p-8 border-l-4 border-yellow-500">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-4xl font-bold text-yellow-500/30">04</span>
+                    <div>
+                        <h3 class="text-xl font-semibold">Action Planning & Capture</h3>
+                        <p class="text-gray-500">4:00 PM - 5:00 PM (60 minutes)</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <span class="text-xs text-gray-500 mt-1 w-12">20 min</span>
+                            <div>
+                                <p class="font-medium">Design Tokens Documentation</p>
+                                <p class="text-sm text-gray-600">Capture all decisions: colors, typography, spacing, radius, shadows</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-xs text-gray-500 mt-1 w-12">15 min</span>
+                            <div>
+                                <p class="font-medium">Component Priority List</p>
+                                <p class="text-sm text-gray-600">Rank by impact: P0 (chat, input, buttons), P1 (nav, hero, cards)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-xs text-gray-500 mt-1 w-12">15 min</span>
+                            <div>
+                                <p class="font-medium">Next Steps & Timeline</p>
+                                <p class="text-sm text-gray-600">Immediate actions, 2-week goals, pre-beta checklist</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-xs text-gray-500 mt-1 w-12">10 min</span>
+                            <div>
+                                <p class="font-medium">Wrap-Up</p>
+                                <p class="text-sm text-gray-600">Confirm handoff process, communication, next meeting</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-card p-4 bg-yellow-50">
+                        <p class="text-sm font-medium text-yellow-600 mb-2">Success Criteria</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-center gap-2"><input type="checkbox" class="rounded"> Color palette defined</li>
+                            <li class="flex items-center gap-2"><input type="checkbox" class="rounded"> Typography choices made</li>
+                            <li class="flex items-center gap-2"><input type="checkbox" class="rounded"> Component strategy agreed</li>
+                            <li class="flex items-center gap-2"><input type="checkbox" class="rounded"> Chat interface direction sketched</li>
+                            <li class="flex items-center gap-2"><input type="checkbox" class="rounded"> Landing page vision aligned</li>
+                            <li class="flex items-center gap-2"><input type="checkbox" class="rounded"> Next steps documented</li>
+                            <li class="flex items-center gap-2"><input type="checkbox" class="rounded"> Both excited about direction</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Design Inspiration -->
+        <section id="section-inspiration" class="space-y-8 hidden">
+            <div class="text-center mb-12">
+                <p class="text-purple-600 text-sm font-medium mb-2">Reference Gallery</p>
+                <h2 class="font-serif text-4xl italic mb-4">Design Inspiration</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Premium products that embody the "Quiet Luxury" aesthetic Ali aspires to. Click each to explore.</p>
+            </div>
+
+            <!-- Brand DNA -->
+            <div class="gradient-border glow mb-8">
+                <div class="p-8 text-center">
+                    <p class="text-sm text-gray-500 mb-4">Ali's Design DNA</p>
+                    <div class="flex items-center justify-center gap-4 flex-wrap text-lg">
+                        <span class="text-blue-600 font-medium">Linear's</span>
+                        <span class="text-gray-500">craft + speed</span>
+                        <span class="text-gray-700">+</span>
+                        <span class="text-purple-600 font-medium">Notion's</span>
+                        <span class="text-gray-500">flexible intelligence</span>
+                        <span class="text-gray-700">+</span>
+                        <span class="text-green-600 font-medium">Perplexity's</span>
+                        <span class="text-gray-500">ruthless focus</span>
+                    </div>
+                    <p class="text-xl font-serif italic text-gray-700 mt-4">= Ali's premium coaching experience</p>
+                </div>
+            </div>
+
+            <!-- Inspiration Cards Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Linear -->
+                <a href="https://linear.app" target="_blank" class="section-card p-6 hover:border-blue-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">L</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-blue-600 transition-colors">Linear</h3>
+                            <p class="text-sm text-gray-500">linear.app</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Speed-first, dark mode, craft. The gold standard for developer tools.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Type scale system (title-1 through title-8)</li>
+                            <li>• Semantic color hierarchy (primary/tertiary/quaternary)</li>
+                            <li>• Minimalist icon containers (16/18/24px scales)</li>
+                            <li>• Generous whitespace strategy</li>
+                            <li>• Inter Variable font implementation</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Perplexity -->
+                <a href="https://perplexity.ai" target="_blank" class="section-card p-6 hover:border-purple-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">P</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-purple-600 transition-colors">Perplexity</h3>
+                            <p class="text-sm text-gray-500">perplexity.ai</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Content-first minimalism. AI search that gets out of the way.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Search-centric UI paradigm</li>
+                            <li>• Citation/source display patterns</li>
+                            <li>• Answer formatting hierarchy</li>
+                            <li>• Related questions surfacing</li>
+                            <li>• Minimal chrome, maximum content</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Raycast -->
+                <a href="https://raycast.com" target="_blank" class="section-card p-6 hover:border-pink-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">R</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-pink-600 transition-colors">Raycast</h3>
+                            <p class="text-sm text-gray-500">raycast.com</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Glass-morphism, keyboard-first, technical sophistication.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Deep navy/black backgrounds</li>
+                            <li>• Vibrant accent sparingly (pink, cyan, purple)</li>
+                            <li>• Glass-morphism with subtle blur</li>
+                            <li>• Card-based extension showcase</li>
+                            <li>• Premium spacing philosophy</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Arc -->
+                <a href="https://arc.net" target="_blank" class="section-card p-6 hover:border-blue-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">A</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-blue-600 transition-colors">Arc Browser</h3>
+                            <p class="text-sm text-gray-500">arc.net</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Bold color system, custom typography, organic boundaries.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Vibrant primary blue (#3139FB)</li>
+                            <li>• Custom Marlin + Inter pairing</li>
+                            <li>• Decorative squiggle masks</li>
+                            <li>• Noise texture overlays</li>
+                            <li>• Staggered transitions</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Vercel -->
+                <a href="https://vercel.com" target="_blank" class="section-card p-6 hover:border-zinc-400 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center">
+                            <span class="text-black font-bold text-lg">▲</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-gray-700 transition-colors">Vercel</h3>
+                            <p class="text-sm text-gray-500">vercel.com</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Developer-focused, high contrast, performance-obsessed.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Light/dark theme system</li>
+                            <li>• Geist font family</li>
+                            <li>• Action-oriented CTAs</li>
+                            <li>• Grid-based modular layouts</li>
+                            <li>• Global CDN visualizations</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Notion -->
+                <a href="https://notion.so" target="_blank" class="section-card p-6 hover:border-zinc-400 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center">
+                            <span class="text-black font-bold text-lg">N</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-gray-700 transition-colors">Notion</h3>
+                            <p class="text-sm text-gray-500">notion.so</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Adaptive flexibility, block-based, intelligent defaults.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Content-first, chrome-light UI</li>
+                            <li>• Flexible workspace paradigm</li>
+                            <li>• Emoji as visual punctuation</li>
+                            <li>• Inline command palette (slash commands)</li>
+                            <li>• Collaborative presence indicators</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Stripe -->
+                <a href="https://stripe.com" target="_blank" class="section-card p-6 hover:border-purple-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">S</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-purple-600 transition-colors">Stripe</h3>
+                            <p class="text-sm text-gray-500">stripe.com</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Financial-grade professionalism, trustworthy polish.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Deep navy (#0a2540) + electric purple (#635bff)</li>
+                            <li>• Cubic-bezier easing for smooth transitions</li>
+                            <li>• Dimensional depth via box-shadow layering</li>
+                            <li>• Premium spacing with breathing room</li>
+                            <li>• Localization-ready font strategies</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Figma -->
+                <a href="https://figma.com" target="_blank" class="section-card p-6 hover:border-purple-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">F</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-purple-600 transition-colors">Figma</h3>
+                            <p class="text-sm text-gray-500">figma.com</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Modern, collaborative, approachable yet technical.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Black/white primary with vibrant purple (#4D49FC)</li>
+                            <li>• Custom ABCWhyte + figmaSans typography</li>
+                            <li>• Underline animations on navigation</li>
+                            <li>• 48-column responsive grid system</li>
+                            <li>• Accessible focus states (dashed outlines)</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Framer -->
+                <a href="https://framer.com" target="_blank" class="section-card p-6 hover:border-pink-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">Fr</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-pink-600 transition-colors">Framer</h3>
+                            <p class="text-sm text-gray-500">framer.com</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Dynamic, creative, animation-forward design.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Inter + Space Grotesk + Mona Sans stack</li>
+                            <li>• 150ms interaction delays for polish</li>
+                            <li>• requestAnimationFrame-based updates</li>
+                            <li>• Lazy-loaded modules for performance</li>
+                            <li>• Fluid micro-interactions</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Superhuman -->
+                <a href="https://superhuman.com" target="_blank" class="section-card p-6 hover:border-gray-400 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-900 to-gray-700 flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">SH</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-gray-700 transition-colors">Superhuman</h3>
+                            <p class="text-sm text-gray-500">superhuman.com</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Speed-focused, premium email experience.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Custom Super Sans font family</li>
+                            <li>• Quick-action previews for speed</li>
+                            <li>• Scannable list layouts</li>
+                            <li>• Inline AI suggestions contextually</li>
+                            <li>• Minimalism prioritizing task completion</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Craft -->
+                <a href="https://craft.do" target="_blank" class="section-card p-6 hover:border-amber-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center border border-amber-300">
+                            <span class="text-amber-800 font-bold text-lg">C</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-amber-600 transition-colors">Craft</h3>
+                            <p class="text-sm text-gray-500">craft.do</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Warm, elegant note-taking with glass morphism.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Beige/warm neutral backgrounds</li>
+                            <li>• Frosted glass buttons and surfaces</li>
+                            <li>• Generous border-radius (rounded-3xl)</li>
+                            <li>• Paper textures for organic warmth</li>
+                            <li>• Function over decoration philosophy</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Cal.com -->
+                <a href="https://cal.com" target="_blank" class="section-card p-6 hover:border-purple-500 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">Cal</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-purple-600 transition-colors">Cal.com</h3>
+                            <p class="text-sm text-gray-500">cal.com</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Open-source scheduling with sophisticated tokens.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Purple accent (#6349ea) on dark navy</li>
+                            <li>• Cal Sans display + Inter body pairing</li>
+                            <li>• Semantic colors (green success, red error)</li>
+                            <li>• Multi-weight variable font support</li>
+                            <li>• High contrast accessibility focus</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Dub -->
+                <a href="https://dub.co" target="_blank" class="section-card p-6 hover:border-gray-400 transition-colors group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">D</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold group-hover:text-gray-700 transition-colors">Dub</h3>
+                            <p class="text-sm text-gray-500">dub.co</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Modern link management with timeless restraint.</p>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-gray-500">What to steal:</p>
+                        <ul class="text-gray-600 space-y-1">
+                            <li>• Neutral foundation (white + grays)</li>
+                            <li>• Subtle grid borders that appear/disappear</li>
+                            <li>• Gradient mask fading at edges</li>
+                            <li>• Staggered entrance animations</li>
+                            <li>• Clarity over decorative flourishes</li>
+                        </ul>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Design Philosophy -->
+            <div class="section-card p-8 mt-8">
+                <h3 class="text-xl font-semibold mb-6">Design Philosophy: Quiet Luxury</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-medium text-green-600 mb-3">What Quiet Luxury IS</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500">✓</span>
+                                Premium without ostentation
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500">✓</span>
+                                Craft that speaks louder than flash
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500">✓</span>
+                                Confident restraint
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500">✓</span>
+                                Details that reward attention
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500">✓</span>
+                                Materials and typography that feel expensive
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-red-600 mb-3">What Quiet Luxury ISN'T</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-500">✗</span>
+                                Flashy or gimmicky
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-500">✗</span>
+                                Over-animated
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-500">✗</span>
+                                Trying too hard to impress
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-500">✗</span>
+                                Generic template feel
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-500">✗</span>
+                                Distracting from content
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Component Library -->
+        <section id="section-components" class="space-y-8 hidden">
+            <div class="text-center mb-12">
+                <p class="text-purple-600 text-sm font-medium mb-2">Building Blocks</p>
+                <h2 class="font-serif text-4xl italic mb-4">Component Library Strategy</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">A three-layer architecture: shadcn/ui foundation, Aceternity/Magic UI for premium effects, custom Ali components on top.</p>
+            </div>
+
+            <!-- Layer Diagram -->
+            <div class="section-card p-8 mb-8">
+                <div class="space-y-4">
+                    <div class="p-4 rounded-lg border-2 border-green-500 bg-green-50">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="badge-custom px-2 py-1 rounded text-xs font-medium">LAYER 3</span>
+                                <h4 class="font-semibold mt-2">Custom Ali Components</h4>
+                                <p class="text-sm text-gray-600">Brand-specific, built on top of layers below</p>
+                            </div>
+                            <div class="text-right text-sm text-gray-500">
+                                <p>Chat bubbles, Framework callouts</p>
+                                <p>Silhouette indicators, Phase badges</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-lg border-2 border-purple-500 bg-purple-50">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="badge-magic px-2 py-1 rounded text-xs font-medium">LAYER 2</span>
+                                <h4 class="font-semibold mt-2">Aceternity UI + Magic UI</h4>
+                                <p class="text-sm text-gray-600">Premium animations, landing page wow, hover effects</p>
+                            </div>
+                            <div class="text-right text-sm text-gray-500">
+                                <p>Hero backgrounds, 3D cards</p>
+                                <p>Animated lists, Marquees</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-lg border-2 border-gray-300 bg-gray-50">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="badge-shadcn px-2 py-1 rounded text-xs font-medium">LAYER 1</span>
+                                <h4 class="font-semibold mt-2">shadcn/ui Base</h4>
+                                <p class="text-sm text-gray-600">Buttons, forms, cards, dialogs - the foundation</p>
+                            </div>
+                            <div class="text-right text-sm text-gray-500">
+                                <p>58+ accessible components</p>
+                                <p>Full customization control</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aceternity Components -->
+            <details class="section-card" open>
+                <summary class="p-6 flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="badge-aceternity px-2 py-1 rounded text-xs font-bold">ACETERNITY</span>
+                        <h3 class="text-lg font-semibold">Aceternity UI Components</h3>
+                        <span class="text-sm text-gray-500">(80+ components)</span>
+                    </div>
+                    <svg class="w-5 h-5 text-gray-500 chevron transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="px-6 pb-6">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <!-- Backgrounds -->
+                        <div class="space-y-2">
+                            <p class="text-xs font-medium text-amber-600 uppercase tracking-wide">Backgrounds & Effects (23)</p>
+                            <div class="space-y-1 text-sm text-gray-600">
+                                <a href="https://ui.aceternity.com/components/spotlight" target="_blank" class="block hover:text-amber-600">★ Spotlight - Hero attention</a>
+                                <a href="https://ui.aceternity.com/components/spotlight-new" target="_blank" class="block hover:text-amber-600">★ Spotlight New - Configurable L/R</a>
+                                <a href="https://ui.aceternity.com/components/background-beams" target="_blank" class="block hover:text-amber-600">★ Background Beams - Hero sections</a>
+                                <a href="https://ui.aceternity.com/components/background-beams-with-collision" target="_blank" class="block hover:text-amber-600">Beams With Collision - Exploding</a>
+                                <a href="https://ui.aceternity.com/components/background-lines" target="_blank" class="block hover:text-amber-600">Background Lines - Wave SVG</a>
+                                <a href="https://ui.aceternity.com/components/aurora-background" target="_blank" class="block hover:text-amber-600">Aurora Background - Northern lights</a>
+                                <a href="https://ui.aceternity.com/components/sparkles" target="_blank" class="block hover:text-amber-600">Sparkles - Configurable accents</a>
+                                <a href="https://ui.aceternity.com/components/meteors" target="_blank" class="block hover:text-amber-600">Meteors - Beam animations</a>
+                                <a href="https://ui.aceternity.com/components/glowing-stars" target="_blank" class="block hover:text-amber-600">Glowing Stars - Animated cards</a>
+                                <a href="https://ui.aceternity.com/components/shooting-stars" target="_blank" class="block hover:text-amber-600">Shooting Stars - Starry bg</a>
+                                <a href="https://ui.aceternity.com/components/wavy-background" target="_blank" class="block hover:text-amber-600">Wavy Background - Movement</a>
+                                <a href="https://ui.aceternity.com/components/background-boxes" target="_blank" class="block hover:text-amber-600">Background Boxes - Hover highlight</a>
+                                <a href="https://ui.aceternity.com/components/background-gradient" target="_blank" class="block hover:text-amber-600">Background Gradient - Animated</a>
+                                <a href="https://ui.aceternity.com/components/gradient-animation" target="_blank" class="block hover:text-amber-600">Gradient Animation - Position</a>
+                                <a href="https://ui.aceternity.com/components/dotted-glow-background" target="_blank" class="block hover:text-amber-600">Dotted Glow Background</a>
+                                <a href="https://ui.aceternity.com/components/background-ripple-effect" target="_blank" class="block hover:text-amber-600">Ripple Effect - Click cells</a>
+                                <a href="https://ui.aceternity.com/components/lamp-effect" target="_blank" class="block hover:text-amber-600">Lamp Effect - Section headers</a>
+                                <a href="https://ui.aceternity.com/components/grid-and-dot-backgrounds" target="_blank" class="block hover:text-amber-600">Grid/Dot Backgrounds</a>
+                                <a href="https://ui.aceternity.com/components/vortex" target="_blank" class="block hover:text-amber-600">Vortex - Swirly CTAs</a>
+                                <a href="https://ui.aceternity.com/components/canvas-reveal-effect" target="_blank" class="block hover:text-amber-600">Canvas Reveal - Dot expand</a>
+                                <a href="https://ui.aceternity.com/components/svg-mask-effect" target="_blank" class="block hover:text-amber-600">SVG Mask Effect - Hover reveal</a>
+                                <a href="https://ui.aceternity.com/components/glowing-effect" target="_blank" class="block hover:text-amber-600">Glowing Effect - Border glow</a>
+                                <a href="https://ui.aceternity.com/components/google-gemini-effect" target="_blank" class="block hover:text-amber-600">Gemini Effect - Google SVG</a>
+                            </div>
+                        </div>
+                        <!-- Cards -->
+                        <div class="space-y-2">
+                            <p class="text-xs font-medium text-amber-600 uppercase tracking-wide">Cards & Containers (15)</p>
+                            <div class="space-y-1 text-sm text-gray-600">
+                                <a href="https://ui.aceternity.com/components/3d-card-effect" target="_blank" class="block hover:text-amber-600">★ 3D Card Effect - Perspective</a>
+                                <a href="https://ui.aceternity.com/components/glare-card" target="_blank" class="block hover:text-amber-600">★ Glare Card - Linear-style</a>
+                                <a href="https://ui.aceternity.com/components/comet-card" target="_blank" class="block hover:text-amber-600">Comet Card - Perplexity style</a>
+                                <a href="https://ui.aceternity.com/components/evervault-card" target="_blank" class="block hover:text-amber-600">Evervault Card - Encrypted</a>
+                                <a href="https://ui.aceternity.com/components/card-stack" target="_blank" class="block hover:text-amber-600">Card Stack - Testimonials</a>
+                                <a href="https://ui.aceternity.com/components/card-hover-effect" target="_blank" class="block hover:text-amber-600">Card Hover Effect - Slide</a>
+                                <a href="https://ui.aceternity.com/components/card-spotlight" target="_blank" class="block hover:text-amber-600">Card Spotlight - Mouse follow</a>
+                                <a href="https://ui.aceternity.com/components/wobble-card" target="_blank" class="block hover:text-amber-600">Wobble Card - Translate/scale</a>
+                                <a href="https://ui.aceternity.com/components/focus-cards" target="_blank" class="block hover:text-amber-600">Focus Cards - Blur surrounding</a>
+                                <a href="https://ui.aceternity.com/components/expandable-card" target="_blank" class="block hover:text-amber-600">Expandable Card - Click reveal</a>
+                                <a href="https://ui.aceternity.com/components/draggable-card" target="_blank" class="block hover:text-amber-600">Draggable Card - Tiltable</a>
+                                <a href="https://ui.aceternity.com/components/tooltip-card" target="_blank" class="block hover:text-amber-600">Tooltip Card - Mouse follow</a>
+                                <a href="https://ui.aceternity.com/components/direction-aware-hover" target="_blank" class="block hover:text-amber-600">Direction Aware Hover</a>
+                                <a href="https://ui.aceternity.com/components/bento-grid" target="_blank" class="block hover:text-amber-600">★ Bento Grid - Skewed layout</a>
+                                <a href="https://ui.aceternity.com/components/layout-grid" target="_blank" class="block hover:text-amber-600">Layout Grid - Click animate</a>
+                            </div>
+                        </div>
+                        <!-- Text & Typography -->
+                        <div class="space-y-2">
+                            <p class="text-xs font-medium text-amber-600 uppercase tracking-wide">Text Effects (10)</p>
+                            <div class="space-y-1 text-sm text-gray-600">
+                                <a href="https://ui.aceternity.com/components/text-generate-effect" target="_blank" class="block hover:text-amber-600">★ Text Generate - Fade in</a>
+                                <a href="https://ui.aceternity.com/components/typewriter-effect" target="_blank" class="block hover:text-amber-600">★ Typewriter Effect - Typing</a>
+                                <a href="https://ui.aceternity.com/components/flip-words" target="_blank" class="block hover:text-amber-600">Flip Words - Word cycling</a>
+                                <a href="https://ui.aceternity.com/components/hero-highlight" target="_blank" class="block hover:text-amber-600">Hero Highlight - Text highlight</a>
+                                <a href="https://ui.aceternity.com/components/encrypted-text" target="_blank" class="block hover:text-amber-600">Encrypted Text - Gibberish</a>
+                                <a href="https://ui.aceternity.com/components/colourful-text" target="_blank" class="block hover:text-amber-600">Colourful Text - Multi-color</a>
+                                <a href="https://ui.aceternity.com/components/layout-text-flip" target="_blank" class="block hover:text-amber-600">Layout Text Flip</a>
+                                <a href="https://ui.aceternity.com/components/container-text-flip" target="_blank" class="block hover:text-amber-600">Container Text Flip</a>
+                                <a href="https://ui.aceternity.com/components/text-hover-effect" target="_blank" class="block hover:text-amber-600">Text Hover Effect - Gradient</a>
+                                <a href="https://ui.aceternity.com/components/text-reveal-card" target="_blank" class="block hover:text-amber-600">Text Reveal Card</a>
+                            </div>
+                            <p class="text-xs font-medium text-amber-600 uppercase tracking-wide mt-4">Navigation (7)</p>
+                            <div class="space-y-1 text-sm text-gray-600">
+                                <a href="https://ui.aceternity.com/components/floating-dock" target="_blank" class="block hover:text-amber-600">★ Floating Dock - macOS style</a>
+                                <a href="https://ui.aceternity.com/components/floating-navbar" target="_blank" class="block hover:text-amber-600">★ Floating Navbar - Hide scroll</a>
+                                <a href="https://ui.aceternity.com/components/resizable-navbar" target="_blank" class="block hover:text-amber-600">Resizable Navbar - Width change</a>
+                                <a href="https://ui.aceternity.com/components/sidebar" target="_blank" class="block hover:text-amber-600">Sidebar - Expandable</a>
+                                <a href="https://ui.aceternity.com/components/tabs" target="_blank" class="block hover:text-amber-600">Tabs - Animated switching</a>
+                                <a href="https://ui.aceternity.com/components/navbar-menu" target="_blank" class="block hover:text-amber-600">Navbar Menu - Animated</a>
+                                <a href="https://ui.aceternity.com/components/sticky-banner" target="_blank" class="block hover:text-amber-600">Sticky Banner - Hide scroll</a>
+                            </div>
+                        </div>
+                        <!-- Scroll, Interactive, Other -->
+                        <div class="space-y-2">
+                            <p class="text-xs font-medium text-amber-600 uppercase tracking-wide">Scroll & Parallax (6)</p>
+                            <div class="space-y-1 text-sm text-gray-600">
+                                <a href="https://ui.aceternity.com/components/hero-parallax" target="_blank" class="block hover:text-amber-600">★ Hero Parallax - Rotation</a>
+                                <a href="https://ui.aceternity.com/components/macbook-scroll" target="_blank" class="block hover:text-amber-600">Macbook Scroll - Screen emerge</a>
+                                <a href="https://ui.aceternity.com/components/sticky-scroll-reveal" target="_blank" class="block hover:text-amber-600">Sticky Scroll Reveal</a>
+                                <a href="https://ui.aceternity.com/components/parallax-scroll" target="_blank" class="block hover:text-amber-600">Parallax Scroll - Two columns</a>
+                                <a href="https://ui.aceternity.com/components/container-scroll-animation" target="_blank" class="block hover:text-amber-600">Container Scroll - 3D rotate</a>
+                                <a href="https://ui.aceternity.com/components/tracing-beam" target="_blank" class="block hover:text-amber-600">Tracing Beam - Path follow</a>
+                            </div>
+                            <p class="text-xs font-medium text-amber-600 uppercase tracking-wide mt-4">Interactive (12)</p>
+                            <div class="space-y-1 text-sm text-gray-600">
+                                <a href="https://ui.aceternity.com/components/animated-tooltip" target="_blank" class="block hover:text-amber-600">★ Animated Tooltip</a>
+                                <a href="https://ui.aceternity.com/components/link-preview" target="_blank" class="block hover:text-amber-600">Link Preview - Popup</a>
+                                <a href="https://ui.aceternity.com/components/animated-modal" target="_blank" class="block hover:text-amber-600">Animated Modal</a>
+                                <a href="https://ui.aceternity.com/components/compare" target="_blank" class="block hover:text-amber-600">Compare - Image slider</a>
+                                <a href="https://ui.aceternity.com/components/timeline" target="_blank" class="block hover:text-amber-600">Timeline - Sticky header</a>
+                                <a href="https://ui.aceternity.com/components/infinite-moving-cards" target="_blank" class="block hover:text-amber-600">★ Infinite Cards</a>
+                                <a href="https://ui.aceternity.com/components/images-slider" target="_blank" class="block hover:text-amber-600">Images Slider - Full page</a>
+                                <a href="https://ui.aceternity.com/components/carousel" target="_blank" class="block hover:text-amber-600">Carousel - Customizable</a>
+                                <a href="https://ui.aceternity.com/components/apple-cards-carousel" target="_blank" class="block hover:text-amber-600">Apple Cards Carousel</a>
+                                <a href="https://ui.aceternity.com/components/lens" target="_blank" class="block hover:text-amber-600">Lens - Zoom anything</a>
+                                <a href="https://ui.aceternity.com/components/following-pointer" target="_blank" class="block hover:text-amber-600">Following Pointer</a>
+                                <a href="https://ui.aceternity.com/components/3d-pin" target="_blank" class="block hover:text-amber-600">3D Pin - Hover animate</a>
+                            </div>
+                            <p class="text-xs font-medium text-amber-600 uppercase tracking-wide mt-4">Data & Forms (8)</p>
+                            <div class="space-y-1 text-sm text-gray-600">
+                                <a href="https://ui.aceternity.com/components/github-globe" target="_blank" class="block hover:text-amber-600">GitHub Globe - Interactive</a>
+                                <a href="https://ui.aceternity.com/components/world-map" target="_blank" class="block hover:text-amber-600">World Map - Animated</a>
+                                <a href="https://ui.aceternity.com/components/animated-testimonials" target="_blank" class="block hover:text-amber-600">Animated Testimonials</a>
+                                <a href="https://ui.aceternity.com/components/codeblock" target="_blank" class="block hover:text-amber-600">Codeblock - Configurable</a>
+                                <a href="https://ui.aceternity.com/components/signup-form" target="_blank" class="block hover:text-amber-600">Signup Form - Motion</a>
+                                <a href="https://ui.aceternity.com/components/placeholders-and-vanish-input" target="_blank" class="block hover:text-amber-600">★ Vanish Input - Sliding</a>
+                                <a href="https://ui.aceternity.com/components/file-upload" target="_blank" class="block hover:text-amber-600">File Upload - Drag/drop</a>
+                                <a href="https://ui.aceternity.com/components/multi-step-loader" target="_blank" class="block hover:text-amber-600">Multi-Step Loader</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-amber-50 rounded-lg">
+                        <p class="text-sm text-amber-600">★ = Recommended for Ali MVP. <strong>80+ components total.</strong> <a href="https://ui.aceternity.com/components" target="_blank" class="underline">View all at ui.aceternity.com</a></p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Magic UI Components -->
+            <details class="section-card">
+                <summary class="p-6 flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="badge-magic px-2 py-1 rounded text-xs font-bold">MAGIC UI</span>
+                        <h3 class="text-lg font-semibold">Magic UI Components</h3>
+                        <span class="text-sm text-gray-500">(50+ components)</span>
+                    </div>
+                    <svg class="w-5 h-5 text-gray-500 chevron transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="px-6 pb-6">
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <!-- Column 1: Animations & Motion -->
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Animations</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/animated-beam" target="_blank" class="block hover:text-purple-600">★ Animated Beam - Connection lines</a>
+                                    <a href="https://magicui.design/docs/components/animated-list" target="_blank" class="block hover:text-purple-600">★ Animated List - Staggered items</a>
+                                    <a href="https://magicui.design/docs/components/blur-fade" target="_blank" class="block hover:text-purple-600">★ Blur Fade - Content reveals</a>
+                                    <a href="https://magicui.design/docs/components/fade-text" target="_blank" class="block hover:text-purple-600">Fade Text - Opacity animation</a>
+                                    <a href="https://magicui.design/docs/components/letter-pullup" target="_blank" class="block hover:text-purple-600">Letter Pullup - Stagger reveal</a>
+                                    <a href="https://magicui.design/docs/components/box-reveal" target="_blank" class="block hover:text-purple-600">★ Box Reveal - Slide-in</a>
+                                    <a href="https://magicui.design/docs/components/scroll-based-velocity" target="_blank" class="block hover:text-purple-600">Scroll Velocity - Speed text</a>
+                                    <a href="https://magicui.design/docs/components/text-reveal" target="_blank" class="block hover:text-purple-600">Text Reveal - Scroll trigger</a>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Effects</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/confetti" target="_blank" class="block hover:text-purple-600">Confetti - Celebrations</a>
+                                    <a href="https://magicui.design/docs/components/cool-mode" target="_blank" class="block hover:text-purple-600">Cool Mode - Particle burst</a>
+                                    <a href="https://magicui.design/docs/components/particles" target="_blank" class="block hover:text-purple-600">Particles - Floating dots</a>
+                                    <a href="https://magicui.design/docs/components/pointer" target="_blank" class="block hover:text-purple-600">Pointer - Custom cursor</a>
+                                    <a href="https://magicui.design/docs/components/scratch-to-reveal" target="_blank" class="block hover:text-purple-600">Scratch to Reveal - Interactive</a>
+                                    <a href="https://magicui.design/docs/components/shine-border" target="_blank" class="block hover:text-purple-600">★ Shine Border - Glow effect</a>
+                                    <a href="https://magicui.design/docs/components/border-beam" target="_blank" class="block hover:text-purple-600">★ Border Beam - Traveling light</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 2: Text & Typography -->
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Text Effects</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/animated-gradient-text" target="_blank" class="block hover:text-purple-600">★ Animated Gradient Text</a>
+                                    <a href="https://magicui.design/docs/components/animated-shiny-text" target="_blank" class="block hover:text-purple-600">★ Animated Shiny Text</a>
+                                    <a href="https://magicui.design/docs/components/aurora-text" target="_blank" class="block hover:text-purple-600">Aurora Text - Colorful</a>
+                                    <a href="https://magicui.design/docs/components/hyper-text" target="_blank" class="block hover:text-purple-600">Hyper Text - Scramble effect</a>
+                                    <a href="https://magicui.design/docs/components/morphing-text" target="_blank" class="block hover:text-purple-600">Morphing Text - Shape shift</a>
+                                    <a href="https://magicui.design/docs/components/number-ticker" target="_blank" class="block hover:text-purple-600">★ Number Ticker - Counting</a>
+                                    <a href="https://magicui.design/docs/components/sparkles-text" target="_blank" class="block hover:text-purple-600">Sparkles Text - Glitter</a>
+                                    <a href="https://magicui.design/docs/components/typing-animation" target="_blank" class="block hover:text-purple-600">★ Typing Animation</a>
+                                    <a href="https://magicui.design/docs/components/word-rotate" target="_blank" class="block hover:text-purple-600">Word Rotate - Cycling</a>
+                                    <a href="https://magicui.design/docs/components/word-pull-up" target="_blank" class="block hover:text-purple-600">Word Pull Up - Bounce</a>
+                                    <a href="https://magicui.design/docs/components/flip-text" target="_blank" class="block hover:text-purple-600">Flip Text - 3D rotate</a>
+                                    <a href="https://magicui.design/docs/components/gradual-spacing" target="_blank" class="block hover:text-purple-600">Gradual Spacing - Kerning</a>
+                                    <a href="https://magicui.design/docs/components/wavy-text" target="_blank" class="block hover:text-purple-600">Wavy Text - Undulating</a>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Buttons</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/shimmer-button" target="_blank" class="block hover:text-purple-600">★ Shimmer Button - Shine effect</a>
+                                    <a href="https://magicui.design/docs/components/shiny-button" target="_blank" class="block hover:text-purple-600">★ Shiny Button - Premium CTA</a>
+                                    <a href="https://magicui.design/docs/components/pulsating-button" target="_blank" class="block hover:text-purple-600">Pulsating Button - Attention</a>
+                                    <a href="https://magicui.design/docs/components/rainbow-button" target="_blank" class="block hover:text-purple-600">Rainbow Button - Colorful</a>
+                                    <a href="https://magicui.design/docs/components/ripple-button" target="_blank" class="block hover:text-purple-600">Ripple Button - Material style</a>
+                                    <a href="https://magicui.design/docs/components/interactive-hover-button" target="_blank" class="block hover:text-purple-600">Interactive Hover Button</a>
+                                    <a href="https://magicui.design/docs/components/animated-subscribe-button" target="_blank" class="block hover:text-purple-600">★ Subscribe Button - Loading state</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 3: Backgrounds & Patterns -->
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Backgrounds</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/dot-pattern" target="_blank" class="block hover:text-purple-600">Dot Pattern - Subtle grid</a>
+                                    <a href="https://magicui.design/docs/components/grid-pattern" target="_blank" class="block hover:text-purple-600">Grid Pattern - Lines</a>
+                                    <a href="https://magicui.design/docs/components/animated-grid-pattern" target="_blank" class="block hover:text-purple-600">Animated Grid Pattern</a>
+                                    <a href="https://magicui.design/docs/components/flickering-grid" target="_blank" class="block hover:text-purple-600">Flickering Grid - Cyber</a>
+                                    <a href="https://magicui.design/docs/components/retro-grid" target="_blank" class="block hover:text-purple-600">Retro Grid - 80s vibe</a>
+                                    <a href="https://magicui.design/docs/components/meteors" target="_blank" class="block hover:text-purple-600">Meteors - Shooting</a>
+                                    <a href="https://magicui.design/docs/components/ripple" target="_blank" class="block hover:text-purple-600">Ripple - Wave effect</a>
+                                    <a href="https://magicui.design/docs/components/wavy-dot-pattern" target="_blank" class="block hover:text-purple-600">Wavy Dot Pattern</a>
+                                    <a href="https://magicui.design/docs/components/linear-gradient" target="_blank" class="block hover:text-purple-600">Linear Gradient - Smooth</a>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Cards & Containers</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/magic-card" target="_blank" class="block hover:text-purple-600">★ Magic Card - Spotlight hover</a>
+                                    <a href="https://magicui.design/docs/components/neon-gradient-card" target="_blank" class="block hover:text-purple-600">Neon Gradient Card - Glow</a>
+                                    <a href="https://magicui.design/docs/components/meteors-card" target="_blank" class="block hover:text-purple-600">Meteors Card - Background</a>
+                                    <a href="https://magicui.design/docs/components/lens" target="_blank" class="block hover:text-purple-600">Lens - Magnify effect</a>
+                                    <a href="https://magicui.design/docs/components/icon-cloud" target="_blank" class="block hover:text-purple-600">Icon Cloud - 3D sphere</a>
+                                    <a href="https://magicui.design/docs/components/animated-circular-progress-bar" target="_blank" class="block hover:text-purple-600">★ Circular Progress - Stats</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 4: Layout & Special -->
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Layout Components</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/bento-grid" target="_blank" class="block hover:text-purple-600">★ Bento Grid - Apple style</a>
+                                    <a href="https://magicui.design/docs/components/marquee" target="_blank" class="block hover:text-purple-600">★ Marquee - Testimonials</a>
+                                    <a href="https://magicui.design/docs/components/dock" target="_blank" class="block hover:text-purple-600">★ Dock - macOS navigation</a>
+                                    <a href="https://magicui.design/docs/components/orbiting-circles" target="_blank" class="block hover:text-purple-600">Orbiting Circles - Tech stack</a>
+                                    <a href="https://magicui.design/docs/components/animated-group" target="_blank" class="block hover:text-purple-600">Animated Group - Container</a>
+                                    <a href="https://magicui.design/docs/components/stacked-cards" target="_blank" class="block hover:text-purple-600">Stacked Cards - Deck style</a>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Device Mockups</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/safari" target="_blank" class="block hover:text-purple-600">Safari - Browser mockup</a>
+                                    <a href="https://magicui.design/docs/components/iphone" target="_blank" class="block hover:text-purple-600">iPhone - Device mockup</a>
+                                    <a href="https://magicui.design/docs/components/terminal" target="_blank" class="block hover:text-purple-600">Terminal - Code display</a>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-xs font-medium text-purple-600 uppercase tracking-wide">Special Components</p>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <a href="https://magicui.design/docs/components/globe" target="_blank" class="block hover:text-purple-600">Globe - 3D interactive</a>
+                                    <a href="https://magicui.design/docs/components/hero-video-dialog" target="_blank" class="block hover:text-purple-600">★ Hero Video Dialog</a>
+                                    <a href="https://magicui.design/docs/components/file-tree" target="_blank" class="block hover:text-purple-600">File Tree - Structure</a>
+                                    <a href="https://magicui.design/docs/components/avatar-circles" target="_blank" class="block hover:text-purple-600">Avatar Circles - Social proof</a>
+                                    <a href="https://magicui.design/docs/components/tweet-card" target="_blank" class="block hover:text-purple-600">Tweet Card - Social embed</a>
+                                    <a href="https://magicui.design/docs/components/client-tweet-card" target="_blank" class="block hover:text-purple-600">Client Tweet Card - Static</a>
+                                    <a href="https://magicui.design/docs/components/code-comparison" target="_blank" class="block hover:text-purple-600">Code Comparison - Diff view</a>
+                                    <a href="https://magicui.design/docs/components/interactive-icon-cloud" target="_blank" class="block hover:text-purple-600">Interactive Icon Cloud</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-purple-50 rounded-lg">
+                        <p class="text-sm text-purple-600">★ = Recommended for Ali MVP. <strong>50+ free components + Pro templates.</strong> <a href="https://magicui.design/docs/components" target="_blank" class="underline">View all at magicui.design</a></p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- shadcn/ui Components -->
+            <details class="section-card">
+                <summary class="p-6 flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="badge-shadcn px-2 py-1 rounded text-xs font-bold">SHADCN/UI</span>
+                        <h3 class="text-lg font-semibold">shadcn/ui Base Components</h3>
+                        <span class="text-sm text-gray-500">(58 components)</span>
+                    </div>
+                    <svg class="w-5 h-5 text-gray-500 chevron transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="px-6 pb-6">
+                    <div class="grid md:grid-cols-4 gap-3 text-sm">
+                        <div class="space-y-1 text-gray-600">
+                            <p class="text-xs font-medium text-gray-700 uppercase">Form Controls</p>
+                            <p>Button, Button Group</p>
+                            <p>Input, Input Group, Input OTP</p>
+                            <p>Textarea, Label, Field</p>
+                            <p>Select, Native Select</p>
+                            <p>Checkbox, Radio Group</p>
+                            <p>Switch, Toggle, Toggle Group</p>
+                            <p>Slider, Calendar, Date Picker</p>
+                            <p>Combobox</p>
+                        </div>
+                        <div class="space-y-1 text-gray-600">
+                            <p class="text-xs font-medium text-gray-700 uppercase">Layout</p>
+                            <p>Card</p>
+                            <p>Accordion, Collapsible</p>
+                            <p>Tabs, Separator</p>
+                            <p>Aspect Ratio</p>
+                            <p>Resizable</p>
+                            <p>Scroll Area</p>
+                            <p>Table, Data Table</p>
+                            <p>Sidebar</p>
+                        </div>
+                        <div class="space-y-1 text-gray-600">
+                            <p class="text-xs font-medium text-gray-700 uppercase">Overlays</p>
+                            <p>Dialog, Alert Dialog</p>
+                            <p>Sheet, Drawer</p>
+                            <p>Popover, Hover Card</p>
+                            <p>Tooltip</p>
+                            <p>Dropdown Menu</p>
+                            <p>Context Menu</p>
+                            <p>Menubar, Navigation Menu</p>
+                            <p>Command</p>
+                        </div>
+                        <div class="space-y-1 text-gray-600">
+                            <p class="text-xs font-medium text-gray-700 uppercase">Feedback</p>
+                            <p>Alert, Badge</p>
+                            <p>Toast, Sonner</p>
+                            <p>Progress, Spinner</p>
+                            <p>Skeleton</p>
+                            <p>Avatar</p>
+                            <p>Breadcrumb, Pagination</p>
+                            <p>Carousel, Chart</p>
+                            <p>Typography, Kbd</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-gray-100 rounded-lg">
+                        <p class="text-sm text-gray-600">Foundation layer - customize colors, radius, shadows. <a href="https://ui.shadcn.com/docs/components" target="_blank" class="underline text-gray-700">View all at ui.shadcn.com</a></p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Component Mapping for Ali -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Recommended Component Mapping for Ali</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-300">
+                                <th class="text-left py-3 px-4 font-medium">Ali Feature</th>
+                                <th class="text-left py-3 px-4 font-medium">Primary Source</th>
+                                <th class="text-left py-3 px-4 font-medium">Specific Components</th>
+                                <th class="text-left py-3 px-4 font-medium">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">Chat Messages</td>
+                                <td class="py-3 px-4"><span class="badge-custom px-2 py-0.5 rounded text-xs">Custom</span></td>
+                                <td class="py-3 px-4">Custom + shadcn Card</td>
+                                <td class="py-3 px-4">Ali vs user differentiation, framework callouts</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">Chat Input</td>
+                                <td class="py-3 px-4"><span class="badge-aceternity px-2 py-0.5 rounded text-xs">Aceternity</span></td>
+                                <td class="py-3 px-4">Placeholders And Vanish Input</td>
+                                <td class="py-3 px-4">Sliding placeholders, premium feel</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">Landing Hero</td>
+                                <td class="py-3 px-4"><span class="badge-aceternity px-2 py-0.5 rounded text-xs">Aceternity</span></td>
+                                <td class="py-3 px-4">Spotlight + Background Beams</td>
+                                <td class="py-3 px-4">Attention without overwhelming</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">Feature Cards</td>
+                                <td class="py-3 px-4"><span class="badge-aceternity px-2 py-0.5 rounded text-xs">Aceternity</span></td>
+                                <td class="py-3 px-4">3D Card Effect or Glare Card</td>
+                                <td class="py-3 px-4">Linear-style hover effects</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">Navigation</td>
+                                <td class="py-3 px-4"><span class="badge-magic px-2 py-0.5 rounded text-xs">Magic UI</span></td>
+                                <td class="py-3 px-4">Dock or Floating Navbar</td>
+                                <td class="py-3 px-4">macOS-style elegance</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">Testimonials</td>
+                                <td class="py-3 px-4"><span class="badge-magic px-2 py-0.5 rounded text-xs">Magic UI</span></td>
+                                <td class="py-3 px-4">Marquee + Avatar Circles</td>
+                                <td class="py-3 px-4">Social proof, continuous motion</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">CTA Buttons</td>
+                                <td class="py-3 px-4"><span class="badge-magic px-2 py-0.5 rounded text-xs">Magic UI</span></td>
+                                <td class="py-3 px-4">Shimmer Button or Shiny Button</td>
+                                <td class="py-3 px-4">Premium without gaudy</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">Forms</td>
+                                <td class="py-3 px-4"><span class="badge-shadcn px-2 py-0.5 rounded text-xs">shadcn</span></td>
+                                <td class="py-3 px-4">Input, Field, Button</td>
+                                <td class="py-3 px-4">Accessible, customized colors</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4 font-medium text-gray-800">Dialogs</td>
+                                <td class="py-3 px-4"><span class="badge-shadcn px-2 py-0.5 rounded text-xs">shadcn</span></td>
+                                <td class="py-3 px-4">Dialog, Sheet, Alert Dialog</td>
+                                <td class="py-3 px-4">Standard patterns, good a11y</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium text-gray-800">Typing Indicator</td>
+                                <td class="py-3 px-4"><span class="badge-magic px-2 py-0.5 rounded text-xs">Magic UI</span></td>
+                                <td class="py-3 px-4">Typing Animation</td>
+                                <td class="py-3 px-4">Shows Ali is "thinking"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Design Tokens -->
+        <section id="section-tokens" class="space-y-8 hidden">
+            <div class="text-center mb-12">
+                <p class="text-purple-600 text-sm font-medium mb-2">Capture Template</p>
+                <h2 class="font-serif text-4xl italic mb-4">Design Tokens</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Fill in as decisions are made during the session. This becomes the source of truth.</p>
+            </div>
+
+            <!-- Current State -->
+            <div class="section-card p-8 mb-8 border-l-4 border-yellow-500">
+                <h3 class="text-lg font-semibold mb-4 text-yellow-600">Current State (Pre-Session)</h3>
+                <div class="grid md:grid-cols-2 gap-6 text-sm">
+                    <div>
+                        <p class="text-gray-500 mb-2">Current Colors</p>
+                        <div class="flex gap-2 items-center">
+                            <div class="w-8 h-8 rounded" style="background: #8a41e6"></div>
+                            <code class="text-gray-600">--sol-accent: #8a41e6</code>
+                        </div>
+                        <div class="flex gap-2 items-center mt-2">
+                            <div class="w-8 h-8 rounded border border-gray-300" style="background: #f2f2f2"></div>
+                            <code class="text-gray-600">--sol-bg-page: #f2f2f2</code>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 mb-2">Current Typography</p>
+                        <p class="text-gray-700">Inter (approved by Nic for readability)</p>
+                        <p class="text-gray-500 mt-2">Current Icons</p>
+                        <p class="text-gray-700">Lucide React</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Tokens -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Color Palette</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center text-gray-700 text-xs">?</div>
+                            <div class="flex-1">
+                                <p class="font-medium">Primary</p>
+                                <input type="text" placeholder="e.g., #8a41e6" class="mt-1 w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center text-gray-700 text-xs">?</div>
+                            <div class="flex-1">
+                                <p class="font-medium">Secondary</p>
+                                <input type="text" placeholder="e.g., #3b82f6" class="mt-1 w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center text-gray-700 text-xs">?</div>
+                            <div class="flex-1">
+                                <p class="font-medium">Accent</p>
+                                <input type="text" placeholder="e.g., #10b981" class="mt-1 w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center text-gray-700 text-xs">?</div>
+                            <div class="flex-1">
+                                <p class="font-medium">Background</p>
+                                <input type="text" placeholder="e.g., #0a0a0a" class="mt-1 w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center text-gray-700 text-xs">?</div>
+                            <div class="flex-1">
+                                <p class="font-medium">Surface/Card</p>
+                                <input type="text" placeholder="e.g., #141414" class="mt-1 w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center text-gray-700 text-xs">?</div>
+                            <div class="flex-1">
+                                <p class="font-medium">Border</p>
+                                <input type="text" placeholder="e.g., #262626" class="mt-1 w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-gray-100/50 rounded-lg">
+                    <p class="font-medium mb-2">Dark/Light Mode Decision</p>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="mode" class="accent-purple-500"> Dark Primary
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="mode" class="accent-purple-500"> Light Primary
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="mode" class="accent-purple-500"> Both Supported
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography Tokens -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Typography</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-medium mb-2">Display Font (Headlines)</p>
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                                <option value="">Select font...</option>
+                                <option value="inter">Inter (current)</option>
+                                <option value="instrument-serif">Instrument Serif</option>
+                                <option value="moret">Moret</option>
+                                <option value="geist">Geist</option>
+                                <option value="custom">Custom (specify below)</option>
+                            </select>
+                            <input type="text" placeholder="Custom font name..." class="mt-2 w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <p class="font-medium mb-2">Body Font</p>
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                                <option value="inter" selected>Inter (approved)</option>
+                                <option value="geist">Geist</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-medium mb-2">Monospace (Code/Technical)</p>
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                                <option value="">Select font...</option>
+                                <option value="geist-mono">Geist Mono</option>
+                                <option value="jetbrains-mono">JetBrains Mono</option>
+                                <option value="fira-code">Fira Code</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p class="font-medium mb-2">Type Scale</p>
+                            <input type="text" placeholder="e.g., 1.25 (major third)" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spacing & Radius -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="section-card p-8">
+                    <h3 class="text-xl font-semibold mb-6">Spacing</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-medium mb-2">Base Unit</p>
+                            <input type="text" placeholder="e.g., 4px or 0.25rem" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <p class="font-medium mb-2">Scale</p>
+                            <input type="text" placeholder="e.g., 4, 8, 12, 16, 24, 32, 48, 64" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="section-card p-8">
+                    <h3 class="text-xl font-semibold mb-6">Border Radius</h3>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Small</p>
+                                <input type="text" placeholder="4px" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Medium</p>
+                                <input type="text" placeholder="8px" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Large</p>
+                                <input type="text" placeholder="12px" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shadows -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Shadows</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-500 mb-2">Card Shadow</p>
+                        <input type="text" placeholder="e.g., 0 4px 6px rgba(0,0,0,0.1)" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-2">Elevated Shadow</p>
+                        <input type="text" placeholder="e.g., 0 8px 16px rgba(0,0,0,0.15)" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-2">Modal Shadow</p>
+                        <input type="text" placeholder="e.g., 0 24px 48px rgba(0,0,0,0.2)" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Animation Budget -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Animation Philosophy</h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="font-medium mb-2">Animation Level</p>
+                        <div class="flex gap-4 flex-wrap">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="animation" class="accent-purple-500"> Minimal (subtle transitions only)
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="animation" class="accent-purple-500"> Moderate (key interactions)
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="animation" class="accent-purple-500"> Rich (full delight)
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-2">Where to Animate</p>
+                        <div class="flex gap-4 flex-wrap text-sm">
+                            <label class="flex items-center gap-2"><input type="checkbox"> Landing page hero</label>
+                            <label class="flex items-center gap-2"><input type="checkbox"> Button hovers</label>
+                            <label class="flex items-center gap-2"><input type="checkbox"> Page transitions</label>
+                            <label class="flex items-center gap-2"><input type="checkbox"> Chat typing indicator</label>
+                            <label class="flex items-center gap-2"><input type="checkbox"> Card hovers</label>
+                            <label class="flex items-center gap-2"><input type="checkbox"> Menu reveals</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Capture Notes -->
+        <section id="section-capture" class="space-y-8 hidden">
+            <div class="text-center mb-12">
+                <p class="text-purple-600 text-sm font-medium mb-2">Session Documentation</p>
+                <h2 class="font-serif text-4xl italic mb-4">Capture Notes</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Live notes during the session. Document Zahir's feedback, decisions, and action items.</p>
+            </div>
+
+            <!-- Zahir's Feedback -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Zahir's Key Feedback</h3>
+                <div class="space-y-6">
+                    <div>
+                        <p class="font-medium text-purple-600 mb-2">On Brand Personality</p>
+                        <textarea rows="3" placeholder="Capture Zahir's thoughts on Ali's brand personality..." class="w-full bg-gray-100 border border-gray-300 rounded px-4 py-3 text-sm"></textarea>
+                    </div>
+                    <div>
+                        <p class="font-medium text-purple-600 mb-2">On Color Direction</p>
+                        <textarea rows="3" placeholder="Capture thoughts on colors, dark vs light, accent choices..." class="w-full bg-gray-100 border border-gray-300 rounded px-4 py-3 text-sm"></textarea>
+                    </div>
+                    <div>
+                        <p class="font-medium text-purple-600 mb-2">On Typography</p>
+                        <textarea rows="3" placeholder="Font pairing thoughts, headline treatment, etc..." class="w-full bg-gray-100 border border-gray-300 rounded px-4 py-3 text-sm"></textarea>
+                    </div>
+                    <div>
+                        <p class="font-medium text-purple-600 mb-2">On Component Approach</p>
+                        <textarea rows="3" placeholder="Thoughts on shadcn + Aceternity + Magic UI strategy..." class="w-full bg-gray-100 border border-gray-300 rounded px-4 py-3 text-sm"></textarea>
+                    </div>
+                    <div>
+                        <p class="font-medium text-purple-600 mb-2">On Chat Interface</p>
+                        <textarea rows="3" placeholder="Message bubbles, Ali differentiation, framework callouts..." class="w-full bg-gray-100 border border-gray-300 rounded px-4 py-3 text-sm"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concerns & Ideas -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="section-card p-8">
+                    <h3 class="text-lg font-semibold mb-4 text-yellow-600">Concerns Raised</h3>
+                    <textarea rows="8" placeholder="• Concern 1&#10;• Concern 2&#10;• Concern 3..." class="w-full bg-gray-100 border border-gray-300 rounded px-4 py-3 text-sm"></textarea>
+                </div>
+                <div class="section-card p-8">
+                    <h3 class="text-lg font-semibold mb-4 text-green-600">Ideas Generated</h3>
+                    <textarea rows="8" placeholder="• Idea 1&#10;• Idea 2&#10;• Idea 3..." class="w-full bg-gray-100 border border-gray-300 rounded px-4 py-3 text-sm"></textarea>
+                </div>
+            </div>
+
+            <!-- Decisions Made -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Decisions Made</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-300">
+                                <th class="text-left py-3 px-4 font-medium">Decision</th>
+                                <th class="text-left py-3 px-4 font-medium">Choice</th>
+                                <th class="text-left py-3 px-4 font-medium">Rationale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Primary Color</td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-32"></td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-full"></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Dark/Light Mode</td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-32"></td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-full"></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Typography Pairing</td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-32"></td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-full"></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Animation Level</td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-32"></td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-full"></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4">Component Priority</td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-32"></td>
+                                <td class="py-3 px-4"><input type="text" placeholder="..." class="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-sm w-full"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Action Items -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Action Items</h3>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-12 gap-4 text-sm font-medium text-gray-500 pb-2 border-b border-gray-300">
+                        <div class="col-span-2">Owner</div>
+                        <div class="col-span-6">Task</div>
+                        <div class="col-span-2">Due</div>
+                        <div class="col-span-2">Status</div>
+                    </div>
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-2">
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-2 py-2 text-sm">
+                                <option>Zahir</option>
+                                <option>Terrance</option>
+                            </select>
+                        </div>
+                        <div class="col-span-6"><input type="text" placeholder="Task description..." class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"></div>
+                        <div class="col-span-2"><input type="date" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"></div>
+                        <div class="col-span-2">
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-2 py-2 text-sm">
+                                <option>Pending</option>
+                                <option>In Progress</option>
+                                <option>Done</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-2">
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-2 py-2 text-sm">
+                                <option>Zahir</option>
+                                <option>Terrance</option>
+                            </select>
+                        </div>
+                        <div class="col-span-6"><input type="text" placeholder="Task description..." class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"></div>
+                        <div class="col-span-2"><input type="date" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"></div>
+                        <div class="col-span-2">
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-2 py-2 text-sm">
+                                <option>Pending</option>
+                                <option>In Progress</option>
+                                <option>Done</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-2">
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-2 py-2 text-sm">
+                                <option>Zahir</option>
+                                <option>Terrance</option>
+                            </select>
+                        </div>
+                        <div class="col-span-6"><input type="text" placeholder="Task description..." class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"></div>
+                        <div class="col-span-2"><input type="date" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"></div>
+                        <div class="col-span-2">
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-2 py-2 text-sm">
+                                <option>Pending</option>
+                                <option>In Progress</option>
+                                <option>Done</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-2">
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-2 py-2 text-sm">
+                                <option>Zahir</option>
+                                <option>Terrance</option>
+                            </select>
+                        </div>
+                        <div class="col-span-6"><input type="text" placeholder="Task description..." class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"></div>
+                        <div class="col-span-2"><input type="date" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"></div>
+                        <div class="col-span-2">
+                            <select class="w-full bg-gray-100 border border-gray-300 rounded px-2 py-2 text-sm">
+                                <option>Pending</option>
+                                <option>In Progress</option>
+                                <option>Done</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Meeting -->
+            <div class="section-card p-8">
+                <h3 class="text-xl font-semibold mb-6">Wrap-Up</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="font-medium mb-2">Next Meeting</p>
+                        <input type="datetime-local" class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <p class="font-medium mb-2">Communication Channel</p>
+                        <select class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm">
+                            <option>Slack</option>
+                            <option>Email</option>
+                            <option>Figma Comments</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p class="font-medium mb-2">Handoff Process</p>
+                    <textarea rows="2" placeholder="e.g., Component specs in Figma → Terrance implements" class="w-full bg-gray-100 border border-gray-300 rounded px-4 py-3 text-sm"></textarea>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm text-gray-500">
+            <p>Session prepared by Alex (AI Chief of Staff) - January 25, 2026</p>
+            <p class="mt-2">Ali MVP | Aligned Negotiation Coaching Platform</p>
+        </div>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section[id^="section-"]').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show selected section
+            document.getElementById('section-' + sectionId).classList.remove('hidden');
+
+            // Update tab states
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.section === sectionId) {
+                    btn.classList.remove('tab-inactive');
+                    btn.classList.add('tab-active');
+                } else {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
