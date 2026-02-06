@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ali Landing Page Copy &mdash; Review for Mark</title>
+<style>
+  /* Moret - Ali editorial serif (local) */
+  @font-face {
+    font-family: 'Moret';
+    src: url('../../public/fonts/moret/moret-semibold-webfont.woff2') format('woff2'),
+         url('../../public/fonts/moret/moret-semibold-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Moret';
+    src: url('../../public/fonts/moret/moret-semiboldoblique-webfont.woff2') format('woff2'),
+         url('../../public/fonts/moret/moret-semiboldoblique-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Moret';
+    src: url('../../public/fonts/moret/moret-regular-webfont.woff2') format('woff2'),
+         url('../../public/fonts/moret/moret-regular-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Moret';
+    src: url('../../public/fonts/moret/moret-regularoblique-webfont.woff2') format('woff2'),
+         url('../../public/fonts/moret/moret-regularoblique-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  /* Inter - Ali primary UI font (local) */
+  @font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/inter/inter-latin-400-normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/inter/inter-latin-500-normal.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/inter/inter-latin-600-normal.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/inter/inter-latin-700-normal.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /*
+   * Ali Design Tokens (from Figma node 1660:41324)
+   * --ali-mist:       #F5F3F0   primary background
+   * --ali-white:      #FFFFFF
+   * --ali-text:       #1E1D1B   primary text
+   * --ali-text-sec:   #3F3C38   secondary text
+   * --ali-wg300:      #E6E2DC   button bg, cards
+   * --ali-wg500:      #B8B1A7   muted labels
+   * --ali-wg600:      #9A9389   placeholder, helper
+   * --ali-wg700:      #6F6A63   icons, tertiary text
+   * --ali-border:     #D1CBC2   sidebar border
+   * --ali-grey200:    #ECECEC   dividers
+   * --ali-black:      #000000
+   */
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #F5F3F0;
+    color: #1E1D1B;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header - ASF gradient */
+  .page-header {
+    background: linear-gradient(73.1deg,
+      rgb(95,175,138) 0%,
+      rgb(127,191,174) 12.39%,
+      rgb(158,198,217) 39.57%,
+      rgb(168,191,217) 58.16%,
+      rgb(159,164,211) 79.32%,
+      rgb(138,132,198) 99.15%);
+    color: white;
+    padding: 60px 40px 50px;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-family: 'Moret', Georgia, serif;
+    font-weight: 600;
+    font-size: 36px;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .page-header .subtitle {
+    font-weight: 400;
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Container */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* Context Block */
+  .context-block {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin: -28px auto 40px;
+    max-width: 860px;
+    position: relative;
+    z-index: 10;
+    border: 1px solid #ECECEC;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .context-block h2 {
+    font-family: 'Moret', Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1E1D1B;
+    margin-bottom: 16px;
+  }
+
+  .context-block p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #3F3C38;
+    margin-bottom: 12px;
+  }
+
+  .context-block p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ask-box {
+    background: #F5F3F0;
+    border: 1px solid #D1CBC2;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-top: 20px;
+  }
+
+  .ask-box p {
+    font-size: 14px;
+    color: #3F3C38;
+    margin-bottom: 8px;
+  }
+
+  .ask-box p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ask-box strong {
+    color: #1E1D1B;
+  }
+
+  /* Navigation */
+  .section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245, 243, 240, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #ECECEC;
+    padding: 12px 24px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .section-nav a {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6F6A63;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #E6E2DC;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .section-nav a:hover {
+    background: #1E1D1B;
+    color: #F5F3F0;
+  }
+
+  /* Section blocks */
+  .section-block {
+    margin-bottom: 56px;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #B8B1A7;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Moret', Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1E1D1B;
+    margin-bottom: 24px;
+    letter-spacing: -0.3px;
+  }
+
+  /* Cards */
+  .card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 20px;
+    border: 1px solid #ECECEC;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  .card-v1 {
+    border-left: 4px solid #D1CBC2;
+    background: #F5F3F0;
+  }
+
+  .card-option-a {
+    border-left: 4px solid rgb(95,175,138);
+  }
+
+  .card-option-b {
+    border-left: 4px solid rgb(159,164,211);
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .tag-v1 {
+    background: #E6E2DC;
+    color: #6F6A63;
+  }
+
+  .tag-a {
+    background: rgba(95,175,138,0.12);
+    color: rgb(60,120,90);
+  }
+
+  .tag-b {
+    background: rgba(159,164,211,0.15);
+    color: rgb(100,100,160);
+  }
+
+  .card h3 {
+    font-family: 'Moret', Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1E1D1B;
+    margin-bottom: 16px;
+  }
+
+  /* Copy blocks */
+  .copy-block {
+    background: #F5F3F0;
+    border-radius: 10px;
+    padding: 24px;
+    margin: 16px 0;
+    border: 1px solid #ECECEC;
+  }
+
+  .card-v1 .copy-block {
+    background: #FFFFFF;
+  }
+
+  .copy-block p {
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #3F3C38;
+  }
+
+  .copy-block p:last-child {
+    margin-bottom: 0;
+  }
+
+  .copy-block .hero-line {
+    font-family: 'Moret', Georgia, serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #1E1D1B;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .copy-block .section-head {
+    font-weight: 600;
+    font-size: 16px;
+    color: #1E1D1B;
+    margin-bottom: 4px;
+    margin-top: 16px;
+  }
+
+  .copy-block .section-head:first-child {
+    margin-top: 0;
+  }
+
+  .copy-block strong {
+    color: #1E1D1B;
+  }
+
+  .copy-block em {
+    font-family: 'Moret', Georgia, serif;
+    font-style: italic;
+    color: #6F6A63;
+  }
+
+  .copy-block .cta-button {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 28px;
+    background: linear-gradient(72.4deg,
+      rgb(46,78,107) 3.11%,
+      rgb(95,134,166) 39.19%,
+      rgb(158,198,217) 68.51%,
+      rgb(207,230,240) 99.12%);
+    color: white;
+    border-radius: 22px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  .copy-block ul, .copy-block ol {
+    margin: 8px 0 12px 20px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #3F3C38;
+  }
+
+  .copy-block li {
+    margin-bottom: 6px;
+  }
+
+  /* Rationale */
+  .rationale {
+    margin-top: 16px;
+    padding: 16px 20px;
+    background: #F5F3F0;
+    border-radius: 8px;
+    border: 1px solid #E6E2DC;
+  }
+
+  .rationale-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #B8B1A7;
+    margin-bottom: 8px;
+  }
+
+  .rationale p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #6F6A63;
+    margin-bottom: 6px;
+  }
+
+  .rationale p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Feedback prompt */
+  .feedback-prompt {
+    background: #FFFFFF;
+    border: 2px dashed #D1CBC2;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .feedback-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: #E6E2DC;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #6F6A63;
+    font-weight: 700;
+  }
+
+  .feedback-text {
+    font-size: 14px;
+    color: #6F6A63;
+    line-height: 1.6;
+  }
+
+  .feedback-text strong {
+    color: #1E1D1B;
+  }
+
+  /* Divider - ASF gradient */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(158,198,217,0.4),
+      rgba(159,164,211,0.4),
+      transparent);
+    margin: 48px 0;
+  }
+
+  /* Principles sidebar */
+  .principles-bar {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    border: 1px solid #ECECEC;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .principles-bar h3 {
+    font-family: 'Moret', Georgia, serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1E1D1B;
+    margin-bottom: 16px;
+  }
+
+  .principle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .principle-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+    color: #6F6A63;
+    line-height: 1.5;
+  }
+
+  .principle-item .dot {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(73.1deg, rgb(95,175,138), rgb(158,198,217));
+    border-radius: 50%;
+    margin-top: 6px;
+  }
+
+  /* Footer */
+  .page-footer {
+    text-align: center;
+    padding: 48px 40px;
+    border-top: 1px solid #ECECEC;
+  }
+
+  .page-footer p {
+    font-size: 14px;
+    color: #9A9389;
+    margin-bottom: 6px;
+  }
+
+  .page-footer .brand {
+    font-family: 'Moret', Georgia, serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #1E1D1B;
+    margin-top: 16px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header { padding: 40px 20px 36px; }
+    .page-header h1 { font-size: 28px; }
+    .context-block { padding: 28px 24px; margin: -20px 16px 32px; }
+    .container { padding: 0 16px 60px; }
+    .card { padding: 24px 20px; }
+    .copy-block .hero-line { font-size: 22px; }
+    .section-title { font-size: 24px; }
+    .principle-grid { grid-template-columns: 1fr; }
+    .feedback-prompt { flex-direction: column; gap: 10px; }
+  }
+
+  @media print {
+    .section-nav { display: none; }
+    .page-header { padding: 30px; }
+    .card { break-inside: avoid; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- HEADER -->
+<!-- ============================================ -->
+<div class="page-header">
+  <h1>Landing Page Copy Review</h1>
+  <p class="subtitle">Three directions for how Ali introduces itself to the world</p>
+</div>
+
+<!-- Context removed - delivered via email -->
+
+<!-- ============================================ -->
+<!-- NAV -->
+<!-- ============================================ -->
+<nav class="section-nav">
+  <a href="#principles">Principles</a>
+  <a href="#hero">Hero</a>
+  <a href="#problem">Problem</a>
+  <a href="#how">How It Works</a>
+  <a href="#differentiator">Differentiator</a>
+  <a href="#icp">Who It's For</a>
+  <a href="#cta">CTA</a>
+  <a href="#footer-line">Footer</a>
+</nav>
+
+<div class="container">
+
+<!-- ============================================ -->
+<!-- GUIDING PRINCIPLES -->
+<!-- ============================================ -->
+<div class="principles-bar" id="principles">
+  <h3>Guiding principles behind the alternatives</h3>
+  <div class="principle-grid">
+    <div class="principle-item"><div class="dot"></div><span><strong>Methodology is the hero.</strong> AI is the delivery mechanism, not the value proposition.</span></div>
+    <div class="principle-item"><div class="dot"></div><span><strong>Transformation over transaction.</strong> We sell capability development, not a product feature.</span></div>
+    <div class="principle-item"><div class="dot"></div><span><strong>Heritage, not name-dropping.</strong> Our credibility is evident without listing credentials every time.</span></div>
+    <div class="principle-item"><div class="dot"></div><span><strong>Force multiplier.</strong> Ali amplifies the user &mdash; it doesn't replace their judgment or their coach.</span></div>
+    <div class="principle-item"><div class="dot"></div><span><strong>Sierra / Sana tier positioning.</strong> The design language, copy, and tone should signal premium.</span></div>
+    <div class="principle-item"><div class="dot"></div><span><strong>Show restraint.</strong> The best AI companies don't lead with "AI." They lead with what changes for the user.</span></div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- HERO -->
+<!-- ============================================ -->
+<div class="section-block" id="hero">
+  <div class="section-label">Section 1</div>
+  <div class="section-title">Hero &mdash; H1</div>
+
+  <div class="card card-v1">
+    <span class="card-tag tag-v1">Initial Draft</span>
+    <div class="copy-block">
+      <p class="hero-line">Meet Ali &mdash; your AI negotiation coach.<br>Built for the conversations that matter.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-a">
+    <span class="card-tag tag-a">Option A</span>
+    <div class="copy-block">
+      <p class="hero-line">Know your worth.<br>Then go get it.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>Leads with the transformation, not the product. No mention of AI, no mention of coaching &mdash; just what changes for the user. "Know" references the Silhouette (self-knowledge) and methodology mastery in one word. This direction echoes our value proposition ("Never Leave Money on the Table") with more subtlety.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-b">
+    <span class="card-tag tag-b">Option B</span>
+    <div class="copy-block">
+      <p class="hero-line">Negotiate from a position<br>you've earned.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>"Earned" signals heritage and rigor without naming it. It implies 20 years of refinement &mdash; the user has earned their position in their career, and the methodology behind Ali has been earned through two decades of high-stakes work. This positions Ali as a force multiplier: amplifying what the user already brings, not replacing their judgment.</p>
+    </div>
+  </div>
+
+  <div class="feedback-prompt">
+    <div class="feedback-icon">?</div>
+    <div class="feedback-text"><strong>Which direction feels most like Aligned?</strong> The initial draft introduces Ali directly ("Meet Ali"). Option A leads with the user's aspiration. Option B leads with earned credibility. Is there a version you'd combine, or a direction missing entirely?</div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ============================================ -->
+<!-- PROBLEM / SOLUTION -->
+<!-- ============================================ -->
+<div class="section-block" id="problem">
+  <div class="section-label">Section 2</div>
+  <div class="section-title">Problem / Solution</div>
+
+  <div class="card card-v1">
+    <span class="card-tag tag-v1">Initial Draft</span>
+    <div class="copy-block">
+      <p>You've got a big negotiation coming up. Maybe it's a salary discussion, a vendor contract, or a partnership deal. You know it matters. You're just not sure if you're approaching it the right way.</p>
+      <p>Ali is your <strong>negotiation coach</strong> &mdash; available 24/7, built on years of Fortune 500 expertise.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-a">
+    <span class="card-tag tag-a">Option A &mdash; "The Methodology Gap"</span>
+    <div class="copy-block">
+      <p class="section-head">The methodology gap.</p>
+      <p>You invest in training. You attend the workshops. And then the negotiation happens &mdash; and the preparation fades. The frameworks you learned don't translate in the moment. The patterns you studied don't match what's unfolding in front of you.</p>
+      <p>Ali closes that gap. Two decades of refined negotiation methodology, made adaptive. It learns how you think, calibrates to your style, and coaches you through the nuances that generic preparation misses.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>"The methodology gap" names the core problem we solve &mdash; workshop training fades within days. It's a phrase only Aligned can credibly own because it requires having the methodology in the first place. "Made adaptive" signals AI capability without saying "AI-powered." The technology is invisible; the value is front and center.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-b">
+    <span class="card-tag tag-b">Option B &mdash; "Preparation Is Not Enough"</span>
+    <div class="copy-block">
+      <p class="section-head">Preparation is not enough.</p>
+      <p>You can study every framework, model every scenario, and walk in with a plan. But negotiations don't follow plans. They follow people &mdash; their patterns, their pressure points, their pivots.</p>
+      <p>Ali is a negotiation intelligence platform built on methodology that has shaped outcomes at the highest levels of business. It doesn't just prepare you. It sharpens how you read the room, adapt in real time, and close with clarity.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>This direction challenges the reader's current approach &mdash; and positions Ali as the next level beyond preparation. "Shaped outcomes at the highest levels of business" signals our heritage without listing company names. The word "platform" reframes Ali from "coaching app" to something more substantive and category-defining.</p>
+    </div>
+  </div>
+
+  <div class="feedback-prompt">
+    <div class="feedback-icon">?</div>
+    <div class="feedback-text"><strong>Which problem framing resonates?</strong> The initial draft is conversational and relatable. Option A names a specific gap that only we can fill ("methodology gap"). Option B provokes &mdash; it challenges the reader's current behavior. Which reflects how Aligned talks about the problem it solves?</div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ============================================ -->
+<!-- HOW IT WORKS -->
+<!-- ============================================ -->
+<div class="section-block" id="how">
+  <div class="section-label">Section 3</div>
+  <div class="section-title">How It Works</div>
+
+  <div class="card card-v1">
+    <span class="card-tag tag-v1">Initial Draft</span>
+    <div class="copy-block">
+      <p class="section-head">Here's how it works:</p>
+      <ol>
+        <li><strong>Tell Ali about your negotiation.</strong> Describe what you're negotiating in plain language. Ali asks a few smart questions to understand what kind of negotiation you're facing.</li>
+        <li><strong>Get the right strategy for your deal.</strong> Not all negotiations are the same. Ali figures out whether you need to push hard, trade smartly, create value, or build a partnership.</li>
+        <li><strong>Talk it through, map it out, or practice it.</strong>
+          <ul>
+            <li>Need to think out loud? Have a conversation.</li>
+            <li>Need a game plan? Map stakeholders, clarify your BATNA.</li>
+            <li>Need to practice? Role-play the conversation.</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card card-option-a">
+    <span class="card-tag tag-a">Option A &mdash; "Three Modes. One Methodology."</span>
+    <div class="copy-block">
+      <p class="section-head">Three modes. One methodology.</p>
+
+      <p class="section-head">1. Profile</p>
+      <p>Ali maps your negotiation style across seven dimensions. Not a quiz &mdash; a diagnostic. The same behavioral framework used in enterprise coaching engagements, now calibrated to you.</p>
+
+      <p class="section-head">2. Strategize</p>
+      <p>Describe your negotiation. Ali classifies the type, identifies the dynamics, and builds a strategy grounded in methodology &mdash; not generic advice.</p>
+
+      <p class="section-head">3. Rehearse</p>
+      <p>Practice the conversation. Ali plays the counterparty, adapts to your responses, and surfaces the blind spots you'd miss on your own.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>Single-word mode names (Profile, Strategize, Rehearse) make this feel like a real platform with distinct capabilities &mdash; not a general-purpose chatbot. "Not a quiz &mdash; a diagnostic" and "seven dimensions" signal depth and rigor. The unifying thread &mdash; "one methodology" &mdash; reinforces that every mode is powered by the same Aligned framework.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-b">
+    <span class="card-tag tag-b">Option B &mdash; "How Ali Works With You"</span>
+    <div class="copy-block">
+      <p class="section-head">How Ali works with you.</p>
+
+      <p class="section-head">Understand your style.</p>
+      <p>Everyone negotiates differently. Ali's Silhouette assessment maps your natural patterns &mdash; how you handle conflict, create value, and build leverage. This becomes the foundation for everything that follows.</p>
+
+      <p class="section-head">Build your approach.</p>
+      <p>Bring Ali your negotiation. It identifies the type, the stakeholders, and the dynamics. Then it builds a strategy that fits your style and the situation &mdash; not a template, but a methodology-driven plan.</p>
+
+      <p class="section-head">Sharpen your edge.</p>
+      <p>Run the conversation before it happens. Ali simulates the counterparty, pressure-tests your positions, and coaches you through the moments where deals are won or lost.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>"Works with you" positions Ali as a partner, not a tool. The language here is warmer and more narrative &mdash; it walks the user through a journey rather than presenting product modes. "Not a template, but a methodology-driven plan" and "where deals are won or lost" add weight and stakes to what could otherwise feel transactional.</p>
+    </div>
+  </div>
+
+  <div class="feedback-prompt">
+    <div class="feedback-icon">?</div>
+    <div class="feedback-text"><strong>Product-forward or narrative?</strong> The initial draft is instructional ("here's how"). Option A presents Ali as a platform with distinct modes. Option B tells a story of a partnership. Which better reflects how you'd explain Ali to a prospect at dinner?</div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ============================================ -->
+<!-- DIFFERENTIATOR -->
+<!-- ============================================ -->
+<div class="section-block" id="differentiator">
+  <div class="section-label">Section 4</div>
+  <div class="section-title">What Makes Ali Different</div>
+
+  <div class="card card-v1">
+    <span class="card-tag tag-v1">Initial Draft</span>
+    <div class="copy-block">
+      <p class="section-head">Why Ali is different</p>
+      <p><em>why this isn't just chatgpt</em></p>
+      <ul>
+        <li><strong>This isn't generic advice.</strong> Ali is trained on Aligned's methodology &mdash; the same frameworks used to coach executives at Fortune 500 companies.</li>
+        <li><strong>It learns your style.</strong> Everyone negotiates differently. Ali adapts its coaching to how you think and communicate.</li>
+        <li><strong>It's there when you need it.</strong> Whether your negotiation is tomorrow or in ten minutes, Ali is ready.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card card-option-a">
+    <span class="card-tag tag-a">Option A &mdash; "Methodology, Not Models"</span>
+    <div class="copy-block">
+      <p class="section-head">Not another AI assistant.</p>
+
+      <p class="section-head">Methodology, not models.</p>
+      <p>Most AI coaching tools are wrappers on a language model. Ali is built on a structured negotiation methodology refined over two decades in high-stakes environments. The AI is the delivery mechanism. The methodology is the value.</p>
+
+      <p class="section-head">Personal, not personalized.</p>
+      <p>"Personalized" means your name in a template. Ali goes deeper. It understands your Silhouette &mdash; your natural negotiation patterns &mdash; and calibrates its coaching to how you actually think and operate under pressure.</p>
+
+      <p class="section-head">Compounding, not static.</p>
+      <p>Every session, every scenario, every outcome you track makes Ali sharper for you. This isn't a tool you use. It's a system that learns.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>"Methodology, not models" draws a clear line between Ali and every other AI product. The "X, not Y" structure across all three points creates a rhythm that's easy to internalize &mdash; and that the team can use internally too. "Compounding, not static" positions ongoing engagement as part of the value, which supports the subscription model.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-b">
+    <span class="card-tag tag-b">Option B &mdash; "Built on Something Real"</span>
+    <div class="copy-block">
+      <p class="section-head">What makes Ali different.</p>
+
+      <p class="section-head">Built on something real.</p>
+      <p>Ali isn't built on prompts. It's built on a negotiation methodology refined across thousands of high-stakes engagements &mdash; salary negotiations, vendor contracts, M&amp;A discussions, partnership structures. The AI preserves the rigor. The methodology provides the substance.</p>
+
+      <p class="section-head">Tuned to you.</p>
+      <p>Ali doesn't give everyone the same playbook. It reads your behavioral patterns, understands your natural style, and adapts its coaching to match how you think &mdash; not how some average user thinks.</p>
+
+      <p class="section-head">Gets sharper with use.</p>
+      <p>Ali learns from your practice, your outcomes, and your feedback. The more you use it, the more precisely it coaches. This is intelligence that compounds.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>"Built on something real" signals authenticity in a market flooded with AI wrappers. This version names specific negotiation types (salary, vendor, M&amp;A, partnerships) so readers see their own situation reflected. "Intelligence that compounds" could become a brand line &mdash; it captures the data flywheel in language a CEO would use in a pitch.</p>
+    </div>
+  </div>
+
+  <div class="feedback-prompt">
+    <div class="feedback-icon">?</div>
+    <div class="feedback-text"><strong>Sharp contrast or grounded confidence?</strong> The initial draft directly references Fortune 500 and Aligned by name. Option A draws sharp "X, not Y" contrasts. Option B lets the substance speak more quietly. Which tone feels more authentically Aligned?</div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ============================================ -->
+<!-- ICP -->
+<!-- ============================================ -->
+<div class="section-block" id="icp">
+  <div class="section-label">Section 5</div>
+  <div class="section-title">Who It's For</div>
+
+  <div class="card card-v1">
+    <span class="card-tag tag-v1">Initial Draft</span>
+    <div class="copy-block">
+      <p class="section-head">Who is this for?</p>
+      <p>If you're a professional who negotiates &mdash; whether it's part of your job or just part of life &mdash; Ali is built for you.</p>
+      <ul>
+        <li>Sales and account managers navigating renewals and partnerships</li>
+        <li>Procurement and supply chain leaders managing vendor relationships</li>
+        <li>Product managers negotiating priorities and resources</li>
+        <li>Anyone preparing for a salary negotiation, promotion discussion, or major contract</li>
+      </ul>
+      <p>You don't need to be an expert. You just need to care about getting it right.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-a">
+    <span class="card-tag tag-a">Option A &mdash; "Outcomes, Not Just Terms"</span>
+    <div class="copy-block">
+      <p class="section-head">Built for people who negotiate outcomes, not just terms.</p>
+      <p>You don't call yourself a "negotiator." But the conversations that shape your career &mdash; compensation discussions, partnership structures, vendor agreements, resource allocation &mdash; those are negotiations. And how you handle them defines what you capture.</p>
+      <p>Ali is built for professionals who want to be sharper in those moments. Not someday. For the one that's already on the calendar.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>This reframes who the product is for by describing behavior, not job titles. "You don't call yourself a negotiator" speaks to the vast majority of our audience &mdash; professionals who negotiate constantly but don't think of it that way. "The one that's already on the calendar" creates natural urgency.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-b">
+    <span class="card-tag tag-b">Option B &mdash; "Can't Afford to Wing"</span>
+    <div class="copy-block">
+      <p class="section-head">For the negotiation you can't afford to wing.</p>
+
+      <p><strong>Enterprise leaders</strong> managing vendor relationships and procurement strategy.</p>
+      <p><strong>Revenue teams</strong> closing deals where the margin matters.</p>
+      <p><strong>Operators and PMs</strong> negotiating priorities, resources, and timelines.</p>
+      <p><strong>Professionals at an inflection point</strong> &mdash; compensation, promotion, or a contract that sets the next chapter.</p>
+
+      <p>If you've ever walked out of a conversation knowing you left something on the table &mdash; Ali exists for the next one.</p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>"Can't afford to wing" is direct and high-stakes. This version names four audience segments in a tighter format than the initial list, and each has a verb that signals action. The closing line &mdash; "left something on the table" &mdash; connects to our core value proposition and turns a pain point into motivation.</p>
+    </div>
+  </div>
+
+  <div class="feedback-prompt">
+    <div class="feedback-icon">?</div>
+    <div class="feedback-text"><strong>Behavioral or segmented?</strong> The initial draft lists job titles. Option A describes a mindset ("you don't call yourself a negotiator"). Option B names segments but with more edge. Which better reflects who Aligned's clients actually are?</div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ============================================ -->
+<!-- CTA -->
+<!-- ============================================ -->
+<div class="section-block" id="cta">
+  <div class="section-label">Section 6</div>
+  <div class="section-title">Call to Action</div>
+
+  <div class="card card-v1">
+    <span class="card-tag tag-v1">Initial Draft</span>
+    <div class="copy-block">
+      <p class="section-head">Start with Ali</p>
+      <p><strong>Limited early access &mdash; join the beta.</strong></p>
+      <p>We're launching Ali with a small group first. If you're interested in being part of the pilot program, let us know.</p>
+      <p><span class="cta-button">Request Early Access</span></p>
+    </div>
+  </div>
+
+  <div class="card card-option-a">
+    <span class="card-tag tag-a">Option A &mdash; "Begin Here"</span>
+    <div class="copy-block">
+      <p class="section-head">Begin here.</p>
+      <p>Ali is in early access with a select group of professionals validating the methodology. If you negotiate outcomes that matter, this is your invitation.</p>
+      <p><span class="cta-button">Enter Ali</span></p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>"Begin here" is minimal and confident. "Select group of professionals validating the methodology" reframes "beta" as curation &mdash; the user is being invited into something deliberate, not a test. "Enter Ali" as the button implies a space you walk into, not a form you fill out.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-b">
+    <span class="card-tag tag-b">Option B &mdash; "Deserves Better Preparation"</span>
+    <div class="copy-block">
+      <p class="section-head">Your next negotiation deserves better preparation.</p>
+      <p>We're validating Ali with professionals who take negotiation seriously. Spots are intentionally limited &mdash; not because of capacity, but because this phase shapes the product.</p>
+      <p><span class="cta-button">Get Started</span></p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>"Intentionally limited" signals a deliberate strategy, not a capacity constraint. "This phase shapes the product" gives early users a reason to engage beyond access &mdash; they're co-creating. "Get Started" is the simplest possible CTA that still signals action.</p>
+    </div>
+  </div>
+
+  <div class="feedback-prompt">
+    <div class="feedback-icon">?</div>
+    <div class="feedback-text"><strong>Invitation or call to action?</strong> The initial draft asks users to "request" access. Option A positions it as an invitation. Option B positions it as a challenge. Which better reflects how we want the first 100 users to feel when they arrive?</div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ============================================ -->
+<!-- FOOTER LINE -->
+<!-- ============================================ -->
+<div class="section-block" id="footer-line">
+  <div class="section-label">Section 7</div>
+  <div class="section-title">Footer Signature</div>
+
+  <div class="card card-v1">
+    <span class="card-tag tag-v1">Initial Draft</span>
+    <div class="copy-block">
+      <p><em>Ali is built by Aligned &mdash; trusted by leading companies to transform how their teams negotiate.</em></p>
+    </div>
+  </div>
+
+  <div class="card card-option-a">
+    <span class="card-tag tag-a">Option A</span>
+    <div class="copy-block">
+      <p><em>Ali is built on the Aligned negotiation methodology. Twenty years refined. Now adaptive.</em></p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>Three-beat rhythm. "Twenty years refined. Now adaptive." has a cadence that could become a brand signature. Leads with methodology, ends with the forward-looking capability.</p>
+    </div>
+  </div>
+
+  <div class="card card-option-b">
+    <span class="card-tag tag-b">Option B</span>
+    <div class="copy-block">
+      <p><em>Built by Aligned. Methodology refined across two decades of high-stakes negotiation.</em></p>
+    </div>
+    <div class="rationale">
+      <div class="rationale-label">Strategic intent</div>
+      <p>Straightforward and factual. Lets "two decades" and "high-stakes" carry the weight without embellishment. More restrained &mdash; appropriate if the rest of the page already has enough narrative energy.</p>
+    </div>
+  </div>
+
+  <div class="feedback-prompt">
+    <div class="feedback-icon">?</div>
+    <div class="feedback-text"><strong>Signature line or quiet close?</strong> Option A has a rhythm that could carry beyond the landing page. Option B is understated. Which feels right for the bottom of the page?</div>
+  </div>
+</div>
+
+</div>
+
+<!-- ============================================ -->
+<!-- FOOTER -->
+<!-- ============================================ -->
+<div class="page-footer">
+  <p class="brand">Ali by Aligned</p>
+</div>
+
+</body>
+</html>
