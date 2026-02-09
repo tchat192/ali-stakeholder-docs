@@ -132,17 +132,17 @@
     <div class="masthead">
       <span class="masthead-badge">Ali MVP</span>
       <span class="masthead-badge">Architecture</span>
-      <span class="masthead-badge updated">Updated February 8, 2026</span>
+      <span class="masthead-badge updated">Updated February 9, 2026</span>
     </div>
 
     <!-- Hero -->
     <div class="hero">
       <h1>V3.3.0 Prompt Evaluation &amp; Braintrust Testing</h1>
-      <p class="subtitle">Ali's conversation engine evaluated against GPT-4o and Gemini across 5 negotiation scenarios, scored on Tom's 20 criteria by an automated LLM judge. Updated with Run 2 results (Feb 8) and expanded scoring methodology.</p>
+      <p class="subtitle">Ali's conversation engine evaluated against GPT-4o and Gemini across 5 negotiation scenarios, scored on Tom's 20 criteria by an automated LLM judge. Updated with Run 3 results after applying the insight+question prompt fix. Ali jumped from 6.5 to 7.3, now tied with Gemini.</p>
       <div class="meta">
         <span>Prompt: V3.3.0</span>
         <span>Model: Claude Sonnet</span>
-        <span>20 Criteria / 5 Scenarios / 2 Runs</span>
+        <span>20 Criteria / 5 Scenarios / 3 Runs</span>
       </div>
     </div>
 
@@ -265,35 +265,34 @@
     <!-- Evaluation Scores -->
     <section>
       <div class="section-header">
-        <div class="section-label">Evaluation Results &mdash; Run 2 (Feb 8)</div>
+        <div class="section-label">Evaluation Results &mdash; Run 3 (Feb 8)</div>
         <div class="section-title">Ali V3.3.0 vs GPT-4o vs Gemini</div>
       </div>
 
       <div class="score-grid">
         <div class="score-card winner">
           <div class="system-name">Ali V3.3.0</div>
-          <div class="score-value" style="color: var(--ali-accent);">6.5</div>
+          <div class="score-value" style="color: var(--ali-accent);">7.3</div>
           <div class="score-unit">/ 10 average</div>
-          <div class="score-trend" style="color: var(--ali-text-grey);">Run 1: 6.5 (stable)</div>
+          <div class="score-trend" style="color: var(--ali-text-grey);">Run 2: 6.5 | Run 1: 6.5</div>
         </div>
         <div class="score-card">
           <div class="system-name">GPT-4o (Sterile)</div>
-          <div class="score-value" style="color: #10B981;">6.8</div>
+          <div class="score-value" style="color: #10B981;">6.7</div>
           <div class="score-unit">/ 10 average</div>
-          <div class="score-trend" style="color: var(--ali-text-grey);">Run 1: 6.7</div>
+          <div class="score-trend" style="color: var(--ali-text-grey);">Run 2: 6.8 | Run 1: 6.7</div>
         </div>
-        <div class="score-card">
+        <div class="score-card winner">
           <div class="system-name">Gemini (Sterile)</div>
           <div class="score-value" style="color: #3B82F6;">7.3</div>
           <div class="score-unit">/ 10 average</div>
-          <div class="score-trend" style="color: var(--ali-warning);">Run 1: 6.3*</div>
+          <div class="score-trend" style="color: var(--ali-text-grey);">Run 2: 7.3 | Run 1: 6.3*</div>
         </div>
       </div>
 
       <div class="insight-box">
         <div class="label">Key Finding</div>
-        <p><strong>Ali wins on FEEL, competitors win on DELIVER.</strong> Ali scores best-in-class on cognitive load (+3.6), conversational depth (+1.6), direct business guidance avoidance (+1.6), and empathy (+0.6) &mdash; the conversation <em>experience</em> is superior. But GPT-4o and Gemini deliver actionable guidance 4.6&ndash;4.8 points faster because they dump comprehensive strategies in their first response without asking questions first. The fix: Ali's first response needs a quick tactical insight alongside its follow-up question.</p>
-        <p style="margin-top: 12px; font-size: 13px;"><strong>*Gemini Run 1 note:</strong> Gemini scored 2/10 on Scenario 1 in Run 1 due to an API rate limit error, not a real response. Run 2 reflects Gemini's true capability (7.0 on that scenario). The corrected Run 1 average would have been ~6.9.</p>
+        <p><strong>One prompt change moved Ali from third place to a tie for first.</strong> Adding a tactical insight to every response (instead of only asking questions) pushed Ali from 6.5 to 7.3 &mdash; a +0.8 jump that nearly closed the Time to First Value gap (4.2&rarr;8.6). Ali still leads on coaching quality (cognitive load +3.4, depth +2.6, empathy +1.0) while now competing on delivery speed. Remaining gaps: Post-Negotiation (-3.0), Objection Anticipation (-2.0), Confidentiality (-1.8).</p>
       </div>
     </section>
 
@@ -308,18 +307,18 @@
         <h3>General Criteria (1-12)</h3>
         <table class="criterion-full">
           <tr><th>#</th><th>Criterion</th><th style="color: #C4B5FD;">Ali</th><th style="color: #6EE7B7;">GPT</th><th style="color: #93C5FD;">Gemini</th><th>Ali vs Best</th></tr>
-          <tr><td>1</td><td>Opening &amp; Rapport</td><td class="score-win">8.0</td><td>6.6</td><td>7.6</td><td class="score-win">+0.4</td></tr>
-          <tr><td>2</td><td>Actionable Guidance</td><td class="score-lose">4.4</td><td>8.2</td><td>9.0</td><td class="score-lose">-4.6</td></tr>
-          <tr><td>3</td><td>Direct Business Guidance</td><td class="score-win">8.0</td><td>5.8</td><td>6.4</td><td class="score-win">+1.6</td></tr>
-          <tr><td>4</td><td>Time to First Value</td><td class="score-lose">4.2</td><td>9.0</td><td>8.4</td><td class="score-lose">-4.8</td></tr>
-          <tr><td>5</td><td>Cognitive Load</td><td class="score-win">8.4</td><td>4.8</td><td>3.6</td><td class="score-win">+3.6</td></tr>
-          <tr><td>6</td><td>Question Pacing</td><td class="score-win">8.4</td><td>8.0</td><td>6.8</td><td class="score-win">+0.4</td></tr>
-          <tr><td>7</td><td>Structure &amp; Clarity</td><td>8.6</td><td class="score-win">9.0</td><td>8.6</td><td style="color: var(--ali-text-grey);">-0.4</td></tr>
-          <tr><td>8</td><td>Depth vs. Brevity</td><td class="score-win">7.4</td><td>5.8</td><td>4.6</td><td class="score-win">+1.6</td></tr>
-          <tr><td>9</td><td>Framework Transparency</td><td>5.8</td><td>7.0</td><td class="score-win">7.6</td><td class="score-lose">-1.8</td></tr>
-          <tr><td>10</td><td>Personalization</td><td class="score-win">8.0</td><td>7.4</td><td>7.8</td><td class="score-win">+0.2</td></tr>
-          <tr><td>11</td><td>Tone Calibration</td><td>4.6</td><td>4.6</td><td class="score-win">5.8</td><td class="score-lose">-1.2</td></tr>
-          <tr><td>12</td><td>Empathy</td><td class="score-win">6.8</td><td>5.0</td><td>6.2</td><td class="score-win">+0.6</td></tr>
+          <tr><td>1</td><td>Opening &amp; Rapport</td><td class="score-win">8.0</td><td>7.0</td><td>7.6</td><td class="score-win">+0.4</td></tr>
+          <tr><td>2</td><td>Actionable Guidance</td><td>7.6</td><td>8.0</td><td class="score-win">9.0</td><td class="score-lose">-1.4</td></tr>
+          <tr><td>3</td><td>Direct Business Guidance</td><td class="score-win">8.8</td><td>6.0</td><td>7.2</td><td class="score-win">+1.6</td></tr>
+          <tr><td>4</td><td>Time to First Value</td><td>8.6</td><td class="score-win">8.8</td><td>8.4</td><td style="color: var(--ali-text-grey);">-0.2</td></tr>
+          <tr><td>5</td><td>Cognitive Load</td><td class="score-win">8.0</td><td>4.6</td><td>3.6</td><td class="score-win">+3.4</td></tr>
+          <tr><td>6</td><td>Question Pacing</td><td class="score-win">9.0</td><td>7.8</td><td>6.0</td><td class="score-win">+1.2</td></tr>
+          <tr><td>7</td><td>Structure &amp; Clarity</td><td>8.0</td><td>8.6</td><td class="score-win">8.8</td><td style="color: var(--ali-text-grey);">-0.8</td></tr>
+          <tr><td>8</td><td>Depth vs. Brevity</td><td class="score-win">8.2</td><td>5.6</td><td>4.6</td><td class="score-win">+2.6</td></tr>
+          <tr><td>9</td><td>Framework Transparency</td><td>7.0</td><td>6.6</td><td class="score-win">7.8</td><td style="color: var(--ali-text-grey);">-0.8</td></tr>
+          <tr><td>10</td><td>Personalization</td><td class="score-win">8.0</td><td>7.2</td><td class="score-win">8.0</td><td style="color: var(--ali-text-grey);">0.0</td></tr>
+          <tr><td>11</td><td>Tone Calibration</td><td>5.4</td><td>4.2</td><td class="score-win">5.8</td><td style="color: var(--ali-text-grey);">-0.4</td></tr>
+          <tr><td>12</td><td>Empathy</td><td class="score-win">7.0</td><td>4.6</td><td>6.0</td><td class="score-win">+1.0</td></tr>
         </table>
       </div>
 
@@ -327,14 +326,14 @@
         <h3>Negotiation-Specific Criteria (13-20)</h3>
         <table class="criterion-full">
           <tr><th>#</th><th>Criterion</th><th style="color: #C4B5FD;">Ali</th><th style="color: #6EE7B7;">GPT</th><th style="color: #93C5FD;">Gemini</th><th>Ali vs Best</th></tr>
-          <tr><td>13</td><td>Negotiation Relevance</td><td>7.8</td><td>8.2</td><td class="score-win">9.4</td><td class="score-lose">-1.6</td></tr>
-          <tr><td>14</td><td>BATNA/ZOPA</td><td class="score-lose">4.6</td><td>5.6</td><td>8.0</td><td class="score-lose">-3.4</td></tr>
-          <tr><td>15</td><td>Objection Anticipation</td><td class="score-lose">3.2</td><td>5.2</td><td>7.0</td><td class="score-lose">-3.8</td></tr>
-          <tr><td>16</td><td>Bluffing/Deception</td><td>8.0</td><td class="score-win">8.4</td><td>8.2</td><td style="color: var(--ali-text-grey);">-0.4</td></tr>
-          <tr><td>17</td><td>Power Imbalance</td><td>6.6</td><td>6.6</td><td class="score-win">7.4</td><td style="color: var(--ali-text-grey);">-0.8</td></tr>
+          <tr><td>13</td><td>Negotiation Relevance</td><td>9.0</td><td>8.4</td><td class="score-win">9.2</td><td style="color: var(--ali-text-grey);">-0.2</td></tr>
+          <tr><td>14</td><td>BATNA/ZOPA</td><td>6.4</td><td>5.6</td><td class="score-win">7.6</td><td class="score-lose">-1.2</td></tr>
+          <tr><td>15</td><td>Objection Anticipation</td><td>4.8</td><td>4.8</td><td class="score-win">6.8</td><td class="score-lose">-2.0</td></tr>
+          <tr><td>16</td><td>Bluffing/Deception</td><td>8.0</td><td>8.2</td><td class="score-win">8.4</td><td style="color: var(--ali-text-grey);">-0.4</td></tr>
+          <tr><td>17</td><td>Power Imbalance</td><td class="score-win">7.4</td><td>5.8</td><td>7.0</td><td class="score-win">+0.4</td></tr>
           <tr><td>18</td><td>Ethics &amp; Legality</td><td>8.2</td><td>8.0</td><td class="score-win">8.4</td><td style="color: var(--ali-text-grey);">-0.2</td></tr>
-          <tr><td>19</td><td>Confidentiality</td><td class="score-lose">4.6</td><td>5.4</td><td>7.0</td><td class="score-lose">-2.4</td></tr>
-          <tr><td>20</td><td>Post-Negotiation</td><td class="score-lose">4.2</td><td>7.8</td><td>8.2</td><td class="score-lose">-4.0</td></tr>
+          <tr><td>19</td><td>Confidentiality</td><td>5.2</td><td>5.8</td><td class="score-win">7.0</td><td class="score-lose">-1.8</td></tr>
+          <tr><td>20</td><td>Post-Negotiation</td><td>5.6</td><td>7.8</td><td class="score-win">8.6</td><td class="score-lose">-3.0</td></tr>
         </table>
       </div>
     </section>
@@ -350,29 +349,28 @@
         <h3 style="color: var(--ali-success);">Where Ali V3.3.0 Wins (Conversation Quality)</h3>
         <table>
           <tr><th>Criterion</th><th>Ali</th><th>Best Competitor</th><th>Delta</th></tr>
-          <tr><td>Cognitive Load</td><td class="score-win">8.4</td><td>4.8 (GPT)</td><td class="score-win">+3.6</td></tr>
-          <tr><td>Direct Business Guidance (avoidance)</td><td class="score-win">8.0</td><td>6.4 (Gemini)</td><td class="score-win">+1.6</td></tr>
-          <tr><td>Depth vs. Brevity Balance</td><td class="score-win">7.4</td><td>5.8 (GPT)</td><td class="score-win">+1.6</td></tr>
-          <tr><td>Empathy</td><td class="score-win">6.8</td><td>6.2 (Gemini)</td><td class="score-win">+0.6</td></tr>
+          <tr><td>Cognitive Load</td><td class="score-win">8.0</td><td>4.6 (GPT)</td><td class="score-win">+3.4</td></tr>
+          <tr><td>Depth vs. Brevity Balance</td><td class="score-win">8.2</td><td>5.6 (GPT)</td><td class="score-win">+2.6</td></tr>
+          <tr><td>Direct Business Guidance</td><td class="score-win">8.8</td><td>7.2 (Gemini)</td><td class="score-win">+1.6</td></tr>
+          <tr><td>Question Pacing</td><td class="score-win">9.0</td><td>7.8 (GPT)</td><td class="score-win">+1.2</td></tr>
+          <tr><td>Empathy</td><td class="score-win">7.0</td><td>6.0 (Gemini)</td><td class="score-win">+1.0</td></tr>
           <tr><td>Opening &amp; Rapport</td><td class="score-win">8.0</td><td>7.6 (Gemini)</td><td class="score-win">+0.4</td></tr>
-          <tr><td>Question Pacing</td><td class="score-win">8.4</td><td>8.0 (GPT)</td><td class="score-win">+0.4</td></tr>
-          <tr><td>Personalization</td><td class="score-win">8.0</td><td>7.8 (Gemini)</td><td class="score-win">+0.2</td></tr>
+          <tr><td>Power Imbalance</td><td class="score-win">7.4</td><td>7.0 (Gemini)</td><td class="score-win">+0.4</td></tr>
         </table>
-        <p style="margin-top: 12px; font-size: 13px; color: var(--ali-text-grey);">Ali's prompt engineering shines in keeping responses digestible, empathetic, and focused. Users process less per message, get better rapport, and receive guidance that stays in the negotiation lane (avoids business advice).</p>
+        <p style="margin-top: 12px; font-size: 13px; color: var(--ali-text-grey);">Ali leads on coaching quality: keeping responses digestible (+3.4 cognitive load), providing meaningful depth (+2.6), and staying in the negotiation lane (+1.6 on business guidance avoidance). The insight+question fix preserved these strengths while adding immediate value delivery.</p>
       </div>
 
       <div class="card">
-        <h3 style="color: var(--ali-danger);">Where Ali V3.3.0 Needs Work (Actionable Delivery)</h3>
+        <h3 style="color: var(--ali-danger);">Remaining Gaps (Post-Fix)</h3>
         <table>
           <tr><th>Criterion</th><th>Ali</th><th>Best Competitor</th><th>Delta</th></tr>
-          <tr><td>Time to First Value</td><td class="score-lose">4.2</td><td>9.0 (GPT)</td><td class="score-lose">-4.8</td></tr>
-          <tr><td>Actionable Guidance</td><td class="score-lose">4.4</td><td>9.0 (Gemini)</td><td class="score-lose">-4.6</td></tr>
-          <tr><td>Post-Negotiation Guidance</td><td class="score-lose">4.2</td><td>8.2 (Gemini)</td><td class="score-lose">-4.0</td></tr>
-          <tr><td>Objection Anticipation</td><td class="score-lose">3.2</td><td>7.0 (Gemini)</td><td class="score-lose">-3.8</td></tr>
-          <tr><td>BATNA/ZOPA</td><td class="score-lose">4.6</td><td>8.0 (Gemini)</td><td class="score-lose">-3.4</td></tr>
-          <tr><td>Confidentiality Coaching</td><td class="score-lose">4.6</td><td>7.0 (Gemini)</td><td class="score-lose">-2.4</td></tr>
+          <tr><td>Post-Negotiation</td><td class="score-lose">5.6</td><td>8.6 (Gemini)</td><td class="score-lose">-3.0</td></tr>
+          <tr><td>Objection Anticipation</td><td class="score-lose">4.8</td><td>6.8 (Gemini)</td><td class="score-lose">-2.0</td></tr>
+          <tr><td>Confidentiality</td><td class="score-lose">5.2</td><td>7.0 (Gemini)</td><td class="score-lose">-1.8</td></tr>
+          <tr><td>Actionable Guidance</td><td>7.6</td><td>9.0 (Gemini)</td><td class="score-lose">-1.4</td></tr>
+          <tr><td>BATNA/ZOPA</td><td>6.4</td><td>7.6 (Gemini)</td><td class="score-lose">-1.2</td></tr>
         </table>
-        <p style="margin-top: 12px; font-size: 13px; color: var(--ali-text-grey);">Ali's coaching approach (asking questions before advising) costs points in single-turn evaluation. The competitors dump comprehensive strategy immediately. The prompt fix: add a brief tactical insight in the first response alongside the diagnostic question. This doesn't mean abandoning the coaching model &mdash; it means delivering a quick win while still engaging in conversation.</p>
+        <p style="margin-top: 12px; font-size: 13px; color: var(--ali-text-grey);">The insight+question fix closed the biggest gap: Time to First Value went from 4.2 to 8.6, essentially matching competitors. Remaining gaps are much smaller. Post-Negotiation (-3.0) is the next target &mdash; Ali doesn't yet proactively suggest confirming terms in writing. Objection Anticipation (-2.0) and Confidentiality (-1.8) are addressable through prompt additions without changing Ali's coaching model.</p>
       </div>
     </section>
 
@@ -386,13 +384,13 @@
       <div class="card">
         <table>
           <tr><th>Scenario</th><th>Ali V3.3.0</th><th>GPT-4o</th><th>Gemini</th><th>Winner</th></tr>
-          <tr><td>Sole Supplier Lock-In (BATNA)</td><td>6.4</td><td>6.5</td><td class="score-win"><strong>7.0</strong></td><td style="color: #3B82F6; font-weight: 700;">Gemini</td></tr>
-          <tr><td>Office Supply Quotes (Bargaining)</td><td class="score-win"><strong>6.9</strong></td><td>6.6</td><td>6.6</td><td class="score-win">Ali</td></tr>
-          <tr><td>SaaS Contract Renewal (Trading)</td><td>6.7</td><td>7.2</td><td class="score-win"><strong>7.6</strong></td><td style="color: #3B82F6; font-weight: 700;">Gemini</td></tr>
-          <tr><td>Joint Marketing Initiative (Creating)</td><td>5.6</td><td>6.0</td><td class="score-win"><strong>7.4</strong></td><td style="color: #3B82F6; font-weight: 700;">Gemini</td></tr>
-          <tr><td>Sarah Chen Salary (Trading)</td><td>6.7</td><td>7.6</td><td class="score-win"><strong>7.8</strong></td><td style="color: #3B82F6; font-weight: 700;">Gemini</td></tr>
+          <tr><td>Sole Supplier Lock-In (BATNA)</td><td>7.3</td><td>6.2</td><td class="score-win"><strong>7.6</strong></td><td style="color: #3B82F6; font-weight: 700;">Gemini</td></tr>
+          <tr><td>Office Supply Quotes (Bargaining)</td><td class="score-win"><strong>7.6</strong></td><td>7.0</td><td>6.6</td><td class="score-win">Ali</td></tr>
+          <tr><td>SaaS Contract Renewal (Trading)</td><td>7.2</td><td>6.7</td><td class="score-win"><strong>7.4</strong></td><td style="color: #3B82F6; font-weight: 700;">Gemini</td></tr>
+          <tr><td>Joint Marketing Initiative (Creating)</td><td class="score-win"><strong>6.8</strong></td><td>5.8</td><td class="score-win"><strong>6.8</strong></td><td style="color: var(--ali-accent); font-weight: 700;">Ali/Gemini tied</td></tr>
+          <tr><td>Sarah Chen Salary (Trading)</td><td>7.4</td><td>7.8</td><td class="score-win"><strong>7.9</strong></td><td style="color: #3B82F6; font-weight: 700;">Gemini</td></tr>
         </table>
-        <p style="margin-top: 16px; font-size: 13px; color: var(--ali-text-grey);">Ali wins 1/5 scenarios (Office Supply Quotes). Gemini wins 4/5. In single-turn evaluation, Gemini's verbose "dump everything" approach scores well on content completeness, even though it creates significant cognitive overload. Ali's strength &mdash; digestible, conversational coaching &mdash; reveals itself across multiple exchanges, which this eval doesn't capture.</p>
+        <p style="margin-top: 16px; font-size: 13px; color: var(--ali-text-grey);">Ali wins or ties 2/5 scenarios (Office Supply, Joint Marketing tied). Gemini wins 3/5. The gap has narrowed significantly since Run 2 &mdash; Ali improved across all scenarios, with the biggest jump in Joint Marketing (+1.2) and Sole Supplier (+0.9). Ali is now competitive in every scenario rather than trailing badly.</p>
       </div>
     </section>
 
@@ -400,29 +398,29 @@
     <section>
       <div class="section-header">
         <div class="section-label">Eval History</div>
-        <div class="section-title">Run 1 vs Run 2</div>
+        <div class="section-title">Run 1 &rarr; Run 2 &rarr; Run 3</div>
       </div>
 
       <div class="card">
         <h3>Overall Averages Across Runs</h3>
         <table>
-          <tr><th>System</th><th>Run 1 (Feb 3)</th><th>Run 2 (Feb 8)</th><th>Change</th></tr>
-          <tr><td><strong style="color: var(--ali-accent);">Ali V3.3.0</strong></td><td>6.5</td><td>6.5</td><td class="score-tie">0.0 (stable)</td></tr>
-          <tr><td><strong style="color: #10B981;">GPT-4o</strong></td><td>6.7</td><td>6.8</td><td style="color: var(--ali-text-grey);">+0.1</td></tr>
-          <tr><td><strong style="color: #3B82F6;">Gemini</strong></td><td>6.3*</td><td>7.3</td><td style="color: var(--ali-warning); font-weight: 600;">+1.0*</td></tr>
+          <tr><th>System</th><th>Run 1 (Feb 3)</th><th>Run 2 (Feb 8)</th><th>Run 3 (Feb 8)</th><th>Change</th></tr>
+          <tr><td><strong style="color: var(--ali-accent);">Ali V3.3.0</strong></td><td>6.5</td><td>6.5</td><td class="score-win">7.3</td><td style="color: var(--ali-success); font-weight: 600;">+0.8</td></tr>
+          <tr><td><strong style="color: #10B981;">GPT-4o</strong></td><td>6.7</td><td>6.8</td><td>6.7</td><td class="score-tie">stable</td></tr>
+          <tr><td><strong style="color: #3B82F6;">Gemini</strong></td><td>6.3*</td><td>7.3</td><td>7.3</td><td class="score-tie">stable</td></tr>
         </table>
-        <p style="margin-top: 16px; font-size: 13px; color: var(--ali-text-grey);">*Gemini's Run 1 score (6.3) was artificially low due to a rate-limit error on Scenario 1 that scored 2/10. With that correction, Gemini was ~6.9 in Run 1 and 7.3 in Run 2. Ali and GPT-4o scores are stable across runs, indicating <strong>good eval reproducibility</strong>.</p>
+        <p style="margin-top: 16px; font-size: 13px; color: var(--ali-text-grey);"><strong>Run 3 was the insight+question prompt fix.</strong> Between Run 2 and Run 3, Ali's system prompt was updated to include a tactical insight in every first response (not just diagnostic questions). This single change lifted Ali from 6.5 to 7.3, tying Gemini for first place. GPT-4o and Gemini scores remained stable, confirming the improvement is from the prompt change, not eval variance. *Gemini Run 1 was artificially low due to a rate-limit error on Scenario 1.</p>
       </div>
 
       <div class="card">
         <h3>Per-Scenario Comparison</h3>
         <table>
-          <tr><th>Scenario</th><th>Ali R1&rarr;R2</th><th>GPT R1&rarr;R2</th><th>Gemini R1&rarr;R2</th></tr>
-          <tr><td>Sole Supplier Lock-In</td><td>6.4 &rarr; 6.4</td><td>6.0 &rarr; 6.5</td><td>2.0* &rarr; 7.0</td></tr>
-          <tr><td>Office Supply Quotes</td><td>7.0 &rarr; 6.9</td><td>7.3 &rarr; 6.6</td><td>7.1 &rarr; 6.6</td></tr>
-          <tr><td>SaaS Contract Renewal</td><td>6.6 &rarr; 6.7</td><td>6.9 &rarr; 7.2</td><td>7.4 &rarr; 7.6</td></tr>
-          <tr><td>Joint Marketing</td><td>6.0 &rarr; 5.6</td><td>6.1 &rarr; 6.0</td><td>7.2 &rarr; 7.4</td></tr>
-          <tr><td>Sarah Chen Salary</td><td>6.7 &rarr; 6.7</td><td>7.4 &rarr; 7.6</td><td>7.6 &rarr; 7.8</td></tr>
+          <tr><th>Scenario</th><th>Ali R1&rarr;R2&rarr;R3</th><th>GPT R1&rarr;R2&rarr;R3</th><th>Gemini R1&rarr;R2&rarr;R3</th></tr>
+          <tr><td>Sole Supplier Lock-In</td><td>6.4 &rarr; 6.4 &rarr; <strong>7.3</strong></td><td>6.0 &rarr; 6.5 &rarr; 6.2</td><td>2.0* &rarr; 7.0 &rarr; 7.6</td></tr>
+          <tr><td>Office Supply Quotes</td><td>7.0 &rarr; 6.9 &rarr; <strong>7.6</strong></td><td>7.3 &rarr; 6.6 &rarr; 7.0</td><td>7.1 &rarr; 6.6 &rarr; 6.6</td></tr>
+          <tr><td>SaaS Contract Renewal</td><td>6.6 &rarr; 6.7 &rarr; <strong>7.2</strong></td><td>6.9 &rarr; 7.2 &rarr; 6.7</td><td>7.4 &rarr; 7.6 &rarr; 7.4</td></tr>
+          <tr><td>Joint Marketing</td><td>6.0 &rarr; 5.6 &rarr; <strong>6.8</strong></td><td>6.1 &rarr; 6.0 &rarr; 5.8</td><td>7.2 &rarr; 7.4 &rarr; 6.8</td></tr>
+          <tr><td>Sarah Chen Salary</td><td>6.7 &rarr; 6.7 &rarr; <strong>7.4</strong></td><td>7.4 &rarr; 7.6 &rarr; 7.8</td><td>7.6 &rarr; 7.8 &rarr; 7.9</td></tr>
         </table>
       </div>
     </section>
@@ -579,11 +577,12 @@
         <table>
           <tr><th>Action</th><th>Owner</th><th>Status</th></tr>
           <tr><td>V3.3.0 deployed to production</td><td>Terrance</td><td style="color: var(--ali-success); font-weight: 600;">Done</td></tr>
-          <tr><td>Run 2 evaluation completed</td><td>Terrance</td><td style="color: var(--ali-success); font-weight: 600;">Done (Feb 8)</td></tr>
+          <tr><td>Run 3 evaluation completed (Feb 8, post-fix)</td><td>Terrance</td><td style="color: var(--ali-success); font-weight: 600;">Done</td></tr>
           <tr><td>Gemini added to eval comparison</td><td>Terrance</td><td style="color: var(--ali-success); font-weight: 600;">Done</td></tr>
+          <tr><td>Address "Time to First Value" gap</td><td>Tom + Terrance</td><td style="color: var(--ali-success); font-weight: 600;">Done &mdash; Fixed in Run 3 (+4.4 pts)</td></tr>
           <tr><td>Braintrust invites to Tom, Scott, Chelsea</td><td>Terrance</td><td style="color: var(--ali-danger); font-weight: 600;">Blocked</td></tr>
           <tr><td>Review prompt in Braintrust playground</td><td>Tom, Mark, Scott</td><td>Pending invite</td></tr>
-          <tr><td>Address "Time to First Value" gap</td><td>Tom + Terrance</td><td style="color: var(--ali-warning); font-weight: 600;">Discussion needed</td></tr>
+          <tr><td>Post-Negotiation gap (-3.0)</td><td>Tom + Terrance</td><td style="color: var(--ali-warning); font-weight: 600;">Next target</td></tr>
           <tr><td>Advisory system prompt draft</td><td>Tom</td><td>In progress</td></tr>
           <tr><td>6 coaching call recordings</td><td>Lee / Moose / Caleb</td><td>Pending</td></tr>
           <tr><td>10-question calibration beta</td><td>Tom</td><td>In progress</td></tr>
@@ -600,7 +599,7 @@
     <!-- Footer -->
     <div style="text-align: center; padding: 32px 0; font-size: 12px; color: var(--ali-text-grey);">
       <p>Ali MVP &mdash; Aligned Negotiation &mdash; Confidential</p>
-      <p>Updated: February 8, 2026 | Eval Script: <code>scripts/eval-ali-prompt.ts</code> | Run 2 of 2</p>
+      <p>Updated: February 9, 2026 | Eval Script: <code>scripts/eval-ali-prompt.ts</code> | Run 3 of 3</p>
     </div>
   </div>
 </body>
