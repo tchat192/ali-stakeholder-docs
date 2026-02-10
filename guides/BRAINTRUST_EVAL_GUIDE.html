@@ -414,8 +414,9 @@
             <li><a href="#scoring-rubric" data-section="scoring-rubric"><span class="sidebar-number">3</span> Scoring Rubric</a></li>
             <li><a href="#reading-results" data-section="reading-results"><span class="sidebar-number">4</span> Reading Results</a></li>
             <li><a href="#model-comparisons" data-section="model-comparisons"><span class="sidebar-number">5</span> Comparisons</a></li>
-            <li><a href="#original-criteria" data-section="original-criteria"><span class="sidebar-number">6</span> Original 20</a></li>
-            <li><a href="#quick-reference" data-section="quick-reference"><span class="sidebar-number">7</span> Quick Ref</a></li>
+            <li><a href="#playground" data-section="playground"><span class="sidebar-number">6</span> Playground</a></li>
+            <li><a href="#original-criteria" data-section="original-criteria"><span class="sidebar-number">7</span> Original 20</a></li>
+            <li><a href="#quick-reference" data-section="quick-reference"><span class="sidebar-number">8</span> Quick Ref</a></li>
           </ul>
         </nav>
       </aside>
@@ -457,6 +458,10 @@
 
           <div class="callout callout-accent">
             <strong>Why three models?</strong> Ali uses our full coaching prompt. GPT-4o and Gemini get a one-line "You are a helpful negotiation coach" prompt. This shows the measurable impact of our prompt engineering &mdash; Ali should consistently outscore the baselines.
+          </div>
+
+          <div class="callout callout-warn">
+            <strong>This is a one-turn evaluation.</strong> Each scenario sends a single user message and scores Ali's first response. We're measuring first-impression coaching quality &mdash; can Ali understand the situation, classify the negotiation type, and deliver actionable guidance in one shot? <strong>Multi-turn evaluation</strong> (measuring conversation quality across multiple exchanges) is the next milestone after this baseline is locked.
           </div>
         </div>
       </section>
@@ -779,7 +784,87 @@
       </section>
 
       <!-- ============================================================ -->
-      <!-- SECTION 6: Original 20 Criteria Reference                    -->
+      <!-- SECTION 6: Using the Playground                              -->
+      <!-- ============================================================ -->
+      <section id="playground">
+        <div class="section-header">
+          <h2>Using the Playground</h2>
+        </div>
+        <div class="section-content">
+          <p>The Braintrust <strong>Playground</strong> is where you can read, test, and tweak Ali's prompt in real time. Think of it as a sandbox &mdash; nothing you do here affects production until you explicitly publish a change.</p>
+
+          <h3>Finding the Prompt</h3>
+          <ol style="font-size: 14px; padding-left: 20px; margin-top: 8px; line-height: 1.8;">
+            <li>Click <strong>Prompts</strong> in the left sidebar navigation</li>
+            <li>Select <strong>ali-v3-conversational</strong> &mdash; this is the full coaching system prompt</li>
+            <li>The prompt editor shows the complete instructions Ali follows for every conversation</li>
+          </ol>
+
+          <h3>Having a Conversation</h3>
+          <p>Once the prompt is loaded, you can test Ali directly:</p>
+          <ol style="font-size: 14px; padding-left: 20px; margin-top: 8px; line-height: 1.8;">
+            <li>At the bottom of the screen, find the <strong>chat input</strong> area</li>
+            <li>Type any negotiation scenario &mdash; for example, copy one of the <a href="#test-scenarios" style="color: var(--ali-accent);">5 test scenarios</a> or try your own</li>
+            <li>Press <strong>Send</strong> &mdash; Ali responds using the current prompt</li>
+            <li>You can continue the conversation with follow-up messages to test how Ali handles multi-turn interactions</li>
+            <li>Each conversation is independent &mdash; starting a new one resets context</li>
+          </ol>
+
+          <div class="callout callout-accent">
+            <strong>This is the same Ali that users talk to.</strong> The Playground uses the exact same prompt and model (Claude Sonnet) as production. What you see here is what users get.
+          </div>
+
+          <h3>Tweaking the Prompt</h3>
+          <p>Want to experiment with changes? Here's how:</p>
+          <ol style="font-size: 14px; padding-left: 20px; margin-top: 8px; line-height: 1.8;">
+            <li><strong>Edit the prompt text</strong> directly in the editor &mdash; try adjusting tone, adding instructions, or modifying how Ali handles specific scenarios</li>
+            <li><strong>Test your change</strong> by sending a scenario in the chat &mdash; see immediately how the edit affects Ali's response</li>
+            <li><strong>Iterate</strong> &mdash; keep refining until you're happy with the result</li>
+            <li><strong>Nothing auto-saves.</strong> If you close the tab without publishing, your changes are discarded. Production Ali is unaffected.</li>
+          </ol>
+
+          <h3>Publishing a Change</h3>
+          <p>When you're satisfied with an edit and want to make it permanent:</p>
+          <ol style="font-size: 14px; padding-left: 20px; margin-top: 8px; line-height: 1.8;">
+            <li>Click <strong>Publish</strong> in the Playground toolbar &mdash; this creates a new prompt version in Braintrust</li>
+            <li>Terrance runs <code>npm run sync:prompt</code> to pull the new version into the codebase</li>
+            <li>The eval suite is re-run against the updated prompt</li>
+            <li>Scores go up or down &mdash; the eval system tells you whether the change was an improvement</li>
+          </ol>
+
+          <div class="callout callout-success">
+            <strong>The iteration loop:</strong> Edit prompt in Playground &rarr; Test with scenarios &rarr; Like it? Publish &rarr; Sync to code &rarr; Re-run eval &rarr; Scores go up or down &rarr; Repeat. This is how we continuously improve Ali's coaching quality with objective measurement at every step.
+          </div>
+
+          <h3>Things to Try</h3>
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Experiment</th><th>What You'll Learn</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="highlight">Paste a real client scenario</td>
+                <td>See how Ali handles situations from actual engagements &mdash; the ultimate relevance test</td>
+              </tr>
+              <tr>
+                <td class="highlight">Ask follow-up questions</td>
+                <td>Test multi-turn depth: "What if they counter at $45?" or "How should I handle pushback on payment terms?"</td>
+              </tr>
+              <tr>
+                <td class="highlight">Try edge cases</td>
+                <td>Test boundaries: emotional scenarios, ethical dilemmas, incomplete information &mdash; see how Ali responds</td>
+              </tr>
+              <tr>
+                <td class="highlight">Adjust tone instructions</td>
+                <td>Edit the prompt to be more direct or more empathetic &mdash; see the immediate impact on response style</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 7: Original 20 Criteria Reference                    -->
       <!-- ============================================================ -->
       <section id="original-criteria">
         <div class="section-header">
@@ -936,12 +1021,20 @@
             </thead>
             <tbody>
               <tr>
+                <td class="highlight">Eval type</td>
+                <td><strong>One-turn</strong> (single user message &rarr; single AI response). Multi-turn evaluation is the next phase.</td>
+              </tr>
+              <tr>
                 <td class="highlight">Braintrust project</td>
                 <td>aligned-negotiation</td>
               </tr>
               <tr>
                 <td class="highlight">Experiments URL</td>
                 <td><a href="https://www.braintrust.dev/app/Aligned%20Negotiation/p/aligned-negotiation/experiments" target="_blank" style="color: var(--ali-accent);">braintrust.dev/app/aligned-negotiation/experiments</a></td>
+              </tr>
+              <tr>
+                <td class="highlight">Playground URL</td>
+                <td><a href="https://www.braintrust.dev" target="_blank" style="color: var(--ali-accent);">braintrust.dev</a> &rarr; Prompts &rarr; ali-v3-conversational</td>
               </tr>
               <tr>
                 <td class="highlight">Ali model</td>
