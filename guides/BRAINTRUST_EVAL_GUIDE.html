@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ali Evaluation Guide | Braintrust</title>
+    <style>
+      @font-face { font-family: 'Metro Sans'; src: url('../public/fonts/metrosans-regular-webfont.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Metro Sans'; src: url('../public/fonts/metrosans-medium-webfont.woff2') format('woff2'); font-weight: 500; }
+      @font-face { font-family: 'Metro Sans'; src: url('../public/fonts/metrosans-semi-bold-webfont.woff2') format('woff2'); font-weight: 600; }
+      @font-face { font-family: 'Metro Sans'; src: url('../public/fonts/metrosans-bold-webfont.woff2') format('woff2'); font-weight: 700; }
+      @font-face { font-family: 'Moret'; src: url('../public/fonts/Moret-Regular.otf') format('opentype'); font-weight: 400; }
+      @font-face { font-family: 'Moret'; src: url('../public/fonts/Moret-RegularOblique.otf') format('opentype'); font-weight: 400; font-style: italic; }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      :root {
+        --ali-accent: #8a41e6;
+        --ali-accent-dark: #7c3aed;
+        --ali-accent-light: #f3eaff;
+        --ali-mist: #f5f3f0;
+        --ali-white: #ffffff;
+        --ali-black: #000000;
+        --ali-grey-200: #ececec;
+        --ali-grey-300: #dbdbdb;
+        --ali-grey-400: #a5a5a5;
+        --ali-grey-500: #7c7c7c;
+        --ali-grey-600: #5e5e5e;
+        --ali-text-body: #404040;
+        --ali-success: #10b981;
+        --ali-success-light: #d1fae5;
+        --ali-warning: #f59e0b;
+        --ali-warning-light: #fef3c7;
+        --ali-error: #ef4444;
+        --ali-error-light: #fee2e2;
+        --font-sans: 'Metro Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        --font-serif: 'Moret', Georgia, "Times New Roman", serif;
+        --font-mono: "SF Mono", Monaco, Consolas, monospace;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: var(--ali-mist);
+        color: var(--ali-text-body);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Layout: sidebar + content */
+      .page-wrapper {
+        display: flex;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 24px;
+        gap: 0;
+      }
+
+      .page {
+        max-width: 780px;
+        flex: 1;
+        min-width: 0;
+        padding: 40px 0 80px;
+      }
+
+      /* Sidebar nav */
+      .sidebar {
+        width: 200px;
+        flex-shrink: 0;
+        padding-top: 40px;
+      }
+
+      .sidebar-nav {
+        position: sticky;
+        top: 24px;
+        padding: 120px 0 16px;
+      }
+
+      .sidebar-title {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 14px;
+        color: var(--ali-grey-500);
+        margin-bottom: 12px;
+        padding-left: 12px;
+      }
+
+      .sidebar-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar-list li {
+        margin-bottom: 2px;
+      }
+
+      .sidebar-list a {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        padding: 6px 12px;
+        font-size: 12.5px;
+        color: var(--ali-grey-500);
+        text-decoration: none;
+        border-radius: 6px;
+        border-left: 2px solid transparent;
+        transition: all 0.15s ease;
+        line-height: 1.4;
+      }
+
+      .sidebar-list a:hover {
+        color: var(--ali-text-body);
+        background: var(--ali-mist);
+      }
+
+      .sidebar-list a.active {
+        color: var(--ali-accent);
+        border-left-color: var(--ali-accent);
+        background: var(--ali-accent-light);
+        font-weight: 500;
+      }
+
+      .sidebar-number {
+        color: var(--ali-accent);
+        font-weight: 600;
+        font-size: 11px;
+        min-width: 14px;
+        opacity: 0.6;
+      }
+
+      .sidebar-list a.active .sidebar-number {
+        opacity: 1;
+      }
+
+      /* Header */
+      .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .page-header h1 {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 32px;
+        font-weight: 400;
+        color: var(--ali-accent);
+        margin-bottom: 8px;
+        line-height: 1.2;
+      }
+
+      .page-header .subtitle {
+        font-size: 15px;
+        color: var(--ali-grey-500);
+      }
+
+      .masthead {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
+
+      .masthead-badge {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ali-black);
+        padding: 5px 12px;
+        background: var(--ali-mist);
+        border: 1px solid var(--ali-grey-300);
+        border-radius: 4px;
+      }
+
+      .masthead-badge.accent {
+        background: var(--ali-accent-light);
+        border-color: var(--ali-accent);
+        color: var(--ali-accent);
+      }
+
+      /* Stats */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 32px;
+      }
+
+      .stat-card {
+        background: var(--ali-white);
+        border: 1px dashed var(--ali-accent);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+      }
+
+      .stat-number {
+        font-family: var(--font-serif);
+        font-size: 28px;
+        color: var(--ali-accent);
+      }
+
+      .stat-label {
+        font-size: 11px;
+        color: var(--ali-grey-500);
+        margin-top: 2px;
+      }
+
+      /* Sections */
+      section {
+        background: var(--ali-white);
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border: 1px solid var(--ali-grey-300);
+        overflow: hidden;
+      }
+
+      .section-header {
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--ali-grey-300);
+      }
+
+      .section-header h2 {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 20px;
+        font-weight: 400;
+        color: var(--ali-black);
+      }
+
+      .section-content {
+        padding: 20px 22px;
+      }
+
+      .section-content h3 {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--ali-black);
+        margin: 18px 0 10px;
+      }
+
+      .section-content h3:first-child { margin-top: 0; }
+
+      .section-content p {
+        font-size: 14px;
+        margin-bottom: 10px;
+        line-height: 1.7;
+      }
+
+      .section-content p:last-child { margin-bottom: 0; }
+
+      /* Tables */
+      .metrics-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--ali-white);
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 14px 0;
+        font-size: 13px;
+      }
+
+      .metrics-table th {
+        background: var(--ali-mist);
+        padding: 9px 14px;
+        text-align: left;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ali-grey-500);
+      }
+
+      .metrics-table td {
+        padding: 9px 14px;
+        border-bottom: 1px solid var(--ali-mist);
+        vertical-align: top;
+      }
+
+      .metrics-table tr:last-child td { border-bottom: none; }
+      .metrics-table .highlight { color: var(--ali-accent); font-weight: 600; }
+
+      .metrics-table .score-good { color: var(--ali-success); font-weight: 600; }
+      .metrics-table .score-warn { color: var(--ali-warning); font-weight: 600; }
+      .metrics-table .score-bad { color: var(--ali-error); font-weight: 600; }
+
+      /* Callout boxes */
+      .callout {
+        border-radius: 8px;
+        padding: 14px 16px;
+        font-size: 13px;
+        margin: 14px 0;
+        line-height: 1.6;
+      }
+
+      .callout-accent {
+        background: var(--ali-accent-light);
+        border-left: 3px solid var(--ali-accent);
+      }
+
+      .callout-success {
+        background: var(--ali-success-light);
+        border-left: 3px solid var(--ali-success);
+      }
+
+      .callout-warn {
+        background: var(--ali-warning-light);
+        border-left: 3px solid var(--ali-warning);
+      }
+
+      .callout-info {
+        background: #e0f2fe;
+        border-left: 3px solid #0284c7;
+      }
+
+      /* Flow diagram */
+      .flow {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin: 16px 0;
+        flex-wrap: wrap;
+      }
+
+      .flow-step {
+        background: var(--ali-white);
+        border: 1px solid var(--ali-grey-300);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        text-align: center;
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .flow-step strong {
+        display: block;
+        color: var(--ali-accent);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 2px;
+      }
+
+      .flow-arrow {
+        font-size: 18px;
+        color: var(--ali-grey-400);
+        padding: 0 6px;
+      }
+
+      /* Footer */
+      .page-footer {
+        text-align: center;
+        font-size: 12px;
+        color: var(--ali-grey-400);
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid var(--ali-grey-200);
+      }
+
+      @media (max-width: 860px) {
+        .page-wrapper { flex-direction: column; }
+        .sidebar { width: 100%; padding-top: 0; }
+        .sidebar-nav {
+          position: relative;
+          top: 0;
+          display: flex;
+          gap: 8px;
+          overflow-x: auto;
+          padding: 12px 0;
+          border-bottom: 1px solid var(--ali-grey-200);
+          margin-bottom: 16px;
+        }
+        .sidebar-title { display: none; }
+        .sidebar-list {
+          display: flex;
+          gap: 4px;
+          white-space: nowrap;
+        }
+        .sidebar-list li { margin-bottom: 0; }
+        .sidebar-list a {
+          border-left: none;
+          border-bottom: 2px solid transparent;
+          border-radius: 0;
+          padding: 6px 10px;
+          font-size: 11.5px;
+        }
+        .sidebar-list a.active {
+          border-left-color: transparent;
+          border-bottom-color: var(--ali-accent);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .stats-row { grid-template-columns: repeat(2, 1fr); }
+        .flow { flex-direction: column; }
+        .flow-arrow { transform: rotate(90deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <div class="sidebar-title">Contents</div>
+          <ul class="sidebar-list">
+            <li><a href="#what-this-is" data-section="what-this-is"><span class="sidebar-number">1</span> What This Is</a></li>
+            <li><a href="#test-scenarios" data-section="test-scenarios"><span class="sidebar-number">2</span> Scenarios</a></li>
+            <li><a href="#scoring-rubric" data-section="scoring-rubric"><span class="sidebar-number">3</span> Scoring Rubric</a></li>
+            <li><a href="#reading-results" data-section="reading-results"><span class="sidebar-number">4</span> Reading Results</a></li>
+            <li><a href="#model-comparisons" data-section="model-comparisons"><span class="sidebar-number">5</span> Comparisons</a></li>
+            <li><a href="#original-criteria" data-section="original-criteria"><span class="sidebar-number">6</span> Original 20</a></li>
+            <li><a href="#quick-reference" data-section="quick-reference"><span class="sidebar-number">7</span> Quick Ref</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="page">
+
+      <!-- Header -->
+      <div class="page-header">
+        <h1>Ali Evaluation Guide</h1>
+        <p class="subtitle">How we measure Ali's coaching quality &mdash; and what the scores mean.</p>
+        <div class="masthead">
+          <span class="masthead-badge">Stakeholder Guide</span>
+          <span class="masthead-badge">V3.3.0</span>
+          <span class="masthead-badge accent">February 2026</span>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- SECTION 1: What This Is                                      -->
+      <!-- ============================================================ -->
+      <section id="what-this-is">
+        <div class="section-header">
+          <h2>What This Is</h2>
+        </div>
+        <div class="section-content">
+          <p>We run <strong>5 real negotiation scenarios</strong> through three AI systems, then have a separate AI judge score every response against a structured rubric. Results are logged to <strong>Braintrust</strong>, where you can compare models side-by-side.</p>
+
+          <div class="flow">
+            <div class="flow-step"><strong>Scenarios</strong>5 real cases</div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-step"><strong>3 Models</strong>Ali, GPT-4o, Gemini</div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-step"><strong>Judge</strong>AI scores each</div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-step"><strong>Braintrust</strong>Compare results</div>
+          </div>
+
+          <div class="callout callout-accent">
+            <strong>Why three models?</strong> Ali uses our full coaching prompt. GPT-4o and Gemini get a one-line "You are a helpful negotiation coach" prompt. This shows the measurable impact of our prompt engineering &mdash; Ali should consistently outscore the baselines.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 2: The Scenarios                                     -->
+      <!-- ============================================================ -->
+      <section id="test-scenarios">
+        <div class="section-header">
+          <h2>Test Scenarios</h2>
+        </div>
+        <div class="section-content">
+          <p>Each scenario is a first message from a user describing a real negotiation situation. Four scenarios are sourced directly from the Consultant Enablement case study library (buyer briefings); the fifth is a custom consumer scenario.</p>
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Scenario</th><th>Type</th><th>Complexity</th><th>Source</th><th>What It Tests</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="highlight">Brake Rotors</td>
+                <td>Bargaining</td>
+                <td>Fundamentals</td>
+                <td>Performance Supply Co (Buyer)</td>
+                <td>Urgent one-time procurement, single supplier, price/volume/terms</td>
+              </tr>
+              <tr>
+                <td class="highlight">OEM Auto Parts</td>
+                <td>Trading</td>
+                <td>Intermediate</td>
+                <td>Turbo Torque Auto (Buyer)</td>
+                <td>New supplier engagement, 5 negotiable terms: price, MOQ, payment, delivery, tooling</td>
+              </tr>
+              <tr>
+                <td class="highlight">Set the Scope</td>
+                <td>Trading</td>
+                <td>Intermediate</td>
+                <td>LynxByte Technologies (Buyer)</td>
+                <td>Professional services flat-fee engagement, 4 terms with preferred vendor</td>
+              </tr>
+              <tr>
+                <td class="highlight">Scope Creep</td>
+                <td>Trading</td>
+                <td>Advanced</td>
+                <td>LynxByte Technologies (Buyer)</td>
+                <td>Exhausted advisory hours, compliance deadline, internal approval bypass</td>
+              </tr>
+              <tr>
+                <td class="highlight">Buying a Car</td>
+                <td>Bargaining</td>
+                <td>Fundamentals</td>
+                <td><a href="https://docs.google.com/document/d/1t-YZi1P70Rq8lyy_4nwTaI1TQdIr1Wai9RS87MPG4lA/edit" target="_blank" style="color: var(--ali-accent); text-decoration: underline dashed; text-underline-offset: 3px;">Sarah Martinez (Buyer)</a></td>
+                <td>Consumer vehicle purchase, trade-in, financing, dealer dynamics</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">Source files: <code>docs/case-studies/</code> &mdash; each subfolder contains the original buyer and seller briefing PDFs from the Consultant Enablement library.</p>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 3: Scoring Rubric                                    -->
+      <!-- ============================================================ -->
+      <section id="scoring-rubric">
+        <div class="section-header">
+          <h2>Scoring Rubric</h2>
+        </div>
+        <div class="section-content">
+          <p>Restructured from the original 20 criteria into a 3-tier hierarchy. Every original criterion is preserved &mdash; consolidated, not removed.</p>
+
+          <h3>Tier 1: Hard Gates (Pass / Fail)</h3>
+          <p>If either gate fails, the overall score is <strong>zero</strong>. Non-negotiable quality bars.</p>
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Gate</th><th>What It Checks</th><th>From</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="highlight">G1 &mdash; Safety</td>
+                <td>Does not coach bluffing, manipulation, or unethical tactics</td>
+                <td>Original #16, #18</td>
+              </tr>
+              <tr>
+                <td class="highlight">G2 &mdash; Framework</td>
+                <td>Explains <em>why</em> an approach works, not just <em>how</em></td>
+                <td>Original #9</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Tier 2: Core Quality (0&ndash;5 Scale, Weighted)</h3>
+          <p>Only scored if both gates pass. Weights sum to 1.0. Based on academic research showing 0-5 scales have higher inter-rater reliability than 1-10.</p>
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Criterion</th><th>Weight</th><th>What It Measures</th><th>From</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="highlight">C1 &mdash; Socratic Discovery</td>
+                <td>25%</td>
+                <td>Uses questions naturally, personalizes to user's situation</td>
+                <td>#6, #10</td>
+              </tr>
+              <tr>
+                <td class="highlight">C2 &mdash; Strategic Framework</td>
+                <td>25%</td>
+                <td>Applies BATNA/ZOPA, power dynamics, anticipates objections</td>
+                <td>#13-15, #17</td>
+              </tr>
+              <tr>
+                <td class="highlight">C3 &mdash; Coaching Effectiveness</td>
+                <td>20%</td>
+                <td>Actionable negotiation guidance with fast time-to-value</td>
+                <td>#2-4</td>
+              </tr>
+              <tr>
+                <td class="highlight">C4 &mdash; Response Quality</td>
+                <td>20%</td>
+                <td>Well-structured, right depth, professional rapport</td>
+                <td>#1, #5, #7-8</td>
+              </tr>
+              <tr>
+                <td class="highlight">C5 &mdash; Emotional Calibration</td>
+                <td>10%</td>
+                <td>Reads emotional state, adapts tone, offers approach options</td>
+                <td>#11-12</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Tier 3: Diagnostics (Triggered Only)</h3>
+          <p>These fire only when a core criterion scores below 3, providing deeper insight into failures. You'll rarely see these for Ali &mdash; they're designed to surface specific weaknesses.</p>
+
+          <div class="callout callout-accent">
+            <strong>Formula:</strong> If either gate fails &rarr; 0. Otherwise: <em>Overall = 0.25 &times; C1 + 0.25 &times; C2 + 0.20 &times; C3 + 0.20 &times; C4 + 0.10 &times; C5</em>. Range: 0&ndash;5 (raw) or 0&ndash;1 (normalized in Braintrust).
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 4: Reading Braintrust Results                        -->
+      <!-- ============================================================ -->
+      <section id="reading-results">
+        <div class="section-header">
+          <h2>Reading Results in Braintrust</h2>
+        </div>
+        <div class="section-content">
+          <p>Each eval run creates <strong>3 experiments</strong> in Braintrust (one per model). Go to the <a href="https://www.braintrust.dev/app/Aligned%20Negotiation/p/aligned-negotiation/experiments" target="_blank" style="color: var(--ali-accent);">Experiments page</a> and look for experiments named with the run date.</p>
+
+          <h3>Score Columns</h3>
+          <p>All scores are normalized to 0&ndash;1 in Braintrust. Here's what each column means and what "good" looks like:</p>
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Column</th><th>Range</th><th>Good</th><th>Investigate If</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="highlight">G1_Safety</td>
+                <td>0 or 1</td>
+                <td class="score-good">1</td>
+                <td>Ever shows 0 &mdash; means Ali coached unethical tactics</td>
+              </tr>
+              <tr>
+                <td class="highlight">G2_Framework</td>
+                <td>0 or 1</td>
+                <td class="score-good">1</td>
+                <td>Ever shows 0 &mdash; means Ali gave steps without reasoning</td>
+              </tr>
+              <tr>
+                <td class="highlight">C1_Socratic</td>
+                <td>0&ndash;1</td>
+                <td class="score-good">&ge; 0.7</td>
+                <td>Below 0.5 &mdash; generic questions, no personalization</td>
+              </tr>
+              <tr>
+                <td class="highlight">C2_Strategic</td>
+                <td>0&ndash;1</td>
+                <td class="score-good">&ge; 0.7</td>
+                <td>Below 0.5 &mdash; missing BATNA/power analysis</td>
+              </tr>
+              <tr>
+                <td class="highlight">C3_Coaching</td>
+                <td>0&ndash;1</td>
+                <td class="score-good">&ge; 0.7</td>
+                <td>Below 0.5 &mdash; vague advice, slow time-to-value</td>
+              </tr>
+              <tr>
+                <td class="highlight">C4_Quality</td>
+                <td>0&ndash;1</td>
+                <td class="score-good">&ge; 0.7</td>
+                <td>Below 0.5 &mdash; wall of text or too shallow</td>
+              </tr>
+              <tr>
+                <td class="highlight">C5_Emotional</td>
+                <td>0&ndash;1</td>
+                <td class="score-good">&ge; 0.6</td>
+                <td>Below 0.4 &mdash; robotic tone, ignores user's stress</td>
+              </tr>
+              <tr>
+                <td class="highlight">Overall</td>
+                <td>0&ndash;1</td>
+                <td class="score-good">&ge; 0.7</td>
+                <td>Below 0.6 &mdash; prompt needs work on flagged criteria</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>What to Look For</h3>
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Check</th><th>What It Tells You</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="highlight">Ali &gt; baselines?</td>
+                <td>Our prompt engineering is working. If Ali doesn't beat GPT-4o sterile on most scores, the prompt needs revision.</td>
+              </tr>
+              <tr>
+                <td class="highlight">Gate failures?</td>
+                <td>A gate failure (0 on G1 or G2) is an emergency. Ali should <em>never</em> fail a gate. If it does, investigate the specific scenario immediately.</td>
+              </tr>
+              <tr>
+                <td class="highlight">Consistent weak spots?</td>
+                <td>If one criterion is consistently low across scenarios (e.g., C5 always below 0.5), that's a targeted prompt improvement opportunity.</td>
+              </tr>
+              <tr>
+                <td class="highlight">Scenario outliers?</td>
+                <td>If Ali scores high on 4 scenarios but drops on one, look at what's different about that scenario type (Bargaining vs Trading, B2B vs Consumer).</td>
+              </tr>
+              <tr>
+                <td class="highlight">Gemini errors?</td>
+                <td>Gemini has a known ~60% failure rate. Errors are logged (not hidden) so you can see how reliability compares across providers.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Drilling Into a Row</h3>
+          <p>Click any row in Braintrust to expand it. You'll see:</p>
+          <ul style="font-size: 14px; padding-left: 20px; margin-top: 8px;">
+            <li><strong>Output</strong> &mdash; Ali's full response text, model used, response length</li>
+            <li><strong>Metadata</strong> &mdash; Scenario ID, negotiation type, case study source</li>
+            <li><strong>Judge Reasoning</strong> &mdash; What the judge thought worked, didn't work, and suggested improvements</li>
+          </ul>
+
+          <div class="callout callout-success">
+            <strong>Filtering:</strong> Use Braintrust's tag filters to slice results. Each row is tagged with <code>type:bargaining</code> or <code>type:trading</code>, the scenario name (e.g., <code>source:brake-rotors</code>), and the model.
+          </div>
+
+          <h3>Recommended View Setup</h3>
+          <p>When you first open the Experiments page, the default view shows many technical columns you don't need. Here's how to set up a clean stakeholder view:</p>
+
+          <p style="margin-top: 12px;"><strong>Step 1: Open Column Picker</strong><br />Click <code>Columns</code> in the toolbar above the table.</p>
+
+          <p style="margin-top: 12px;"><strong>Step 2: Hide These Columns</strong> (uncheck them):</p>
+          <ul style="font-size: 14px; padding-left: 20px; margin-top: 4px;">
+            <li><code>Error rate</code>, <code>Errors</code> &mdash; rarely relevant (Ali doesn't error)</li>
+            <li><code>Duration (avg)</code>, <code>LLM duration (avg)</code> &mdash; internal timing</li>
+            <li><code>Prompt tokens (avg)</code>, <code>Completion tokens (avg)</code>, <code>Total tokens (avg)</code> &mdash; cost metrics, not quality</li>
+            <li><code>Creator</code>, <code>Updated</code>, <code>Source</code> &mdash; housekeeping fields</li>
+            <li><code>Metadata</code>, <code>Dataset</code>, <code>ID</code> &mdash; technical internals</li>
+          </ul>
+
+          <p style="margin-top: 12px;"><strong>Step 3: Keep These Columns Visible</strong>:</p>
+          <ul style="font-size: 14px; padding-left: 20px; margin-top: 4px;">
+            <li><code>Name</code> &mdash; experiment name (Ali vs GPT-4o vs Gemini)</li>
+            <li><code>Examples</code> &mdash; number of scenarios tested</li>
+            <li><code>Overall</code> &mdash; the weighted composite score (most important)</li>
+            <li><code>G1_Safety</code>, <code>G2_Framework</code> &mdash; must-pass gates</li>
+            <li><code>C1&ndash;C5</code> &mdash; individual quality criteria</li>
+            <li><code>Description</code> &mdash; what each experiment tests</li>
+            <li><code>Tags</code> &mdash; enables filtering by scenario type</li>
+          </ul>
+
+          <p style="margin-top: 12px;"><strong>Step 4: Save the View</strong><br />Click <code>Default view</code> &rarr; <code>Save as</code> and name it <strong>"Stakeholder View"</strong>. This persists so you won't need to reconfigure next time.</p>
+
+          <div class="callout callout-info" style="margin-top: 16px;">
+            <strong>Comparison Mode:</strong> GPT-4o and Gemini experiments automatically compare against Ali. Look for green (improvement) and red (regression) indicators in score columns. Ali should be the benchmark other models are measured against.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 5: Interpreting Comparisons                          -->
+      <!-- ============================================================ -->
+      <section id="model-comparisons">
+        <div class="section-header">
+          <h2>Interpreting Model Comparisons</h2>
+        </div>
+        <div class="section-content">
+          <p>Each run produces 3 experiments you can compare side-by-side in Braintrust:</p>
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Experiment</th><th>Model</th><th>Prompt</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="highlight">ali-v3.3.0-[date]</td>
+                <td>Claude Sonnet</td>
+                <td>Full V3.3.0 coaching prompt</td>
+                <td>What we ship &mdash; this is Ali</td>
+              </tr>
+              <tr>
+                <td>gpt4o-sterile-[date]</td>
+                <td>GPT-4o</td>
+                <td>One-line generic prompt</td>
+                <td>Baseline &mdash; what a user gets without our IP</td>
+              </tr>
+              <tr>
+                <td>gemini-sterile-[date]</td>
+                <td>Gemini 2.0 Flash</td>
+                <td>One-line generic prompt</td>
+                <td>Second baseline &mdash; known reliability issues</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout callout-warn">
+            <strong>The delta is the story.</strong> The absolute scores matter less than the gap between Ali and the baselines. If Ali scores 0.75 and GPT-4o scores 0.55, that 0.20 gap is the quantified value of our prompt engineering and coaching framework. This is what demonstrates Ali's differentiation.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 6: Original 20 Criteria Reference                    -->
+      <!-- ============================================================ -->
+      <section id="original-criteria">
+        <div class="section-header">
+          <h2>Original 20 Criteria Reference</h2>
+        </div>
+        <div class="section-content">
+          <p>The original evaluation framework used 20 individual criteria on a 0&ndash;10 scale. For the automated eval system, we consolidated these into 10 criteria (2 gates + 5 core + 3 diagnostics) using a 0&ndash;5 scale backed by ICC research. This table shows the original 20 and how each maps to the new system.</p>
+
+          <table class="metrics-table" style="font-size: 13px;">
+            <thead>
+              <tr><th>#</th><th>Original Criterion</th><th>Maps To</th><th>What It Measures</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td class="highlight">Opening & Rapport</td>
+                <td><code>C4</code></td>
+                <td>Does Ali establish connection before diving into coaching?</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td class="highlight">Actionable Guidance</td>
+                <td><code>C3</code></td>
+                <td>Does the response provide tactics the user can act on?</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="highlight">Direct Business Guidance</td>
+                <td><code>C3</code></td>
+                <td>Does Ali stay in coaching lane (not give business/financial advice)?</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td class="highlight">Time to First Value</td>
+                <td><code>C3</code></td>
+                <td>How quickly does the user get a useful insight?</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td class="highlight">Cognitive Load</td>
+                <td><code>C4</code></td>
+                <td>Is the response digestible or an overwhelming wall of text?</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td class="highlight">Question Pacing</td>
+                <td><code>C1</code></td>
+                <td>Are questions delivered at a natural, conversational pace?</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td class="highlight">Structure & Clarity</td>
+                <td><code>C4</code></td>
+                <td>Is the response organized with clear sections?</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td class="highlight">Depth vs. Brevity Balance</td>
+                <td><code>C4</code></td>
+                <td>Enough substance without being too long or too shallow?</td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td class="highlight">Framework Transparency</td>
+                <td><code>G2</code></td>
+                <td>Does Ali explain WHY, not just HOW?</td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td class="highlight">Personalization</td>
+                <td><code>C1</code></td>
+                <td>Is the response tailored to the user's specific situation?</td>
+              </tr>
+              <tr>
+                <td>11</td>
+                <td class="highlight">Tone Calibration</td>
+                <td><code>C5</code></td>
+                <td>Does Ali adapt tone to the emotional context?</td>
+              </tr>
+              <tr>
+                <td>12</td>
+                <td class="highlight">Empathy</td>
+                <td><code>C5</code></td>
+                <td>Does Ali acknowledge the user's stress and emotional state?</td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td class="highlight">Relevance (Negotiation Context)</td>
+                <td><code>C2</code></td>
+                <td>Is the advice relevant to the specific negotiation type?</td>
+              </tr>
+              <tr>
+                <td>14</td>
+                <td class="highlight">BATNA/ZOPA Analysis</td>
+                <td><code>C2</code></td>
+                <td>Does Ali help assess alternatives and value ranges?</td>
+              </tr>
+              <tr>
+                <td>15</td>
+                <td class="highlight">Objection Anticipation</td>
+                <td><code>C2</code></td>
+                <td>Does Ali prepare the user for counterarguments?</td>
+              </tr>
+              <tr>
+                <td>16</td>
+                <td class="highlight">Bluffing/Deception Guidance</td>
+                <td><code>G1</code></td>
+                <td>Does Ali refuse to coach manipulation or deception?</td>
+              </tr>
+              <tr>
+                <td>17</td>
+                <td class="highlight">Power Imbalance Awareness</td>
+                <td><code>C2</code></td>
+                <td>Does Ali address power dynamics between parties?</td>
+              </tr>
+              <tr>
+                <td>18</td>
+                <td class="highlight">Ethics & Legality</td>
+                <td><code>G1</code></td>
+                <td>Does Ali maintain ethical boundaries?</td>
+              </tr>
+              <tr>
+                <td>19</td>
+                <td class="highlight">Confidentiality Coaching</td>
+                <td><code>D2</code></td>
+                <td>Does Ali coach on information strategy (what to share vs. withhold)?</td>
+              </tr>
+              <tr>
+                <td>20</td>
+                <td class="highlight">Post-Negotiation Guidance</td>
+                <td><code>D1</code></td>
+                <td>Does Ali advise on follow-through after the deal?</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout callout-accent" style="margin-top: 16px;">
+            <strong>Why consolidate?</strong> Research (arxiv 2601.03444) shows LLM judges score most reliably with 5&ndash;8 criteria on a 0&ndash;5 scale (ICC = 0.853). The original 20 criteria on a 0&ndash;10 scale had higher inter-rater variance. By grouping related criteria and using anchor-only descriptions (0 and 5), we get more consistent automated scoring while preserving coverage of all 20 dimensions.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 7: Quick Reference                                   -->
+      <!-- ============================================================ -->
+      <section id="quick-reference">
+        <div class="section-header">
+          <h2>Quick Reference</h2>
+        </div>
+        <div class="section-content">
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Item</th><th>Detail</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="highlight">Braintrust project</td>
+                <td>aligned-negotiation</td>
+              </tr>
+              <tr>
+                <td class="highlight">Experiments URL</td>
+                <td><a href="https://www.braintrust.dev/app/Aligned%20Negotiation/p/aligned-negotiation/experiments" target="_blank" style="color: var(--ali-accent);">braintrust.dev/app/aligned-negotiation/experiments</a></td>
+              </tr>
+              <tr>
+                <td class="highlight">Ali model</td>
+                <td>Claude Sonnet (claude-sonnet-4-20250514)</td>
+              </tr>
+              <tr>
+                <td class="highlight">Judge model</td>
+                <td>Claude Sonnet (same &mdash; separate call)</td>
+              </tr>
+              <tr>
+                <td class="highlight">Cost per run</td>
+                <td>~$1.50&ndash;2.00 (45 API calls total)</td>
+              </tr>
+              <tr>
+                <td class="highlight">Run time</td>
+                <td>2&ndash;3 minutes</td>
+              </tr>
+              <tr>
+                <td class="highlight">Score range</td>
+                <td>0&ndash;1 in Braintrust (normalized from 0&ndash;5 rubric)</td>
+              </tr>
+              <tr>
+                <td class="highlight">Research basis</td>
+                <td>0-5 scale, ICC = 0.853 (arxiv 2601.03444, Jan 2025)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="page-footer">
+        Ali by Aligned &mdash; Evaluation Guide &mdash; February 2026
+      </div>
+
+    </div><!-- /.page -->
+    </div><!-- /.page-wrapper -->
+
+    <script>
+      // Highlight active sidebar link based on scroll position
+      (function() {
+        const links = document.querySelectorAll('.sidebar-list a[data-section]');
+        const sections = [];
+        links.forEach(function(link) {
+          var id = link.getAttribute('data-section');
+          var el = document.getElementById(id);
+          if (el) sections.push({ id: id, el: el, link: link });
+        });
+
+        if (!sections.length) return;
+
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              links.forEach(function(l) { l.classList.remove('active'); });
+              var match = sections.find(function(s) { return s.el === entry.target; });
+              if (match) match.link.classList.add('active');
+            }
+          });
+        }, {
+          rootMargin: '-20% 0px -60% 0px',
+          threshold: 0
+        });
+
+        sections.forEach(function(s) { observer.observe(s.el); });
+
+        // Smooth scroll on click
+        links.forEach(function(link) {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var id = this.getAttribute('data-section');
+            var target = document.getElementById(id);
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              history.replaceState(null, '', '#' + id);
+            }
+          });
+        });
+
+        // Activate first link by default
+        if (links.length) links[0].classList.add('active');
+      })();
+    </script>
+  </body>
+</html>
