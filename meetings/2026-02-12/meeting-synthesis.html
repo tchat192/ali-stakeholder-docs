@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meeting Synthesis | Feb 12, 2026</title>
+<style>
+@font-face { font-family: "Moret"; src: url("../../../public/fonts/moret/moret-semibold-webfont.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Moret"; src: url("../../../public/fonts/moret/moret-regular-webfont.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../../../public/fonts/inter/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../../../public/fonts/inter/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../../../public/fonts/inter/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../../../public/fonts/inter/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --text-primary: #1e1d1b; --text-body: #3f3c38; --text-secondary: #6f6a63;
+  --text-tertiary: #9a9389; --border: #ececec; --border-warm: #d1cbc2;
+  --bg-page: #f5f3f0; --bg-card: #ffffff; --bg-muted: #e6e2dc;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Moret", Georgia, serif;
+  --success: #10b981; --success-bg: rgba(95,175,138,0.12); --success-text: rgb(60,120,90);
+  --accent-bg: rgba(159,164,211,0.15); --accent-text: rgb(100,100,160);
+  --warning-bg: rgba(245,158,11,0.12); --warning-text: #92400e;
+  --error-bg: rgba(239,68,68,0.1); --error-text: #991b1b;
+  --new-bg: rgba(59,130,246,0.08); --new-text: #1e40af; --new-border: rgba(59,130,246,0.3);
+  --asf-gradient: linear-gradient(73.1deg, rgb(95,175,138) 0%, rgb(127,191,174) 12.39%, rgb(158,198,217) 39.57%, rgb(168,191,217) 58.16%, rgb(159,164,211) 79.32%, rgb(138,132,198) 99.15%);
+}
+
+html, body { font-family: var(--font-sans); background: var(--bg-page); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.header { background: var(--asf-gradient); padding: 24px 40px 20px; }
+.header h1 { font-family: var(--font-serif); font-weight: 600; font-size: 1.5rem; color: white; margin-bottom: 4px; }
+.header p { font-size: 0.82rem; color: rgba(255,255,255,0.85); }
+
+.nav { display: flex; gap: 6px; padding: 12px 40px; background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 99; overflow-x: auto; }
+.nav button { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-warm); background: transparent; color: var(--text-secondary); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+.nav button:hover { background: var(--bg-muted); }
+.nav button.active { background: var(--text-primary); color: white; border-color: var(--text-primary); }
+
+.content { padding: 30px 40px 80px; max-width: 920px; margin: 0 auto; }
+.section { display: none; }
+.section.active { display: block; }
+
+.section-header { font-family: var(--font-serif); font-weight: 600; font-size: 1.5rem; color: var(--text-primary); margin-bottom: 4px; }
+.section-sub { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px; }
+
+.card { background: var(--bg-card); border: 1px solid var(--border-warm); border-radius: 12px; padding: 22px 26px; margin-bottom: 16px; }
+.card h3 { font-family: var(--font-serif); font-weight: 600; font-size: 1.1rem; margin-bottom: 10px; color: var(--text-primary); }
+.card p, .card li { font-size: 0.88rem; color: var(--text-body); line-height: 1.7; }
+.card ul, .card ol { padding-left: 20px; margin-top: 8px; }
+.card li { margin-bottom: 6px; }
+
+.card.success { border-left: 3px solid var(--success); background: var(--success-bg); }
+.card.success h3 { color: var(--success-text); }
+.card.success p, .card.success li { color: var(--success-text); }
+
+.card.warning { border-left: 3px solid var(--warning-text); background: var(--warning-bg); }
+.card.warning h3 { color: var(--warning-text); }
+.card.warning p, .card.warning li { color: var(--warning-text); }
+
+.card.error { border-left: 3px solid var(--error-text); background: var(--error-bg); }
+.card.error h3 { color: var(--error-text); }
+.card.error p, .card.error li { color: var(--error-text); }
+
+.card.new { border-left: 3px solid var(--new-border); background: var(--new-bg); }
+.card.new h3 { color: var(--new-text); }
+.card.new p, .card.new li { color: var(--new-text); }
+
+.quote { background: var(--accent-bg); border-left: 3px solid rgb(138,132,198); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.85rem; color: var(--accent-text); font-style: italic; line-height: 1.7; }
+.attr { font-size: 0.75rem; font-weight: 600; color: var(--text-tertiary); font-style: normal; display: block; margin-top: 6px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 12px; border: 1px solid var(--border-warm); border-radius: 8px; overflow: hidden; }
+th { text-align: left; font-weight: 600; color: var(--text-primary); padding: 10px 14px; background: var(--bg-muted); border-bottom: 2px solid var(--border-warm); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border-warm); color: var(--text-body); vertical-align: top; line-height: 1.6; }
+tr:nth-child(even) td { background: rgba(245,243,240,0.5); }
+tr:last-child td { border-bottom: none; }
+
+.badge { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 2px 8px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
+.badge.hit { background: var(--success-bg); color: var(--success-text); }
+.badge.miss { background: var(--error-bg); color: var(--error-text); }
+.badge.new-item { background: var(--new-bg); color: var(--new-text); }
+.badge.partial { background: var(--warning-bg); color: var(--warning-text); }
+
+.score-bar { display: flex; gap: 20px; padding: 16px 22px; background: var(--bg-card); border: 1px solid var(--border-warm); border-radius: 10px; margin-bottom: 24px; }
+.score { text-align: center; flex: 1; }
+.score .num { font-family: var(--font-serif); font-weight: 600; font-size: 1.6rem; }
+.score .label { font-size: 0.72rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.score.green .num { color: var(--success-text); }
+.score.amber .num { color: var(--warning-text); }
+.score.blue .num { color: var(--new-text); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Weekly Project Sync: Meeting Synthesis</h1>
+  <p>Feb 12, 2026 &mdash; Mark Mirra, Tom Hilgeman, Lee Rozins, Terrance Chatman &mdash; Gemini + Plaud transcript vs. choreography</p>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="show('scorecard')">Scorecard</button>
+  <button onclick="show('decisions')">Decisions</button>
+  <button onclick="show('actions')">Action Items</button>
+  <button onclick="show('newmoves')">New Coaching Moves</button>
+  <button onclick="show('choreo')">Choreography Audit</button>
+  <button onclick="show('quotes')">Key Quotes</button>
+  <button onclick="show('engineering')">Engineering Impact</button>
+</div>
+
+<div class="content">
+
+  <!-- SCORECARD -->
+  <div class="section active" id="scorecard">
+    <div class="section-header">Meeting Scorecard</div>
+    <div class="section-sub">How the meeting mapped to the choreography</div>
+
+    <div class="score-bar">
+      <div class="score green"><div class="num">10</div><div class="label">Decisions Made</div></div>
+      <div class="score amber"><div class="num">10</div><div class="label">Action Items</div></div>
+      <div class="score blue"><div class="num">5</div><div class="label">New Coaching Moves</div></div>
+      <div class="score green"><div class="num">6</div><div class="label">New Knowledge Sources</div></div>
+    </div>
+
+    <div class="card success">
+      <h3>What landed</h3>
+      <ul>
+        <li><strong>Brake Rotors discussion went exactly as planned.</strong> Mark surfaced both errors (leverage reveal + backwards pricing). The choreography predicted this.</li>
+        <li><strong>Curriculum architecture was well received.</strong> The ontology vocabulary ("coaching move," "playbook," "calibration") was adopted by the group.</li>
+        <li><strong>Tom was deeply engaged.</strong> Suggested books, recorded debates, and methodology refinements. The "SME bridge" framing was correct.</li>
+        <li><strong>Lee engaged on completeness.</strong> Asked what happens if the coaching move list is incomplete &mdash; healthy product thinking. Also reframed information extraction as finding "the right prompts," which Terrance elevated to "coaching moves" &mdash; organic ontology adoption.</li>
+        <li><strong>Lee's input-variation insight landed.</strong> Noted users will give varying amounts of info ("sometimes a lot, sometimes a little") and Ali must normalize to a consistent answer. Product-level thinking that validates the extraction methodology.</li>
+        <li><strong>Collaborative tone worked.</strong> No defensiveness in the transcript. Mark's feedback was constructive, not critical.</li>
+      </ul>
+    </div>
+
+    <div class="card new">
+      <h3>What emerged that wasn't in the choreography</h3>
+      <ul>
+        <li><strong>"Transparency" reframe</strong> &mdash; Tom reframed "honesty" as "transparency" and suggested it should vary by negotiation type. This is a new architectural concept.</li>
+        <li><strong>Four required diagnostic questions</strong> &mdash; Mark defined a specific question framework Ali must ask early. New coaching move.</li>
+        <li><strong>Testing methodology shift</strong> &mdash; Tom challenged the "paste-everything-upfront" approach. Ali should extract info naturally. This changes how evals work.</li>
+        <li><strong>External literature ingestion</strong> &mdash; Tom proposed 3D Negotiation as first book. Full anchor list ordered Feb 12: <em>3-D Negotiation</em> (Lax &amp; Sebenius), <em>Never Split the Difference</em> (Voss), <em>Getting to Yes</em> (Fisher/Ury/Patton). New knowledge expansion path.</li>
+        <li><strong>Recorded coach debates</strong> &mdash; Tom suggested Mark and Tom debate philosophy on recording for training data. Novel capture method.</li>
+        <li><strong>Kyle Coleman</strong> &mdash; Marketing specialist advisor reviewing landing page copy. New stakeholder.</li>
+        <li><strong>Mark's Zapier/Notion workflow</strong> &mdash; Mark will share his Flaw-to-Notion transcript automation.</li>
+        <li><strong>50 test case evaluation bank</strong> &mdash; Terrance proposed 50 test cases (6-8 turns each) to automate alignment scoring. Adopted as a team target.</li>
+        <li><strong>"Ali Training V2"</strong> &mdash; Mark shared a reformatted version of the ASF methodology page in Ali Chat. New knowledge asset for ingestion.</li>
+        <li><strong>Architectural clarification</strong> &mdash; Ali is NOT connected to live Notion. It uses static content in an internal SQL database. Notion connectors are Phase 2. Mark's PDF export is the interim path.</li>
+      </ul>
+    </div>
+
+    <div class="card warning">
+      <h3>What didn't come up</h3>
+      <ul>
+        <li><strong>Server downtime</strong> &mdash; Not mentioned. No need to retroactively surface.</li>
+        <li><strong>Landing page copy deadline</strong> &mdash; Mark mentioned Kyle Coleman is reviewing it; no hard deadline set. Follow up needed.</li>
+        <li><strong>30-min Tom validation session</strong> &mdash; Not explicitly scheduled. The book/debate discussion may have replaced this. Confirm with Tom.</li>
+        <li><strong>Position protection / monotonic pricing</strong> &mdash; These engineering fixes weren't discussed by name. The transparency + prioritization framing covers the same ground differently.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DECISIONS -->
+  <div class="section" id="decisions">
+    <div class="section-header">Decisions</div>
+    <div class="section-sub">Confirmed by the group during the meeting</div>
+
+    <table>
+      <thead><tr><th style="width:5%;">#</th><th style="width:30%;">Decision</th><th>Detail</th><th style="width:15%;">Decided By</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>"Transparency" not "honesty"</strong></td>
+          <td>Rephrase Ali's setting from "honesty" to "transparency." Level varies by negotiation type: Bargaining = 2-3/10, Trading = 4-5/10, Creating/Partnering = 7-8/10 (never 10). Mark originated the scale numbers; Tom reframed the concept from "honesty" to "transparency."</td>
+          <td>Tom, agreed by all</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Prioritization question required</strong></td>
+          <td>Ali must ask which terms the user needs to maximize and which they can be flexible on. This prevents the backwards-pricing-tier problem.</td>
+          <td>Mark</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Ali extracts info naturally</strong></td>
+          <td>Future testing requires Ali to extract information from the user conversationally, not receive full briefings upfront. Testing methodology shifts.</td>
+          <td>Tom, agreed by Mark</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Four required diagnostic questions</strong></td>
+          <td>Ali asks early: (1) How many terms and what are they? (2) How many attractive alternatives? (3) Intent of contract (one-off vs long-term)? (4) What's the relationship like?</td>
+          <td>Mark</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Adopt internal ontology vocabulary</strong></td>
+          <td>Team adopts: Coaching Move, Curriculum Level, Concept Cluster, Playbook, Calibration as official terms.</td>
+          <td>Terrance, adopted by group</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Digest negotiation literature</strong></td>
+          <td>AI digests books from curated anchor list. Three books ordered Feb 12: (1) <em>3-D Negotiation</em> &mdash; Lax &amp; Sebenius (Tom's pick, technical frameworks), (2) <em>Never Split the Difference</em> &mdash; Chris Voss (tactical/transactional pole), (3) <em>Getting to Yes</em> &mdash; Fisher, Ury &amp; Patton (Harvard integrative pole). Team reviews extracted moves asynchronously via checklist.</td>
+          <td>Tom, agreed by Mark</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>Recorded coach debates</strong></td>
+          <td>Mark and Tom record philosophical debates on negotiation topics. Recordings used for systemizing insight and training data.</td>
+          <td>Tom</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>Braintrust-first change process</strong></td>
+          <td>All system prompt and code changes tested in Braintrust environment first. Mark reviews changes before production deployment.</td>
+          <td>Terrance, confirmed by Mark</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><strong>Curated book list only</strong></td>
+          <td>Only negotiation books that Mark and Tom have read AND believe in get added to Ali's knowledge base. No unvetted bulk imports. Tom: "Have you read all those? Personally? Let's just add the ones that we've read." <strong>Anchor list (ordered Feb 12):</strong> <em>3-D Negotiation</em> (Lax &amp; Sebenius), <em>Never Split the Difference</em> (Voss), <em>Getting to Yes</em> (Fisher/Ury/Patton). These three represent the philosophical spectrum: tactical &harr; integrative &harr; structural.</td>
+          <td>Mark, enforced by Tom</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><strong>50 test case evaluation bank</strong></td>
+          <td>Build 50 test cases with 6-8 conversational turns each. Used to automate alignment scoring and measure Ali's inferencing consistency. Mark's Brake Rotors scenario is test case #1.</td>
+          <td>Terrance, agreed by all</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ACTION ITEMS -->
+  <div class="section" id="actions">
+    <div class="section-header">Action Items</div>
+    <div class="section-sub">Attributed from Gemini + Plaud transcripts + engineering implications</div>
+
+    <table>
+      <thead><tr><th style="width:15%;">Owner</th><th>Action</th><th style="width:15%;">Deadline</th><th style="width:12%;">Source</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Mark</strong></td>
+          <td>Share Zapier/Notion workflow (Flaw transcripts &rarr; Notion &rarr; task list) with Terrance</td>
+          <td>Next day or two</td>
+          <td>Gemini</td>
+        </tr>
+        <tr>
+          <td><strong>Terrance</strong></td>
+          <td>Provide updates on today's discussion by end of day tomorrow (Friday)</td>
+          <td>Fri Feb 13 EOD</td>
+          <td>Gemini</td>
+        </tr>
+        <tr>
+          <td><strong>Mark</strong></td>
+          <td>Do another test scenario where Ali extracts information naturally (not given full briefing upfront)</td>
+          <td>Not specified</td>
+          <td>Gemini</td>
+        </tr>
+        <tr>
+          <td><strong>Terrance</strong></td>
+          <td>Get back to Tom on whether the system can learn from test scenarios and feedback</td>
+          <td>Not specified</td>
+          <td>Gemini</td>
+        </tr>
+        <tr>
+          <td><strong>Terrance</strong></td>
+          <td>Follow up with Mark and Tom to identify negotiation books they've read and believe in, for Ali training set</td>
+          <td>Not specified</td>
+          <td>Gemini</td>
+        </tr>
+        <tr>
+          <td><strong>Mark</strong></td>
+          <td>Create more digestible format for Aligned Strategic Methodology page (AI rewrite for Ali ingestion); send to Terrance for format review. Already shared "Ali Training V2" in Ali Chat as first pass.</td>
+          <td>Not specified</td>
+          <td>Gemini + Plaud</td>
+        </tr>
+        <tr>
+          <td><strong>Tom</strong></td>
+          <td>Conduct piece-by-piece extraction test with Ali (same approach as Mark's retest, independent comparison)</td>
+          <td>Not specified</td>
+          <td>Plaud</td>
+        </tr>
+        <tr>
+          <td><strong>All</strong></td>
+          <td>Copy and paste storylines into Ali, have a practice conversation, add transcript to testing page for review</td>
+          <td>Not specified</td>
+          <td>Plaud</td>
+        </tr>
+        <tr>
+          <td><strong>Terrance</strong></td>
+          <td>Determine optimal file/data format for training Ali and communicate to Mark <em>before</em> Mark continues reformatting knowledge base</td>
+          <td>Before Mark reformats</td>
+          <td>Plaud</td>
+        </tr>
+        <tr>
+          <td><strong>Terrance</strong></td>
+          <td>Three anchor books ordered (Feb 12): <em>3-D Negotiation</em> (Lax &amp; Sebenius), <em>Never Split the Difference</em> (Voss), <em>Getting to Yes</em> (Fisher/Ury/Patton). Terrance to ingest all three cover-to-cover into Ali's knowledge base via coaching move extraction pipeline.</td>
+          <td>Not specified</td>
+          <td>Plaud</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card" style="margin-top: 20px;">
+      <h3>Implied Engineering Actions (not in Gemini, derived from decisions)</h3>
+      <table>
+        <thead><tr><th style="width:15%;">Owner</th><th>Action</th><th style="width:15%;">Blocked By</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Terrance</strong></td>
+            <td>Implement "transparency" parameter that varies by negotiation type (bargaining/trading/partnering)</td>
+            <td>Decision #1</td>
+          </tr>
+          <tr>
+            <td><strong>Terrance</strong></td>
+            <td>Add prioritization question to Ali's early-conversation flow ("which terms to maximize?")</td>
+            <td>Decision #2</td>
+          </tr>
+          <tr>
+            <td><strong>Terrance</strong></td>
+            <td>Implement Mark's four required diagnostic questions in classification/opening flow</td>
+            <td>Decision #4</td>
+          </tr>
+          <tr>
+            <td><strong>Terrance</strong></td>
+            <td>Update eval scripts: create scenarios where Ali must extract info (not receive full briefing)</td>
+            <td>Decision #3</td>
+          </tr>
+          <tr>
+            <td><strong>Terrance</strong></td>
+            <td>Build book ingestion pipeline: <code>pymupdf4llm</code> &rarr; semantic chunking &rarr; Haiku extraction &rarr; TypeScript files in <code>src/chatbot/knowledge/books/</code>. Three books ordered. Start with Voss Ch1 as proof-of-concept.</td>
+            <td>Books arriving (2 overnight, 1 Feb 18-23)</td>
+          </tr>
+          <tr>
+            <td><strong>Terrance</strong></td>
+            <td>Ingest Mark's reformatted ASF methodology page when received</td>
+            <td>Mark's action</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NEW COACHING MOVES -->
+  <div class="section" id="newmoves">
+    <div class="section-header">New Coaching Moves Identified</div>
+    <div class="section-sub">Emerged from the meeting &mdash; not in pre-meeting choreography or existing catalog</div>
+
+    <div class="card new">
+      <h3>1. Transparency Calibration by Negotiation Type</h3>
+      <div class="quote">"It's not honesty, it's transparency."<span class="attr">&mdash; Tom Hilgeman (verbatim, Plaud transcript)</span></div>
+      <div class="quote">"Bargaining should be like a two three. Trading should be like a four or five. Creating and partnering is more like a seven, eight, because you're never going to be a 10 in these situations."<span class="attr">&mdash; Mark Mirra (verbatim, Plaud transcript)</span></div>
+      <p>Ali should modulate how much information it coaches users to share based on the negotiation type. Specific scale: Bargaining = 2-3/10, Trading = 4-5/10, Creating/Partnering = 7-8/10, never 10. This replaces the flat "honesty" parameter with a dynamic, type-driven transparency model. Mark also coined "leverage tell" for when Ali reveals position-weakening information (e.g., "these are from a canceled order").</p>
+      <p style="margin-top: 8px; font-size: 0.82rem; color: var(--text-tertiary);"><strong>Catalog status:</strong> NEW. Not in FRAMEWORK_CATALOG. Should be added as a coaching move.</p>
+    </div>
+
+    <div class="card new">
+      <h3>2. Term Prioritization Question</h3>
+      <div class="quote">"Ali needed to ask one more question earlier in the process: which terms the user needs to maximize and where they can be flexible."<span class="attr">&mdash; Mark Mirra</span></div>
+      <p>A required early-conversation question that prevents Ali from suboptimizing &mdash; directly caused by the backwards pricing tiers in Brake Rotors. This is the fix Mark articulated.</p>
+      <p style="margin-top: 8px; font-size: 0.82rem; color: var(--text-tertiary);"><strong>Catalog status:</strong> NEW. Extension of A2 (Zones) &mdash; explicit prioritization before strategy generation.</p>
+    </div>
+
+    <div class="card new">
+      <h3>3. Four Required Diagnostic Questions</h3>
+      <div class="quote">"How many terms are being negotiated and what they are. How many alternatives are in the marketplace, are they attractive? What's the intent in this contract, one-off to long-term? And what's your relationship like?"<span class="attr">&mdash; Mark Mirra (verbatim, Plaud transcript)</span></div>
+      <div class="quote">"I would say ninety nine point nine percent of the time we ask some form of those four questions, pretty early in the process just to get a baseline understanding."<span class="attr">&mdash; Mark Mirra (verbatim, Plaud transcript)</span></div>
+      <p>A structured intake framework Ali must complete before generating strategy. Maps to classification but is more specific than current implementation. <strong>Critical nuance from Tom:</strong> "There has to be some sort of foreplay before we get into those types of things too" &mdash; diagnostic questions must not be asked cold; conversational warm-up first.</p>
+      <p style="margin-top: 8px; font-size: 0.82rem; color: var(--text-tertiary);"><strong>Catalog status:</strong> NEW. Should be added as a required early-conversation coaching move. Overlaps with existing classification questions but adds "attractive alternatives" and "contract intent."</p>
+    </div>
+
+    <div class="card new">
+      <h3>4. Conversational Information Extraction</h3>
+      <div class="quote">"Ali should be tested on its ability to naturally extract information from a user, mimicking a real conversation."<span class="attr">&mdash; Tom Hilgeman</span></div>
+      <p>Ali should not rely on users providing complete briefings. The coaching conversation itself should be the information-gathering mechanism. Changes both the product behavior and the eval methodology.</p>
+      <p style="margin-top: 8px; font-size: 0.82rem; color: var(--text-tertiary);"><strong>Catalog status:</strong> Coaching delivery pattern. Related to D5 (Three Stages of Facilitation) but more specific to information extraction.</p>
+    </div>
+
+    <div class="card new">
+      <h3>5. Coach Debate as Training Data</h3>
+      <div class="quote">"The best way for us to do this is we put two people that do this in a room together, and we talk back and forth. So like Mark and me or Scott and me or Mark and Scott."<span class="attr">&mdash; Tom Hilgeman (verbatim, Plaud transcript)</span></div>
+      <div class="quote">"We're basically putting an idea on trial... I am the transactionalist, Mark is the kumbaya Harvard person, and then we basically debate it."<span class="attr">&mdash; Tom Hilgeman (verbatim, Plaud transcript)</span></div>
+      <p>A novel knowledge capture method: structured disagreement between experts produces the nuanced coaching wisdom that transcripts from client sessions don't always surface. Tom confirmed coach-on-coach sessions yield more "distilled information" than full-day client workshops. Terrance endorsed, comparing to UChicago School of Economics thought experiments.</p>
+      <p style="margin-top: 8px; font-size: 0.82rem; color: var(--text-tertiary);"><strong>Catalog status:</strong> Knowledge acquisition methodology. Not a coaching move itself, but the source of future coaching moves.</p>
+    </div>
+  </div>
+
+  <!-- CHOREOGRAPHY AUDIT -->
+  <div class="section" id="choreo">
+    <div class="section-header">Choreography Audit</div>
+    <div class="section-sub">What the choreography predicted vs. what actually happened</div>
+
+    <table>
+      <thead><tr><th style="width:25%;">Choreography Section</th><th style="width:10%;">Result</th><th>What Happened</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Mindset: "This is a calibration session"</strong></td>
+          <td><span class="badge hit">Hit</span></td>
+          <td>The meeting was collaborative, not defensive. Mark's feedback was constructive. Tone was exactly right.</td>
+        </tr>
+        <tr>
+          <td><strong>1. Listen: "Walk me through what you saw"</strong></td>
+          <td><span class="badge hit">Hit</span></td>
+          <td>Mark walked through Brake Rotors in detail. Surfaced both predicted errors (leverage reveal + backwards pricing). Also surfaced new concept (transparency vs honesty).</td>
+        </tr>
+        <tr>
+          <td><strong>1. Listen: Mark names the two errors</strong></td>
+          <td><span class="badge hit">Hit</span></td>
+          <td>Exact match. "Ali gave away too much leverage by mentioning the rotors were from a canceled order" and "volume incentives backwards."</td>
+        </tr>
+        <tr>
+          <td><strong>1. Listen: "What's your move?"</strong></td>
+          <td><span class="badge partial">Partial</span></td>
+          <td>Mark didn't describe "his move" per se. Instead he prescribed a fix: add a prioritization question. Tom reframed it as a transparency problem. Both are calibration data, just not the form we expected.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Reflect: Repeat back understanding</strong></td>
+          <td><span class="badge partial">Partial</span></td>
+          <td>Terrance agreed with the transparency reframe. Not clear from transcript if explicit "reflect back" happened. The conversation flowed naturally rather than following the scripted reflect pattern.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Connect: "Infrastructure is built"</strong></td>
+          <td><span class="badge hit">Hit</span></td>
+          <td>Terrance presented the curriculum architecture, which IS the "infrastructure" connection. The ontology vocabulary presentation demonstrated the system readiness.</td>
+        </tr>
+        <tr>
+          <td><strong>4. Curriculum concept presented</strong></td>
+          <td><span class="badge hit">Hit</span></td>
+          <td>Ontology vocabulary adopted. 13 coaching moves presented from existing catalog. Well received.</td>
+        </tr>
+        <tr>
+          <td><strong>4. New Hire Coach analogy</strong></td>
+          <td><span class="badge partial">Partial</span></td>
+          <td>Not explicitly in transcript. The curriculum presentation may have used different framing. Gemini may not have captured analogies.</td>
+        </tr>
+        <tr>
+          <td><strong>5. Ask: Mark tests 3 more scenarios</strong></td>
+          <td><span class="badge hit">Hit</span></td>
+          <td>Mark agreed to test again, specifically with Ali extracting info naturally (not given upfront). Better than the original ask &mdash; includes methodology improvement.</td>
+        </tr>
+        <tr>
+          <td><strong>5. Ask: Tom 30-min validation session</strong></td>
+          <td><span class="badge miss">Miss</span></td>
+          <td>Not explicitly scheduled. Tom's engagement was high (books, debates, methodology) but the specific "validate 20 coaching moves" ask didn't land. The recorded debate idea may serve this purpose better.</td>
+        </tr>
+        <tr>
+          <td><strong>6. Lee's angle</strong></td>
+          <td><span class="badge hit">Hit</span></td>
+          <td>Lee asked about completeness of the coaching move list &mdash; shows product thinking engagement. She was active, not passive.</td>
+        </tr>
+        <tr>
+          <td><strong>7. Server downtime mentioned</strong></td>
+          <td><span class="badge miss">Miss</span></td>
+          <td>Not discussed. Fine &mdash; it was low priority and resolved.</td>
+        </tr>
+        <tr>
+          <td><strong>7. Landing page feedback deadline</strong></td>
+          <td><span class="badge partial">Partial</span></td>
+          <td>Mark said Kyle Coleman (marketing advisor) is reviewing. No hard deadline. Copy sent externally &mdash; not just Mark's review.</td>
+        </tr>
+        <tr>
+          <td><strong>NOT PREDICTED: Transparency reframe</strong></td>
+          <td><span class="badge new-item">New</span></td>
+          <td>Tom's reframe from "honesty" to "transparency" by negotiation type. Significant architectural insight.</td>
+        </tr>
+        <tr>
+          <td><strong>NOT PREDICTED: Four diagnostic questions</strong></td>
+          <td><span class="badge new-item">New</span></td>
+          <td>Mark defined a specific required question framework. New coaching move for the catalog.</td>
+        </tr>
+        <tr>
+          <td><strong>NOT PREDICTED: Book ingestion pipeline</strong></td>
+          <td><span class="badge new-item">New</span></td>
+          <td>Tom proposed 3D Negotiation. Mark agreed with curated (read + believed) filter. Full anchor list ordered Feb 12: 3-D Negotiation, Never Split the Difference, Getting to Yes. Three philosophical poles covered.</td>
+        </tr>
+        <tr>
+          <td><strong>NOT PREDICTED: Recorded debates</strong></td>
+          <td><span class="badge new-item">New</span></td>
+          <td>Tom proposed philosophical debates as training data source. Novel knowledge capture method.</td>
+        </tr>
+        <tr>
+          <td><strong>NOT PREDICTED: Mark's Zapier workflow</strong></td>
+          <td><span class="badge new-item">New</span></td>
+          <td>Mark has a Flaw &rarr; Notion automation. Will share with Terrance.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card" style="margin-top: 20px;">
+      <h3>Audit Summary</h3>
+      <p><strong>6 hits, 3 partial, 2 misses, 5 new items.</strong> The choreography predicted the Brake Rotors discussion accurately and set the right tone. The curriculum presentation landed well. The meeting exceeded the choreography in two ways: (1) Tom was more generative than expected &mdash; producing three new ideas (transparency reframe, debates, book ingestion), and (2) Mark was more prescriptive than expected &mdash; defining specific diagnostic questions rather than describing coaching philosophy. Both are better outcomes than what was scripted.</p>
+    </div>
+  </div>
+
+  <!-- KEY QUOTES -->
+  <div class="section" id="quotes">
+    <div class="section-header">Key Quotes</div>
+    <div class="section-sub">Exact language from Gemini + Plaud transcripts, attributed. Plaud quotes are verbatim.</div>
+
+    <div class="card">
+      <h3>On Ali's Transparency</h3>
+      <div class="quote">"That gives them too much leverage. So maybe there's some tuning we can do on transparency and honesty."<span class="attr">&mdash; Mark Mirra (Plaud)</span></div>
+      <div class="quote">"It's not honesty, it's transparency."<span class="attr">&mdash; Tom Hilgeman (Plaud)</span></div>
+      <div class="quote">"Bargaining should be like a two three. Trading should be like a four or five. Creating and partnering is more like a seven, eight, because you're never going to be a 10 in these situations."<span class="attr">&mdash; Mark Mirra (Plaud)</span></div>
+      <div class="quote">"So you're calling that like a leverage tell, right?"<span class="attr">&mdash; Terrance Chatman, coining the term (Plaud)</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Ali's Strategy Quality</h3>
+      <div class="quote">"Ali's proposed path for strategic bundling resulted in a quote that suboptimized the position and had the volume incentives backwards. The highest volume requirement was paired with worse payment terms, instead of better ones."<span class="attr">&mdash; Mark Mirra</span></div>
+      <div class="quote">"This led to a discussion about introducing a prioritization layer to the AI, asking which terms should be maximized."<span class="attr">&mdash; Gemini narrative</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Testing Methodology</h3>
+      <div class="quote">"Tom Hilgeman challenged Mark Mirra's initial testing approach of providing all information upfront, arguing that Ali should be tested on its ability to naturally extract information from a user, mimicking a real conversation."<span class="attr">&mdash; Gemini narrative</span></div>
+      <div class="quote">"Tom Hilgeman cautioned that these questions should not be asked without context, suggesting Mark Mirra retest the scenario by inputting information line by line to see if the outcome changes."<span class="attr">&mdash; Gemini narrative</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Curriculum Architecture</h3>
+      <div class="quote">"Terrance J. Chatman introduced the first version of the curriculum architecture for Ali's knowledge base, noting that the existing Notion page content needs to be converted into a different format for the AI to ingest."<span class="attr">&mdash; Gemini narrative</span></div>
+      <div class="quote">"They defined core vocabulary for the project, including: 'coaching move,' 'curriculum level,' 'concept cluster,' 'playbook,' and 'calibration.'"<span class="attr">&mdash; Gemini narrative</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Knowledge Expansion</h3>
+      <div class="quote">"Tom Hilgeman suggested inputting external negotiation books, specifically naming 3D Negotiation, as a way to integrate foundational knowledge and uncover moves they might not know how to articulate or systemize."<span class="attr">&mdash; Gemini narrative</span></div>
+      <div class="quote">"Only negotiation books read and believed in added to AI knowledge base initially. Avoid throwing in extensive unvetted lists."<span class="attr">&mdash; Gemini decision summary</span></div>
+      <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-body);"><strong>Anchor list ordered Feb 12:</strong> <em>3-D Negotiation</em> (Lax &amp; Sebenius) &mdash; structural/technical frameworks. <em>Never Split the Difference</em> (Chris Voss) &mdash; tactical/transactional negotiation. <em>Getting to Yes</em> (Fisher, Ury &amp; Patton) &mdash; Harvard integrative approach. These three represent the philosophical spectrum Tom and Mark debate: transactionalist &harr; integrative &harr; structural.</p>
+    </div>
+
+    <div class="card">
+      <h3>On Expert Capture</h3>
+      <div class="quote">"We're basically putting an idea on trial... I am the transactionalist, Mark is the kumbaya Harvard person, and then we basically debate it."<span class="attr">&mdash; Tom Hilgeman (Plaud)</span></div>
+      <div class="quote">"Mary Fuck Kill across the board."<span class="attr">&mdash; Mark Mirra, on filtering book content through the team's lens (Plaud)</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Diagnostic Approach</h3>
+      <div class="quote">"I would say ninety nine point nine percent of the time we ask some form of those four questions, like pretty early in the process just to get a baseline understanding."<span class="attr">&mdash; Mark Mirra (Plaud)</span></div>
+      <div class="quote">"We don't ask those without context, though. So there has to be some sort of foreplay before we get into those types of things too."<span class="attr">&mdash; Tom Hilgeman (Plaud)</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Input Variation &amp; Ontology Adoption</h3>
+      <div class="quote">"There's no right or wrong amount at first of inputs that we'll get from a user. They might give us a lot, they might give us a little... we're basically saying it needs to be true up to a certain number for us to have a consistent answer."<span class="attr">&mdash; Lee Rozins (Plaud)</span></div>
+      <div class="quote">"It's like the emphasis and importance of the right prompts... we're basically just trying to figure out exactly what the right prompt is in questions."<span class="attr">&mdash; Lee Rozins (Plaud)</span></div>
+      <div class="quote">"I would call it like a coaching move, which is like a specific technique, pattern or instinct that Ali can apply."<span class="attr">&mdash; Terrance Chatman, reframing Lee's "prompts" (Plaud)</span></div>
+      <div class="quote">"The more elegant way to describe it. Absolutely."<span class="attr">&mdash; Lee Rozins, adopting the ontology (Plaud)</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Book Curation</h3>
+      <div class="quote">"3D Negotiation is going to have all the frameworks on it... 3D negotiation is technical, and most negotiation books are a lot more communication psychological."<span class="attr">&mdash; Tom Hilgeman (Plaud)</span></div>
+      <div class="quote">"Have you read all those? Personally?... Let's just add the ones that we've read."<span class="attr">&mdash; Tom Hilgeman, after Mark pasted a large book list (Plaud)</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Lee's Engagement</h3>
+      <div class="quote">"Lee Rozins questioned what happens if the list is incomplete, and Terrance J. Chatman emphasized the need for many more live transcripts and recordings to train the AI."<span class="attr">&mdash; Gemini narrative</span></div>
+    </div>
+
+    <div class="card">
+      <h3>On Second Test (Positive)</h3>
+      <div class="quote">"Ali picked up on key factors like having proven alternatives, time-sensitive urgency, and the supplier's commitment to the delivery window... Ali offered curated paths for strategy and coached them through the delivery process, including advice like leading with the growth story and staying quiet after presenting the package."<span class="attr">&mdash; On Mark's second test scenario (new supplier)</span></div>
+    </div>
+  </div>
+
+  <!-- ENGINEERING IMPACT -->
+  <div class="section" id="engineering">
+    <div class="section-header">Engineering Impact</div>
+    <div class="section-sub">What needs to change in the codebase based on this meeting</div>
+
+    <div class="card error">
+      <h3>Priority 1: Transparency by Negotiation Type</h3>
+      <p><strong>Decision #1.</strong> Ali currently has no concept of modulating information-sharing advice by negotiation type. The "honesty" framing in the system prompt needs to become a "transparency" parameter driven by the Four Negotiation Types classification (Bargaining, Trading, Creating, Partnering).</p>
+      <p style="margin-top: 8px;"><strong>Files affected:</strong> <code>coaching-methodology.ts</code> (position protection section), <code>v3-braintrust-synced.ts</code> (system prompt), classification logic.</p>
+      <p style="margin-top: 4px;"><strong>Complexity:</strong> Medium. Requires mapping transparency levels to negotiation types and adjusting coaching guidance per type.</p>
+    </div>
+
+    <div class="card error">
+      <h3>Priority 2: Four Required Diagnostic Questions</h3>
+      <p><strong>Decision #4.</strong> Mark defined four specific questions Ali must ask early: (1) terms being negotiated, (2) attractive alternatives, (3) contract intent (one-off vs LTA), (4) relationship status. These overlap with existing classification but are more specific.</p>
+      <p style="margin-top: 8px;"><strong>Files affected:</strong> <code>v3-braintrust-synced.ts</code> (opening behavior), classification prompt, eval scenarios.</p>
+      <p style="margin-top: 4px;"><strong>Complexity:</strong> Low-Medium. Can be added to opening instructions in system prompt. Need to integrate with existing classification flow.</p>
+    </div>
+
+    <div class="card warning">
+      <h3>Priority 3: Eval Methodology &mdash; Extraction Testing</h3>
+      <p><strong>Decision #3.</strong> Current eval scenarios provide full briefings upfront. New scenarios needed where the simulated user gives information piecemeal and Ali must ask for what it needs.</p>
+      <p style="margin-top: 8px;"><strong>Files affected:</strong> <code>eval-ali-multiturn.ts</code>, <code>eval-shared.ts</code> (scenario definitions), new scenario briefings.</p>
+      <p style="margin-top: 4px;"><strong>Complexity:</strong> Medium. User simulator needs to withhold info and respond only when asked. Different scenario structure.</p>
+    </div>
+
+    <div class="card warning">
+      <h3>Priority 4: Term Prioritization Question</h3>
+      <p><strong>Decision #2.</strong> Ali asks "which terms are you trying to maximize, and where can you be flexible?" early in the conversation. This directly prevents the backwards-pricing-tier problem.</p>
+      <p style="margin-top: 8px;"><strong>Files affected:</strong> <code>v3-braintrust-synced.ts</code> (strategy generation instructions), <code>coaching-methodology.ts</code>.</p>
+      <p style="margin-top: 4px;"><strong>Complexity:</strong> Low. Add to Ali's required early-conversation behavior in the system prompt.</p>
+    </div>
+
+    <div class="card">
+      <h3>Priority 5: Book Ingestion Pipeline</h3>
+      <p><strong>Decision #6 + #9.</strong> Ingest 3 negotiation books cover-to-cover into Ali's knowledge base. All ordered Feb 12:</p>
+      <ul style="margin-top: 8px;">
+        <li><strong><em>Never Split the Difference</em></strong> (Chris Voss) &mdash; Arriving overnight. FBI tactical negotiation, emotional leverage, calibrated questions.</li>
+        <li><strong><em>Getting to Yes</em></strong> (Fisher, Ury &amp; Patton) &mdash; Arriving overnight. Harvard Negotiation Project, principled/integrative negotiation. The "kumbaya Harvard" pole Tom references.</li>
+        <li><strong><em>3-D Negotiation</em></strong> (Lax &amp; Sebenius) &mdash; Arriving Feb 18-23. Technical frameworks, deal design. Tom: "3D negotiation is technical, and most negotiation books are a lot more communication psychological."</li>
+      </ul>
+      <p style="margin-top: 12px;"><strong>Pipeline (researched):</strong></p>
+      <ol style="margin-top: 6px;">
+        <li><strong>Acquire digital text:</strong> Buy Kindle editions (~$25-45 total, all 3 available) &rarr; <code>brew install --cask calibre</code> + DeDRM plugin &rarr; import .azw3 &rarr; convert to .txt/.epub. Alt: Libby (library app) has free digital loans.</li>
+        <li><strong>Extract:</strong> <code>pymupdf4llm</code> (Python) &rarr; LLM-optimized markdown with chapter structure</li>
+        <li><strong>Chunk:</strong> 1,500&ndash;3,000 token semantic chunks per chapter, 10-20% overlap</li>
+        <li><strong>Extract coaching moves:</strong> Claude Haiku Batch API processes each chunk &rarr; structured JSON (coaching moves, frameworks, examples, quotes)</li>
+        <li><strong>Store:</strong> TypeScript files mirroring existing <code>asf-sections.ts</code> pattern &rarr; <code>src/chatbot/knowledge/books/</code></li>
+        <li><strong>Review:</strong> HTML dashboard (existing <code>docs/*.html</code> pattern) &mdash; Mark/Tom approve/reject each extracted coaching move</li>
+        <li><strong>Inject:</strong> Static injection into system prompt alongside ASF sections (all 3 books ~320K tokens, fits in context window)</li>
+      </ol>
+      <p style="margin-top: 8px;"><strong>Cost:</strong> ~$25-45 Kindle editions + ~$2 Haiku extraction = ~$30-50 total. $0 ongoing.</p>
+      <p style="margin-top: 4px;"><strong>Status:</strong> Physical books arriving (2 overnight, 1 Feb 18-23). Next step: buy Kindle editions, install Calibre, proof-of-concept with Voss Ch1.</p>
+    </div>
+
+    <div class="card">
+      <h3>Priority 6: Braintrust Review Gate</h3>
+      <p><strong>Decision #8.</strong> Mark reviews changes before production. This is already the workflow (USE_BRAINTRUST=true in Railway), but needs to be formalized: Terrance creates before/after diff, Mark approves, then production deploy.</p>
+      <p style="margin-top: 8px;"><strong>Status:</strong> Partially in place. Need to add Mark-facing review step (possibly a Braintrust comparison view or a simple diff document).</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const buttons = document.querySelectorAll('.nav button');
+  const sections = ['scorecard','decisions','actions','newmoves','choreo','quotes','engineering'];
+  const idx = sections.indexOf(id);
+  if (idx >= 0 && buttons[idx]) buttons[idx].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.addEventListener('keydown', function(e) {
+  const sections = ['scorecard','decisions','actions','newmoves','choreo','quotes','engineering'];
+  const current = sections.findIndex(id => document.getElementById(id).classList.contains('active'));
+  if (e.key === 'ArrowRight' && current < sections.length - 1) show(sections[current + 1]);
+  if (e.key === 'ArrowLeft' && current > 0) show(sections[current - 1]);
+});
+</script>
+
+</body>
+</html>
