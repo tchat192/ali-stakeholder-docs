@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Book Extraction Review | Ali MVP</title>
 <style>
-@font-face { font-family: "Moret"; src: url("../fonts/moret-semibold-webfont.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Inter"; src: url("../fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Inter"; src: url("../fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Moret"; src: url("../fonts/moret/moret-semibold-webfont.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../fonts/inter/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../fonts/inter/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -153,15 +153,15 @@ html, body { font-family: var(--font-sans); background: var(--bg-page); color: v
 
 <div class="header">
   <h1>Book Extraction Review Dashboard</h1>
-  <p>590 coaching items from 2 books + Aligned internal IP &mdash; Review and approve for Ali's knowledge base</p>
+  <p>969 coaching items from 3 books + Aligned internal IP &mdash; Review and approve for Ali's knowledge base</p>
 </div>
 
 <div class="tab-nav">
   <button class="tab-btn active" data-tab="overview" onclick="showTab('overview')">Overview</button>
-  <button class="tab-btn" data-tab="gty" onclick="showTab('gty')">Getting to Yes<span class="tab-count">(233)</span></button>
-  <button class="tab-btn" data-tab="nsd" onclick="showTab('nsd')">Never Split the Difference<span class="tab-count">(287)</span></button>
   <button class="tab-btn" data-tab="asf" onclick="showTab('asf')">Aligned Strategic Framework<span class="tab-count">(70)</span></button>
   <button class="tab-btn" data-tab="3dn" onclick="showTab('3dn')">3-D Negotiation<span class="tab-count">(379)</span></button>
+  <button class="tab-btn" data-tab="gty" onclick="showTab('gty')">Getting to Yes<span class="tab-count">(233)</span></button>
+  <button class="tab-btn" data-tab="nsd" onclick="showTab('nsd')">Never Split the Difference<span class="tab-count">(287)</span></button>
 </div>
 
 <!-- ==================== OVERVIEW TAB ==================== -->
@@ -183,10 +183,10 @@ html, body { font-family: var(--font-sans); background: var(--bg-page); color: v
   <h3>Source Books</h3>
   <p>These three books were chosen to cover the full negotiation spectrum &mdash; the same poles Mark and Tom debate:</p>
   <div style="display:flex;flex-wrap:wrap;gap:4px;margin:12px 0 20px;">
+    <span class="book-pill"><span class="dot" style="background:#8a84c6;"></span><strong>Aligned Strategic Framework</strong> &mdash; Mark Mirra &amp; Tom Hilgeman &mdash; Proprietary coaching IP (70 items)</span>
+    <span class="book-pill"><span class="dot" style="background:#f59e0b;"></span><strong>3-D Negotiation</strong> &mdash; Lax &amp; Sebenius &mdash; Strategic / Setup pole (379 items)</span>
     <span class="book-pill"><span class="dot" style="background:#10b981;"></span><strong>Getting to Yes</strong> &mdash; Fisher, Ury &amp; Patton &mdash; Integrative / Harvard pole (233 items)</span>
     <span class="book-pill"><span class="dot" style="background:#6366f1;"></span><strong>Never Split the Difference</strong> &mdash; Chris Voss &mdash; Tactical / FBI pole (287 items)</span>
-    <span class="book-pill"><span class="dot" style="background:#f59e0b;"></span><strong>3-D Negotiation</strong> &mdash; Lax &amp; Sebenius &mdash; Strategic / Setup pole (379 items)</span>
-    <span class="book-pill"><span class="dot" style="background:#8a84c6;"></span><strong>Aligned Strategic Framework</strong> &mdash; Mark Mirra &amp; Tom Hilgeman &mdash; Proprietary coaching IP (70 items)</span>
   </div>
 
   <h3>What Are These Item Types?</h3>
@@ -245,10 +245,10 @@ html, body { font-family: var(--font-sans); background: var(--bg-page); color: v
 
   <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:16px;">Notice how Ali weaves Aligned's diagnostic approach with book-sourced tactics. The approved items below make this possible.</p>
   <div style="display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap;">
-    <button class="tab-btn" onclick="showTab('gty')" style="background:#10b981;color:white;border-radius:8px;padding:12px 28px;font-size:0.88rem;border-bottom:none;">Review Getting to Yes (233) &rarr;</button>
-    <button class="tab-btn" onclick="showTab('nsd')" style="background:#6366f1;color:white;border-radius:8px;padding:12px 28px;font-size:0.88rem;border-bottom:none;">Review Never Split the Difference (287) &rarr;</button>
     <button class="tab-btn" onclick="showTab('asf')" style="background:#8a84c6;color:white;border-radius:8px;padding:12px 28px;font-size:0.88rem;border-bottom:none;">Review Aligned Strategic Framework (70) &rarr;</button>
     <button class="tab-btn" onclick="showTab('3dn')" style="background:#f59e0b;color:white;border-radius:8px;padding:12px 28px;font-size:0.88rem;border-bottom:none;">Review 3-D Negotiation (379) &rarr;</button>
+    <button class="tab-btn" onclick="showTab('gty')" style="background:#10b981;color:white;border-radius:8px;padding:12px 28px;font-size:0.88rem;border-bottom:none;">Review Getting to Yes (233) &rarr;</button>
+    <button class="tab-btn" onclick="showTab('nsd')" style="background:#6366f1;color:white;border-radius:8px;padding:12px 28px;font-size:0.88rem;border-bottom:none;">Review Never Split the Difference (287) &rarr;</button>
   </div>
 
 </div>
@@ -8007,14 +8007,9 @@ html, body { font-family: var(--font-sans); background: var(--bg-page); color: v
 
 <!-- ==================== 3-D NEGOTIATION TAB ==================== -->
 <div class="tab-panel" id="tab-3dn">
-<div class="page-content">
-  <div class="book-header">
-    <h2><span class="dot" style="background:#f59e0b;width:12px;height:12px;border-radius:50%;display:inline-block;"></span> 3-D Negotiation <span class="pole-badge" style="background:#f59e0b20;color:#f59e0b;">Strategic / Setup</span></h2>
-    <div class="author">David A. Lax, James K. Sebenius (2006)</div>
-  </div>
-  <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:16px;">379 items extracted via OCR from Kindle (all 15 chapters). Covers the strategic "third dimension" of negotiation &mdash; setup, sequencing, and deal design that happens away from the table.</p>
-  <div class="chapter-nav" id="3dn-chapter-nav"></div>
-  <div id="3dn-items-container"></div>
+<div class="page-content" id="3dn-content">
+  <!-- Rendered by JavaScript from THREE_DN_ITEMS data -->
+  <div style="text-align:center;padding:40px;color:#6f6a63;">Loading 3-D Negotiation...</div>
 </div>
 </div>
 
@@ -8030,7 +8025,7 @@ html, body { font-family: var(--font-sans); background: var(--bg-page); color: v
   <div class="count">
     Approved: <strong id="approvedCount">0</strong> &nbsp;|&nbsp;
     Rejected: <strong id="rejectedCount">0</strong> &nbsp;|&nbsp;
-    Pending: <strong id="pendingCount">590</strong>
+    Pending: <strong id="pendingCount">969</strong>
   </div>
   <button class="btn-export" onclick="exportApproved()">Export Approved (JSON)</button>
   <button class="btn-secondary" onclick="exportAll()">Export All with Status</button>
@@ -8243,9 +8238,10 @@ function emailReviewSummary() {
     'Pending: ' + (TOTAL_ITEMS - approved - rejected) + '\n' +
     'Items with Notes: ' + withNotes + '\n\n' +
     'Sources:\n' +
+    '  - Aligned Strategic Framework: 70 items\n' +
+    '  - 3-D Negotiation: 379 items\n' +
     '  - Getting to Yes: 233 items\n' +
-    '  - Never Split the Difference: 287 items\n' +
-    '  - Aligned Strategic Framework: 70 items\n\n' +
+    '  - Never Split the Difference: 287 items\n\n' +
     'Full JSON export available via the review dashboard.\n' +
     'Use "Export All with Status" to download the complete review.\n\n' +
     '— Terrance'
@@ -8658,9 +8654,8 @@ const THREE_DN_ITEMS = [
 
 
 function render3DNTab() {
-  const nav = document.getElementById('3dn-chapter-nav');
-  const container = document.getElementById('3dn-items-container');
-  if (!nav || !container) return;
+  const container = document.getElementById('3dn-content');
+  if (!container) return;
 
   const TYPE_COLORS = {
     coaching_move: { bg: '#dbeafe', color: '#1e40af', label: 'Coaching Move' },
@@ -8668,6 +8663,10 @@ function render3DNTab() {
     example:       { bg: '#d1fae5', color: '#065f46', label: 'Example' },
     quote:         { bg: '#fef3c7', color: '#92400e', label: 'Quote' }
   };
+
+  // Count items by type
+  const counts = { coaching_move: 0, framework: 0, example: 0, quote: 0 };
+  THREE_DN_ITEMS.forEach(item => counts[item.type]++);
 
   // Group by chapter
   const chapters = [];
@@ -8680,20 +8679,42 @@ function render3DNTab() {
     chapterMap[item.chapter].push(item);
   });
 
-  // Chapter nav
-  let navHtml = '';
+  // Book header (matching GTY/NSD/ASF pattern)
+  let html = `
+    <div class="book-header">
+      <h2><span class="dot" style="background:#f59e0b;width:12px;height:12px;border-radius:50%;display:inline-block;"></span> 3-D Negotiation  <span class="pole-badge" style="background:#f59e0b20;color:#f59e0b;">Strategic / Setup</span></h2>
+      <div class="author">David A. Lax, James K. Sebenius (2006)</div>
+      <div class="book-intro">The strategic "third dimension" of negotiation &mdash; what happens away from the table. Lax and Sebenius argue that most negotiators focus too narrowly on tactics and interpersonal skills (the "first dimension") while neglecting deal design (the "second dimension") and setup moves (the "third dimension"). Setup moves &mdash; sequencing, scoping, process design, and away-from-the-table actions &mdash; often determine outcomes before anyone sits down to negotiate.</div>
+      <div class="book-stats">
+        <span class="book-stat"><strong>${counts.coaching_move}</strong> Coaching Moves</span>
+        <span class="book-stat"><strong>${counts.framework}</strong> Frameworks</span>
+        <span class="book-stat"><strong>${counts.example}</strong> Examples</span>
+        <span class="book-stat"><strong>${counts.quote}</strong> Quotes</span>
+        <span class="book-stat" style="margin-left:auto;"><strong>${THREE_DN_ITEMS.length}</strong> total items</span>
+      </div>
+    </div>`;
+
+  // Table of Contents (matching GTY/NSD/ASF row pattern)
+  html += `<div class="toc"><h3>Chapters</h3>`;
   chapters.forEach((ch, idx) => {
-    const count = chapterMap[ch].length;
-    navHtml += `<button class="chapter-nav-btn" onclick="document.getElementById('3dn-ch-${idx}').scrollIntoView({behavior:'smooth'})" style="display:inline-block;padding:6px 14px;margin:3px;border-radius:6px;border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.08);color:#92400e;font-size:0.82rem;cursor:pointer;">${ch} <span style='opacity:0.6;'>(${count})</span></button>`;
+    const chItems = chapterMap[ch];
+    const typeCounts = {};
+    chItems.forEach(i => { typeCounts[i.type] = (typeCounts[i.type] || 0) + 1; });
+    html += `<div class="toc-item" onclick="document.getElementById('3dn-ch-${idx}').scrollIntoView({behavior:'smooth'})">
+      <span class="toc-title">${ch}</span>
+      <span class="toc-badges">`;
+    ['coaching_move','framework','example','quote'].forEach(t => {
+      if (typeCounts[t]) {
+        const tc = TYPE_COLORS[t];
+        html += `<span class="toc-mini-badge" style="background:${tc.bg};color:${tc.color};">${typeCounts[t]}</span>`;
+      }
+    });
+    html += `</span><span class="toc-count">${chItems.length} items</span></div>`;
   });
-  nav.innerHTML = navHtml;
+  html += `</div>`;
 
-  // Count items by type for stats
-  const counts = { coaching_move: 0, framework: 0, example: 0, quote: 0 };
-  THREE_DN_ITEMS.forEach(item => counts[item.type]++);
-
-  // Filters
-  let html = `<div class="book-filters">
+  // Filter bar
+  html += `<div class="book-filters">
     <label>Filter:</label>
     <select class="filter-type" onchange="applyBookFilter('3dn')">
       <option value="all">All Types</option>
@@ -8708,7 +8729,7 @@ function render3DNTab() {
     <button class="btn btn-skip" onclick="collapseAllChapters('3dn')">Collapse All</button>
   </div>`;
 
-  // Render chapters
+  // Render chapters (matching GTY/NSD/ASF chapter section pattern)
   chapters.forEach((ch, idx) => {
     const chItems = chapterMap[ch];
     const typeCounts = {};
@@ -8725,7 +8746,7 @@ function render3DNTab() {
     ['coaching_move','framework','example','quote'].forEach(t => {
       if (typeCounts[t]) {
         const tc = TYPE_COLORS[t];
-        html += `<span class="chapter-type-badge" style="background:${tc.bg};color:${tc.color};">${tc.label} \u00d7 ${typeCounts[t]}</span>`;
+        html += `<span class="chapter-type-badge" style="background:${tc.bg};color:${tc.color};">${tc.label} &times; ${typeCounts[t]}</span>`;
       }
     });
 
