@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inside Ali's Conversation Engine | Ali MVP</title>
+<style>
+@font-face { font-family: "Moret"; src: url("../fonts/moret-semibold-webfont.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --text-primary: #1e1d1b; --text-body: #3f3c38; --text-secondary: #6f6a63;
+  --border: #ececec; --border-warm: #d1cbc2;
+  --bg-page: #f5f3f0; --bg-card: #ffffff; --bg-muted: #e6e2dc;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Moret", Georgia, serif;
+  --asf-gradient: linear-gradient(73.1deg, rgb(95,175,138) 0%, rgb(127,191,174) 12.39%, rgb(158,198,217) 39.57%, rgb(168,191,217) 58.16%, rgb(159,164,211) 79.32%, rgb(138,132,198) 99.15%);
+  --blue: #1e40af; --blue-bg: #dbeafe;
+  --pink: #9d174d; --pink-bg: #fce7f3;
+  --green: #065f46; --green-bg: #d1fae5;
+  --amber: #92400e; --amber-bg: #fef3c7;
+  --book-gty: #5faf8a; --book-nsfd: #9fa4d3; --book-3dn: #a8bfd9; --book-asf: #8a84c6;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--bg-page); color: var(--text-primary); line-height: 1.6; }
+
+/* ── Hero Header ── */
+.hero { background: var(--asf-gradient); padding: 48px 40px 40px; text-align: center; position: relative; overflow: hidden; }
+.hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to bottom, transparent, var(--bg-page)); }
+.hero h1 { font-family: var(--font-serif); font-weight: 600; font-size: 2rem; color: white; margin-bottom: 8px; }
+.hero .subtitle { font-size: 0.95rem; color: rgba(255,255,255,0.88); max-width: 560px; margin: 0 auto; line-height: 1.6; }
+.hero-stats { display: flex; justify-content: center; gap: 32px; margin-top: 24px; }
+.hero-stat { text-align: center; }
+.hero-stat .num { font-family: var(--font-serif); font-size: 2rem; font-weight: 600; color: white; }
+.hero-stat .label { font-size: 0.72rem; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.8px; }
+
+/* ── Section Nav (pill navigation) ── */
+.pill-nav { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; padding: 20px 20px 12px; position: sticky; top: 0; z-index: 100; background: var(--bg-page); border-bottom: 1px solid var(--border-warm); }
+.pill-btn { font-family: var(--font-sans); font-size: 0.76rem; font-weight: 600; padding: 7px 16px; border: 1px solid var(--border-warm); border-radius: 20px; background: var(--bg-card); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.pill-btn:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+.pill-btn.active { background: var(--text-primary); color: white; border-color: var(--text-primary); }
+
+/* ── Shared Section Styles ── */
+.section { padding: 40px 40px 48px; max-width: 960px; margin: 0 auto; }
+.section + .section { border-top: 1px solid var(--border-warm); }
+.section-title { font-family: var(--font-serif); font-weight: 600; font-size: 1.4rem; margin-bottom: 6px; }
+.section-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 28px; }
+
+/* ── Pipeline Diagram ── */
+.pipeline { display: flex; align-items: center; gap: 0; justify-content: center; flex-wrap: wrap; padding: 20px 0; }
+.pipe-node { display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; z-index: 2; }
+.pipe-circle { width: 80px; height: 80px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+.pipe-circle:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+.pipe-circle .count { font-family: var(--font-serif); font-size: 1.1rem; }
+.pipe-circle .icon { font-size: 1.3rem; }
+.pipe-label { font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); text-align: center; max-width: 90px; }
+.pipe-arrow { width: 48px; height: 2px; background: var(--border-warm); position: relative; flex-shrink: 0; z-index: 1; }
+.pipe-arrow::after { content: ''; position: absolute; right: -6px; top: -4px; border: 5px solid transparent; border-left-color: var(--border-warm); }
+.pipe-tooltip { position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); background: var(--text-primary); color: white; padding: 10px 14px; border-radius: 8px; font-size: 0.75rem; line-height: 1.5; width: 200px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 10; }
+.pipe-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--text-primary); }
+.pipe-circle:hover .pipe-tooltip { opacity: 1; }
+@keyframes flowPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+.pipe-arrow { animation: flowPulse 2s ease-in-out infinite; }
+
+/* ── Source Books Row ── */
+.books-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.book-chip { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 24px; background: var(--bg-card); border: 1px solid var(--border-warm); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.book-chip:hover { transform: translateY(-2px); box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+.book-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.book-count { font-family: var(--font-serif); font-size: 0.85rem; color: var(--text-secondary); }
+
+/* ── Entity Type Cards ── */
+.entity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 28px; }
+.entity-card { background: var(--bg-card); border-radius: 12px; padding: 18px 20px; border-left: 4px solid; cursor: pointer; transition: all 0.2s; }
+.entity-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.07); }
+.entity-card.coaching_move { border-left-color: var(--blue); }
+.entity-card.framework { border-left-color: var(--pink); }
+.entity-card.example { border-left-color: var(--green); }
+.entity-card.quote { border-left-color: var(--amber); }
+.entity-card .type-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-bottom: 4px; }
+.entity-card.coaching_move .type-label { color: var(--blue); }
+.entity-card.framework .type-label { color: var(--pink); }
+.entity-card.example .type-label { color: var(--green); }
+.entity-card.quote .type-label { color: var(--amber); }
+.entity-card .type-count { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 600; }
+.entity-card .sample { font-size: 0.78rem; color: var(--text-body); margin-top: 8px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 8px; }
+
+/* ── Donut Chart ── */
+.donut-wrapper { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.donut-svg { width: 180px; height: 180px; }
+.donut-legend { display: flex; flex-direction: column; gap: 10px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+.legend-count { font-weight: 600; margin-left: auto; padding-left: 16px; }
+
+/* ── Cross-Book Intelligence ── */
+.crossbook-visual { position: relative; min-height: 340px; margin: 20px 0; }
+.crossbook-cols { display: grid; grid-template-columns: 140px 1fr 200px; gap: 20px; align-items: start; }
+.cb-books { display: flex; flex-direction: column; gap: 12px; }
+.cb-book-node { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border-warm); font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.25s; }
+.cb-book-node:hover, .cb-book-node.active { border-color: var(--text-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.cb-items { display: flex; flex-direction: column; gap: 8px; }
+.cb-item { padding: 10px 14px; border-radius: 10px; font-size: 0.78rem; line-height: 1.5; opacity: 0.4; transition: all 0.4s; border: 1px solid transparent; }
+.cb-item.active { opacity: 1; background: var(--bg-card); border-color: var(--border-warm); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.cb-item .item-source { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.cb-response { background: var(--bg-card); border: 2px solid rgb(138,132,198); border-radius: 14px; padding: 18px; font-size: 0.82rem; line-height: 1.65; color: var(--text-body); }
+.cb-response .resp-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: rgb(138,132,198); margin-bottom: 8px; }
+
+/* ── Comparison View ── */
+.compare-tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+.compare-tab { font-family: var(--font-sans); padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border-warm); background: var(--bg-card); font-size: 0.8rem; font-weight: 600; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; }
+.compare-tab.active { background: var(--text-primary); color: white; border-color: var(--text-primary); }
+.compare-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.compare-panel { background: var(--bg-card); border-radius: 12px; padding: 22px 24px; border-top: 3px solid; }
+.compare-panel.left { border-top-color: var(--book-gty); }
+.compare-panel.right { border-top-color: var(--book-nsfd); }
+.compare-panel h4 { font-family: var(--font-serif); font-size: 1rem; margin-bottom: 4px; }
+.compare-panel .author { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 12px; }
+.compare-approach { font-size: 0.82rem; color: var(--text-body); line-height: 1.7; }
+.compare-approach strong { color: var(--text-primary); }
+.compare-both { text-align: center; margin-top: 20px; padding: 16px 24px; background: rgba(138,132,198,0.1); border-radius: 12px; border: 1px solid rgba(138,132,198,0.2); }
+.compare-both .label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: rgb(138,132,198); margin-bottom: 4px; }
+.compare-both p { font-size: 0.85rem; color: var(--text-body); }
+
+/* ── Tag Landscape ── */
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 20px 0; }
+.tag-bubble { padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; position: relative; }
+.tag-bubble:hover { transform: scale(1.08); z-index: 2; }
+.tag-bubble .tag-detail { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--text-primary); color: white; padding: 8px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 400; width: 180px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 10; text-align: left; line-height: 1.5; }
+.tag-bubble .tag-detail::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--text-primary); }
+.tag-bubble:hover .tag-detail { opacity: 1; }
+
+/* ── Conversation Trace ── */
+.trace-container { position: relative; }
+.trace-step { display: grid; grid-template-columns: 48px 1fr 280px; gap: 16px; align-items: start; margin-bottom: 0; opacity: 0.35; transition: all 0.4s; cursor: pointer; padding: 16px 0; border-bottom: 1px solid var(--border); }
+.trace-step.active { opacity: 1; }
+.trace-step:last-child { border-bottom: none; }
+.step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); transition: all 0.3s; }
+.trace-step.active .step-num { background: rgb(138,132,198); color: white; }
+.step-content h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; }
+.step-content p { font-size: 0.8rem; color: var(--text-body); line-height: 1.5; }
+.step-visual { background: var(--bg-card); border: 1px solid var(--border-warm); border-radius: 10px; padding: 12px 16px; font-size: 0.75rem; color: var(--text-body); line-height: 1.5; }
+.step-visual .vis-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 6px; }
+.step-visual code { background: var(--bg-muted); padding: 2px 6px; border-radius: 4px; font-size: 0.72rem; }
+
+/* ── Ecosystem Footer ── */
+.ecosystem { background: var(--bg-card); border-radius: 14px; padding: 28px; border: 1px solid var(--border-warm); }
+.eco-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 16px; }
+.eco-link { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; text-decoration: none; color: var(--text-primary); border: 1px solid var(--border); font-size: 0.8rem; transition: all 0.2s; }
+.eco-link:hover { background: var(--bg-muted); border-color: var(--border-warm); transform: translateX(3px); }
+.eco-badge { font-size: 0.6rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.4px; flex-shrink: 0; }
+.eco-badge.arch { background: var(--blue-bg); color: var(--blue); }
+.eco-badge.product { background: var(--green-bg); color: var(--green); }
+.eco-badge.design { background: var(--pink-bg); color: var(--pink); }
+.eco-badge.meeting { background: var(--amber-bg); color: var(--amber); }
+.eco-badge.guide { background: rgba(138,132,198,0.15); color: rgb(100,100,160); }
+
+/* ── Footer ── */
+.page-footer { text-align: center; padding: 32px 40px; font-size: 0.78rem; color: var(--text-secondary); }
+.page-footer a { color: var(--text-body); text-decoration: none; }
+.page-footer a:hover { text-decoration: underline; }
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .hero { padding: 32px 20px 28px; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero-stats { gap: 16px; }
+  .hero-stat .num { font-size: 1.5rem; }
+  .section { padding: 28px 20px 36px; }
+  .pipeline { gap: 4px; }
+  .pipe-circle { width: 60px; height: 60px; }
+  .pipe-arrow { width: 24px; }
+  .crossbook-cols { grid-template-columns: 1fr; }
+  .compare-panels { grid-template-columns: 1fr; }
+  .trace-step { grid-template-columns: 36px 1fr; }
+  .step-visual { grid-column: 1 / -1; }
+  .pill-nav { gap: 4px; padding: 12px 12px 8px; }
+  .pill-btn { font-size: 0.7rem; padding: 5px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 1. HERO HEADER                              -->
+<!-- ════════════════════════════════════════════ -->
+<div class="hero">
+  <h1>Inside Ali's Conversation Engine</h1>
+  <p class="subtitle">How 969 coaching items from 4 expert sources become personalized negotiation advice</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">969</div><div class="label">Coaching Items</div></div>
+    <div class="hero-stat"><div class="num">4</div><div class="label">Expert Sources</div></div>
+    <div class="hero-stat"><div class="num">60</div><div class="label">Topic Tags</div></div>
+    <div class="hero-stat"><div class="num">5</div><div class="label">Entity Types</div></div>
+  </div>
+</div>
+
+<!-- Section Navigation -->
+<nav class="pill-nav" id="pillNav">
+  <button class="pill-btn active" data-section="pipeline">Pipeline</button>
+  <button class="pill-btn" data-section="entities">Entities</button>
+  <button class="pill-btn" data-section="crossbook">Cross-Book</button>
+  <button class="pill-btn" data-section="compare">Compare</button>
+  <button class="pill-btn" data-section="tags">Tag Landscape</button>
+  <button class="pill-btn" data-section="trace">Conversation Trace</button>
+  <button class="pill-btn" data-section="ecosystem">Ecosystem</button>
+</nav>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 2. THE DATA PIPELINE                        -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section" id="pipeline">
+  <h2 class="section-title">The Data Pipeline</h2>
+  <p class="section-desc">From expert negotiation books to personalized coaching -- every response is grounded in real methodology.</p>
+
+  <div class="books-row">
+    <div class="book-chip"><span class="book-dot" style="background:var(--book-gty)"></span>Getting to Yes <span class="book-count">233</span></div>
+    <div class="book-chip"><span class="book-dot" style="background:var(--book-nsfd)"></span>Never Split the Difference <span class="book-count">287</span></div>
+    <div class="book-chip"><span class="book-dot" style="background:var(--book-3dn)"></span>3-D Negotiation <span class="book-count">379</span></div>
+    <div class="book-chip"><span class="book-dot" style="background:var(--book-asf)"></span>Aligned Strategic Framework <span class="book-count">70</span></div>
+  </div>
+
+  <div class="pipeline">
+    <div class="pipe-node">
+      <div class="pipe-circle" style="background:var(--book-gty)">
+        <span class="icon">&#128218;</span>
+        <span class="count">4</span>
+        <div class="pipe-tooltip">4 expert sources: Getting to Yes, Never Split the Difference, 3-D Negotiation, and the Aligned Strategic Framework. Each extracted via AI-powered book ingestion pipeline.</div>
+      </div>
+      <div class="pipe-label">Source Books</div>
+    </div>
+    <div class="pipe-arrow" style="animation-delay:0s"></div>
+    <div class="pipe-node">
+      <div class="pipe-circle" style="background:#6f6a63">
+        <span class="icon">&#9881;</span>
+        <span class="count"></span>
+        <div class="pipe-tooltip">AI extraction pipeline processes each book chapter-by-chapter, identifying coaching moves, frameworks, examples, and quotes. Each item is tagged with topics for retrieval.</div>
+      </div>
+      <div class="pipe-label">Extraction Pipeline</div>
+    </div>
+    <div class="pipe-arrow" style="animation-delay:0.4s"></div>
+    <div class="pipe-node">
+      <div class="pipe-circle" style="background:var(--blue)">
+        <span class="icon">&#128451;</span>
+        <span class="count">969</span>
+        <div class="pipe-tooltip">969 entities across 5 types: 455 coaching moves, 146 frameworks, 133 examples, 161 quotes, and 4 question frameworks. Tagged with 60 topic labels.</div>
+      </div>
+      <div class="pipe-label">Entity Store</div>
+    </div>
+    <div class="pipe-arrow" style="animation-delay:0.8s"></div>
+    <div class="pipe-node">
+      <div class="pipe-circle" style="background:rgb(138,132,198)">
+        <span class="icon">&#128295;</span>
+        <span class="count"></span>
+        <div class="pipe-tooltip">Prompt assembly engine matches user context (negotiation type, phase, Silhouette profile) to relevant entities. Blends items across multiple sources for comprehensive advice.</div>
+      </div>
+      <div class="pipe-label">Prompt Assembly</div>
+    </div>
+    <div class="pipe-arrow" style="animation-delay:1.2s"></div>
+    <div class="pipe-node">
+      <div class="pipe-circle" style="background:var(--book-asf)">
+        <span class="icon">&#128172;</span>
+        <span class="count"></span>
+        <div class="pipe-tooltip">Ali delivers a personalized response that blends coaching moves from multiple books, adapted to the user's Silhouette personality type and negotiation context.</div>
+      </div>
+      <div class="pipe-label">Ali's Response</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 3. ENTITY TYPES EXPLORER                    -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section" id="entities">
+  <h2 class="section-title">Entity Types Explorer</h2>
+  <p class="section-desc">Every extracted item is classified into one of four primary types.</p>
+
+  <div class="donut-wrapper">
+    <svg class="donut-svg" viewBox="0 0 200 200">
+      <!-- Donut chart: coaching_move 455, framework 146, example 133, quote 161 + question_framework 4+ASF 70 -->
+      <!-- Total ring items: 969. Using 4 main segments. -->
+      <!-- Circumference = 2*pi*70 = 439.82 -->
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--blue-bg)" stroke-width="28"
+        stroke-dasharray="206.2 233.6" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--pink-bg)" stroke-width="28"
+        stroke-dasharray="66.2 373.6" stroke-dashoffset="-206.2" transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--green-bg)" stroke-width="28"
+        stroke-dasharray="60.3 379.5" stroke-dashoffset="-272.4" transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--amber-bg)" stroke-width="28"
+        stroke-dasharray="73.1 366.7" stroke-dashoffset="-332.7" transform="rotate(-90 100 100)"/>
+      <!-- Inner labels -->
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--blue)" stroke-width="28" opacity="0.25"
+        stroke-dasharray="206.2 233.6" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--pink)" stroke-width="28" opacity="0.25"
+        stroke-dasharray="66.2 373.6" stroke-dashoffset="-206.2" transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--green)" stroke-width="28" opacity="0.25"
+        stroke-dasharray="60.3 379.5" stroke-dashoffset="-272.4" transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--amber)" stroke-width="28" opacity="0.25"
+        stroke-dasharray="73.1 366.7" stroke-dashoffset="-332.7" transform="rotate(-90 100 100)"/>
+      <text x="100" y="95" text-anchor="middle" font-family="Moret,Georgia,serif" font-size="28" font-weight="600" fill="var(--text-primary)">969</text>
+      <text x="100" y="114" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" fill="var(--text-secondary)">TOTAL ITEMS</text>
+    </svg>
+
+    <div class="donut-legend">
+      <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span>Coaching Moves<span class="legend-count">455</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--amber)"></span>Quotes<span class="legend-count">161</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--pink)"></span>Frameworks<span class="legend-count">146</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>Examples<span class="legend-count">133</span></div>
+    </div>
+  </div>
+
+  <div class="entity-grid" style="margin-top:28px">
+    <div class="entity-card coaching_move" onclick="window.open('https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html','_blank')">
+      <div class="type-label">Coaching Move</div>
+      <div class="type-count">455</div>
+      <div class="sample">"Reject both soft and hard negotiating styles in favor of principled negotiation: decide issues on their merits rather than through haggling."</div>
+    </div>
+    <div class="entity-card framework" onclick="window.open('https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html','_blank')">
+      <div class="type-label">Framework</div>
+      <div class="type-count">146</div>
+      <div class="sample">"An agreement alone is insufficient. The true measure of success is implementation and execution -- getting to a signed contract has no value until it produces results."</div>
+    </div>
+    <div class="entity-card example" onclick="window.open('https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html','_blank')">
+      <div class="type-label">Example</div>
+      <div class="type-count">133</div>
+      <div class="sample">"Steve Perlman mapped backward: VCs would be more interested if Sony was already on board. He negotiated with Sony first, then leveraged that partnership."</div>
+    </div>
+    <div class="entity-card quote" onclick="window.open('https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html','_blank')">
+      <div class="type-label">Quote</div>
+      <div class="type-count">161</div>
+      <div class="sample">"Negotiation is a basic means of getting what you want from others -- back-and-forth communication designed to reach an agreement."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 4. CROSS-BOOK INTELLIGENCE                  -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section" id="crossbook">
+  <h2 class="section-title">Cross-Book Intelligence</h2>
+  <p class="section-desc">Ali doesn't just quote one book. It blends insights from multiple sources to give you comprehensive, nuanced advice.</p>
+
+  <div style="background:var(--bg-card);border:1px solid var(--border-warm);border-radius:12px;padding:16px 20px;margin-bottom:20px">
+    <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin-bottom:8px">Scenario</div>
+    <div style="font-size:0.95rem;font-weight:600">"My supplier keeps stone-walling me on price. They won't budge. What do I do?"</div>
+  </div>
+
+  <div class="crossbook-cols">
+    <div class="cb-books">
+      <div class="cb-book-node active" data-book="asf" style="border-left:3px solid var(--book-asf)">
+        <span class="book-dot" style="background:var(--book-asf)"></span>
+        Aligned
+      </div>
+      <div class="cb-book-node active" data-book="nsfd" style="border-left:3px solid var(--book-nsfd)">
+        <span class="book-dot" style="background:var(--book-nsfd)"></span>
+        Voss
+      </div>
+      <div class="cb-book-node active" data-book="gty" style="border-left:3px solid var(--book-gty)">
+        <span class="book-dot" style="background:var(--book-gty)"></span>
+        Fisher/Ury
+      </div>
+      <div class="cb-book-node active" data-book="3dn" style="border-left:3px solid var(--book-3dn)">
+        <span class="book-dot" style="background:var(--book-3dn)"></span>
+        Lax/Sebenius
+      </div>
+    </div>
+
+    <div class="cb-items">
+      <div class="cb-item active" style="border-left:3px solid var(--book-asf)">
+        <div class="item-source" style="color:var(--book-asf)">Aligned Framework</div>
+        <strong>Diagnostic Questions + Type Classification.</strong> First, classify this as a Trading negotiation in the Bargaining phase. Deploy diagnostic questions to understand their constraints.
+      </div>
+      <div class="cb-item active" style="border-left:3px solid var(--book-nsfd)">
+        <div class="item-source" style="color:var(--book-nsfd)">Voss &mdash; Coaching Move</div>
+        <strong>Calibrated Questions.</strong> Use "How am I supposed to do that?" to create empathy without confrontation. Labels like "It seems like price is the only lever you're willing to discuss" force them to elaborate.
+      </div>
+      <div class="cb-item active" style="border-left:3px solid var(--book-gty)">
+        <div class="item-source" style="color:var(--book-gty)">Fisher/Ury &mdash; Framework</div>
+        <strong>Invent Options for Mutual Gain.</strong> Move beyond positional bargaining by separating interests from positions. Brainstorm alternatives: payment terms, volume commitments, exclusivity in exchange for pricing.
+      </div>
+      <div class="cb-item active" style="border-left:3px solid var(--book-3dn)">
+        <div class="item-source" style="color:var(--book-3dn)">Lax/Sebenius &mdash; Framework</div>
+        <strong>3-D Setup Moves.</strong> Before your next meeting, change the game away from the table. Bring in a competing supplier bid, or restructure the deal to include elements where their costs are lower than their price.
+      </div>
+    </div>
+
+    <div class="cb-response">
+      <div class="resp-label">Ali's Blended Response</div>
+      Ali synthesizes all four perspectives into a single coaching response: diagnose the type, use calibrated questions to break the impasse, expand the pie with creative options, and restructure the deal setup before returning to the table.
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 5. COMPARISON VIEW                          -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section" id="compare">
+  <h2 class="section-title">Compare Approaches</h2>
+  <p class="section-desc">Different books tackle the same challenges from different angles. Ali uses both.</p>
+
+  <div class="compare-tabs" id="compareTabs">
+    <button class="compare-tab active" data-scenario="difficult">Difficult Counterparty</button>
+    <button class="compare-tab" data-scenario="opening">Opening Moves</button>
+    <button class="compare-tab" data-scenario="closing">Closing the Deal</button>
+  </div>
+
+  <div id="compareContent">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 6. TAG LANDSCAPE                            -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section" id="tags">
+  <h2 class="section-title">Tag Landscape</h2>
+  <p class="section-desc">60 topic tags across 969 items. Size indicates frequency, color indicates dominant book source.</p>
+  <div class="tag-cloud" id="tagCloud">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 7. LIVE CONVERSATION TRACE                  -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section" id="trace">
+  <h2 class="section-title">Live Conversation Trace</h2>
+  <p class="section-desc">Step through what happens behind the scenes when a user talks to Ali.</p>
+
+  <div class="trace-container" id="traceContainer">
+    <div class="trace-step active" data-step="1">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>User Speaks</h4>
+        <p>"I have a salary negotiation coming up. My manager always deflects when I bring up compensation."</p>
+      </div>
+      <div class="step-visual">
+        <div class="vis-label">Input Received</div>
+        Raw text captured. Silhouette profile loaded: <code>Mediator</code> type. Session context: first message in conversation.
+      </div>
+    </div>
+
+    <div class="trace-step" data-step="2">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Type Classified</h4>
+        <p>The classification engine identifies this as a <strong>Trading</strong> negotiation with salary-specific signals.</p>
+      </div>
+      <div class="step-visual">
+        <div class="vis-label">Classification Output</div>
+        Type: <code>Trading</code><br>
+        Signals: "salary", "compensation", "manager"<br>
+        Confidence: 0.92
+      </div>
+    </div>
+
+    <div class="trace-step" data-step="3">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Phase Detected</h4>
+        <p>User is in <strong>Preparation</strong> phase -- the negotiation hasn't happened yet, they're planning.</p>
+      </div>
+      <div class="step-visual">
+        <div class="vis-label">Phase Analysis</div>
+        Phase: <code>Preparation</code><br>
+        Indicators: "coming up", future tense<br>
+        Emotional tone: anxious, seeking guidance
+      </div>
+    </div>
+
+    <div class="trace-step" data-step="4">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Entities Retrieved</h4>
+        <p>Relevant coaching items light up across all 4 sources, matched by tags: <em>salary, preparation, communication, difficult_people</em>.</p>
+      </div>
+      <div class="step-visual">
+        <div class="vis-label">Matched Entities (12 of 969)</div>
+        <span style="color:var(--book-nsfd)">Voss:</span> 4 items (calibrated questions, labels)<br>
+        <span style="color:var(--book-gty)">Fisher/Ury:</span> 3 items (BATNA, interests)<br>
+        <span style="color:var(--book-3dn)">Lax/Sebenius:</span> 3 items (setup moves, salary)<br>
+        <span style="color:var(--book-asf)">Aligned:</span> 2 items (Mediator coaching)
+      </div>
+    </div>
+
+    <div class="trace-step" data-step="5">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Response Generated</h4>
+        <p>Ali assembles a coaching response adapted to the Mediator personality type, with source callouts woven naturally into the advice.</p>
+      </div>
+      <div class="step-visual">
+        <div class="vis-label">Ali's Response (excerpt)</div>
+        "Before your conversation, let's build your preparation toolkit. As a Mediator, your strength is reading the room -- let's channel that. First, define your <strong>BATNA</strong>: what's your walk-away number? Then, prepare two <strong>calibrated questions</strong>..."
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 8. ARTIFACT ECOSYSTEM                       -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section" id="ecosystem">
+  <h2 class="section-title">Artifact Ecosystem</h2>
+  <p class="section-desc">This visualization is one piece of a living, interconnected documentation system.</p>
+
+  <div class="ecosystem">
+    <div class="eco-grid" id="ecoGrid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  <strong>Ali MVP</strong> &bull; Aligned Negotiation Platform<br>
+  <a href="../index.html">Back to Stakeholder Hub</a> &bull; Built February 2026
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════
+
+const TAG_DATA = [
+  {tag:"communication",count:444,gty:125,nsfd:182,dn:137,dominant:"nsfd"},
+  {tag:"leverage",count:342,gty:85,nsfd:108,dn:149,dominant:"dn"},
+  {tag:"preparation",count:326,gty:81,nsfd:58,dn:187,dominant:"dn"},
+  {tag:"power_dynamics",count:323,gty:84,nsfd:120,dn:119,dominant:"nsfd"},
+  {tag:"relationship",count:235,gty:76,nsfd:78,dn:81,dominant:"dn"},
+  {tag:"creativity",count:174,gty:35,nsfd:12,dn:127,dominant:"dn"},
+  {tag:"emotions",count:167,gty:46,nsfd:99,dn:22,dominant:"nsfd"},
+  {tag:"information_gathering",count:165,gty:30,nsfd:80,dn:55,dominant:"nsfd"},
+  {tag:"closing",count:118,gty:24,nsfd:32,dn:62,dominant:"dn"},
+  {tag:"business_deals",count:93,gty:7,nsfd:9,dn:77,dominant:"dn"},
+  {tag:"opening",count:90,gty:20,nsfd:14,dn:56,dominant:"dn"},
+  {tag:"difficult_people",count:82,gty:32,nsfd:35,dn:15,dominant:"nsfd"},
+  {tag:"anchoring",count:66,gty:5,nsfd:25,dn:36,dominant:"dn"},
+  {tag:"alternatives",count:66,gty:45,nsfd:7,dn:14,dominant:"gty"},
+  {tag:"ethics",count:57,gty:33,nsfd:7,dn:17,dominant:"gty"},
+  {tag:"team_negotiation",count:48,gty:6,nsfd:11,dn:31,dominant:"dn"},
+  {tag:"strategy",count:35,gty:12,nsfd:2,dn:21,dominant:"dn"},
+  {tag:"deal_design",count:29,gty:0,nsfd:0,dn:29,dominant:"dn"},
+  {tag:"concessions",count:27,gty:4,nsfd:17,dn:6,dominant:"nsfd"},
+  {tag:"psychology",count:24,gty:0,nsfd:21,dn:3,dominant:"nsfd"},
+  {tag:"examples",count:22,gty:2,nsfd:11,dn:9,dominant:"nsfd"},
+  {tag:"bargaining",count:17,gty:0,nsfd:17,dn:0,dominant:"nsfd"},
+  {tag:"salary",count:15,gty:4,nsfd:11,dn:0,dominant:"nsfd"},
+  {tag:"cultural",count:14,gty:1,nsfd:0,dn:13,dominant:"dn"},
+  {tag:"perception",count:12,gty:12,nsfd:0,dn:0,dominant:"gty"},
+  {tag:"quotes",count:9,gty:0,nsfd:0,dn:9,dominant:"dn"},
+  {tag:"setup",count:9,gty:0,nsfd:0,dn:9,dominant:"dn"},
+  {tag:"philosophy",count:6,gty:0,nsfd:3,dn:3,dominant:"nsfd"},
+  {tag:"process",count:5,gty:2,nsfd:0,dn:3,dominant:"dn"},
+  {tag:"sequencing",count:5,gty:1,nsfd:0,dn:4,dominant:"dn"},
+  {tag:"execution",count:5,gty:0,nsfd:5,dn:0,dominant:"nsfd"},
+  {tag:"trust",count:5,gty:0,nsfd:0,dn:5,dominant:"dn"},
+  {tag:"problem_solving",count:5,gty:0,nsfd:0,dn:5,dominant:"dn"},
+];
+
+const BOOK_COLORS = {
+  gty: "rgb(95,175,138)",
+  nsfd: "rgb(159,164,211)",
+  dn: "rgb(168,191,217)",
+  asf: "rgb(138,132,198)"
+};
+
+const COMPARE_DATA = {
+  difficult: {
+    left: { book: "Getting to Yes", author: "Fisher & Ury", color: "var(--book-gty)",
+      approach: '<strong>Principled Negotiation:</strong> Separate the people from the problem. Focus on interests, not positions. Don\'t react to emotional tactics -- instead, name the behavior: "I notice we keep returning to the same position." Use objective criteria: market rates, precedent, industry standards. If they play dirty tricks, call it out explicitly and negotiate the process itself.' },
+    right: { book: "Never Split the Difference", author: "Chris Voss", color: "var(--book-nsfd)",
+      approach: '<strong>Tactical Empathy:</strong> Mirror their last words to show you\'re listening. Use labels: "It seems like you feel this price is non-negotiable." Deploy calibrated questions: "How am I supposed to do that?" Embrace "No" -- it gives them a feeling of safety and control. Use the late-night FM DJ voice to de-escalate. Accusation audit upfront: "You probably think I\'m being unreasonable..."' },
+    synthesis: 'Ali blends both: use tactical empathy to build rapport, then pivot to principled criteria for the substance. The emotional toolkit from Voss creates the opening; the analytical framework from Fisher/Ury structures the solution.'
+  },
+  opening: {
+    left: { book: "Getting to Yes", author: "Fisher & Ury", color: "var(--book-gty)",
+      approach: '<strong>Explore Interests First:</strong> Don\'t open with a number. Ask questions to understand underlying interests. "Help me understand what\'s most important to you in this deal." Establish shared interests early to build a collaborative frame. Use the "one-text procedure" -- draft a single working document together.' },
+    right: { book: "3-D Negotiation", author: "Lax & Sebenius", color: "var(--book-3dn)",
+      approach: '<strong>Setup Before Substance:</strong> The most important moves happen before anyone sits down. Map all stakeholders. Sequence your conversations strategically -- talk to allies first to build momentum. Choose the right venue, timing, and framing. Set the agenda to favor your priorities. Bring the right people to the table.' },
+    synthesis: 'Ali combines both: do your 3-D setup work (sequencing, stakeholder mapping) before the meeting, then use interest-based questioning once you\'re at the table.'
+  },
+  closing: {
+    left: { book: "Never Split the Difference", author: "Chris Voss", color: "var(--book-nsfd)",
+      approach: '<strong>The Ackerman Model:</strong> Set your target price. First offer at 65% of target. Use calibrated questions and empathy between each increase. Move in decreasing increments: 85%, 95%, 100%. Use precise non-round numbers for your final offer. Throw in a non-monetary item to signal you\'re at your limit.' },
+    right: { book: "3-D Negotiation", author: "Lax & Sebenius", color: "var(--book-3dn)",
+      approach: '<strong>Create a Zone of Possible Agreement:</strong> Map both parties\' walkaway points. Design packages (not single issues) that create value in the zone. Use contingent agreements: "If X happens, we do Y." Build in implementation mechanisms -- the deal isn\'t done when you shake hands, it\'s done when value is delivered.' },
+    synthesis: 'Ali combines precise tactical anchoring from Voss with the strategic deal design from Lax/Sebenius to close deals that are both psychologically compelling and structurally sound.'
+  }
+};
+
+const ECOSYSTEM_ITEMS = [
+  {title:"Conversation Engine Architecture",url:"conversation-engine-architecture.html",badge:"arch",date:"Jan 2026"},
+  {title:"Classification Engine",url:"classification-engine.html",badge:"arch",date:"Jan 2026"},
+  {title:"V3 Classification Guide",url:"v3-classification-guide.html",badge:"arch",date:"Jan 2026"},
+  {title:"V3.3.0 Eval Results",url:"../architecture/v330-eval-braintrust.html",badge:"arch",date:"Feb 2026"},
+  {title:"Technical Reference",url:"technical-reference-jan15.html",badge:"arch",date:"Jan 2026"},
+  {title:"Book Extraction Review",url:"../docs/book-extraction-review.html",badge:"arch",date:"Feb 2026"},
+  {title:"Product Brief #2",url:"../product/product-brief-2.html",badge:"product",date:"Jan 2026"},
+  {title:"Stakeholder Alignment",url:"../product/stakeholder-alignment-jan15.html",badge:"product",date:"Jan 2026"},
+  {title:"Product Roadmap",url:"../product/roadmap.html",badge:"product",date:"Jan 2026"},
+  {title:"Brand Registry",url:"../design/brand-registry.html",badge:"design",date:"Dec 2025"},
+  {title:"Design Tokens Guide",url:"../design/design-tokens-guide-nic.html",badge:"design",date:"Dec 2025"},
+  {title:"Zahir Design Session",url:"../design/zahir-design-session-jan25.html",badge:"design",date:"Jan 2026"},
+  {title:"Landing Page Copy Review",url:"../docs/landing-page-copy-review.html",badge:"product",date:"Jan 2026"},
+  {title:"Braintrust Eval Guide",url:"../guides/BRAINTRUST_EVAL_GUIDE.html",badge:"guide",date:"Feb 2026"},
+  {title:"Meeting Synthesis (Feb 12)",url:"../meetings/2026-02-12/meeting-synthesis.html",badge:"meeting",date:"Feb 2026"},
+];
+
+// ════════════════════════════════════════════
+// PILL NAV
+// ════════════════════════════════════════════
+document.querySelectorAll('.pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const target = document.getElementById(btn.dataset.section);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Highlight active section on scroll
+const sections = document.querySelectorAll('.section[id]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.pill-btn[data-section="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -40% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ════════════════════════════════════════════
+// TAG CLOUD
+// ════════════════════════════════════════════
+function renderTagCloud() {
+  const cloud = document.getElementById('tagCloud');
+  const maxCount = TAG_DATA[0].count;
+  TAG_DATA.forEach(t => {
+    const scale = 0.6 + (t.count / maxCount) * 0.6;
+    const color = BOOK_COLORS[t.dominant];
+    const el = document.createElement('span');
+    el.className = 'tag-bubble';
+    el.style.cssText = `font-size:${scale}rem; background:${color}20; color:${color}; border-color:${color}40;`;
+    const label = t.tag.replace(/_/g, ' ');
+    el.innerHTML = `${label} <span style="opacity:0.6">${t.count}</span>
+      <span class="tag-detail">
+        <strong>${label}</strong> (${t.count} items)<br>
+        GTY: ${t.gty} &bull; NSFD: ${t.nsfd} &bull; 3DN: ${t.dn}
+      </span>`;
+    cloud.appendChild(el);
+  });
+}
+renderTagCloud();
+
+// ════════════════════════════════════════════
+// COMPARE VIEW
+// ════════════════════════════════════════════
+function renderCompare(scenario) {
+  const d = COMPARE_DATA[scenario];
+  const container = document.getElementById('compareContent');
+  container.innerHTML = `
+    <div class="compare-panels">
+      <div class="compare-panel left" style="border-top-color:${d.left.color}">
+        <h4>${d.left.book}</h4>
+        <div class="author">${d.left.author}</div>
+        <div class="compare-approach">${d.left.approach}</div>
+      </div>
+      <div class="compare-panel right" style="border-top-color:${d.right.color}">
+        <h4>${d.right.book}</h4>
+        <div class="author">${d.right.author}</div>
+        <div class="compare-approach">${d.right.approach}</div>
+      </div>
+    </div>
+    <div class="compare-both">
+      <div class="label">How Ali Uses Both</div>
+      <p>${d.synthesis}</p>
+    </div>`;
+}
+renderCompare('difficult');
+
+document.querySelectorAll('.compare-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.compare-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderCompare(tab.dataset.scenario);
+  });
+});
+
+// ════════════════════════════════════════════
+// CONVERSATION TRACE
+// ════════════════════════════════════════════
+document.querySelectorAll('.trace-step').forEach(step => {
+  step.addEventListener('click', () => {
+    const stepNum = parseInt(step.dataset.step);
+    document.querySelectorAll('.trace-step').forEach(s => {
+      s.classList.toggle('active', parseInt(s.dataset.step) <= stepNum);
+    });
+  });
+});
+
+// ════════════════════════════════════════════
+// ECOSYSTEM GRID
+// ════════════════════════════════════════════
+function renderEcosystem() {
+  const grid = document.getElementById('ecoGrid');
+  const badgeLabels = { arch: 'Architecture', product: 'Product', design: 'Design', meeting: 'Meeting', guide: 'Guide' };
+  ECOSYSTEM_ITEMS.forEach(item => {
+    const a = document.createElement('a');
+    a.className = 'eco-link';
+    a.href = item.url;
+    a.target = '_blank';
+    a.innerHTML = `<span class="eco-badge ${item.badge}">${badgeLabels[item.badge]}</span>
+      <span>${item.title}</span>
+      <span style="margin-left:auto;font-size:0.68rem;color:var(--text-secondary);white-space:nowrap">${item.date}</span>`;
+    grid.appendChild(a);
+  });
+}
+renderEcosystem();
+</script>
+</body>
+</html>

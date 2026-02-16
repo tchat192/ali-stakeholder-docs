@@ -58,6 +58,7 @@
             justify-content: center;
             font-size: 1rem;
         }
+        .section-icon.recent { background: #fef3c7; }
         .section-icon.architecture { background: #dbeafe; }
         .section-icon.product { background: #dcfce7; }
         .section-icon.design { background: #fce7f3; }
@@ -90,6 +91,7 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
         .doc-link:hover .doc-desc { color: rgba(255,255,255,0.85); }
+        .doc-link:hover .doc-date { color: rgba(255,255,255,0.7); }
         .doc-title {
             font-weight: 600;
             font-size: 0.95rem;
@@ -99,6 +101,11 @@
             font-size: 0.8rem;
             color: #64748b;
             line-height: 1.4;
+        }
+        .doc-date {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-top: 0.35rem;
         }
         .badge {
             display: inline-block;
@@ -115,6 +122,7 @@
         .badge.tom { background: #8b5cf6; }
         .badge.mark { background: #3b82f6; }
         .badge.nic { background: #ec4899; }
+        .badge.visual { background: #f59e0b; }
         footer {
             margin-top: 2rem;
             padding-top: 1.5rem;
@@ -135,31 +143,80 @@
         <header>
             <h1>Ali MVP</h1>
             <p class="subtitle">Stakeholder Resources Hub</p>
-            <p class="updated">Last updated: January 21, 2026</p>
+            <p class="updated">Last updated: February 16, 2026</p>
         </header>
+
+        <!-- Recently Updated Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon recent">&#11088;</div>
+                <h2>Recently Updated</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="architecture/conversation-engine-visual.html" class="doc-link">
+                    <div class="doc-title">Inside Ali's Conversation Engine <span class="badge visual">NEW</span></div>
+                    <div class="doc-desc">Visual architecture: pipeline, entity types, cross-book intelligence, tag landscape</div>
+                    <div class="doc-date">Feb 16, 2026</div>
+                </a>
+                <a href="docs/book-extraction-review.html" class="doc-link">
+                    <div class="doc-title">Book Extraction Review <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">969 coaching items from 4 negotiation sources - searchable, tagged, filterable</div>
+                    <div class="doc-date">Feb 14, 2026</div>
+                </a>
+                <a href="meetings/2026-02-12/meeting-synthesis.html" class="doc-link">
+                    <div class="doc-title">Meeting Synthesis (Feb 12) <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">Stakeholder meeting outcomes, decisions, and action items</div>
+                    <div class="doc-date">Feb 12, 2026</div>
+                </a>
+                <a href="guides/BRAINTRUST_EVAL_GUIDE.html" class="doc-link">
+                    <div class="doc-title">Braintrust Eval Guide <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">How Ali's coaching quality is measured and improved with Braintrust</div>
+                    <div class="doc-date">Feb 6, 2026</div>
+                </a>
+            </div>
+        </div>
 
         <!-- Architecture Section -->
         <div class="section">
             <div class="section-header">
-                <div class="section-icon architecture">🏗️</div>
+                <div class="section-icon architecture">&#127959;</div>
                 <h2>Architecture & Technical</h2>
             </div>
             <div class="doc-grid">
+                <a href="architecture/conversation-engine-visual.html" class="doc-link">
+                    <div class="doc-title">Inside Ali's Conversation Engine <span class="badge visual">NEW</span></div>
+                    <div class="doc-desc">Visual architecture: pipeline, entity types, cross-book intelligence, tag landscape</div>
+                    <div class="doc-date">Feb 16, 2026</div>
+                </a>
                 <a href="architecture/conversation-engine-architecture.html" class="doc-link">
-                    <div class="doc-title">Conversation Engine Architecture <span class="badge new">NEW</span></div>
+                    <div class="doc-title">Conversation Engine Architecture</div>
                     <div class="doc-desc">How Ali delivers the Aligned methodology - classification, phases, prompts</div>
+                    <div class="doc-date">Jan 21, 2026</div>
                 </a>
                 <a href="architecture/classification-engine.html" class="doc-link">
                     <div class="doc-title">Classification Engine <span class="badge tom">TOM</span></div>
                     <div class="doc-desc">4 types + BATNA circumstance, 6 signals - Tom-validated Jan 20</div>
+                    <div class="doc-date">Jan 20, 2026</div>
                 </a>
                 <a href="architecture/v3-classification-guide.html" class="doc-link">
                     <div class="doc-title">V3 Classification Guide</div>
                     <div class="doc-desc">Technical deep-dive on conversational classification</div>
+                    <div class="doc-date">Jan 2026</div>
                 </a>
                 <a href="architecture/technical-reference-jan15.html" class="doc-link">
                     <div class="doc-title">Technical Reference</div>
                     <div class="doc-desc">API endpoints, data models, system architecture</div>
+                    <div class="doc-date">Jan 15, 2026</div>
+                </a>
+                <a href="docs/book-extraction-review.html" class="doc-link">
+                    <div class="doc-title">Book Extraction Review <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">969 coaching items from 4 sources - searchable by type, book, and tag</div>
+                    <div class="doc-date">Feb 14, 2026</div>
+                </a>
+                <a href="ALI_RENDERING_CONSTRAINTS.html" class="doc-link">
+                    <div class="doc-title">Rendering Constraints</div>
+                    <div class="doc-desc">Technical constraints and workarounds for Ali's UI rendering</div>
+                    <div class="doc-date">Jan 2026</div>
                 </a>
             </div>
         </div>
@@ -167,21 +224,29 @@
         <!-- Product Section -->
         <div class="section">
             <div class="section-header">
-                <div class="section-icon product">📊</div>
+                <div class="section-icon product">&#128202;</div>
                 <h2>Product & Strategy</h2>
             </div>
             <div class="doc-grid">
                 <a href="product/product-brief-2.html" class="doc-link">
                     <div class="doc-title">Product Brief #2: Anatomy of Ali <span class="badge mark">MARK</span></div>
                     <div class="doc-desc">Strategic overview, Silhouette assessment, roadmap, tech specs</div>
+                    <div class="doc-date">Jan 2026</div>
                 </a>
                 <a href="product/stakeholder-alignment-jan15.html" class="doc-link">
-                    <div class="doc-title">Stakeholder Alignment <span class="badge new">NEW</span></div>
+                    <div class="doc-title">Stakeholder Alignment</div>
                     <div class="doc-desc">Settings inputs, navigation, tone & marketing positioning</div>
+                    <div class="doc-date">Jan 15, 2026</div>
                 </a>
                 <a href="product/roadmap.html" class="doc-link">
                     <div class="doc-title">Product Roadmap</div>
                     <div class="doc-desc">Feature timeline and release planning</div>
+                    <div class="doc-date">Jan 2026</div>
+                </a>
+                <a href="docs/landing-page-copy-review.html" class="doc-link">
+                    <div class="doc-title">Landing Page Copy Review</div>
+                    <div class="doc-desc">Marketing copy review and recommendations for Ali's landing page</div>
+                    <div class="doc-date">Jan 2026</div>
                 </a>
             </div>
         </div>
@@ -189,51 +254,74 @@
         <!-- Design Section -->
         <div class="section">
             <div class="section-header">
-                <div class="section-icon design">🎨</div>
+                <div class="section-icon design">&#127912;</div>
                 <h2>Design & UX</h2>
             </div>
             <div class="doc-grid">
                 <a href="design/brand-registry.html" class="doc-link">
                     <div class="doc-title">Brand Registry <span class="badge nic">NIC</span></div>
                     <div class="doc-desc">Complete brand assets, colors, typography, logos</div>
+                    <div class="doc-date">Dec 2025</div>
                 </a>
                 <a href="design/design-tokens-guide-nic.html" class="doc-link">
                     <div class="doc-title">Design Tokens Guide</div>
                     <div class="doc-desc">CSS variables, spacing, color system reference</div>
+                    <div class="doc-date">Dec 2025</div>
                 </a>
                 <a href="design/screen-inventory-nic.html" class="doc-link">
                     <div class="doc-title">Screen Inventory</div>
                     <div class="doc-desc">All app screens with annotations</div>
+                    <div class="doc-date">Dec 2025</div>
                 </a>
                 <a href="design/ux-design-session.html" class="doc-link">
                     <div class="doc-title">UX Design Session</div>
                     <div class="doc-desc">Design workshop outcomes and decisions</div>
+                    <div class="doc-date">Dec 2025</div>
+                </a>
+                <a href="design/zahir-design-session-jan25.html" class="doc-link">
+                    <div class="doc-title">Zahir Design Session <span class="badge nic">NIC</span></div>
+                    <div class="doc-desc">Jan 25 design session with Zahir - UI refinements and patterns</div>
+                    <div class="doc-date">Jan 25, 2026</div>
                 </a>
             </div>
         </div>
 
-        <!-- Meetings Section -->
+        <!-- Meetings & Guides Section -->
         <div class="section">
             <div class="section-header">
-                <div class="section-icon meetings">📅</div>
+                <div class="section-icon meetings">&#128197;</div>
                 <h2>Meetings & Guides</h2>
             </div>
             <div class="doc-grid">
+                <a href="meetings/2026-02-12/meeting-synthesis.html" class="doc-link">
+                    <div class="doc-title">Meeting Synthesis (Feb 12) <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">Stakeholder meeting outcomes, decisions, and action items</div>
+                    <div class="doc-date">Feb 12, 2026</div>
+                </a>
+                <a href="guides/BRAINTRUST_EVAL_GUIDE.html" class="doc-link">
+                    <div class="doc-title">Braintrust Eval Guide <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">How Ali's coaching quality is measured and improved</div>
+                    <div class="doc-date">Feb 6, 2026</div>
+                </a>
                 <a href="meetings/conversation-guide-jan15.html" class="doc-link">
                     <div class="doc-title">Conversation Guide</div>
                     <div class="doc-desc">Stakeholder sync conversation framework</div>
+                    <div class="doc-date">Jan 15, 2026</div>
                 </a>
                 <a href="meetings/session-1-agenda.html" class="doc-link">
                     <div class="doc-title">Session 1 Agenda</div>
                     <div class="doc-desc">Working session structure and goals</div>
+                    <div class="doc-date">Jan 2026</div>
                 </a>
                 <a href="meetings/nic-meeting-guide.html" class="doc-link">
                     <div class="doc-title">Nic Meeting Guide</div>
                     <div class="doc-desc">Design review session preparation</div>
+                    <div class="doc-date">Dec 2025</div>
                 </a>
                 <a href="meetings/NIC_SYNC_DEBRIEF_DEC3.html" class="doc-link">
                     <div class="doc-title">Nic Sync Debrief</div>
                     <div class="doc-desc">Dec 3 design sync outcomes</div>
+                    <div class="doc-date">Dec 3, 2025</div>
                 </a>
             </div>
         </div>
