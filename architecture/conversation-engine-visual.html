@@ -103,6 +103,18 @@ body { font-family: var(--font-sans); background: var(--bg-page); color: var(--t
 .annotated-body .scenario { font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-dashed); }
 .hl { padding: 2px 5px; border-radius: 3px; cursor: pointer; transition: all 0.15s; position: relative; font-weight: 500; }
 .hl:hover { filter: brightness(0.95); }
+.hl.hl-active { filter: brightness(0.88); outline: 2px solid currentColor; outline-offset: 1px; }
+.hl-popover { position: absolute; z-index: 100; background: var(--bg-card); border: 2px solid var(--border-hard); border-radius: 6px; width: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); opacity: 0; pointer-events: none; transition: opacity 0.15s; }
+.hl-popover.visible { opacity: 1; pointer-events: auto; }
+.hl-popover-header { padding: 8px 12px; border-bottom: 1px dashed var(--border-dashed); display: flex; align-items: center; gap: 6px; }
+.hl-popover-header .pop-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.hl-popover-header .pop-source { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+.hl-popover-header .pop-tag { font-family: var(--font-mono); font-size: 0.55rem; font-weight: 600; padding: 1px 5px; border-radius: 3px; margin-left: auto; }
+.hl-popover-body { padding: 10px 12px; }
+.hl-popover-body .pop-concept { font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.hl-popover-body .pop-desc { font-size: 0.72rem; color: var(--text-body); line-height: 1.5; }
+.hl-popover-footer { padding: 6px 12px 8px; border-top: 1px dashed var(--border-dashed); }
+.hl-popover-footer a { font-family: var(--font-mono); font-size: 0.58rem; text-decoration: none; font-weight: 600; letter-spacing: 0.5px; }
 .hl-asf { background: var(--book-asf-hl); border-bottom: 2px solid var(--book-asf); }
 .hl-nsfd { background: var(--book-nsfd-hl); border-bottom: 2px solid var(--book-nsfd); }
 .hl-gty { background: var(--book-gty-hl); border-bottom: 2px solid var(--book-gty); }
@@ -355,19 +367,19 @@ body { font-family: var(--font-sans); background: var(--bg-page); color: var(--t
     <div class="annotated-body">
       <div class="scenario">"My supplier keeps stone-walling me on price. They won't budge. What do I do?"</div>
 
-      First, let's step back and <span class="hl hl-asf">classify what's happening here</span><span class="sup sup-asf">ASF</span>. This is a <span class="hl hl-asf">Trading negotiation in the Bargaining phase</span><span class="sup sup-asf">ASF</span> -- your supplier has anchored on a number and is refusing to move. Before reacting, let's <span class="hl hl-asf">deploy diagnostic questions to understand their real constraints</span><span class="sup sup-asf">ASF</span>.
+      First, let's step back and <span class="hl hl-asf" data-hl="asf-classify">classify what's happening here</span><span class="sup sup-asf">ASF</span>. This is a <span class="hl hl-asf" data-hl="asf-types">Trading negotiation in the Bargaining phase</span><span class="sup sup-asf">ASF</span> -- your supplier has anchored on a number and is refusing to move. Before reacting, let's <span class="hl hl-asf" data-hl="asf-diagnostic">deploy diagnostic questions to understand their real constraints</span><span class="sup sup-asf">ASF</span>.
 
       <br><br>
 
-      Start with <span class="hl hl-nsfd">calibrated questions</span><span class="sup sup-nsfd">NSFD</span>: <span class="hl hl-nsfd">"How am I supposed to do that?"</span><span class="sup sup-nsfd">NSFD</span> creates empathy without confrontation. Then use <span class="hl hl-nsfd">labels like "It seems like price is the only lever you're willing to discuss"</span><span class="sup sup-nsfd">NSFD</span> -- this forces them to either elaborate on their constraints or open up other dimensions of the deal.
+      Start with <span class="hl hl-nsfd" data-hl="nsfd-calibrated">calibrated questions</span><span class="sup sup-nsfd">NSFD</span>: <span class="hl hl-nsfd" data-hl="nsfd-how">"How am I supposed to do that?"</span><span class="sup sup-nsfd">NSFD</span> creates empathy without confrontation. Then use <span class="hl hl-nsfd" data-hl="nsfd-labels">labels like "It seems like price is the only lever you're willing to discuss"</span><span class="sup sup-nsfd">NSFD</span> -- this forces them to either elaborate on their constraints or open up other dimensions of the deal.
 
       <br><br>
 
-      The key insight: <span class="hl hl-gty">move beyond positional bargaining by separating interests from positions</span><span class="sup sup-gty">GTY</span>. Your supplier says "the price is $X" -- that's a position. Their interest might be cash flow timing, volume predictability, or exclusivity. <span class="hl hl-gty">Brainstorm alternatives: payment terms, volume commitments, multi-year contracts, exclusivity in exchange for pricing</span><span class="sup sup-gty">GTY</span>. Use <span class="hl hl-gty">objective criteria -- market rates, competitor bids, industry benchmarks</span><span class="sup sup-gty">GTY</span> -- as your anchor.
+      The key insight: <span class="hl hl-gty" data-hl="gty-interests">move beyond positional bargaining by separating interests from positions</span><span class="sup sup-gty">GTY</span>. Your supplier says "the price is $X" -- that's a position. Their interest might be cash flow timing, volume predictability, or exclusivity. <span class="hl hl-gty" data-hl="gty-options">Brainstorm alternatives: payment terms, volume commitments, multi-year contracts, exclusivity in exchange for pricing</span><span class="sup sup-gty">GTY</span>. Use <span class="hl hl-gty" data-hl="gty-criteria">objective criteria -- market rates, competitor bids, industry benchmarks</span><span class="sup sup-gty">GTY</span> -- as your anchor.
 
       <br><br>
 
-      But here's the move that changes everything: <span class="hl hl-3dn">before your next meeting, change the game away from the table</span><span class="sup sup-3dn">3DN</span>. <span class="hl hl-3dn">Bring in a competing supplier bid</span><span class="sup sup-3dn">3DN</span> to shift your BATNA. <span class="hl hl-3dn">Restructure the deal to include elements where their costs are lower than their price</span><span class="sup sup-3dn">3DN</span>. <span class="hl hl-3dn">Map the stakeholders on their side -- who actually has authority to move on price?</span><span class="sup sup-3dn">3DN</span> Sometimes the person you're talking to literally can't budge.
+      But here's the move that changes everything: <span class="hl hl-3dn" data-hl="3dn-away">before your next meeting, change the game away from the table</span><span class="sup sup-3dn">3DN</span>. <span class="hl hl-3dn" data-hl="3dn-batna">Bring in a competing supplier bid</span><span class="sup sup-3dn">3DN</span> to shift your BATNA. <span class="hl hl-3dn" data-hl="3dn-restructure">Restructure the deal to include elements where their costs are lower than their price</span><span class="sup sup-3dn">3DN</span>. <span class="hl hl-3dn" data-hl="3dn-stakeholders">Map the stakeholders on their side -- who actually has authority to move on price?</span><span class="sup sup-3dn">3DN</span> Sometimes the person you're talking to literally can't budge.
     </div>
     <div class="annotated-footer">
       <div class="af-label">Ali's Synthesis</div>
@@ -662,6 +674,108 @@ document.querySelectorAll('.trace-step').forEach(step => {
     a.className = 'eco-link'; a.href = item.url; a.target = '_blank';
     a.innerHTML = `<span class="eco-badge ${item.badge}">${labels[item.badge]}</span><span>${item.title}</span><span style="margin-left:auto;font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted);white-space:nowrap">${item.date}</span>`;
     grid.appendChild(a);
+  });
+})();
+
+// HIGHLIGHT POPOVERS
+(function(){
+  const popover = document.createElement('div');
+  popover.className = 'hl-popover';
+  document.body.appendChild(popover);
+
+  const HL_DATA = {
+    'asf-classify': { source:'Aligned Strategic Framework', tag:'C1', concept:'Four Negotiation Types',
+      desc:'Every negotiation is classified as Bargaining, Trading, Creating, or Partnering. The type determines Ali\'s entire coaching approach.' },
+    'asf-types': { source:'Aligned Strategic Framework', tag:'C1', concept:'Type Classification',
+      desc:'Ali classifies the negotiation type before offering any tactical advice -- what questions to ask, what transparency to recommend, which tactics fit.' },
+    'asf-diagnostic': { source:'Aligned Strategic Framework', tag:'NEW-2', concept:'Four Diagnostic Questions',
+      desc:'Mark: "99.9% of the time we ask some form of those four questions." How many terms? How many alternatives? What\'s the intent? What\'s the relationship?' },
+    'nsfd-calibrated': { source:'Never Split the Difference', tag:'Ch.7', concept:'Calibrated Questions',
+      desc:'Open-ended "How" and "What" questions that force the counterparty to problem-solve on your behalf without feeling confronted.' },
+    'nsfd-how': { source:'Never Split the Difference', tag:'Ch.7', concept:'"How Am I Supposed to Do That?"',
+      desc:'Voss\'s signature calibrated question. Forces the other side to consider your constraints while creating tactical empathy.' },
+    'nsfd-labels': { source:'Never Split the Difference', tag:'Ch.3', concept:'Labeling',
+      desc:'Name the counterparty\'s emotions or positions to validate them: "It seems like..." This disarms defensiveness and opens dialogue.' },
+    'gty-interests': { source:'Getting to Yes', tag:'Ch.3', concept:'Interests vs. Positions',
+      desc:'Fisher & Ury\'s core principle: positions are what people say they want; interests are WHY they want it. Focus on interests to unlock solutions.' },
+    'gty-options': { source:'Getting to Yes', tag:'Ch.4', concept:'Invent Options for Mutual Gain',
+      desc:'Brainstorm creative alternatives before deciding. Separate inventing from deciding. Look for shared interests to expand the pie.' },
+    'gty-criteria': { source:'Getting to Yes', tag:'Ch.5', concept:'Objective Criteria',
+      desc:'Insist on using fair standards -- market value, precedent, industry benchmarks -- rather than a contest of wills.' },
+    '3dn-away': { source:'3-D Negotiation', tag:'Ch.1', concept:'Away-from-the-Table Moves',
+      desc:'Lax & Sebenius: the most powerful negotiations happen before anyone sits down. Change the setup, not just the substance.' },
+    '3dn-batna': { source:'3-D Negotiation', tag:'Ch.5', concept:'BATNA Engineering',
+      desc:'Don\'t just assess your alternatives -- actively improve them. Bring in competing bids to shift your walkaway power.' },
+    '3dn-restructure': { source:'3-D Negotiation', tag:'Ch.8', concept:'Deal Design',
+      desc:'Restructure the deal to create value: change the scope, sequence, or terms so both sides capture more.' },
+    '3dn-stakeholders': { source:'3-D Negotiation', tag:'Ch.3', concept:'Stakeholder Mapping',
+      desc:'Identify all parties who influence the deal. Map authority, interests, and relationships. Sometimes the person at the table can\'t say yes.' }
+  };
+
+  const BOOK_LINKS = {
+    'Aligned Strategic Framework': { color:'var(--book-asf)', abbr:'ASF' },
+    'Never Split the Difference': { color:'var(--book-nsfd)', abbr:'NSFD' },
+    'Getting to Yes': { color:'var(--book-gty)', abbr:'GTY' },
+    '3-D Negotiation': { color:'var(--book-3dn)', abbr:'3DN' }
+  };
+
+  function showPopover(hlEl) {
+    const key = hlEl.dataset.hl;
+    const d = HL_DATA[key];
+    if (!d) return;
+    const b = BOOK_LINKS[d.source];
+
+    popover.innerHTML = `
+      <div class="hl-popover-header">
+        <span class="pop-dot" style="background:${b.color}"></span>
+        <span class="pop-source" style="color:${b.color}">${d.source}</span>
+        <span class="pop-tag" style="background:${b.color}15;color:${b.color}">${d.tag}</span>
+      </div>
+      <div class="hl-popover-body">
+        <div class="pop-concept">${d.concept}</div>
+        <div class="pop-desc">${d.desc}</div>
+      </div>
+      <div class="hl-popover-footer">
+        <a href="https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html" target="_blank" style="color:${b.color}">View in Book Extraction Review &rarr;</a>
+      </div>`;
+
+    const rect = hlEl.getBoundingClientRect();
+    const scrollY = window.scrollY;
+    const scrollX = window.scrollX;
+    let top = rect.bottom + scrollY + 8;
+    let left = rect.left + scrollX + (rect.width / 2) - 160;
+    left = Math.max(8, Math.min(left, window.innerWidth - 336));
+    if (top + 200 > scrollY + window.innerHeight) {
+      top = rect.top + scrollY - 8;
+      popover.style.transform = 'translateY(-100%)';
+    } else {
+      popover.style.transform = 'none';
+    }
+    popover.style.top = top + 'px';
+    popover.style.left = left + 'px';
+
+    document.querySelectorAll('.hl.hl-active').forEach(h => h.classList.remove('hl-active'));
+    hlEl.classList.add('hl-active');
+    popover.classList.add('visible');
+  }
+
+  document.querySelectorAll('.hl[data-hl]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (el.classList.contains('hl-active')) {
+        popover.classList.remove('visible');
+        el.classList.remove('hl-active');
+      } else {
+        showPopover(el);
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.hl-popover') && !e.target.closest('.hl[data-hl]')) {
+      popover.classList.remove('visible');
+      document.querySelectorAll('.hl.hl-active').forEach(h => h.classList.remove('hl-active'));
+    }
   });
 })();
 </script>
