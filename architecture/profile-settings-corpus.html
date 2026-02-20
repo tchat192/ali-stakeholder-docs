@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How Ali Uses Your Profile | Ali MVP</title>
+<style>
+@font-face { font-family: "Moret"; src: url("../fonts/moret-semibold-webfont.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --text-primary: #1a1917; --text-body: #33312d; --text-secondary: #6f6a63; --text-muted: #9c958c;
+  --border: #d1cbc2; --border-hard: #3f3c38; --border-dashed: #b5afa6;
+  --bg-page: #f5f3f0; --bg-card: #ffffff; --bg-muted: #eae6e0; --bg-surface: #faf9f7;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Moret", Georgia, serif;
+  --font-mono: "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
+  --asf-gradient: linear-gradient(73.1deg, rgb(95,175,138) 0%, rgb(127,191,174) 12.39%, rgb(158,198,217) 39.57%, rgb(168,191,217) 58.16%, rgb(159,164,211) 79.32%, rgb(138,132,198) 99.15%);
+  --green: #059669; --green-bg: #d1fae5; --green-hl: rgba(5,150,105,0.10);
+  --blue: #2563eb; --blue-bg: #dbeafe; --blue-hl: rgba(37,99,235,0.12);
+  --amber: #d97706; --amber-bg: #fef3c7; --amber-hl: rgba(217,119,6,0.10);
+  --pink: #be185d; --pink-bg: #fce7f3; --pink-hl: rgba(190,24,93,0.10);
+  --purple: #7c3aed; --purple-bg: #ede9fe; --purple-hl: rgba(124,58,237,0.10);
+  --nav-height: 52px;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--bg-page); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+/* ── Hero ── */
+.hero { background: var(--asf-gradient); padding: 48px 40px 40px; text-align: center; position: relative; }
+.hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 4px; background: var(--bg-page); }
+.hero h1 { font-family: var(--font-serif); font-weight: 600; font-size: 2.2rem; color: white; margin-bottom: 6px; letter-spacing: -0.02em; }
+.hero .subtitle { font-size: 0.88rem; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+.hero-meta { display: flex; justify-content: center; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
+.hero-meta-item { font-family: var(--font-mono); font-size: 0.68rem; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 1px; }
+.hero-meta-item strong { color: white; font-weight: 600; }
+
+/* ── Tab Nav (sticky) ── */
+.tab-nav { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; padding: 12px 20px; position: sticky; top: 0; z-index: 200; background: var(--bg-page); border-bottom: 2px solid var(--border-hard); }
+.tab-btn { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600; padding: 6px 12px; border: 2px solid transparent; border-radius: 4px; background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.7px; white-space: nowrap; }
+.tab-btn:hover { color: var(--text-primary); border-color: var(--border); }
+.tab-btn.active { color: var(--text-primary); border-color: var(--border-hard); background: var(--bg-card); }
+
+/* ── Tab Content ── */
+.tab-page { display: none; }
+.tab-page.active { display: block; }
+
+/* ── Sections ── */
+.section { padding: 40px 40px 48px; max-width: 960px; margin: 0 auto; }
+.section-label { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 6px; }
+.section-title { font-family: var(--font-serif); font-weight: 600; font-size: 1.6rem; margin-bottom: 4px; letter-spacing: -0.01em; }
+.section-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.6; }
+.grad-divider { height: 2px; background: var(--asf-gradient); opacity: 0.5; }
+
+/* ── Principle Cards ── */
+.principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.principle-card { padding: 20px; border: 2px solid var(--border); border-radius: 8px; background: var(--bg-card); }
+.principle-card .num { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 8px; }
+.principle-card h3 { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+.principle-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* ── Data Flow ── */
+.flow-container { display: flex; align-items: stretch; gap: 0; margin: 24px 0; }
+.flow-step { flex: 1; text-align: center; padding: 18px 12px 14px; border: 2px solid var(--border); border-right: none; background: var(--bg-card); position: relative; }
+.flow-step:first-child { border-radius: 8px 0 0 8px; }
+.flow-step:last-child { border-right: 2px solid var(--border); border-radius: 0 8px 8px 0; }
+.flow-step::after { content: ''; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border: 8px solid transparent; border-left: 8px solid var(--border); z-index: 2; }
+.flow-step:last-child::after { display: none; }
+.flow-step::before { content: ''; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border: 6px solid transparent; border-left: 6px solid var(--bg-card); z-index: 3; }
+.flow-step:last-child::before { display: none; }
+.flow-icon { font-size: 1.4rem; margin-bottom: 4px; }
+.flow-name { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+.flow-detail { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; line-height: 1.4; }
+
+/* ── Field Table with STICKY HEADER ── */
+.table-wrapper { overflow-x: auto; border: 2px solid var(--border); border-radius: 8px; background: var(--bg-card); max-height: calc(100vh - var(--nav-height) - 40px); overflow-y: auto; }
+.field-table { width: 100%; border-collapse: collapse; }
+.field-table thead { position: sticky; top: 0; z-index: 10; }
+.field-table th { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border-hard); background: var(--bg-surface); }
+.field-table td { padding: 14px 12px; font-size: 0.82rem; color: var(--text-body); border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+.field-table tr:hover td { background: rgba(234,230,224,0.4); }
+.field-table tr:last-child td { border-bottom: none; }
+.field-name { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; color: var(--text-primary); }
+.field-type { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-muted); margin-top: 3px; }
+
+/* ── Priority Badges ── */
+.badge { display: inline-block; font-family: var(--font-mono); font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; padding: 2px 7px; border-radius: 3px; }
+.badge-essential { background: var(--green-bg); color: var(--green); border: 1px solid var(--green); }
+.badge-high { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue); }
+.badge-enhance { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber); }
+
+/* ── Privacy Badges ── */
+.privacy-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; padding: 2px 6px; border-radius: 3px; }
+.privacy-green { background: var(--green-hl); color: var(--green); }
+.privacy-yellow { background: var(--amber-hl); color: var(--amber); }
+.privacy-red { background: var(--pink-hl); color: var(--pink); }
+
+/* ── Source Tags ── */
+.src { font-family: var(--font-mono); font-size: 0.62rem; color: var(--purple); background: var(--purple-hl); padding: 1px 5px; border-radius: 2px; cursor: help; text-decoration: none; white-space: nowrap; }
+.src:hover { background: var(--purple-bg); }
+
+/* ── Status Dots ── */
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.status-dot-live { background: var(--green); }
+.status-dot-planned { background: var(--blue); }
+.status-dot-future { background: var(--text-muted); }
+
+/* ── Callout Boxes ── */
+.callout { padding: 18px 22px; border-radius: 8px; margin: 20px 0; border: 2px solid; }
+.callout-green { background: var(--green-hl); border-color: var(--green); }
+.callout-blue { background: var(--blue-hl); border-color: var(--blue); }
+.callout-amber { background: var(--amber-hl); border-color: var(--amber); }
+.callout-title { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; }
+.callout-green .callout-title { color: var(--green); }
+.callout-blue .callout-title { color: var(--blue); }
+.callout-amber .callout-title { color: var(--amber); }
+.callout p { font-size: 0.84rem; color: var(--text-body); line-height: 1.6; }
+
+/* ── Legend ── */
+.legend { display: flex; gap: 16px; flex-wrap: wrap; padding: 14px 18px; background: var(--bg-card); border: 2px solid var(--border); border-radius: 6px; margin-bottom: 20px; }
+.legend-title { font-family: var(--font-mono); font-size: 0.60rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); width: 100%; margin-bottom: 2px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 500; }
+
+/* ── Token Bar ── */
+.token-bar { display: flex; height: 32px; border-radius: 6px; overflow: hidden; border: 2px solid var(--border); margin: 14px 0; }
+.token-segment { display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.58rem; font-weight: 600; color: white; letter-spacing: 0.3px; }
+
+/* ── Decision Cards ── */
+.decision-card { background: var(--bg-card); border: 2px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+.decision-header { padding: 14px 18px; border-bottom: 2px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.decision-body { padding: 18px; }
+.decision-body p { font-size: 0.84rem; color: var(--text-body); line-height: 1.6; margin-bottom: 10px; }
+.decision-body p:last-child { margin-bottom: 0; }
+.decision-body .q { font-size: 0.82rem; color: var(--text-secondary); }
+.decision-body ol { font-size: 0.82rem; color: var(--text-body); line-height: 1.8; padding-left: 20px; }
+
+/* ── Sources Section ── */
+.source-list { list-style: none; padding: 0; }
+.source-list li { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; color: var(--text-body); display: flex; gap: 12px; align-items: flex-start; }
+.source-list li:last-child { border-bottom: none; }
+.source-id { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; color: var(--purple); background: var(--purple-hl); padding: 2px 8px; border-radius: 3px; flex-shrink: 0; min-width: 28px; text-align: center; }
+
+/* ── Footer ── */
+.footer { text-align: center; padding: 28px 40px; font-size: 0.75rem; color: var(--text-muted); border-top: 2px solid var(--border); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .principles { grid-template-columns: 1fr; }
+  .flow-container { flex-direction: column; }
+  .flow-step { border-right: 2px solid var(--border); border-bottom: none; border-radius: 0; }
+  .flow-step:first-child { border-radius: 8px 8px 0 0; }
+  .flow-step:last-child { border-bottom: 2px solid var(--border); border-radius: 0 0 8px 8px; }
+  .flow-step::after, .flow-step::before { display: none; }
+  .section { padding: 28px 16px 36px; }
+  .hero { padding: 36px 16px 32px; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero-meta { flex-direction: column; gap: 6px; }
+  .tab-nav { gap: 3px; padding: 10px 12px; }
+  .tab-btn { font-size: 0.60rem; padding: 5px 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ HERO ════════ -->
+<div class="hero">
+  <h1>How Ali Uses Your Profile</h1>
+  <p class="subtitle">A field-by-field map of how profile settings data flows into personalized negotiation coaching &mdash; and why each piece of information makes Ali smarter.</p>
+  <div class="hero-meta">
+    <span class="hero-meta-item"><strong>40</strong> Fields &middot; 7 Sections</span>
+    <span class="hero-meta-item"><strong>8</strong> Required for MVP</span>
+    <span class="hero-meta-item">v<strong>1.0</strong> &middot; Feb 20, 2026</span>
+    <span class="hero-meta-item">Feedback due <strong>Tue Feb 24</strong></span>
+  </div>
+</div>
+
+<!-- ════════ TAB NAV ════════ -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+  <button class="tab-btn" onclick="showTab('sec1')">1. About You</button>
+  <button class="tab-btn" onclick="showTab('sec2')">2. Your Deals</button>
+  <button class="tab-btn" onclick="showTab('sec3')">3. Goals</button>
+  <button class="tab-btn" onclick="showTab('sec4')">4. Experience</button>
+  <button class="tab-btn" onclick="showTab('sec5')">5. Constraints</button>
+  <button class="tab-btn" onclick="showTab('sec6')">6. Learning</button>
+  <button class="tab-btn" onclick="showTab('sec7')">7. Accessibility</button>
+  <button class="tab-btn" onclick="showTab('privacy')">Privacy</button>
+  <button class="tab-btn" onclick="showTab('decisions')">Decisions</button>
+  <button class="tab-btn" onclick="showTab('sources')">Sources</button>
+</nav>
+
+<!-- ════════════════════════════════════════════════════
+     TAB: OVERVIEW
+     ════════════════════════════════════════════════════ -->
+<div class="tab-page active" id="overview">
+<div class="section">
+  <div class="section-label">Overview</div>
+  <div class="section-title">Why Profile Data Matters</div>
+  <div class="section-desc">Profile data solves Ali's <strong>cold-start problem</strong>. Without it, Ali has no context until a user shares details in conversation &mdash; which takes 2&ndash;3 exchanges. With profile data, Ali delivers personalized coaching from the very first message. <a href="#" class="src" onclick="showTab('sources');return false;" title="V3 Prompt: 'problem-based coaching through NATURAL CONVERSATION'">S1</a></div>
+
+  <div class="principles">
+    <div class="principle-card">
+      <div class="num">Principle 01</div>
+      <h3>Cold Start Accelerator</h3>
+      <p>Profile gives Ali context before conversation begins. A VP in healthcare gets different coaching than an entry-level engineer &mdash; instantly, on message one. <a href="#" class="src" onclick="showTab('sources');return false;">S2</a></p>
+    </div>
+    <div class="principle-card">
+      <div class="num">Principle 02</div>
+      <h3>Conversation Wins</h3>
+      <p>When conversation contradicts profile, Ali trusts the conversation. Profile is the <em>starting calibration</em>; real-time signals always override. <a href="#" class="src" onclick="showTab('sources');return false;">S1</a></p>
+    </div>
+    <div class="principle-card">
+      <div class="num">Principle 03</div>
+      <h3>Progressive &amp; Optional</h3>
+      <p>Only 8 fields are required. Everything else is collected over time through Settings or in-app nudges. Users are never gated from coaching. <a href="#" class="src" onclick="showTab('sources');return false;">S4</a></p>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-title">Priority Tiers</div>
+    <div class="legend-item"><span class="badge badge-essential">Essential</span> Required for MVP &mdash; highest coaching impact</div>
+    <div class="legend-item"><span class="badge badge-high">High Value</span> Meaningful calibration when present</div>
+    <div class="legend-item"><span class="badge badge-enhance">Enhancement</span> Personalizes tone/format, collected over time</div>
+  </div>
+  <div class="legend">
+    <div class="legend-title">Implementation Status</div>
+    <div class="legend-item"><span class="status-dot status-dot-live"></span> <strong>Live</strong> &mdash; In database &amp; feeds into coaching prompt</div>
+    <div class="legend-item"><span class="status-dot status-dot-planned"></span> <strong>Planned</strong> &mdash; In schema, UI pending</div>
+    <div class="legend-item"><span class="status-dot status-dot-future"></span> <strong>Future</strong> &mdash; Designed, not yet in schema</div>
+  </div>
+
+  <div class="section-label" style="margin-top:28px">Data Flow</div>
+  <div class="section-desc" style="margin-bottom:16px">Profile data travels through four stages, from the Settings page to the coaching response.</div>
+  <div class="flow-container">
+    <div class="flow-step"><div class="flow-icon">&#9881;</div><div class="flow-name">Settings UI</div><div class="flow-detail">User enters data</div></div>
+    <div class="flow-step"><div class="flow-icon">&#128451;</div><div class="flow-name">Database</div><div class="flow-detail">Prisma + Zod validation <a href="#" class="src" onclick="showTab('sources');return false;">S3</a></div></div>
+    <div class="flow-step"><div class="flow-icon">&#9874;</div><div class="flow-name">Context Builder</div><div class="flow-detail"><code>buildProfileContext()</code> <a href="#" class="src" onclick="showTab('sources');return false;">S2</a></div></div>
+    <div class="flow-step"><div class="flow-icon">&#129302;</div><div class="flow-name">System Prompt</div><div class="flow-detail">Appended to V3 prompt <a href="#" class="src" onclick="showTab('sources');return false;">S5</a></div></div>
+    <div class="flow-step"><div class="flow-icon">&#128172;</div><div class="flow-name">Coaching</div><div class="flow-detail">Personalized response</div></div>
+  </div>
+
+  <div style="margin-top: 28px;">
+    <div class="section-label">Token Budget</div>
+    <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">Ali has a ~12,000-token context window. Profile data uses ~5% (~600 tokens) to avoid crowding out conversation history.</p>
+    <div class="token-bar">
+      <div class="token-segment" style="flex: 63; background: #6366f1;">V3 Prompt (~7.6K)</div>
+      <div class="token-segment" style="flex: 5; background: var(--green);">Profile (~600)</div>
+      <div class="token-segment" style="flex: 17; background: var(--blue);">Knowledge (~2K)</div>
+      <div class="token-segment" style="flex: 15; background: var(--amber);">Conversation (~1.8K)</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     TAB: SECTION 1 — ABOUT YOU
+     ════════════════════════════════════════════════════ -->
+<div class="tab-page" id="sec1">
+<div class="section">
+  <div class="section-label">Section 1 of 7</div>
+  <div class="section-title">About You</div>
+  <div class="section-desc"><strong>Purpose:</strong> Calibrate Ali to the user's professional context and environment. These fields let Ali skip redundant discovery questions and deliver relevant coaching from message one.</div>
+
+  <div class="table-wrapper">
+  <table class="field-table">
+    <thead><tr><th style="width:16%">Field</th><th style="width:7%">Priority</th><th style="width:34%">How Ali Uses It</th><th style="width:24%">If Left Blank</th><th style="width:5%">Live?</th><th style="width:6%">Privacy</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="field-name">role_title</div><div class="field-type">Short text &middot; Required</div></td>
+        <td><span class="badge badge-essential">Essential</span></td>
+        <td>Ali adjusts examples to role-appropriate scenarios. A Sales Director gets enterprise deal scripts; an IC gets peer negotiation tactics. <a href="#" class="src" onclick="showTab('sources');return false;" title="ai-streaming.ts line 596: ROLE context builder">S2</a></td>
+        <td>Ali uses generic business examples. Asks "What's your role?" early &mdash; delaying personalization by 1&ndash;2 exchanges.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">seniority_level</div><div class="field-type">Single select &middot; Required</div></td>
+        <td><span class="badge badge-essential">Essential</span></td>
+        <td>Controls coaching complexity. <strong>IC/Early:</strong> foundational frameworks. <strong>Manager:</strong> team dynamics. <strong>Director+/C-Suite:</strong> strategic positioning. Directly maps to prompt personalization logic. <a href="#" class="src" onclick="showTab('sources');return false;" title="ai-streaming.ts lines 434-449: seniority-based personalization">S5</a></td>
+        <td>Ali defaults to mid-level complexity. May over-explain to seniors or under-explain to newcomers.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">career_stage</div><div class="field-type">Single select &middot; Optional</div></td>
+        <td><span class="badge badge-high">High Value</span></td>
+        <td>Informs coaching tone. <strong>Early career:</strong> more encouragement. <strong>Changing careers:</strong> transferable skills framing. Augments seniority signal.</td>
+        <td>Ali infers from seniority level. Less nuanced but functional.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">industry</div><div class="field-type">Single select + text &middot; Required</div></td>
+        <td><span class="badge badge-essential">Essential</span></td>
+        <td>Ali references industry-specific norms and language. Healthcare: regulatory timelines. Tech/SaaS: ARR pricing, multi-year contracts. Finance: risk models. Government: procurement cycles. <a href="#" class="src" onclick="showTab('sources');return false;" title="ai-streaming.ts lines 424-427: industry personalization">S5</a></td>
+        <td>Ali uses generic business examples. Misses industry-specific leverage points.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">company_size</div><div class="field-type">Single select &middot; Required</div></td>
+        <td><span class="badge badge-essential">Essential</span></td>
+        <td>Calibrates organizational complexity. <strong>Solo/2&ndash;10:</strong> founder-led deals. <strong>51&ndash;200:</strong> emerging process. <strong>201+:</strong> procurement departments. <strong>1,001+:</strong> buying committees, RFP processes. <a href="#" class="src" onclick="showTab('sources');return false;" title="ai-streaming.ts line 608: company context builder">S2</a></td>
+        <td>Ali cannot calibrate for approval chain complexity.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">company_type</div><div class="field-type">Single select &middot; Optional</div></td>
+        <td><span class="badge badge-high">High Value</span></td>
+        <td>Influences deal structure assumptions. Startups: speed-focused. Enterprise: process-heavy. Nonprofit: mission-alignment. <a href="#" class="src" onclick="showTab('sources');return false;">S2</a></td>
+        <td>Ali infers from company_size + industry. Usually sufficient.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">primary_markets</div><div class="field-type">Multi-select &middot; Optional</div></td>
+        <td><span class="badge badge-enhance">Enhance</span></td>
+        <td>Ali adjusts for regional negotiation norms. US: direct, time-pressured. UK/Europe: relationship-heavy. Asia: hierarchy-sensitive. <a href="#" class="src" onclick="showTab('sources');return false;" title="ai-streaming.ts line 615: region context">S2</a></td>
+        <td>Ali defaults to US-centric norms.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">counterpart_types</div><div class="field-type">Multi-select &middot; Required</div></td>
+        <td><span class="badge badge-essential">Essential</span></td>
+        <td>Determines which frameworks Ali prioritizes. <strong>Customers:</strong> value selling. <strong>Vendors:</strong> procurement leverage. <strong>Internal:</strong> coalition building. <strong>Employers:</strong> compensation frameworks. <a href="#" class="src" onclick="showTab('sources');return false;" title="ai-streaming.ts lines 429-432: counterparty personalization">S5</a></td>
+        <td>Ali must spend 1&ndash;2 exchanges figuring out who the user negotiates with.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">negotiation_setting</div><div class="field-type">Multi-select &middot; Optional</div></td>
+        <td><span class="badge badge-enhance">Enhance</span></td>
+        <td><strong>1:1:</strong> rapport-heavy. <strong>Multi-party:</strong> coalition dynamics. <strong>Formal RFP:</strong> proposal optimization. <a href="#" class="src" onclick="showTab('sources');return false;">S2</a></td>
+        <td>Ali asks about the setting when the user describes their situation.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+      <tr>
+        <td><div class="field-name">avg_deal_cycle_length</div><div class="field-type">Single select &middot; Optional</div></td>
+        <td><span class="badge badge-enhance">Enhance</span></td>
+        <td>Affects urgency and pacing. <strong>&lt;1 week:</strong> fast-close tactics. <strong>12+ months:</strong> relationship-building emphasis. <a href="#" class="src" onclick="showTab('sources');return false;">S2</a></td>
+        <td>Ali discovers cycle length through conversation. Minimal loss.</td>
+        <td><span class="status-dot status-dot-live"></span></td>
+        <td><span class="privacy-badge privacy-green">Shared</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: SECTION 2 — YOUR DEALS ═══════ -->
+<div class="tab-page" id="sec2">
+<div class="section">
+  <div class="section-label">Section 2 of 7</div>
+  <div class="section-title">Your Deals</div>
+  <div class="section-desc"><strong>Purpose:</strong> Capture 1&ndash;3 deal archetypes so Ali recognizes the user's typical deal patterns and offers calibrated advice immediately instead of starting from scratch every conversation.</div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">Why Deal Archetypes Matter</div>
+    <p>Most professionals negotiate 2&ndash;3 deal types repeatedly. A SaaS AE does renewals and new business; a procurement lead handles vendor contracts and service agreements. Pre-loaded archetypes let Ali skip the "what kind of deal is this?" discovery phase. <a href="#" class="src" onclick="showTab('sources');return false;">S4</a></p>
+  </div>
+
+  <div class="table-wrapper">
+  <table class="field-table">
+    <thead><tr><th style="width:16%">Field</th><th style="width:7%">Priority</th><th style="width:34%">How Ali Uses It</th><th style="width:24%">If Left Blank</th><th style="width:5%">Live?</th><th style="width:6%">Privacy</th></tr></thead>
+    <tbody>
+      <tr><td><div class="field-name">archetype_name</div><div class="field-type">Short text &middot; Required</div></td><td><span class="badge badge-essential">Essential</span></td><td>The label Ali uses to reference this deal type. "Based on your typical vendor renewal..." Makes coaching feel continuous across sessions. <a href="#" class="src" onclick="showTab('sources');return false;">S4</a></td><td>Ali treats every conversation as a new, unrelated deal.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">archetype_category</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td>Maps to coaching move libraries. <strong>New business:</strong> anchoring, closing. <strong>Renewal:</strong> retention, upsell. <strong>Employment:</strong> compensation benchmarking. <a href="#" class="src" onclick="showTab('sources');return false;">S6</a></td><td>Ali classifies from conversation. Takes 1 extra exchange.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">value_range</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td>Calibrates stakes. $5K &rarr; quick-close tactics. $500K &rarr; multi-stakeholder strategy with legal considerations. Ali never reveals the number. <a href="#" class="src" onclick="showTab('sources');return false;">S7</a></td><td>Ali cannot calibrate urgency/complexity based on deal size.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-yellow">Calibrate</span></td></tr>
+      <tr><td><div class="field-name">duration</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Short-term &rarr; close-now tactics. Multi-year &rarr; relationship investment guidance.</td><td>Ali defaults to medium-term assumptions.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">key_commercial_levers</div><div class="field-type">Multi-select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td>Focuses tactics on levers that matter. "Payment terms" &rarr; creative payment structures. "Volume" &rarr; volume-commitment strategies. Prevents irrelevant suggestions. <a href="#" class="src" onclick="showTab('sources');return false;">S6</a></td><td>Ali covers all levers &mdash; less focused, potentially overwhelming.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">key_noncommercial_levers</div><div class="field-type">Multi-select &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Non-monetary value creation. "Exclusivity" or "IP" as levers &rarr; Ali coaches packaging non-monetary concessions. <a href="#" class="src" onclick="showTab('sources');return false;">S6</a></td><td>Ali discovers through conversation.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">common_blockers</div><div class="field-type">Short text / tags &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Ali proactively addresses sticking points. "Legal review" &rarr; pre-review strategies. "Budget approval" &rarr; business case coaching.</td><td>Ali discovers blockers reactively when encountered.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-yellow">Calibrate</span></td></tr>
+      <tr><td><div class="field-name">perceived_leverage</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td>Cross-referenced with V3's Leverage Assessment signal. If self-reported "Mostly them" but conversation reveals alternatives &rarr; coaching opportunity: "You may have more leverage than you think." <a href="#" class="src" onclick="showTab('sources');return false;" title="V3 prompt lines 93-97: Leverage Assessment signal">S1</a></td><td>Ali assesses leverage purely from conversation.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">current_focus</div><div class="field-type">Multi-select &middot; Required</div></td><td><span class="badge badge-essential">Essential</span></td><td>Determines the default coaching frame. "Renewals" &rarr; retention-focused. "Compensation" &rarr; career advancement. "New deals" &rarr; pipeline tactics. <a href="#" class="src" onclick="showTab('sources');return false;">S4</a></td><td>Ali starts each conversation completely cold.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: SECTION 3 — GOALS & STYLE ═══════ -->
+<div class="tab-page" id="sec3">
+<div class="section">
+  <div class="section-label">Section 3 of 7</div>
+  <div class="section-title">Your Goals &amp; Style</div>
+  <div class="section-desc"><strong>Purpose:</strong> Adapt Ali's tone, depth, and strategic focus to match the user's objectives and behavioral tendencies.</div>
+
+  <div class="table-wrapper">
+  <table class="field-table">
+    <thead><tr><th style="width:16%">Field</th><th style="width:7%">Priority</th><th style="width:34%">How Ali Uses It</th><th style="width:24%">If Left Blank</th><th style="width:5%">Live?</th><th style="width:6%">Privacy</th></tr></thead>
+    <tbody>
+      <tr><td><div class="field-name">primary_goals</div><div class="field-type">Multi-select (limit 3) &middot; Required</div></td><td><span class="badge badge-essential">Essential</span></td><td>Frames entire coaching strategy. <strong>"Maximize financial outcomes"</strong> &rarr; aggressive anchoring. <strong>"Improve relationships"</strong> &rarr; collaborative framing. <strong>"Reduce stress"</strong> &rarr; confidence-building. <strong>"Get promoted"</strong> &rarr; visibility tactics. <a href="#" class="src" onclick="showTab('sources');return false;" title="V3 prompt lines 73-76: Goals Status signal">S1</a></td><td>Ali defaults to balanced coaching without goal prioritization.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">time_horizon</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>"Next 1&ndash;3 negotiations" &rarr; tactical. "This year" &rarr; skill-building. "Long-term" &rarr; framework teaching.</td><td>Ali infers from urgency. Minimal loss.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">tension_response</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td>User's natural conflict response. <strong>"Back off"</strong> &rarr; Ali coaches assertiveness. <strong>"Hold ground but stressed"</strong> &rarr; stress management + validation. <strong>"Lean in"</strong> &rarr; balances intensity with relationship preservation. <a href="#" class="src" onclick="showTab('sources');return false;" title="V3 prompt: Counterparty Behavior signal, emotional calibration">S1</a></td><td>Takes 2&ndash;3 sessions to calibrate through conversation.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">numbers_comfort</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>"Very comfortable" &rarr; detailed financial modeling. "Keep it light" &rarr; story-based, qualitative arguments.</td><td>Ali uses moderate financial detail.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">preferred_communication_mode</div><div class="field-type">Multi-select &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>"Live calls" &rarr; verbal scripts. "Email" &rarr; email templates. "Chat" &rarr; async-friendly tactics.</td><td>Ali provides mixed-format advice.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">risk_tolerance</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td><strong>"Very cautious"</strong> &rarr; conservative anchoring, safety nets. <strong>"Bold moves"</strong> &rarr; aggressive BATNA plays. Maps to V3's path option generation. <a href="#" class="src" onclick="showTab('sources');return false;" title="V3 prompt lines 186-200: Path Options framework">S1</a></td><td>Ali defaults to moderate risk. May suggest tactics that feel wrong.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">comfort_asking_for_more</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td>"Rarely" &rarr; incremental asks with confidence scripts. "Almost always" &rarr; focus on strategic restraint.</td><td>Ali calibrates through conversation. Takes 2+ exchanges.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: SECTION 4 — EXPERIENCE ═══════ -->
+<div class="tab-page" id="sec4">
+<div class="section">
+  <div class="section-label">Section 4 of 7</div>
+  <div class="section-title">Experience &amp; Confidence</div>
+  <div class="section-desc"><strong>Purpose:</strong> Set the "level" of coaching. Ali adjusts depth and pacing based on where the user is in their negotiation journey.</div>
+
+  <div class="table-wrapper">
+  <table class="field-table">
+    <thead><tr><th style="width:16%">Field</th><th style="width:7%">Priority</th><th style="width:34%">How Ali Uses It</th><th style="width:24%">If Left Blank</th><th style="width:5%">Live?</th><th style="width:6%">Privacy</th></tr></thead>
+    <tbody>
+      <tr><td><div class="field-name">years_experience</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td><strong>&lt;1 year:</strong> Ali explains concepts before tactics. <strong>3&ndash;7 years:</strong> focuses on advanced moves. <strong>15+:</strong> "sparring partner" mode &mdash; challenges, doesn't lecture. <a href="#" class="src" onclick="showTab('sources');return false;" title="V3 prompt lines 382+: Expert Mode behavior">S1</a></td><td>Ali infers from seniority + vocabulary. Less precise.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">negotiations_per_month</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-high">High Value</span></td><td><strong>&lt;1:</strong> frontloads preparation (high stakes per negotiation). <strong>11&ndash;20+:</strong> pattern efficiency, quick-reference tactics.</td><td>Ali can't calibrate urgency per negotiation.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">overall_confidence</div><div class="field-type">1&ndash;5 rating &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Low (1&ndash;2): more reassurance, gradual complexity. High (4&ndash;5): challenges directly, stress-tests strategies.</td><td>Ali reads confidence from conversational cues.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">confidence_by_area</div><div class="field-type">5 sub-ratings (1&ndash;5) &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Targeted coaching. Preparation=5 but Pushback=2 &rarr; Ali skips prep, focuses on objection handling. Sub-areas: Preparation, Discovery, Offers, Pushback, Closing. <a href="#" class="src" onclick="showTab('sources');return false;" title="V3 prompt lines 83-90: Process Stage mapping">S1</a></td><td>Ali distributes coaching evenly across areas.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: SECTION 5 — CONSTRAINTS ═══════ -->
+<div class="tab-page" id="sec5">
+<div class="section">
+  <div class="section-label">Section 5 of 7</div>
+  <div class="section-title">Constraints &amp; Boundaries</div>
+  <div class="section-desc"><strong>Purpose:</strong> Prevent Ali from suggesting unworkable moves. These fields act as guardrails on recommendations.</div>
+  <div class="callout callout-amber">
+    <div class="callout-title">Sensitive Data &mdash; Special Handling</div>
+    <p>Ali uses these to <strong>calibrate coaching boundaries</strong> but <strong>never echoes or references specific values</strong> in responses. <a href="#" class="src" onclick="showTab('sources');return false;" title="safety-validator.ts: confidentiality guard pattern">S7</a></p>
+  </div>
+
+  <div class="table-wrapper">
+  <table class="field-table">
+    <thead><tr><th style="width:16%">Field</th><th style="width:7%">Priority</th><th style="width:34%">How Ali Uses It</th><th style="width:24%">If Left Blank</th><th style="width:5%">Live?</th><th style="width:6%">Privacy</th></tr></thead>
+    <tbody>
+      <tr><td><div class="field-name">internal_constraints</div><div class="field-type">Long text &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>"Can't offer >20% discount without approval" &rarr; Ali never suggests exceeding that threshold. Coaches within the constraint. <a href="#" class="src" onclick="showTab('sources');return false;">S7</a></td><td>Ali may suggest tactics requiring approvals the user doesn't have.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-yellow">Calibrate</span></td></tr>
+      <tr><td><div class="field-name">hard_nonnegotiables</div><div class="field-type">Long text / tags &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Absolute boundaries. "Non-compete: never" &rarr; Ali coaches around the constraint, not through it.</td><td>User must enforce their own boundaries.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-yellow">Calibrate</span></td></tr>
+      <tr><td><div class="field-name">personal_boundaries</div><div class="field-type">Long text &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>"I don't use high-pressure tactics" &rarr; Ali steers toward principled persuasion. Respects user values.</td><td>V3 prompt already avoids aggressive tactics by default.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-red">User Ctrl</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: SECTION 6 — LEARNING ═══════ -->
+<div class="tab-page" id="sec6">
+<div class="section">
+  <div class="section-label">Section 6 of 7</div>
+  <div class="section-title">Learning Preferences</div>
+  <div class="section-desc"><strong>Purpose:</strong> Personalize the coaching <em>experience itself</em> &mdash; not the content, but how Ali delivers it.</div>
+
+  <div class="table-wrapper">
+  <table class="field-table">
+    <thead><tr><th style="width:16%">Field</th><th style="width:7%">Priority</th><th style="width:34%">How Ali Uses It</th><th style="width:24%">If Left Blank</th><th style="width:5%">Live?</th><th style="width:6%">Privacy</th></tr></thead>
+    <tbody>
+      <tr><td><div class="field-name">coaching_style</div><div class="field-type">Multi-select (limit 2) &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td><strong>"Direct/blunt"</strong> &rarr; cuts to the point. <strong>"Supportive"</strong> &rarr; leads with validation. <strong>"Analytical"</strong> &rarr; frameworks, numbered steps. <strong>"Story-based"</strong> &rarr; analogies, case studies.</td><td>Ali uses balanced default: analytical + encouragement.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">coaching_format</div><div class="field-type">Multi-select &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td><strong>"Short scripts"</strong> &rarr; copy-paste dialogue. <strong>"Step-by-step"</strong> &rarr; action lists. <strong>"Checklists"</strong> &rarr; checkbox-style prep. <strong>"Deep explanations"</strong> &rarr; teaches the principle.</td><td>Ali mixes formats. Less efficient but covers bases.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+      <tr><td><div class="field-name">jargon_tolerance</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td><strong>"Keep it simple"</strong> &rarr; avoids BATNA/ZOPA jargon. <strong>"Advanced"</strong> &rarr; uses negotiation science terms freely.</td><td>Ali uses moderate jargon, explains on first use.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-green">Shared</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: SECTION 7 — ACCESSIBILITY ═══════ -->
+<div class="tab-page" id="sec7">
+<div class="section">
+  <div class="section-label">Section 7 of 7</div>
+  <div class="section-title">Accessibility &amp; Identity</div>
+  <div class="section-desc"><strong>Purpose:</strong> Ensure Ali communicates respectfully and accessibly. Clearly optional and private &mdash; only shared with Ali if user explicitly enables it.</div>
+
+  <div class="table-wrapper">
+  <table class="field-table">
+    <thead><tr><th style="width:16%">Field</th><th style="width:7%">Priority</th><th style="width:34%">How Ali Uses It</th><th style="width:24%">If Left Blank</th><th style="width:5%">Live?</th><th style="width:6%">Privacy</th></tr></thead>
+    <tbody>
+      <tr><td><div class="field-name">languages</div><div class="field-type">Multi-select + text &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Ali adapts for cross-lingual negotiation dynamics (e.g., idioms that don't translate).</td><td>Ali defaults to English-only context.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-red">User Ctrl</span></td></tr>
+      <tr><td><div class="field-name">communication_needs</div><div class="field-type">Long text &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>"Prefer bullet points" &rarr; more structured. "Need more time between prompts" &rarr; paced responses.</td><td>Ali uses standard conversational format.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-red">User Ctrl</span></td></tr>
+      <tr><td><div class="field-name">user_name_pronunciation</div><div class="field-type">Short text &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Ali uses the preferred name form. Stored for future voice features.</td><td>Ali uses the name as entered.</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-red">User Ctrl</span></td></tr>
+      <tr><td><div class="field-name">pronouns</div><div class="field-type">Single select &middot; Optional</div></td><td><span class="badge badge-enhance">Enhance</span></td><td>Ali uses correct pronouns in third-person coaching scenarios.</td><td>Ali avoids gendered pronouns. Uses "you" and "they".</td><td><span class="status-dot status-dot-future"></span></td><td><span class="privacy-badge privacy-red">User Ctrl</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: PRIVACY ═══════ -->
+<div class="tab-page" id="privacy">
+<div class="section">
+  <div class="section-label">Data Handling</div>
+  <div class="section-title">Privacy &amp; Security Model</div>
+  <div class="section-desc">Profile data has three privacy tiers that control how it flows through the system.</div>
+
+  <div class="principles">
+    <div class="principle-card" style="border-color: var(--green);">
+      <div class="num" style="color: var(--green);">Tier 1</div>
+      <h3><span class="privacy-badge privacy-green">Shared</span> Professional Context</h3>
+      <p>Always in system prompt. Name, role, industry, company, counterparts. Professional context for personalization. No PII beyond first name.</p>
+    </div>
+    <div class="principle-card" style="border-color: var(--amber);">
+      <div class="num" style="color: var(--amber);">Tier 2</div>
+      <h3><span class="privacy-badge privacy-yellow">Calibrate</span> Sensitive Business</h3>
+      <p>In prompt but Ali <strong>never echoes values</strong> in responses. Deal values, constraints, approval limits. Used silently to calibrate, never to reference. <a href="#" class="src" onclick="showTab('sources');return false;">S7</a></p>
+    </div>
+    <div class="principle-card" style="border-color: var(--pink);">
+      <div class="num" style="color: var(--pink);">Tier 3</div>
+      <h3><span class="privacy-badge privacy-red">User Ctrl</span> Identity &amp; Personal</h3>
+      <p>Only shared if user explicitly enables via toggle. Pronouns, communication needs, personal boundaries. Default: <strong>OFF</strong>.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">What Ali Does Not Do</div>
+    <p><strong>Does not</strong> share profile data with counterparts. <strong>Does not</strong> use data to train models for other users. <strong>Does not</strong> store deal specifics outside the account. Data encrypted at rest (Supabase). Anthropic does not train on API data.</p>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: DECISIONS ═══════ -->
+<div class="tab-page" id="decisions">
+<div class="section">
+  <div class="section-label">For Stakeholder Review</div>
+  <div class="section-title">Key Decisions</div>
+  <div class="section-desc">Please review and provide feedback on each decision below.</div>
+
+  <div class="decision-card">
+    <div class="decision-header" style="background: var(--green-hl);"><h3 style="font-family: var(--font-serif); font-size: 1.05rem;">1. Conversation Always Wins</h3><span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted);">APPROVE / REJECT / MODIFY</span></div>
+    <div class="decision-body">
+      <p>When profile data contradicts what the user says in conversation, the conversation signal wins. Profile = starting calibration; real-time context is more accurate. <a href="#" class="src" onclick="showTab('sources');return false;">S1</a></p>
+      <p class="q"><strong>Example:</strong> Profile says "Healthcare" but user describes a software licensing deal &mdash; Ali coaches for software, not healthcare.</p>
+    </div>
+  </div>
+  <div class="decision-card">
+    <div class="decision-header" style="background: var(--blue-hl);"><h3 style="font-family: var(--font-serif); font-size: 1.05rem;">2. Eight Required Fields for MVP</h3><span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted);">APPROVE / REJECT / MODIFY</span></div>
+    <div class="decision-body">
+      <ol>
+        <li><code>role_title</code> &mdash; Current role</li>
+        <li><code>seniority_level</code> &mdash; Seniority</li>
+        <li><code>industry</code> &mdash; Industry / sector</li>
+        <li><code>company_size</code> &mdash; Company size</li>
+        <li><code>counterpart_types</code> &mdash; Who you negotiate with</li>
+        <li><code>archetype_name</code> &mdash; At least 1 deal archetype</li>
+        <li><code>current_focus</code> &mdash; What you're currently negotiating</li>
+        <li><code>primary_goals</code> &mdash; Your top goals with Ali</li>
+      </ol>
+      <p class="q"><strong>Question:</strong> Is this the right set? Should any be optional? Should any optional fields become required?</p>
+    </div>
+  </div>
+  <div class="decision-card">
+    <div class="decision-header" style="background: var(--amber-hl);"><h3 style="font-family: var(--font-serif); font-size: 1.05rem;">3. Privacy Tiers</h3><span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted);">APPROVE / REJECT / MODIFY</span></div>
+    <div class="decision-body">
+      <p><strong>Shared:</strong> always in prompt. <strong>Calibrate:</strong> in prompt, never echoed. <strong>User Controlled:</strong> opt-in only. See Privacy tab for field assignments.</p>
+      <p class="q"><strong>Question:</strong> Are the tier assignments correct? Should any "Shared" fields be elevated to "Calibrate"?</p>
+    </div>
+  </div>
+  <div class="decision-card">
+    <div class="decision-header" style="background: var(--purple-hl);"><h3 style="font-family: var(--font-serif); font-size: 1.05rem;">4. Phase Sections 5&ndash;7?</h3><span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted);">APPROVE / REJECT / MODIFY</span></div>
+    <div class="decision-body">
+      <p>Sections 5&ndash;7 (Constraints, Learning Preferences, Accessibility) are enhancement-tier. Recommendation: collect through conversation and advanced Settings, not dedicated onboarding UI. Industry benchmarks: &lt;10% completion for optional advanced sections.</p>
+      <p class="q"><strong>Question:</strong> Agree with phased approach, or build all 7 sections upfront?</p>
+    </div>
+  </div>
+  <div class="decision-card">
+    <div class="decision-header" style="background: var(--green-hl);"><h3 style="font-family: var(--font-serif); font-size: 1.05rem;">5. Deal Archetype Granularity</h3><span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted);">APPROVE / REJECT / MODIFY</span></div>
+    <div class="decision-body">
+      <p>Each deal archetype has 8 sub-fields (name, category, value range, duration, commercial levers, non-commercial levers, blockers, leverage). 1&ndash;5 archetypes per user.</p>
+      <p class="q"><strong>Question:</strong> Right level of detail? Too much for users? Too little for Ali?</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ TAB: SOURCES ═══════ -->
+<div class="tab-page" id="sources">
+<div class="section">
+  <div class="section-label">References</div>
+  <div class="section-title">Sources</div>
+  <div class="section-desc">Every coaching rationale in this document is traceable to one of these sources. Source tags <span class="src">S1</span> appear inline throughout the field tables.</div>
+
+  <ul class="source-list">
+    <li><span class="source-id">S1</span><div><strong>V3 Coaching Prompt (Braintrust-synced)</strong><br><code>src/chatbot/prompts/v3-braintrust-synced.ts</code><br>The core coaching philosophy, 10 Calibration Signals (Goals, Relationship, Process Stage, Leverage, Alternatives, Timeline, Complexity, Counterparty Behavior, Emotional State, Decision Authority), Expert Mode behavior, and path option generation. This is the prompt Ali operates from &mdash; profile data augments it.</div></li>
+    <li><span class="source-id">S2</span><div><strong>Profile Context Builder</strong><br><code>src/chatbot/ai-streaming.ts</code> lines 579&ndash;636<br>The <code>buildProfileContext()</code> function that serializes User model fields into a prompt-friendly text block. Currently handles: name, role, seniority, industry, company, region, counterparty, setting, deal cycle. This is the actual code path that converts profile data into coaching context.</div></li>
+    <li><span class="source-id">S3</span><div><strong>Profile Actions &amp; Validation</strong><br><code>src/user/profileActions.ts</code><br>Server-side Wasp action with Zod schema validation for profile updates. Defines which fields are accepted and how they're validated before writing to the database.</div></li>
+    <li><span class="source-id">S4</span><div><strong>Profile Settings Spec (Notion)</strong><br>Exported from Notion: "Ali profile settings" &mdash; the design document defining all 40 fields, 7 sections, progressive disclosure rules, and required/optional designations. Authored by the product team.</div></li>
+    <li><span class="source-id">S5</span><div><strong>Personalization Addendum</strong><br><code>src/chatbot/ai-streaming.ts</code> lines 417&ndash;457<br>The runtime logic that converts specific profile fields into prompt instructions. Currently handles: firstName (address by name, line 421), industry (reference contexts, line 426), counterparty (focus dynamics, line 431), seniority (complexity calibration, lines 434&ndash;449).</div></li>
+    <li><span class="source-id">S6</span><div><strong>Ali Knowledge Base</strong><br>Curated negotiation knowledge from 5 source books (ASF, 3DN, GTY, NSFD, HTWF) containing coaching moves, frameworks, and lever-based strategies. 107+ items from Carnegie alone. This is the domain knowledge behind how Ali maps fields like "commercial levers" and "deal category" to specific coaching behaviors.</div></li>
+    <li><span class="source-id">S7</span><div><strong>Safety Validator &amp; Confidentiality Guard</strong><br><code>src/chatbot/safety-validator.ts</code><br>The defense-in-depth system that prevents Ali from leaking sensitive data. Extracts price floors/ceilings and confidential items per-conversation. The "Calibrate" privacy tier extends this pattern to profile data: Ali uses it but never echoes it.</div></li>
+    <li><span class="source-id">S8</span><div><strong>Stakeholder Meeting Synthesis (Feb 19, 2026)</strong><br><code>docs/meetings/WEEKLY_SYNC_FEB19_2026_SYNTHESIS.md</code><br>Action items A3 ("Create corpus document explaining how user profile inputs are used by Ali"), A11, T1.7, T2.5. Defines the scope and audience for this document. Feedback deadline: Tue Feb 24 EOD.</div></li>
+  </ul>
+</div>
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<div class="footer">
+  <p>Ali MVP &middot; Profile Settings Corpus Document v1.0 &middot; February 20, 2026</p>
+  <p style="margin-top: 4px;">Prepared for Tom, Mark, and Lee &middot; Feedback due: <strong>Tuesday, February 24</strong></p>
+</div>
+
+<!-- ════════ TAB SWITCHING ════════ -->
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const page = document.getElementById(id);
+  if (page) page.classList.add('active');
+  // Find matching button
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick')?.includes(`'${id}'`)) b.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+</script>
+
+</body>
+</html>
