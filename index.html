@@ -40,18 +40,45 @@
             font-size: 0.8rem;
             margin-top: 0.5rem;
         }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .section-icon.recent { background: #fef3c7; }
+        .section-icon.architecture { background: #dbeafe; }
+        .section-icon.product { background: #dcfce7; }
+        .section-icon.design { background: #fce7f3; }
+        .section-icon.meetings { background: #fef3c7; }
+        h2 {
+            font-size: 1.1rem;
+            color: #374151;
+            font-weight: 600;
+        }
         .doc-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 0.75rem;
-            margin-bottom: 2rem;
         }
         .doc-link {
             display: block;
-            padding: 1.25rem;
+            padding: 1rem;
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 10px;
+            border-radius: 8px;
             text-decoration: none;
             color: #1e293b;
             transition: all 0.2s;
@@ -65,11 +92,10 @@
         }
         .doc-link:hover .doc-desc { color: rgba(255,255,255,0.85); }
         .doc-link:hover .doc-date { color: rgba(255,255,255,0.7); }
-        .doc-link:hover .doc-category { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.3); }
         .doc-title {
             font-weight: 600;
             font-size: 0.95rem;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
         }
         .doc-desc {
             font-size: 0.8rem;
@@ -79,21 +105,26 @@
         .doc-date {
             font-size: 0.7rem;
             color: #94a3b8;
-            margin-top: 0.5rem;
+            margin-top: 0.35rem;
         }
-        .doc-category {
+        .badge {
             display: inline-block;
-            font-size: 0.6rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #94a3b8;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
+            background: #10b981;
+            color: white;
             padding: 0.1rem 0.4rem;
-            margin-top: 0.4rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-left: 0.4rem;
+            vertical-align: middle;
         }
+        .badge.new { background: #10b981; }
+        .badge.tom { background: #8b5cf6; }
+        .badge.mark { background: #3b82f6; }
+        .badge.nic { background: #ec4899; }
+        .badge.visual { background: #f59e0b; }
         footer {
+            margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid #e2e8f0;
             text-align: center;
@@ -111,64 +142,193 @@
     <div class="container">
         <header>
             <h1>Ali MVP</h1>
-            <p class="subtitle">Stakeholder Resources</p>
-            <p class="updated">Last updated: February 20, 2026</p>
+            <p class="subtitle">Stakeholder Resources Hub</p>
+            <p class="updated">Last updated: February 17, 2026</p>
         </header>
 
-        <div class="doc-grid">
-            <a href="architecture/conversation-engine-visual.html" class="doc-link">
-                <div class="doc-title">Inside Ali's Conversation Engine</div>
-                <div class="doc-desc">Visual architecture: pipeline, entity types, cross-book intelligence, 969 coaching items from 4 sources</div>
-                <div class="doc-date">Feb 16, 2026</div>
-                <div class="doc-category">Architecture</div>
-            </a>
-            <a href="docs/book-extraction-review.html" class="doc-link">
-                <div class="doc-title">Book Extraction Review</div>
-                <div class="doc-desc">969 coaching items from 4 negotiation sources &mdash; searchable, filterable, JSON export</div>
-                <div class="doc-date">Feb 14, 2026</div>
-                <div class="doc-category">Knowledge Base</div>
-            </a>
-            <a href="guides/BRAINTRUST_EVAL_GUIDE.html" class="doc-link">
-                <div class="doc-title">Evaluation &amp; Quality Guide</div>
-                <div class="doc-desc">How Ali's coaching quality is measured with Braintrust &mdash; 19 scoring criteria, 6 test scenarios</div>
-                <div class="doc-date">Feb 2026</div>
-                <div class="doc-category">Quality</div>
-            </a>
-            <a href="product/product-brief-2.html" class="doc-link">
-                <div class="doc-title">Product Brief #2: Anatomy of Ali</div>
-                <div class="doc-desc">Strategic overview, Silhouette assessment, roadmap, tech specs</div>
-                <div class="doc-date">Jan 2026</div>
-                <div class="doc-category">Product</div>
-            </a>
-            <a href="product/stakeholder-alignment-jan15.html" class="doc-link">
-                <div class="doc-title">Stakeholder Alignment</div>
-                <div class="doc-desc">Settings inputs, navigation, tone &amp; marketing positioning</div>
-                <div class="doc-date">Jan 15, 2026</div>
-                <div class="doc-category">Product</div>
-            </a>
-            <a href="product/roadmap.html" class="doc-link">
-                <div class="doc-title">Product Roadmap</div>
-                <div class="doc-desc">Feature timeline, milestones, and release planning through Q2 2026</div>
-                <div class="doc-date">Jan 2026</div>
-                <div class="doc-category">Product</div>
-            </a>
-            <a href="docs/landing-page-copy-review.html" class="doc-link">
-                <div class="doc-title">Landing Page Copy Review</div>
-                <div class="doc-desc">Marketing copy options &mdash; aspiration-led vs. credibility-led framing</div>
-                <div class="doc-date">Jan 2026</div>
-                <div class="doc-category">Marketing</div>
-            </a>
+        <!-- Recently Updated Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon recent">&#11088;</div>
+                <h2>Recently Updated</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="architecture/conversation-engine-visual.html" class="doc-link">
+                    <div class="doc-title">Inside Ali's Conversation Engine <span class="badge visual">NEW</span></div>
+                    <div class="doc-desc">Visual architecture: pipeline, entity types, cross-book intelligence, tag landscape</div>
+                    <div class="doc-date">Feb 16, 2026</div>
+                </a>
+                <a href="docs/book-extraction-review.html" class="doc-link">
+                    <div class="doc-title">Book Extraction Review <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">969 coaching items from 4 negotiation sources - searchable, tagged, filterable</div>
+                    <div class="doc-date">Feb 14, 2026</div>
+                </a>
+                <a href="meetings/2026-02-12/meeting-synthesis.html" class="doc-link">
+                    <div class="doc-title">Meeting Synthesis (Feb 12) <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">Stakeholder meeting outcomes, decisions, and action items</div>
+                    <div class="doc-date">Feb 12, 2026</div>
+                </a>
+                <a href="guides/BRAINTRUST_EVAL_GUIDE.html" class="doc-link">
+                    <div class="doc-title">Braintrust Eval Guide <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">How Ali's coaching quality is measured and improved with Braintrust</div>
+                    <div class="doc-date">Feb 6, 2026</div>
+                </a>
+            </div>
         </div>
 
-        <div style="margin-top: 1rem; padding: 1rem 1.25rem; background: #f1f5f9; border-radius: 8px; font-size: 0.75rem; color: #94a3b8; line-height: 1.6;">
-            <strong style="color: #64748b;">Previous versions available on request:</strong>
-            Classification Engine (Jan 20) &bull; Technical Reference (Jan 15) &bull; Brand Registry (Dec 2025) &bull; Conversation Engine Architecture (Jan 21) &bull; Rendering Constraints (Jan 2026) &bull; Meeting Synthesis Feb 12<br>
-            Contact Terrance for the latest iteration of any archived document.
+        <!-- Architecture Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon architecture">&#127959;</div>
+                <h2>Architecture & Technical</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="architecture/conversation-engine-visual.html" class="doc-link">
+                    <div class="doc-title">Inside Ali's Conversation Engine <span class="badge visual">NEW</span></div>
+                    <div class="doc-desc">Visual architecture: pipeline, entity types, cross-book intelligence, tag landscape</div>
+                    <div class="doc-date">Feb 16, 2026</div>
+                </a>
+                <a href="architecture/conversation-engine-architecture.html" class="doc-link">
+                    <div class="doc-title">Conversation Engine Architecture</div>
+                    <div class="doc-desc">How Ali delivers the Aligned methodology - classification, phases, prompts</div>
+                    <div class="doc-date">Jan 21, 2026</div>
+                </a>
+                <a href="architecture/classification-engine.html" class="doc-link">
+                    <div class="doc-title">Classification Engine <span class="badge tom">TOM</span></div>
+                    <div class="doc-desc">4 types + BATNA circumstance, 6 signals - Tom-validated Jan 20</div>
+                    <div class="doc-date">Jan 20, 2026</div>
+                </a>
+                <a href="architecture/v3-classification-guide.html" class="doc-link">
+                    <div class="doc-title">V3 Classification Guide</div>
+                    <div class="doc-desc">Technical deep-dive on conversational classification</div>
+                    <div class="doc-date">Jan 2026</div>
+                </a>
+                <a href="architecture/technical-reference-jan15.html" class="doc-link">
+                    <div class="doc-title">Technical Reference</div>
+                    <div class="doc-desc">API endpoints, data models, system architecture</div>
+                    <div class="doc-date">Jan 15, 2026</div>
+                </a>
+                <a href="docs/book-extraction-review.html" class="doc-link">
+                    <div class="doc-title">Book Extraction Review <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">969 coaching items from 4 sources - searchable by type, book, and tag</div>
+                    <div class="doc-date">Feb 14, 2026</div>
+                </a>
+                <a href="ALI_RENDERING_CONSTRAINTS.html" class="doc-link">
+                    <div class="doc-title">Rendering Constraints</div>
+                    <div class="doc-desc">Technical constraints and workarounds for Ali's UI rendering</div>
+                    <div class="doc-date">Jan 2026</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Product Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon product">&#128202;</div>
+                <h2>Product & Strategy</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="product/product-brief-2.html" class="doc-link">
+                    <div class="doc-title">Product Brief #2: Anatomy of Ali <span class="badge mark">MARK</span></div>
+                    <div class="doc-desc">Strategic overview, Silhouette assessment, roadmap, tech specs</div>
+                    <div class="doc-date">Jan 2026</div>
+                </a>
+                <a href="product/stakeholder-alignment-jan15.html" class="doc-link">
+                    <div class="doc-title">Stakeholder Alignment</div>
+                    <div class="doc-desc">Settings inputs, navigation, tone & marketing positioning</div>
+                    <div class="doc-date">Jan 15, 2026</div>
+                </a>
+                <a href="product/roadmap.html" class="doc-link">
+                    <div class="doc-title">Product Roadmap</div>
+                    <div class="doc-desc">Feature timeline and release planning</div>
+                    <div class="doc-date">Jan 2026</div>
+                </a>
+                <a href="docs/landing-page-copy-review.html" class="doc-link">
+                    <div class="doc-title">Landing Page Copy Review</div>
+                    <div class="doc-desc">Marketing copy review and recommendations for Ali's landing page</div>
+                    <div class="doc-date">Jan 2026</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Design Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon design">&#127912;</div>
+                <h2>Design & UX</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="design/brand-registry.html" class="doc-link">
+                    <div class="doc-title">Brand Registry <span class="badge nic">NIC</span></div>
+                    <div class="doc-desc">Complete brand assets, colors, typography, logos</div>
+                    <div class="doc-date">Dec 2025</div>
+                </a>
+                <a href="design/design-tokens-guide-nic.html" class="doc-link">
+                    <div class="doc-title">Design Tokens Guide</div>
+                    <div class="doc-desc">CSS variables, spacing, color system reference</div>
+                    <div class="doc-date">Dec 2025</div>
+                </a>
+                <a href="design/screen-inventory-nic.html" class="doc-link">
+                    <div class="doc-title">Screen Inventory</div>
+                    <div class="doc-desc">All app screens with annotations</div>
+                    <div class="doc-date">Dec 2025</div>
+                </a>
+                <a href="design/ux-design-session.html" class="doc-link">
+                    <div class="doc-title">UX Design Session</div>
+                    <div class="doc-desc">Design workshop outcomes and decisions</div>
+                    <div class="doc-date">Dec 2025</div>
+                </a>
+                <a href="design/zahir-design-session-jan25.html" class="doc-link">
+                    <div class="doc-title">Zahir Design Session <span class="badge nic">NIC</span></div>
+                    <div class="doc-desc">Jan 25 design session with Zahir - UI refinements and patterns</div>
+                    <div class="doc-date">Jan 25, 2026</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Meetings & Guides Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon meetings">&#128197;</div>
+                <h2>Meetings & Guides</h2>
+            </div>
+            <div class="doc-grid">
+                <a href="meetings/2026-02-12/meeting-synthesis.html" class="doc-link">
+                    <div class="doc-title">Meeting Synthesis (Feb 12) <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">Stakeholder meeting outcomes, decisions, and action items</div>
+                    <div class="doc-date">Feb 12, 2026</div>
+                </a>
+                <a href="guides/BRAINTRUST_EVAL_GUIDE.html" class="doc-link">
+                    <div class="doc-title">Braintrust Eval Guide <span class="badge new">NEW</span></div>
+                    <div class="doc-desc">How Ali's coaching quality is measured and improved</div>
+                    <div class="doc-date">Feb 6, 2026</div>
+                </a>
+                <a href="meetings/conversation-guide-jan15.html" class="doc-link">
+                    <div class="doc-title">Conversation Guide</div>
+                    <div class="doc-desc">Stakeholder sync conversation framework</div>
+                    <div class="doc-date">Jan 15, 2026</div>
+                </a>
+                <a href="meetings/session-1-agenda.html" class="doc-link">
+                    <div class="doc-title">Session 1 Agenda</div>
+                    <div class="doc-desc">Working session structure and goals</div>
+                    <div class="doc-date">Jan 2026</div>
+                </a>
+                <a href="meetings/nic-meeting-guide.html" class="doc-link">
+                    <div class="doc-title">Nic Meeting Guide</div>
+                    <div class="doc-desc">Design review session preparation</div>
+                    <div class="doc-date">Dec 2025</div>
+                </a>
+                <a href="meetings/NIC_SYNC_DEBRIEF_DEC3.html" class="doc-link">
+                    <div class="doc-title">Nic Sync Debrief</div>
+                    <div class="doc-desc">Dec 3 design sync outcomes</div>
+                    <div class="doc-date">Dec 3, 2025</div>
+                </a>
+            </div>
         </div>
 
         <footer>
             <strong>Ali MVP</strong> &bull; Aligned Negotiation Platform<br>
-            Questions? Contact Terrance
+            <a href="archive/">View Archive</a> &bull; Questions? Contact Terrance
         </footer>
     </div>
 </body>
