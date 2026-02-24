@@ -1,0 +1,1364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>V3.3 to V3.4 System Prompt Changes | Ali by Aligned</title>
+  <style>
+    /* ========== RESET & VARIABLES ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-page: #FAF8F5;
+      --bg-card: #FFFFFF;
+      --bg-muted: #F0EDE8;
+
+      --text-primary: #3F3C38;
+      --text-secondary: #6F6A63;
+      --text-tertiary: #9A9389;
+
+      --border: #E6E2DC;
+      --border-light: #EEEBE6;
+
+      --accent: #5F86A6;
+      --accent-light: #CFE6F0;
+      --accent-dark: #2E4E6B;
+      --accent-hover: #4A7294;
+
+      --asf-start: #5F86A6;
+      --asf-end: #7BA3BF;
+
+      --green-bg: #E8F5E9;
+      --green-text: #2E7D32;
+      --green-border: #A5D6A7;
+
+      --red-bg: #FFEBEE;
+      --red-text: #C62828;
+      --red-border: #EF9A9A;
+
+      --font-heading: "Moret", Georgia, "Times New Roman", serif;
+      --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "SF Mono", Monaco, "Cascadia Code", Consolas, monospace;
+    }
+
+    /* ========== BASE ========== */
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== HEADER ========== */
+    .page-header {
+      background: linear-gradient(135deg, var(--asf-start), var(--asf-end));
+      color: #FFFFFF;
+      padding: 56px 40px 48px;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 34px;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+    .page-header .subtitle {
+      font-size: 15px;
+      opacity: 0.92;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+    .version-badge {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 5px 14px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    /* ========== TAB SYSTEM (CSS-only, radio buttons) ========== */
+    .tab-system { max-width: 920px; margin: 0 auto; }
+
+    .tab-system input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pill-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 248, 245, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    .pill-nav-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 0 24px;
+      scrollbar-width: none;
+    }
+    .pill-nav-inner::-webkit-scrollbar { display: none; }
+
+    .pill-nav label {
+      white-space: nowrap;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+      border: 1px solid transparent;
+    }
+    .pill-nav label:hover {
+      background: var(--bg-muted);
+      color: var(--text-primary);
+    }
+
+    /* Active pill styling driven by radio state */
+    #tab-whats-new:checked ~ .pill-nav label[for="tab-whats-new"],
+    #tab-diff:checked ~ .pill-nav label[for="tab-diff"],
+    #tab-why:checked ~ .pill-nav label[for="tab-why"],
+    #tab-unchanged:checked ~ .pill-nav label[for="tab-unchanged"],
+    #tab-moves:checked ~ .pill-nav label[for="tab-moves"],
+    #tab-next:checked ~ .pill-nav label[for="tab-next"] {
+      background: var(--accent);
+      color: #FFFFFF;
+      border-color: var(--accent);
+    }
+
+    /* Tab content panels */
+    .tab-panel {
+      display: none;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
+    }
+    #tab-whats-new:checked ~ .tab-panel.panel-whats-new,
+    #tab-diff:checked ~ .tab-panel.panel-diff,
+    #tab-why:checked ~ .tab-panel.panel-why,
+    #tab-unchanged:checked ~ .tab-panel.panel-unchanged,
+    #tab-moves:checked ~ .tab-panel.panel-moves,
+    #tab-next:checked ~ .tab-panel.panel-next { display: block; }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-header { margin-bottom: 28px; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 26px;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    /* ========== CARDS ========== */
+    .card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-light);
+    }
+    .card-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .card p, .card li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+    .card ul { padding-left: 18px; margin-top: 8px; }
+    .card li { margin-bottom: 4px; }
+
+    /* ========== DIFF BLOCKS ========== */
+    .diff-block {
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .diff-block-header {
+      padding: 14px 24px;
+      background: var(--bg-muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .diff-block-header h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text-primary);
+    }
+    .diff-block-body { padding: 20px 24px; }
+
+    .diff-before {
+      background: var(--red-bg);
+      border-left: 3px solid var(--red-border);
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--red-text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .diff-after {
+      background: var(--green-bg);
+      border-left: 3px solid var(--green-border);
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--green-text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .diff-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .diff-label-before { color: var(--red-text); }
+    .diff-label-after { color: var(--green-text); }
+
+    .new-block {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--accent-dark);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ========== TABLES ========== */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table thead th {
+      text-align: left;
+      padding: 10px 14px;
+      background: var(--bg-muted);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table tbody td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-primary);
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .data-table tbody tr:hover { background: #FDFCFA; }
+
+    /* ========== TAGS ========== */
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .tag-new { background: var(--accent-light); color: var(--accent-dark); }
+    .tag-changed { background: #FFF3E0; color: #E65100; }
+    .tag-unchanged { background: #E8F5E9; color: #2E7D32; }
+    .tag-fixed { background: #FCE4EC; color: #AD1457; }
+    .tag-restored { background: #EDE7F6; color: #4527A0; }
+
+    /* ========== MOVE TABLE ========== */
+    .move-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .move-table th {
+      text-align: left;
+      padding: 10px 12px;
+      background: var(--bg-muted);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .move-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: top;
+    }
+    .move-table tr:last-child td { border-bottom: none; }
+    .move-table tr.highlight-row { background: rgba(207, 230, 240, 0.25); }
+    .move-table tr.highlight-row td:first-child { font-weight: 600; }
+
+    .category-header {
+      background: var(--bg-muted);
+      padding: 12px 20px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .category-count {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-dark);
+      background: var(--accent-light);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* ========== UNCHANGED LIST ========== */
+    .unchanged-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .unchanged-item:last-child { border-bottom: none; }
+    .check-circle {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #E8F5E9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .check-circle svg { width: 14px; height: 14px; }
+    .unchanged-item h4 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+    .unchanged-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    /* ========== NEXT STEPS ========== */
+    .step-card {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+    }
+    .step-number {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .step-card h4 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .step-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    /* ========== INFO BOX ========== */
+    .info-box {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .info-box.accent {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      border: 1px solid rgba(95,134,166,0.2);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+    footer .tagline {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    footer p {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .page-header { padding: 40px 20px 36px; }
+      .page-header h1 { font-size: 26px; }
+      .tab-panel { padding: 24px 16px; }
+      .pill-nav-inner { padding: 0 16px; }
+      .data-table { font-size: 12px; }
+      .data-table thead th, .data-table tbody td { padding: 8px 10px; }
+      .diff-block-body { padding: 16px; }
+    }
+
+    /* ========== PRINT ========== */
+    @media print {
+      .pill-nav { position: static; border: none; background: none; }
+      .tab-panel { display: block !important; page-break-inside: avoid; }
+      .page-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { background: #FFFFFF; }
+      .card, .diff-block { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <div class="page-header">
+    <h1>V3.4 System Prompt Changes</h1>
+    <p class="subtitle">What changed, why, and what stayed the same. Prepared for Mark Mirra.</p>
+    <span class="version-badge">V3.3.0 &rarr; V3.4.0</span>
+  </div>
+
+  <!-- ==================== TAB SYSTEM ==================== -->
+  <div class="tab-system">
+
+    <!-- Radio inputs (hidden, drive tab state) -->
+    <input type="radio" name="tabs" id="tab-whats-new" checked />
+    <input type="radio" name="tabs" id="tab-diff" />
+    <input type="radio" name="tabs" id="tab-why" />
+    <input type="radio" name="tabs" id="tab-unchanged" />
+    <input type="radio" name="tabs" id="tab-moves" />
+    <input type="radio" name="tabs" id="tab-next" />
+
+    <!-- Pill navigation -->
+    <nav class="pill-nav">
+      <div class="pill-nav-inner">
+        <label for="tab-whats-new">What's New</label>
+        <label for="tab-diff">Side-by-Side Diff</label>
+        <label for="tab-why">Why Each Change</label>
+        <label for="tab-unchanged">What Didn't Change</label>
+        <label for="tab-moves">Move Library v3</label>
+        <label for="tab-next">Next Steps</label>
+      </div>
+    </nav>
+
+    <!-- ==================== TAB 1: WHAT'S NEW ==================== -->
+    <div class="tab-panel panel-whats-new">
+      <div class="section-header">
+        <div class="section-label">Executive Summary</div>
+        <h2 class="section-title">What's New in V3.4</h2>
+        <p class="section-subtitle">Six targeted changes. No architectural rewrites. Core philosophy untouched.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-number">1</div>
+        <h3 class="card-title">43 Named Aligned Moves (Bug Fix + 8 New)</h3>
+        <p>Fixed a critical production bug where the 35 existing moves were <strong>never injected</strong> into Ali's context. The <code>wrapInXml()</code> function existed but was orphaned from the streaming pipeline -- moves were defined in code but the model never saw them.</p>
+        <p style="margin-top: 8px;">Added 8 new NSFD moves from Tom's review:</p>
+        <ul>
+          <li><strong>Calibrated Question</strong> -- open-ended How/What questions that shift control</li>
+          <li><strong>Accusation Audit</strong> -- preemptively name negatives to defuse them</li>
+          <li><strong>"That's Right" Target</strong> -- aim for "that's right," not "yes" or "you're right"</li>
+          <li><strong>Black Swan Hunt</strong> -- discover unknown unknowns that change leverage</li>
+          <li><strong>Leverage Triangle</strong> -- positive, negative, and normative leverage taxonomy</li>
+          <li><strong>Rule of Three</strong> -- verify genuine commitment three different ways</li>
+          <li><strong>Gentle No</strong> -- four-step decline sequence preserving the relationship</li>
+          <li><strong>Reality Bend</strong> -- loss aversion + fairness framing + deadline psychology</li>
+        </ul>
+        <p style="margin-top: 8px;">Plus 1 restored move: <strong>Caution-Threat-Exit</strong> (was in voice instructions but missing from the array).</p>
+      </div>
+
+      <div class="card">
+        <div class="card-number">2</div>
+        <h3 class="card-title">Priority Framing</h3>
+        <p>Ali now asks <strong>"What's the ONE term you must win?"</strong> within the first 1-2 exchanges. This was Mark's Feb 12 request -- users were getting broad guidance without ever clarifying their single most important outcome. The priority term feeds into all subsequent tactical recommendations.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-number">3</div>
+        <h3 class="card-title">Counterparty Perspective</h3>
+        <p>Before recommending tactics, Ali now explicitly models what the other side is thinking. This creates a <strong>"perspective rotation"</strong> step: what are their constraints, incentives, and pressures? Tactics are then calibrated to the counterparty's likely response, not just the user's position.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-number">4</div>
+        <h3 class="card-title">Anti-Probability Guardrail</h3>
+        <p>Ali no longer generates statements like <strong>"60% chance they'll accept"</strong> or <strong>"there's a 70% probability this works."</strong> Tom flagged this in January testing -- percentage predictions create false precision and potential liability. Ali now frames uncertainty qualitatively: "likely," "plausible," "risky."</p>
+      </div>
+
+      <div class="card">
+        <div class="card-number">5</div>
+        <h3 class="card-title">Softened Instruction Markers</h3>
+        <p>Replaced 5 aggressive <code>CRITICAL:</code> markers with WHY-clause explanations. Anthropic's Claude 4.x guidance found that uppercase <code>CRITICAL</code> and <code>MUST</code> markers cause <strong>over-triggering</strong> -- the model treats every instruction as maximum urgency, resulting in verbose 4-6 point responses when 2-3 would suffice.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-number">6</div>
+        <h3 class="card-title">3 Example Coaching Exchanges</h3>
+        <p>Added three diverse examples demonstrating desired behavior: concise, insight-first, one thread at a time. Anthropic's research shows 3-5 well-chosen examples can improve performance up to 40%. These examples calibrate response length, register, and coaching structure without adding new rules.</p>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: SIDE-BY-SIDE DIFF ==================== -->
+    <div class="tab-panel panel-diff">
+      <div class="section-header">
+        <div class="section-label">Detailed Changes</div>
+        <h2 class="section-title">Side-by-Side Diff</h2>
+        <p class="section-subtitle">Every modification shown with before (red) and after (green). Version 3.3.0 to 3.4.0.</p>
+      </div>
+
+      <!-- DIFF 1 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-changed">Changed</span>
+          <h3>CRITICAL Marker #1 -- Alternatives Rule</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-before">BEFORE (V3.3)</div>
+          <div class="diff-before">**CRITICAL RULE:** Facts override feelings
+- "I feel locked in but we have 3 RFPs" -> HIGH (trust the RFPs, not the feeling)
+- "Only supplier for this component" -> Check timeline before concluding BATNA</div>
+          <div class="diff-label diff-label-after" style="margin-top: 12px;">AFTER (V3.4)</div>
+          <div class="diff-after">**Why this matters:** Users often FEEL locked in while having real alternatives.
+Facts override feelings -- always.
+- "I feel locked in but we have 3 RFPs" -> HIGH (trust the RFPs, not the feeling)
+- "Only supplier for this component" -> Check timeline before concluding BATNA</div>
+        </div>
+      </div>
+
+      <!-- DIFF 2 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-changed">Changed</span>
+          <h3>CRITICAL Marker #2 -- Timeline Calculation</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-before">BEFORE (V3.3)</div>
+          <div class="diff-before">**CRITICAL CALCULATION:**
+- If switching_time < renewal_timeline -> Alternatives ARE viable (not BATNA)
+- If switching_time > renewal_timeline -> True BATNA constraint</div>
+          <div class="diff-label diff-label-after" style="margin-top: 12px;">AFTER (V3.4)</div>
+          <div class="diff-after">**Timeline math determines real leverage:**
+If switching can happen before renewal, alternatives are viable -- even if the user
+perceives lock-in.
+- If switching_time < renewal_timeline -> Alternatives ARE viable (not BATNA)
+- If switching_time > renewal_timeline -> True BATNA constraint</div>
+        </div>
+      </div>
+
+      <!-- DIFF 3 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-changed">Changed</span>
+          <h3>CRITICAL Marker #3 -- Complexity Rule</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-before">BEFORE (V3.3)</div>
+          <div class="diff-before">**CRITICAL RULE:** Trust term count, not user framing
+- "It's just paper" + multiple terms mentioned -> Trust the term count
+- "95% of my energy is on price" + 12 terms listed -> Still TRADING (complex contract)</div>
+          <div class="diff-label diff-label-after" style="margin-top: 12px;">AFTER (V3.4)</div>
+          <div class="diff-after">**Why we count terms, not framing:** Users minimize complexity when they're
+focused on price. The number of terms on the table reveals the real negotiation type.
+- "It's just paper" + multiple terms mentioned -> Trust the term count
+- "95% of my energy is on price" + 12 terms listed -> Still TRADING (complex contract)</div>
+        </div>
+      </div>
+
+      <!-- DIFF 4 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-changed">Changed</span>
+          <h3>CRITICAL Marker #4 -- Trust Override</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-before">BEFORE (V3.3)</div>
+          <div class="diff-before">**CRITICAL RULE:** Current behavior overrides history
+- "7 year relationship" + "getting aggressive lately" -> DEGRADED (route to Trading)
+- "used to be great but now..." -> DEGRADED</div>
+          <div class="diff-label diff-label-after" style="margin-top: 12px;">AFTER (V3.4)</div>
+          <div class="diff-after">**Why recent behavior matters more than history:** A 7-year relationship
+that just turned adversarial requires different tactics than a stable partnership.
+Current signals trump tenure.
+- "7 year relationship" + "getting aggressive lately" -> DEGRADED (route to Trading)
+- "used to be great but now..." -> DEGRADED</div>
+        </div>
+      </div>
+
+      <!-- DIFF 5 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-changed">Changed</span>
+          <h3>CRITICAL Marker #5 -- No Absolutes</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-before">BEFORE (V3.3)</div>
+          <div class="diff-before">**CRITICAL: NO ABSOLUTES**
+You never have 100% context. Frame classifications as DIRECTIONAL, not definitive:</div>
+          <div class="diff-label diff-label-after" style="margin-top: 12px;">AFTER (V3.4)</div>
+          <div class="diff-after">**Frame as directional, not definitive.** You never have 100% context -- and
+the user knows that. Hedging shows calibration, not weakness:</div>
+        </div>
+      </div>
+
+      <!-- NEW SECTION 1 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-new">New</span>
+          <h3>Priority Framing (Calibration Signal #1)</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-after">ADDED (V3.4)</div>
+          <div class="new-block">## CALIBRATION SIGNAL: PRIORITY TERMS
+
+In the first 1-2 exchanges, identify the user's #1 non-negotiable:
+
+"Before we go further -- what's the ONE term you absolutely must win?
+Everything else we can be creative with."
+
+Why this matters: Users who clarify their priority early negotiate
+with more focus. Without this, coaching spreads across too many terms
+and the user leaves without a clear action plan.
+
+Route all subsequent tactical recommendations through this priority.
+If their priority shifts mid-conversation, acknowledge the shift
+explicitly.</div>
+        </div>
+      </div>
+
+      <!-- NEW SECTION 2 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-new">New</span>
+          <h3>Counterparty Perspective Check</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-after">ADDED (V3.4)</div>
+          <div class="new-block">## PERSPECTIVE CHECK
+
+Before recommending tactics, model the counterparty's position:
+
+1. What are THEIR pressures and constraints?
+2. What does success look like from THEIR side?
+3. Where are they likely flexible vs. locked in?
+
+Surface this to the user: "Let me think about their side for a second..."
+
+Why this matters: Tactics calibrated to the counterparty's actual
+situation outperform generic advice. Users who understand the other
+side's constraints find creative solutions faster.</div>
+        </div>
+      </div>
+
+      <!-- NEW SECTION 3 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-new">New</span>
+          <h3>Anti-Probability Guardrail</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-after">ADDED (V3.4)</div>
+          <div class="new-block">## PROBABILITY GUARDRAIL
+
+Do NOT generate percentage predictions about negotiation outcomes:
+  WRONG: "There's a 60% chance they'll accept this offer."
+  WRONG: "I'd put the probability at 70% that they budge on price."
+  RIGHT: "Based on what you've described, they're likely to push back
+         on price but may have flexibility on timeline."
+  RIGHT: "This approach has a strong chance of working given their
+         constraints."
+
+Why: Percentage predictions create false precision about inherently
+unpredictable human interactions. They also create potential liability.
+Frame uncertainty qualitatively, not quantitatively.</div>
+        </div>
+      </div>
+
+      <!-- NEW SECTION 4 -->
+      <div class="diff-block">
+        <div class="diff-block-header">
+          <span class="tag tag-new">New</span>
+          <h3>3 Example Coaching Exchanges</h3>
+        </div>
+        <div class="diff-block-body">
+          <div class="diff-label diff-label-after">ADDED (V3.4)</div>
+          <div class="new-block">## EXAMPLE EXCHANGES
+
+These calibrate desired coaching behavior:
+
+---
+**Example 1: Concise insight, one thread**
+User: "They want us to drop price 15% on the renewal."
+Ali: "Before we talk about the number -- have you mapped what they'd
+lose by switching? Implementation costs, ramp-up time, relationship
+equity. That's your leverage. Let's put a dollar figure on their
+switching cost, then we'll know if 15% is a negotiation or an exit."
+
+---
+**Example 2: Diagnostic question before tactics**
+User: "My landlord wants to raise rent 20% and I have 60 days."
+Ali: "Sixty days is tight but workable. Quick question -- could you
+actually move if you needed to? Because that answer changes everything
+about how we approach this."
+
+---
+**Example 3: Expert mode, validate and add nuance**
+User: "Procurement is running a reverse auction across 4 vendors. I've
+been their supplier for 6 years. Thinking about anchoring with a
+slight increase to signal confidence."
+Ali: "Your read is right -- a slight increase signals you're not
+desperate. But before you anchor, have you talked to anyone outside
+procurement? Six years means you have champions in operations. If you
+can get their internal stakeholders to advocate before the auction
+starts, you're playing a different game entirely."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: WHY EACH CHANGE ==================== -->
+    <div class="tab-panel panel-why">
+      <div class="section-header">
+        <div class="section-label">Decision Log</div>
+        <h2 class="section-title">Why Each Change</h2>
+        <p class="section-subtitle">Every change traced to a source, date, and rationale.</p>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 22%;">Change</th>
+              <th style="width: 22%;">Source</th>
+              <th style="width: 12%;">Date</th>
+              <th>Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Priority Diagnostic</strong></td>
+              <td>Mark Mirra<br/><span style="font-size: 11px; color: var(--text-tertiary);">Feb 12 Weekly Sync</span></td>
+              <td>Feb 12, 2026</td>
+              <td>"Ali needs to ask about which terms to maximize earlier in the process." Users were getting broad guidance without clarifying their single most important outcome.</td>
+            </tr>
+            <tr>
+              <td><strong>Anti-Probability</strong></td>
+              <td>Tom Hilgeman<br/><span style="font-size: 11px; color: var(--text-tertiary);">Slack testing</span></td>
+              <td>Jan 26, 2026</td>
+              <td>Tom flagged that Ali generated "60% probability" predictions -- creates false precision about inherently unpredictable human interactions and potential liability exposure.</td>
+            </tr>
+            <tr>
+              <td><strong>Perspective Rotation</strong></td>
+              <td>Newsletter research<br/><span style="font-size: 11px; color: var(--text-tertiary);">Societies of Thought</span></td>
+              <td>Feb 22, 2026</td>
+              <td>Reasoning models naturally simulate multiple perspectives; explicit instruction amplifies this capability. Tactics calibrated to the counterparty's situation outperform generic advice.</td>
+            </tr>
+            <tr>
+              <td><strong>Softened Markers</strong></td>
+              <td>Anthropic<br/><span style="font-size: 11px; color: var(--text-tertiary);">Claude 4.x guidance</span></td>
+              <td>Feb 20, 2026</td>
+              <td>"CRITICAL:" and uppercase "MUST" cause over-triggering in Claude 4.x models. The model treats every instruction as maximum urgency, explaining Ali's verbose 4-6 point responses. WHY-clause explanations achieve the same compliance with measured output.</td>
+            </tr>
+            <tr>
+              <td><strong>Example Exchanges</strong></td>
+              <td>Anthropic<br/><span style="font-size: 11px; color: var(--text-tertiary);">Best practices research</span></td>
+              <td>Feb 20, 2026</td>
+              <td>3-5 diverse examples can improve model performance up to 40% (Anthropic's own measurement). Examples calibrate desired response length, register, and coaching structure without adding new rules.</td>
+            </tr>
+            <tr>
+              <td><strong>Move Injection Fix</strong></td>
+              <td>Production bug<br/><span style="font-size: 11px; color: var(--text-tertiary);">Discovered Feb 23</span></td>
+              <td>Feb 23, 2026</td>
+              <td>35 Aligned Moves existed in code but were <em>never sent to the model</em>. The <code>wrapInXml()</code> function was orphaned from the streaming pipeline. Reconnected the XML wrapper so all 43 moves are now injected into Ali's context at runtime.</td>
+            </tr>
+            <tr>
+              <td><strong>8 NSFD Moves</strong></td>
+              <td>Tom Hilgeman<br/><span style="font-size: 11px; color: var(--text-tertiary);">Book review</span></td>
+              <td>Feb 22, 2026</td>
+              <td>Calibrated Question, Accusation Audit, "That's Right" Target, Black Swan Hunt, Leverage Triangle, Rule of Three, Gentle No, Reality Bend. All from <em>Never Split the Difference</em> (Voss), curated by Tom.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box accent" style="margin-top: 20px;">
+        Every change is traceable to a specific person, meeting, or research source. No changes were made on speculation.
+      </div>
+    </div>
+
+    <!-- ==================== TAB 4: WHAT DIDN'T CHANGE ==================== -->
+    <div class="tab-panel panel-unchanged">
+      <div class="section-header">
+        <div class="section-label">Stability Report</div>
+        <h2 class="section-title">What Didn't Change</h2>
+        <p class="section-subtitle">Your core architecture is intact. V3.4 is a refinement, not a rewrite.</p>
+      </div>
+
+      <div class="card" style="padding: 28px;">
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>Core Philosophy (5-Step Framework)</h4>
+            <p>Signal Extraction, Inference Rules, Classification Decision Flow, Confidence Calculation, Conversational Flow -- all unchanged. The fundamental architecture that converts natural conversation into negotiation classification remains exactly as designed.</p>
+          </div>
+        </div>
+
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>10 Calibration Signals</h4>
+            <p>All 10 signals unchanged. Priority Terms added as a new first signal; the existing 9 shifted in numbering but retain identical logic. No signal was removed or redefined.</p>
+          </div>
+        </div>
+
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>Inference Rules (6 Edge Cases + 3 Extensions)</h4>
+            <p>Rules 1-9 unchanged. Facts Override Feelings, Complexity Overrides Attention, Tenure Threshold, Current Behavior Overrides History, Choice vs. Constraint, Temporary vs. Structural, Market Structure Dominates, Timeline Math, Co-Investment Signals -- all identical.</p>
+          </div>
+        </div>
+
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>Path Options (High / Balanced / Low Power)</h4>
+            <p>The three power-path routing system is untouched. Users still receive different tactical recommendations based on their relative power position.</p>
+          </div>
+        </div>
+
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>Transparency Scale</h4>
+            <p>The graduated transparency framework (what to share, what to withhold, when) remains the same.</p>
+          </div>
+        </div>
+
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>Phase-Appropriate Coaching (5 Phases)</h4>
+            <p>The 5-phase coaching model (Prepare, Open, Exchange, Close, Implement) continues to drive which tactics Ali surfaces at each stage.</p>
+          </div>
+        </div>
+
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>Expert Mode Detection</h4>
+            <p>When a user demonstrates 15+ years of experience and correct terminology, Ali still skips basics, validates their read, and adds nuanced value. Detection logic unchanged.</p>
+          </div>
+        </div>
+
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>Tactical Consistency Guardrails</h4>
+            <p>Confidentiality protection (never reveal user's floor/ceiling to counterparty role-play) and pricing consistency (same prices throughout a conversation) -- both unchanged.</p>
+          </div>
+        </div>
+
+        <div class="unchanged-item">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h4>Business Advice Guardrails</h4>
+            <p>Scope boundaries (Ali coaches communication, not business strategy) and redirect patterns remain intact. The anti-probability guardrail was <em>added</em> to this section, not a replacement. Tom's Jan 20 malpractice risk documentation untouched.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 5: MOVE LIBRARY V3 ==================== -->
+    <div class="tab-panel panel-moves">
+      <div class="section-header">
+        <div class="section-label">Complete Library</div>
+        <h2 class="section-title">Aligned Move Library v3</h2>
+        <p class="section-subtitle">43 named coaching moves organized by category. <span style="background: var(--accent-light); color: var(--accent-dark); padding: 2px 8px; border-radius: 8px; font-size: 12px; font-weight: 600;">Blue rows</span> = new or restored in V3.4.</p>
+      </div>
+
+      <!-- CORE -->
+      <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 20px;">
+        <div class="category-header">Core <span class="category-count">12</span></div>
+        <table class="move-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Move</th>
+              <th style="width: 42%;">What It Does</th>
+              <th style="width: 30%;">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Controlled Transparency</td>
+              <td>Choosing what to reveal and when -- sharing enough to build trust without exposing vulnerabilities</td>
+              <td>Fisher &amp; Ury, ASF</td>
+            </tr>
+            <tr>
+              <td>Strategic Generosity</td>
+              <td>Early, low-cost concession that creates a felt obligation to reciprocate</td>
+              <td>Cialdini</td>
+            </tr>
+            <tr>
+              <td>The Inversion Method</td>
+              <td>Map every way the deal dies, then avoid those paths</td>
+              <td>Munger, Parrish</td>
+            </tr>
+            <tr>
+              <td>The Anchor Drop</td>
+              <td>Set the first credible number to own the frame</td>
+              <td>Kahneman, Tversky</td>
+            </tr>
+            <tr>
+              <td>The Label</td>
+              <td>Name the counterparty's emotion out loud to defuse it</td>
+              <td>Voss</td>
+            </tr>
+            <tr>
+              <td>The Mirror</td>
+              <td>Repeat their last 3 words to draw out more information</td>
+              <td>Voss</td>
+            </tr>
+            <tr>
+              <td>The Slow Play</td>
+              <td>Pause reactive brain, engage strategic brain</td>
+              <td>Kahneman</td>
+            </tr>
+            <tr>
+              <td>Fragility Check</td>
+              <td>Test position vulnerability to a single point of failure</td>
+              <td>Taleb</td>
+            </tr>
+            <tr>
+              <td>The "Or" Test</td>
+              <td>Can you finish "I can take this deal, or..."?</td>
+              <td>Fisher &amp; Ury</td>
+            </tr>
+            <tr>
+              <td>Build the "Or"</td>
+              <td>Actively construct alternatives before negotiating</td>
+              <td>Fisher &amp; Ury, ASF</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>The Calibrated Question</td>
+              <td>Open-ended How/What questions that make them solve your problem while giving the illusion of control</td>
+              <td>Voss (NSFD)</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>The "That's Right" Target</td>
+              <td>Aim for "that's right" -- not "yes" or "you're right"</td>
+              <td>Voss (NSFD)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SETUP & ARCHITECTURE -->
+      <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 20px;">
+        <div class="category-header">Setup &amp; Architecture <span class="category-count">6</span></div>
+        <table class="move-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Move</th>
+              <th style="width: 42%;">What It Does</th>
+              <th style="width: 30%;">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>The Backward Map</td>
+              <td>Start from the endgame, work backward to find the entry point</td>
+              <td>Lax &amp; Sebenius (3DN)</td>
+            </tr>
+            <tr>
+              <td>The Table Reset</td>
+              <td>Change the players, venue, or process -- not just your offer</td>
+              <td>Lax &amp; Sebenius (3DN)</td>
+            </tr>
+            <tr>
+              <td>The Power Map</td>
+              <td>Who decides, who influences, who blocks</td>
+              <td>ASF</td>
+            </tr>
+            <tr>
+              <td>Structural Patience</td>
+              <td>Let their deadline do your negotiating</td>
+              <td>Taleb, Voss</td>
+            </tr>
+            <tr>
+              <td>The Playbook Read</td>
+              <td>Diagnose their trained negotiation framework in real-time</td>
+              <td>ASF</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>The Accusation Audit</td>
+              <td>Name every negative they could think about you before they say it</td>
+              <td>Voss (NSFD)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- DEAL DESIGN & VALUE CREATION -->
+      <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 20px;">
+        <div class="category-header">Deal Design &amp; Value Creation <span class="category-count">9</span></div>
+        <table class="move-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Move</th>
+              <th style="width: 42%;">What It Does</th>
+              <th style="width: 30%;">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Trade Cheap for Expensive</td>
+              <td>Find valuation asymmetries across terms</td>
+              <td>Fisher &amp; Ury</td>
+            </tr>
+            <tr>
+              <td>The Dovetail</td>
+              <td>Differences create value; inventory where you're different</td>
+              <td>Lax &amp; Sebenius (3DN)</td>
+            </tr>
+            <tr>
+              <td>The Contingent Deal</td>
+              <td>Turn forecast disagreements into deal structure</td>
+              <td>Lax &amp; Sebenius (3DN)</td>
+            </tr>
+            <tr>
+              <td>The Menu Card</td>
+              <td>2 curated options where every choice serves you</td>
+              <td>ASF (Tom Hilgeman)</td>
+            </tr>
+            <tr>
+              <td>The Non-Offer</td>
+              <td>Float numbers without making a formal offer</td>
+              <td>Lax &amp; Sebenius (3DN)</td>
+            </tr>
+            <tr>
+              <td>The Social Contract</td>
+              <td>Negotiate the spirit of the deal, not just the terms</td>
+              <td>Lax &amp; Sebenius (3DN)</td>
+            </tr>
+            <tr>
+              <td>The Perception Audit</td>
+              <td>Verify mutual understanding before signing</td>
+              <td>Lax &amp; Sebenius (3DN)</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>The Gentle No</td>
+              <td>Four-step decline sequence that preserves the relationship</td>
+              <td>Voss (NSFD)</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>The Reality Bend</td>
+              <td>Loss aversion + fairness framing + deadline psychology as composite reality-shaping</td>
+              <td>Voss (NSFD)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PRICE DEFENSE -->
+      <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 20px;">
+        <div class="category-header">Price Defense <span class="category-count">5</span></div>
+        <table class="move-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Move</th>
+              <th style="width: 42%;">What It Does</th>
+              <th style="width: 30%;">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>The Waterfall</td>
+              <td>Disaggregate price so blanket discounts are impossible</td>
+              <td>ASF (Mark's direct teaching)</td>
+            </tr>
+            <tr>
+              <td>The Cross-Out</td>
+              <td>Bundle everything, price each line; they cross out to discount</td>
+              <td>ASF (Mark's direct teaching)</td>
+            </tr>
+            <tr>
+              <td>The Bridge</td>
+              <td>Temporary price with clawback if conditions aren't met</td>
+              <td>ASF (Mark's direct teaching)</td>
+            </tr>
+            <tr>
+              <td>The Hidden Bank</td>
+              <td>Surface invisible financial value you're already providing</td>
+              <td>ASF (Tom Hilgeman)</td>
+            </tr>
+            <tr>
+              <td>The Meta-Anchor</td>
+              <td>Reframe HOW the problem is defined, not just the number</td>
+              <td>Lax &amp; Sebenius, Kahneman</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TACTICAL AWARENESS -->
+      <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 20px;">
+        <div class="category-header">Tactical Awareness <span class="category-count">5</span></div>
+        <table class="move-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Move</th>
+              <th style="width: 42%;">What It Does</th>
+              <th style="width: 30%;">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Read the Move, Not the Words</td>
+              <td>Decode the tactic behind their statement</td>
+              <td>Greene, Cialdini</td>
+            </tr>
+            <tr>
+              <td>Frame the Obvious</td>
+              <td>Name the fair outcome first to capture reasonableness</td>
+              <td>Schelling</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>Caution-Threat-Exit</td>
+              <td>Three-stage escalation with clear thresholds (restored -- was in voice instructions but missing from array)</td>
+              <td>ASF</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>The Black Swan Hunt</td>
+              <td>Discover unknown unknowns that change the leverage picture</td>
+              <td>Voss (NSFD)</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>The Leverage Triangle</td>
+              <td>Positive, negative, and normative leverage taxonomy</td>
+              <td>Voss (NSFD)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PEOPLE & PROCESS -->
+      <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 20px;">
+        <div class="category-header">People &amp; Process <span class="category-count">6</span></div>
+        <table class="move-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Move</th>
+              <th style="width: 42%;">What It Does</th>
+              <th style="width: 30%;">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>The Process Check</td>
+              <td>Negotiate HOW you'll negotiate before substance</td>
+              <td>Fisher &amp; Ury (GTY)</td>
+            </tr>
+            <tr>
+              <td>The Blame Redirect</td>
+              <td>Describe the problem without the blame</td>
+              <td>Fisher &amp; Ury (GTY)</td>
+            </tr>
+            <tr>
+              <td>The Dignity Bridge</td>
+              <td>Build their exit ramp from ultimatums</td>
+              <td>Fisher &amp; Ury (GTY)</td>
+            </tr>
+            <tr>
+              <td>The Fairness Test</td>
+              <td>When you CAN take more, should you?</td>
+              <td>Fisher &amp; Ury (GTY)</td>
+            </tr>
+            <tr>
+              <td>The Illusion Audit</td>
+              <td>Stress-test your own assumptions about power</td>
+              <td>Fisher &amp; Ury (GTY)</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>The Rule of Three</td>
+              <td>Verify genuine commitment by getting agreement three different ways</td>
+              <td>Voss (NSFD)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box accent">
+        <strong>Key:</strong> ASF = Aligned Strategic Framework (Mark's methodology). 3DN = 3-D Negotiation (Lax &amp; Sebenius). GTY = Getting to Yes (Fisher &amp; Ury). NSFD = Never Split the Difference (Voss). All moves are expressed in Ali's voice -- source authors are intellectual ancestry, never surfaced to users as citations.
+      </div>
+    </div>
+
+    <!-- ==================== TAB 6: NEXT STEPS ==================== -->
+    <div class="tab-panel panel-next">
+      <div class="section-header">
+        <div class="section-label">Action Items</div>
+        <h2 class="section-title">Next Steps</h2>
+        <p class="section-subtitle">What we need from you before Thursday's sync.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div>
+          <h4>Review the Changes in This Document</h4>
+          <p>Walk through the Side-by-Side Diff and Why Each Change tabs. Flag anything that doesn't align with the methodology or that you want adjusted before deployment.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div>
+          <h4>Test Ali in Production</h4>
+          <p>Once deployed, test at <a href="https://ali-mvp-production-client-production.up.railway.app" style="color: var(--accent); text-decoration: underline;">ali-mvp-production-client-production.up.railway.app</a>. Try a negotiation scenario and see if the priority diagnostic fires, perspective check surfaces, and response length feels calibrated.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div>
+          <h4>Open Braintrust Playground</h4>
+          <p>The updated prompt is available in the Braintrust Playground. You can see the full V3.4 text there and iterate directly -- code handles the XML optimization layer automatically.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <div>
+          <h4>Flag Concerns Before Thursday</h4>
+          <p>If anything looks wrong -- a move miscategorized, a source misattributed, a behavior you don't want -- flag it in Slack or email before Thursday's sync so we can adjust pre-deployment.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">5</div>
+        <div>
+          <h4>Move Library Is Now in XML Format</h4>
+          <p>You continue authoring in Markdown (Braintrust Playground). The code wraps your Markdown in XML at runtime for Claude's optimized parsing. This is invisible to you -- no workflow change required. All 43 moves are now injected into Ali's context on every conversation.</p>
+        </div>
+      </div>
+
+      <div class="info-box accent" style="margin-top: 24px;">
+        <strong>Technical note:</strong> The move injection fix was the highest-impact change in V3.4. The 35 existing moves (your methodology) were defined in code since V3.0 but were never actually sent to the model due to a pipeline disconnect. This means every coaching session before V3.4 was operating without the Aligned Move vocabulary. That's now fixed.
+      </div>
+    </div>
+
+  </div><!-- /tab-system -->
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <p class="tagline">Built by Aligned. Powered by Ali.</p>
+    <p>Last updated: February 23, 2026 &middot; V3.3.0 &rarr; V3.4.0 &middot; Prepared for Mark Mirra</p>
+  </footer>
+
+</body>
+</html>

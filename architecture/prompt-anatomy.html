@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Ali Works | Aligned</title>
+<style>
+  /* ========================================
+     ALI BRAND DESIGN SYSTEM
+     ======================================== */
+  :root {
+    --bg: #FAF8F5;
+    --text: #3F3C38;
+    --text-heading: #1e1d1b;
+    --text-light: #6F6A63;
+    --text-muted: #9A9389;
+    --border: #E6E2DC;
+    --border-light: #EDEBE8;
+    --accent: #5F86A6;
+    --accent-light: #CFE6F0;
+    --accent-dark: #2E4E6B;
+    --accent-gradient: linear-gradient(135deg, #5F86A6, #7BA3BF);
+    --white: #FFFFFF;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --card-shadow: 0 1px 3px rgba(63, 60, 56, 0.06);
+    --card-shadow-hover: 0 4px 16px rgba(63, 60, 56, 0.10);
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-serif: Georgia, "Times New Roman", Times, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ========================================
+     HEADER
+     ======================================== */
+  .header {
+    background: var(--accent-gradient);
+    color: var(--white);
+    padding: 52px 32px 44px;
+    text-align: center;
+  }
+  .header h1 {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 16px;
+    opacity: 0.9;
+    font-weight: 400;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .header .version-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 4px 14px;
+    font-size: 12px;
+    margin-top: 14px;
+    font-weight: 500;
+  }
+
+  /* ========================================
+     TAB SYSTEM -- CSS-only radio pattern
+     All radios, nav, and panels are siblings
+     inside .tab-system for ~ combinator to work.
+     ======================================== */
+  .tab-system input[type="radio"] {
+    display: none;
+  }
+
+  .tab-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250, 248, 245, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+  }
+  .tab-pills {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-pills::-webkit-scrollbar { display: none; }
+
+  .tab-pills label {
+    white-space: nowrap;
+    padding: 9px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+  .tab-pills label:hover {
+    background: var(--border-light);
+    color: var(--text);
+  }
+
+  /* Active pill */
+  #tab-brain:checked ~ .tab-nav label[for="tab-brain"],
+  #tab-team:checked ~ .tab-nav label[for="tab-team"],
+  #tab-cost:checked ~ .tab-nav label[for="tab-cost"] {
+    background: var(--text-heading);
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  /* Panels hidden by default, shown on :checked */
+  .tab-panel {
+    display: none;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+  }
+
+  #tab-brain:checked ~ .panel-brain { display: block; }
+  #tab-team:checked ~ .panel-team { display: block; }
+  #tab-cost:checked ~ .panel-cost { display: block; }
+
+  /* Footer always visible */
+  .site-footer {
+    max-width: 920px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 28px 24px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-light);
+    margin-top: 56px;
+  }
+  .site-footer .tagline {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+
+  /* ========================================
+     TAB 1: HOW ALI'S BRAIN WORKS
+     ======================================== */
+  .pipeline-intro {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .pipeline-intro h2 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 8px;
+  }
+  .pipeline-intro p {
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .stage {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  /* Vertical connecting line */
+  .stage:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 27px;
+    top: 56px;
+    width: 2px;
+    height: calc(100% - 24px);
+    background: var(--border);
+  }
+
+  .stage-icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    position: relative;
+  }
+
+  /* Unicode icon styling */
+  .stage-icon .ico {
+    font-size: 22px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stage-card {
+    flex: 1;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .stage-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-1px);
+  }
+  .stage-card h3 {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 8px;
+  }
+  .stage-card p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.7;
+  }
+
+  /* ========================================
+     TAB 2: WHAT THE TEAM CONTROLS
+     ======================================== */
+  .team-intro {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .team-intro h2 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 8px;
+  }
+  .team-intro p {
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .team-panel {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: var(--card-shadow);
+  }
+  .team-panel.partners { border-top: 3px solid var(--accent); }
+  .team-panel.engineering { border-top: 3px solid var(--green); }
+
+  .team-panel h3 {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 4px;
+  }
+  .team-panel .panel-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .team-list {
+    list-style: none;
+    padding: 0;
+  }
+  .team-list li {
+    font-size: 14px;
+    color: var(--text);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    line-height: 1.5;
+  }
+  .team-list li:last-child { border-bottom: none; }
+  .team-list li strong {
+    display: block;
+    font-weight: 600;
+    color: var(--text-heading);
+    margin-bottom: 2px;
+  }
+  .team-list li span {
+    font-size: 13px;
+    color: var(--text-light);
+  }
+
+  .callout-box {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px;
+    margin-top: 32px;
+  }
+  .callout-box p {
+    font-size: 14px;
+    color: var(--accent-dark);
+    line-height: 1.6;
+  }
+
+  /* ========================================
+     TAB 3: COST & PERFORMANCE
+     ======================================== */
+  .cost-intro {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .cost-intro h2 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 8px;
+  }
+  .cost-intro p {
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .metric-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+
+  .metric-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 28px 24px;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .metric-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-1px);
+  }
+  .metric-card .big-number {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .metric-card .big-number.savings { color: var(--green); }
+  .metric-card .big-number.context { color: var(--accent); }
+  .metric-card .big-number.moves { color: var(--accent-dark); }
+
+  .metric-card .metric-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-heading);
+    margin-bottom: 6px;
+  }
+  .metric-card .metric-desc {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+
+  .comparison-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 28px;
+  }
+  .comparison-card h3 {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 6px;
+  }
+  .comparison-card .comparison-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+
+  .cost-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .cost-row:last-child { margin-bottom: 0; }
+
+  .cost-label {
+    width: 110px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-light);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .cost-bar-track {
+    flex: 1;
+    height: 36px;
+    background: var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .cost-bar {
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .cost-bar.uncached {
+    background: var(--text-muted);
+    width: 100%;
+  }
+  .cost-bar.cached {
+    background: var(--green);
+    width: 10%;
+    min-width: 60px;
+  }
+
+  .savings-insight {
+    background: var(--green-light);
+    border-left: 3px solid var(--green);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px;
+  }
+  .savings-insight p {
+    font-size: 14px;
+    color: #065f46;
+    line-height: 1.6;
+  }
+
+  /* ========================================
+     RESPONSIVE
+     ======================================== */
+  @media (max-width: 700px) {
+    .header { padding: 36px 20px 32px; }
+    .header h1 { font-size: 24px; }
+    .tab-panel { padding: 32px 16px 0; }
+    .team-grid { grid-template-columns: 1fr; }
+    .metric-cards { grid-template-columns: 1fr; gap: 14px; }
+    .tab-pills label { font-size: 13px; padding: 8px 14px; }
+    .stage { gap: 14px; }
+    .stage-card { padding: 20px; }
+    .stage-icon { width: 48px; height: 48px; }
+    .stage-icon .ico { font-size: 18px; }
+    .cost-label { width: 80px; font-size: 12px; }
+    .comparison-card { padding: 24px; }
+  }
+
+  @media print {
+    .tab-nav { display: none; }
+    .tab-panel { display: block !important; page-break-before: always; }
+    .tab-panel:first-of-type { page-break-before: avoid; }
+    .stage-card, .team-panel, .metric-card, .comparison-card {
+      box-shadow: none;
+      border: 1px solid var(--border);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== HEADER ==================== -->
+<div class="header">
+  <h1>How Ali Works</h1>
+  <p class="subtitle">A non-technical look at the coaching intelligence behind Ali</p>
+  <span class="version-badge">Ali by Aligned -- February 2026</span>
+</div>
+
+<!-- ==================== TAB SYSTEM ====================
+     Radio inputs, nav, and panels are all direct children
+     of .tab-system so the CSS ~ combinator works.
+     ===================================================== -->
+<div class="tab-system">
+
+  <input type="radio" name="tab" id="tab-brain" checked>
+  <input type="radio" name="tab" id="tab-team">
+  <input type="radio" name="tab" id="tab-cost">
+
+  <div class="tab-nav">
+    <div class="tab-pills">
+      <label for="tab-brain">How Ali's Brain Works</label>
+      <label for="tab-team">What the Team Controls</label>
+      <label for="tab-cost">Cost & Performance</label>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       TAB 1: HOW ALI'S BRAIN WORKS
+       5-stage pipeline in business language
+       ================================================================ -->
+  <div class="tab-panel panel-brain">
+
+    <div class="pipeline-intro">
+      <h2>From Your Message to Coaching</h2>
+      <p>Every time you ask Ali a question, five things happen behind the scenes -- in under two seconds.</p>
+    </div>
+
+    <div class="pipeline">
+
+      <!-- Stage 1 -->
+      <div class="stage">
+        <div class="stage-icon"><span class="ico">&#x2709;</span></div>
+        <div class="stage-card">
+          <h3>1. You Ask</h3>
+          <p>Your message arrives. Ali extracts key details: who you are negotiating with, what is at stake, where you are in the process. This happens instantly through pattern recognition -- no extra AI calls needed.</p>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="stage">
+        <div class="stage-icon"><span class="ico">&#x2699;</span></div>
+        <div class="stage-card">
+          <h3>2. Ali Thinks</h3>
+          <p>Ali assesses your situation against the Aligned methodology. What type of negotiation is this? What phase are you in? What is your leverage? This classification determines which coaching strategies are most relevant to you right now.</p>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="stage">
+        <div class="stage-icon"><span class="ico">&#x25C8;</span></div>
+        <div class="stage-card">
+          <h3>3. Knowledge Activated</h3>
+          <p>Ali pulls relevant coaching from the Aligned Strategic Framework, 43 Named Moves, and proven negotiation patterns -- matched specifically to your situation. The richer the knowledge base gets, the more precise this matching becomes.</p>
+        </div>
+      </div>
+
+      <!-- Stage 4 -->
+      <div class="stage">
+        <div class="stage-icon"><span class="ico">&#x25CE;</span></div>
+        <div class="stage-card">
+          <h3>4. Coaching Delivered</h3>
+          <p>Ali gives you 2-3 focused coaching points with a follow-up question. Concise. Actionable. One thread at a time. Each point follows a clear structure: where you are, how it is going, and where to go next.</p>
+        </div>
+      </div>
+
+      <!-- Stage 5 -->
+      <div class="stage">
+        <div class="stage-icon"><span class="ico">&#x2713;</span></div>
+        <div class="stage-card">
+          <h3>5. Safety Check</h3>
+          <p>Before you see the response, Ali verifies: no confidential details leaked, pricing stays consistent, and advice remains within coaching scope. Your sensitive information -- price floors, walk-away points, private strategy -- is never exposed in suggested communications.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================
+       TAB 2: WHAT THE TEAM CONTROLS
+       Two-column layout + callout
+       ================================================================ -->
+  <div class="tab-panel panel-team">
+
+    <div class="team-intro">
+      <h2>Who Shapes Ali's Intelligence</h2>
+      <p>The coaching quality comes from a clear division between methodology expertise and engineering automation.</p>
+    </div>
+
+    <div class="team-grid">
+
+      <div class="team-panel partners">
+        <h3>Coaching Partners Author</h3>
+        <p class="panel-desc">Methodology architects define what Ali knows and how Ali coaches</p>
+        <ul class="team-list">
+          <li>
+            <strong>Coaching philosophy and methodology</strong>
+            <span>The Aligned approach: problem-based coaching, not deal-type classification</span>
+          </li>
+          <li>
+            <strong>43 Named Aligned Moves</strong>
+            <span>Each move with its definition, trigger, and example coaching line</span>
+          </li>
+          <li>
+            <strong>Coaching tone and voice guidelines</strong>
+            <span>Conversational authority -- intellectually grounded, never academic</span>
+          </li>
+          <li>
+            <strong>Business guardrails</strong>
+            <span>What Ali will and will not do -- scope boundaries and redirect patterns</span>
+          </li>
+          <li>
+            <strong>Example coaching exchanges</strong>
+            <span>Real session examples that set the register for Ali's responses</span>
+          </li>
+          <li>
+            <strong>Book review approvals</strong>
+            <span>What enters Ali's knowledge base -- every item reviewed and approved</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="team-panel engineering">
+        <h3>Engineering Handles Automatically</h3>
+        <p class="panel-desc">Infrastructure that makes coaching knowledge work at scale</p>
+        <ul class="team-list">
+          <li>
+            <strong>Knowledge formatting for the AI model</strong>
+            <span>Coaching content wrapped in optimized structure for best AI performance</span>
+          </li>
+          <li>
+            <strong>Matching knowledge to each conversation</strong>
+            <span>Relevant strategies surfaced based on the user's specific situation</span>
+          </li>
+          <li>
+            <strong>User profile personalization</strong>
+            <span>Name, role, industry, and context woven into every response</span>
+          </li>
+          <li>
+            <strong>Confidentiality protection</strong>
+            <span>Dynamic per-conversation guards for sensitive information</span>
+          </li>
+          <li>
+            <strong>Response length management</strong>
+            <span>Conversation history summarized to stay within optimal context window</span>
+          </li>
+          <li>
+            <strong>Cost optimization through caching</strong>
+            <span>Stable coaching knowledge cached to reduce per-message costs by 90%</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="callout-box">
+      <p><strong>When you approve a coaching item, it automatically becomes available to Ali within the next deployment.</strong> No manual updates needed. The coaching partners write and approve methodology content; engineering ensures it flows seamlessly into every conversation.</p>
+    </div>
+
+  </div>
+
+  <!-- ================================================================
+       TAB 3: COST & PERFORMANCE
+       3 metric cards + cost comparison + insight
+       ================================================================ -->
+  <div class="tab-panel panel-cost">
+
+    <div class="cost-intro">
+      <h2>Performance at a Glance</h2>
+      <p>Ali is built to deliver expert coaching while keeping costs predictable as usage scales.</p>
+    </div>
+
+    <div class="metric-cards">
+
+      <div class="metric-card">
+        <div class="big-number savings">90%</div>
+        <div class="metric-title">Cost Savings</div>
+        <div class="metric-desc">Through intelligent caching of the coaching knowledge that stays stable between conversations.</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="big-number context">12,000</div>
+        <div class="metric-title">Token Context Window</div>
+        <div class="metric-desc">Ali's working memory per conversation -- equivalent to roughly 30 pages of focused coaching material.</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="big-number moves">43</div>
+        <div class="metric-title">Named Coaching Moves</div>
+        <div class="metric-desc">Ali's coaching vocabulary, growing with each book review cycle approved by the methodology team.</div>
+      </div>
+
+    </div>
+
+    <div class="comparison-card">
+      <h3>Monthly Cost at 1,000 Conversations</h3>
+      <p class="comparison-subtitle">Assumes an average of 10 messages per conversation</p>
+
+      <div class="cost-row">
+        <div class="cost-label">Without caching</div>
+        <div class="cost-bar-track">
+          <div class="cost-bar uncached">$200 / month</div>
+        </div>
+      </div>
+      <div class="cost-row">
+        <div class="cost-label">With caching</div>
+        <div class="cost-bar-track">
+          <div class="cost-bar cached">$20</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="savings-insight">
+      <p><strong>The richer Ali's knowledge base gets, the more we save per conversation.</strong> Because coaching methodology is stable content, it gets cached and reused across every message in a session. Adding more approved moves and strategies increases quality without increasing cost.</p>
+    </div>
+
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <div class="site-footer">
+    <p class="tagline">Coaching intelligence, built for scale.</p>
+    <p>Ali by Aligned -- Last updated February 23, 2026</p>
+  </div>
+
+</div>
+
+</body>
+</html>

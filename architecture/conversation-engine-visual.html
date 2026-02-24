@@ -1,783 +1,2021 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Inside Ali's Conversation Engine | Ali MVP</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ali Conversation Engine V3.4 — Architecture Visual</title>
 <style>
-@font-face { font-family: "Moret"; src: url("../fonts/moret-semibold-webfont.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Inter"; src: url("../fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Inter"; src: url("../fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+  /* ═══════════════════════════════════════════════════════
+     CSS RESET & VARIABLES
+     ═══════════════════════════════════════════════════════ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --text-primary: #1a1917; --text-body: #33312d; --text-secondary: #6f6a63; --text-muted: #9c958c;
-  --border: #d1cbc2; --border-hard: #3f3c38; --border-dashed: #b5afa6;
-  --bg-page: #f5f3f0; --bg-card: #ffffff; --bg-muted: #eae6e0; --bg-surface: #faf9f7;
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-serif: "Moret", Georgia, serif;
-  --font-mono: "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
-  --asf-gradient: linear-gradient(73.1deg, rgb(95,175,138) 0%, rgb(127,191,174) 12.39%, rgb(158,198,217) 39.57%, rgb(168,191,217) 58.16%, rgb(159,164,211) 79.32%, rgb(138,132,198) 99.15%);
-  --blue: #2563eb; --blue-bg: #dbeafe; --blue-hl: rgba(37,99,235,0.12);
-  --pink: #be185d; --pink-bg: #fce7f3; --pink-hl: rgba(190,24,93,0.10);
-  --green: #059669; --green-bg: #d1fae5; --green-hl: rgba(5,150,105,0.10);
-  --amber: #d97706; --amber-bg: #fef3c7; --amber-hl: rgba(217,119,6,0.10);
-  --book-gty: #22a06b; --book-nsfd: #7c7fc4; --book-3dn: #4a8ec2; --book-asf: #7b5ea7;
-  --book-gty-hl: rgba(34,160,107,0.13); --book-nsfd-hl: rgba(124,127,196,0.13);
-  --book-3dn-hl: rgba(74,142,194,0.13); --book-asf-hl: rgba(123,94,167,0.15);
-}
-html { scroll-behavior: smooth; }
-body { font-family: var(--font-sans); background: var(--bg-page); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  :root {
+    /* Ali Brand */
+    --bg: #FAF8F5;
+    --text: #3F3C38;
+    --text-dark: #1e1d1b;
+    --text-muted: #9A9389;
+    --border: #E6E2DC;
+    --border-hard: #D1CBC3;
+    --card-bg: #FFFFFF;
+    --card-shadow: 0 2px 8px rgba(63, 60, 56, 0.06);
+    --card-shadow-hover: 0 6px 20px rgba(63, 60, 56, 0.10);
 
-/* ── Hero ── */
-.hero { background: var(--asf-gradient); padding: 52px 40px 44px; text-align: center; position: relative; }
-.hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 4px; background: var(--bg-page); }
-.hero h1 { font-family: var(--font-serif); font-weight: 600; font-size: 2.2rem; color: white; margin-bottom: 6px; letter-spacing: -0.02em; }
-.hero .subtitle { font-size: 0.88rem; color: rgba(255,255,255,0.9); max-width: 540px; margin: 0 auto; line-height: 1.6; }
-.hero-stats { display: flex; justify-content: center; gap: 40px; margin-top: 28px; }
-.hero-stat { text-align: center; }
-.hero-stat .num { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 700; color: white; letter-spacing: -0.03em; }
-.hero-stat .label { font-family: var(--font-mono); font-size: 0.62rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px; }
+    /* Header */
+    --header-grad: linear-gradient(135deg, #5F86A6, #7BA3BF);
 
-/* ── Gradient Divider ── */
-.grad-divider { height: 2px; background: var(--asf-gradient); opacity: 0.5; }
+    /* Source Books */
+    --book-asf: #7b5ea7;
+    --book-nsfd: #7c7fc4;
+    --book-gty: #22a06b;
+    --book-3dn: #4a8ec2;
+    --book-htwf: #e67e22;
 
-/* ── Pill Nav ── */
-.pill-nav { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; padding: 16px 20px 12px; position: sticky; top: 0; z-index: 100; background: var(--bg-page); border-bottom: 2px solid var(--border-hard); }
-.pill-btn { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; padding: 6px 14px; border: 2px solid transparent; border-radius: 4px; background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.8px; }
-.pill-btn:hover { color: var(--text-primary); border-color: var(--border); }
-.pill-btn.active { color: var(--text-primary); border-color: var(--border-hard); background: var(--bg-card); }
+    --book-asf-bg: rgba(123, 94, 167, 0.10);
+    --book-nsfd-bg: rgba(124, 127, 196, 0.10);
+    --book-gty-bg: rgba(34, 160, 107, 0.10);
+    --book-3dn-bg: rgba(74, 142, 194, 0.10);
+    --book-htwf-bg: rgba(230, 126, 34, 0.10);
 
-/* ── Sections ── */
-.section { padding: 44px 40px 52px; max-width: 880px; margin: 0 auto; }
-.section-label { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 6px; }
-.section-title { font-family: var(--font-serif); font-weight: 600; font-size: 1.6rem; margin-bottom: 4px; letter-spacing: -0.01em; }
-.section-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.6; }
+    /* Fonts */
+    --font-heading: Georgia, 'Times New Roman', serif;
+    --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  }
 
-/* ── Legend Bar ── */
-.legend { display: flex; gap: 16px; flex-wrap: wrap; padding: 14px 20px; background: var(--bg-card); border: 2px solid var(--border); border-radius: 6px; margin-bottom: 24px; }
-.legend-title { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); width: 100%; margin-bottom: 2px; }
-.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-.legend-count { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* ── Pipeline ── */
-.pipeline-flow { display: flex; align-items: stretch; gap: 0; margin: 8px 0 0; }
-.pipe-stage { flex: 1; text-align: center; padding: 20px 12px 16px; border: 2px solid var(--border); border-right: none; position: relative; background: var(--bg-card); }
-.pipe-stage:first-child { border-radius: 8px 0 0 8px; }
-.pipe-stage:last-child { border-right: 2px solid var(--border); border-radius: 0 8px 8px 0; }
-.pipe-stage::after { content: ''; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border: 8px solid transparent; border-left: 8px solid var(--border); z-index: 2; }
-.pipe-stage:last-child::after { display: none; }
-.pipe-stage::before { content: ''; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border: 6px solid transparent; border-left: 6px solid var(--bg-card); z-index: 3; }
-.pipe-stage:last-child::before { display: none; }
-.pipe-stage:hover { background: var(--bg-muted); }
-.pipe-num { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.03em; }
-.pipe-name { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-top: 4px; }
-.pipe-detail { font-size: 0.75rem; color: var(--text-secondary); margin-top: 6px; line-height: 1.4; }
+  /* ═══════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════ */
+  .hero {
+    background: var(--header-grad);
+    color: #fff;
+    padding: 56px 40px 48px;
+    text-align: center;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .hero .subtitle {
+    font-size: 0.88rem;
+    opacity: 0.85;
+    max-width: 640px;
+    margin: 0 auto 28px;
+    line-height: 1.5;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat .num {
+    font-family: var(--font-mono);
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: block;
+    line-height: 1.2;
+  }
+  .hero-stat .lbl {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.75;
+  }
+  .version-badge {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    background: rgba(255,255,255,0.18);
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
-/* ── Source Books ── */
-.books-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 24px; }
-.book-card { padding: 14px 16px; border: 2px solid var(--border); border-radius: 6px; background: var(--bg-card); transition: all 0.15s; cursor: default; }
-.book-card:hover { border-color: var(--border-hard); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-.book-card .book-name { font-weight: 600; font-size: 0.82rem; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
-.book-card .book-meta { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); }
+  /* ═══════════════════════════════════════════════════════
+     NAV — EVAPORATING TABS (radio button pattern)
+     ═══════════════════════════════════════════════════════ */
+  .tab-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 2px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tab-nav label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 7px 16px;
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    color: var(--text-muted);
+    user-select: none;
+    white-space: nowrap;
+  }
+  .tab-nav label:hover {
+    border-color: var(--border-hard);
+    color: var(--text);
+  }
 
-/* ── Entity Types ── */
-.entity-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 2px solid var(--border-hard); border-radius: 8px; overflow: hidden; margin-bottom: 24px; }
-.entity-col { padding: 20px 18px; border-right: 1px solid var(--border); text-align: center; background: var(--bg-card); cursor: pointer; transition: background 0.15s; }
-.entity-col:last-child { border-right: none; }
-.entity-col:hover { background: var(--bg-surface); }
-.entity-col .e-count { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
-.entity-col .e-label { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 2px; }
-.entity-col .e-bar { height: 4px; border-radius: 2px; margin-top: 10px; }
-.entity-samples { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.e-sample { padding: 14px 16px; border-left: 3px solid; background: var(--bg-card); border-radius: 0 6px 6px 0; font-size: 0.8rem; line-height: 1.6; color: var(--text-body); }
-.e-sample .e-sample-label { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  /* Hidden radio inputs */
+  input[name="tab"] { display: none; }
 
-/* ── Annotated Prose (the key visual) ── */
-.annotated-block { background: var(--bg-card); border: 2px solid var(--border-hard); border-radius: 8px; overflow: hidden; }
-.annotated-header { padding: 12px 20px; border-bottom: 2px dashed var(--border-dashed); display: flex; align-items: center; justify-content: space-between; }
-.annotated-header .ah-label { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); }
-.annotated-header .ah-hint { font-size: 0.72rem; color: var(--text-muted); }
-.annotated-body { padding: 24px 28px; font-size: 0.92rem; line-height: 2; color: var(--text-body); }
-.annotated-body .scenario { font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-dashed); }
-.hl { padding: 2px 5px; border-radius: 3px; cursor: pointer; transition: all 0.15s; position: relative; font-weight: 500; }
-.hl:hover { filter: brightness(0.95); }
-.hl.hl-active { filter: brightness(0.88); outline: 2px solid currentColor; outline-offset: 1px; }
-.hl-popover { position: absolute; z-index: 100; background: var(--bg-card); border: 2px solid var(--border-hard); border-radius: 6px; width: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); opacity: 0; pointer-events: none; transition: opacity 0.15s; }
-.hl-popover.visible { opacity: 1; pointer-events: auto; }
-.hl-popover-header { padding: 8px 12px; border-bottom: 1px dashed var(--border-dashed); display: flex; align-items: center; gap: 6px; }
-.hl-popover-header .pop-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.hl-popover-header .pop-source { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
-.hl-popover-header .pop-tag { font-family: var(--font-mono); font-size: 0.55rem; font-weight: 600; padding: 1px 5px; border-radius: 3px; margin-left: auto; }
-.hl-popover-body { padding: 10px 12px; }
-.hl-popover-body .pop-concept { font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-.hl-popover-body .pop-desc { font-size: 0.72rem; color: var(--text-body); line-height: 1.5; }
-.hl-popover-footer { padding: 6px 12px 8px; border-top: 1px dashed var(--border-dashed); }
-.hl-popover-footer a { font-family: var(--font-mono); font-size: 0.58rem; text-decoration: none; font-weight: 600; letter-spacing: 0.5px; }
-.hl-asf { background: var(--book-asf-hl); border-bottom: 2px solid var(--book-asf); }
-.hl-nsfd { background: var(--book-nsfd-hl); border-bottom: 2px solid var(--book-nsfd); }
-.hl-gty { background: var(--book-gty-hl); border-bottom: 2px solid var(--book-gty); }
-.hl-3dn { background: var(--book-3dn-hl); border-bottom: 2px solid var(--book-3dn); }
-.sup { font-family: var(--font-mono); font-size: 0.58rem; font-weight: 700; vertical-align: super; margin-left: 1px; padding: 1px 4px; border-radius: 3px; }
-.sup-asf { color: var(--book-asf); background: var(--book-asf-hl); }
-.sup-nsfd { color: var(--book-nsfd); background: var(--book-nsfd-hl); }
-.sup-gty { color: var(--book-gty); background: var(--book-gty-hl); }
-.sup-3dn { color: var(--book-3dn); background: var(--book-3dn-hl); }
-.annotated-footer { padding: 14px 20px; border-top: 2px dashed var(--border-dashed); background: var(--bg-surface); }
-.annotated-footer .af-label { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--book-asf); font-weight: 600; margin-bottom: 4px; }
-.annotated-footer p { font-size: 0.82rem; color: var(--text-body); line-height: 1.6; }
+  /* Active tab label */
+  #tab-pipeline:checked ~ .tab-nav label[for="tab-pipeline"],
+  #tab-entities:checked ~ .tab-nav label[for="tab-entities"],
+  #tab-annotated:checked ~ .tab-nav label[for="tab-annotated"],
+  #tab-whatsnew:checked ~ .tab-nav label[for="tab-whatsnew"],
+  #tab-compare:checked ~ .tab-nav label[for="tab-compare"],
+  #tab-trace:checked ~ .tab-nav label[for="tab-trace"],
+  #tab-ecosystem:checked ~ .tab-nav label[for="tab-ecosystem"] {
+    background: var(--text-dark);
+    color: #fff;
+    border-color: var(--text-dark);
+  }
 
-/* ── Compare ── */
-.compare-tabs { display: flex; gap: 4px; margin-bottom: 20px; }
-.compare-tab { font-family: var(--font-mono); padding: 7px 16px; border-radius: 4px; border: 2px solid transparent; background: transparent; font-size: 0.7rem; font-weight: 600; cursor: pointer; color: var(--text-muted); transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.5px; }
-.compare-tab.active { color: var(--text-primary); border-color: var(--border-hard); background: var(--bg-card); }
-.compare-tab:hover { color: var(--text-primary); }
-.compare-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 2px solid var(--border-hard); border-radius: 8px; overflow: hidden; }
-.compare-panel { padding: 24px; background: var(--bg-card); }
-.compare-panel.left { border-right: 1px dashed var(--border-dashed); }
-.compare-panel h4 { font-family: var(--font-serif); font-size: 1.05rem; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
-.compare-panel h4 .cdot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-.compare-panel .author { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
-.compare-approach { font-size: 0.84rem; color: var(--text-body); line-height: 1.75; }
-.compare-approach strong { color: var(--text-primary); }
-.compare-synth { margin-top: 16px; padding: 16px 24px; border: 2px solid var(--border); border-radius: 8px; background: var(--bg-surface); text-align: center; }
-.compare-synth .cs-label { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--book-asf); margin-bottom: 6px; }
-.compare-synth p { font-size: 0.84rem; color: var(--text-body); line-height: 1.6; }
+  /* ═══════════════════════════════════════════════════════
+     EVAPORATING CONTENT — only active tab visible
+     ═══════════════════════════════════════════════════════ */
+  .tab-content { display: none; }
 
-/* ── Tags ── */
-.tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 16px 0; }
-.tag-bubble { font-family: var(--font-sans); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s; border: 1px solid; position: relative; }
-.tag-bubble:hover { transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0,0,0,0.08); z-index: 2; }
-.tag-bubble .tag-detail { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--text-primary); color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 0.72rem; font-weight: 400; width: 200px; opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 10; text-align: left; line-height: 1.5; }
-.tag-bubble .tag-detail::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--text-primary); }
-.tag-bubble:hover .tag-detail { opacity: 1; }
-.tag-bubble .tag-detail .td-bar { display: flex; gap: 2px; margin-top: 6px; height: 6px; border-radius: 3px; overflow: hidden; }
-.tag-bubble .tag-detail .td-seg { height: 100%; }
+  #tab-pipeline:checked ~ .content-wrap #content-pipeline,
+  #tab-entities:checked ~ .content-wrap #content-entities,
+  #tab-annotated:checked ~ .content-wrap #content-annotated,
+  #tab-whatsnew:checked ~ .content-wrap #content-whatsnew,
+  #tab-compare:checked ~ .content-wrap #content-compare,
+  #tab-trace:checked ~ .content-wrap #content-trace,
+  #tab-ecosystem:checked ~ .content-wrap #content-ecosystem {
+    display: block;
+  }
 
-/* ── Trace ── */
-.trace-container { border: 2px solid var(--border-hard); border-radius: 8px; overflow: hidden; }
-.trace-header { padding: 10px 20px; background: var(--bg-muted); border-bottom: 2px solid var(--border); font-family: var(--font-mono); font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); }
-.trace-step { display: grid; grid-template-columns: 52px 1fr 260px; gap: 0; opacity: 0.3; transition: all 0.3s; cursor: pointer; border-bottom: 1px dashed var(--border-dashed); background: var(--bg-card); }
-.trace-step:last-child { border-bottom: none; }
-.trace-step.active { opacity: 1; }
-.trace-step:hover { background: var(--bg-surface); }
-.step-num-col { display: flex; align-items: center; justify-content: center; border-right: 1px dashed var(--border-dashed); font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--text-muted); padding: 16px 0; }
-.trace-step.active .step-num-col { color: var(--book-asf); }
-.step-content { padding: 16px 20px; }
-.step-content h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; }
-.step-content p { font-size: 0.82rem; color: var(--text-body); line-height: 1.5; }
-.step-output { padding: 16px 18px; border-left: 1px dashed var(--border-dashed); background: var(--bg-surface); font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6; }
-.step-output .so-label { font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 6px; }
-.step-output code { background: var(--bg-muted); padding: 1px 5px; border-radius: 3px; font-size: 0.7rem; color: var(--text-primary); }
+  .content-wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
 
-/* ── Ecosystem ── */
-.eco-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
-.eco-link { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 4px; text-decoration: none; color: var(--text-primary); border: 1px solid var(--border); font-size: 0.78rem; transition: all 0.15s; background: var(--bg-card); }
-.eco-link:hover { border-color: var(--border-hard); transform: translateX(2px); box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
-.eco-badge { font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.8px; flex-shrink: 0; }
-.eco-badge.arch { background: var(--blue-hl); color: var(--blue); border: 1px solid rgba(37,99,235,0.2); }
-.eco-badge.product { background: var(--green-hl); color: var(--green); border: 1px solid rgba(5,150,105,0.2); }
-.eco-badge.design { background: var(--pink-hl); color: var(--pink); border: 1px solid rgba(190,24,93,0.2); }
-.eco-badge.meeting { background: var(--amber-hl); color: var(--amber); border: 1px solid rgba(217,119,6,0.2); }
-.eco-badge.guide { background: var(--book-asf-hl); color: var(--book-asf); border: 1px solid rgba(123,94,167,0.2); }
+  /* ═══════════════════════════════════════════════════════
+     SECTION HEADERS
+     ═══════════════════════════════════════════════════════ */
+  .section-head {
+    padding: 48px 0 12px;
+    text-align: center;
+  }
+  .section-head h2 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+  .section-head .desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto;
+  }
 
-/* ── Footer ── */
-.page-footer { text-align: center; padding: 32px 40px; font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); letter-spacing: 0.3px; }
-.page-footer a { color: var(--text-secondary); text-decoration: none; }
-.page-footer a:hover { text-decoration: underline; }
+  /* ═══════════════════════════════════════════════════════
+     CARDS
+     ═══════════════════════════════════════════════════════ */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-1px);
+  }
+  .card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: 0.84rem;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .card .mono-num {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .card .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+  }
 
-/* ── Responsive ── */
-@media (max-width: 700px) {
-  .hero { padding: 36px 20px 32px; }
-  .hero h1 { font-size: 1.6rem; }
-  .hero-stats { gap: 20px; flex-wrap: wrap; }
-  .section { padding: 32px 20px 40px; }
-  .books-grid { grid-template-columns: 1fr 1fr; }
-  .entity-strip { grid-template-columns: 1fr 1fr; }
-  .entity-strip .entity-col:nth-child(2) { border-right: none; }
-  .entity-strip .entity-col:nth-child(3) { border-top: 1px solid var(--border); }
-  .entity-strip .entity-col:nth-child(4) { border-top: 1px solid var(--border); }
-  .entity-samples { grid-template-columns: 1fr; }
-  .pipeline-flow { flex-direction: column; }
-  .pipe-stage { border-right: 2px solid var(--border) !important; border-bottom: none; }
-  .pipe-stage:first-child { border-radius: 8px 8px 0 0; }
-  .pipe-stage:last-child { border-radius: 0 0 8px 8px; border-bottom: 2px solid var(--border); }
-  .pipe-stage::after, .pipe-stage::before { display: none; }
-  .compare-panels { grid-template-columns: 1fr; }
-  .compare-panel.left { border-right: none; border-bottom: 1px dashed var(--border-dashed); }
-  .trace-step { grid-template-columns: 40px 1fr; }
-  .step-output { grid-column: 1 / -1; border-left: none; border-top: 1px dashed var(--border-dashed); }
-  .pill-nav { padding: 10px 12px 8px; }
-  .annotated-body { padding: 18px 20px; font-size: 0.86rem; }
-}
+  /* ═══════════════════════════════════════════════════════
+     TAB 1: PIPELINE
+     ═══════════════════════════════════════════════════════ */
+  .pipe-stages {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    margin: 32px 0 40px;
+  }
+  .pipe-stage {
+    flex: 1;
+    text-align: center;
+    padding: 24px 16px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    position: relative;
+  }
+  .pipe-stage:first-child { border-radius: 10px 0 0 10px; }
+  .pipe-stage:last-child { border-radius: 0 10px 10px 0; }
+  .pipe-stage:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 12px solid var(--border);
+    z-index: 2;
+  }
+  .pipe-stage:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 10px solid var(--card-bg);
+    z-index: 3;
+  }
+  .pipe-stage .stage-num {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .pipe-stage .stage-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+  .pipe-stage .stage-detail {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .pipe-stage .stage-big {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Book grid inside pipeline */
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .book-card {
+    text-align: center;
+    padding: 20px 12px;
+    border-radius: 8px;
+    border: 2px solid;
+    transition: transform 0.15s ease;
+  }
+  .book-card:hover { transform: translateY(-2px); }
+  .book-card .book-count {
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .book-card .book-abbr {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+  .book-card .book-full {
+    font-size: 0.72rem;
+    margin-top: 6px;
+    opacity: 0.8;
+    line-height: 1.3;
+  }
+  .book-asf { border-color: var(--book-asf); background: var(--book-asf-bg); color: var(--book-asf); }
+  .book-3dn { border-color: var(--book-3dn); background: var(--book-3dn-bg); color: var(--book-3dn); }
+  .book-gty { border-color: var(--book-gty); background: var(--book-gty-bg); color: var(--book-gty); }
+  .book-nsfd { border-color: var(--book-nsfd); background: var(--book-nsfd-bg); color: var(--book-nsfd); }
+  .book-htwf { border-color: var(--book-htwf); background: var(--book-htwf-bg); color: var(--book-htwf); }
+
+  .total-callout {
+    text-align: center;
+    margin: 16px 0 32px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+  .total-callout strong {
+    color: var(--text-dark);
+    font-size: 0.85rem;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     TAB 2: ENTITY TYPES
+     ═══════════════════════════════════════════════════════ */
+  .entity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 32px 0;
+  }
+  .entity-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    box-shadow: var(--card-shadow);
+  }
+  .entity-card .e-bar {
+    height: 6px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+  .entity-card .e-count {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+  .entity-card .e-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .entity-card .e-example {
+    font-size: 0.8rem;
+    color: var(--text);
+    line-height: 1.6;
+    padding: 12px;
+    background: var(--bg);
+    border-radius: 6px;
+    border-left: 3px solid var(--border);
+    margin-top: 12px;
+  }
+  .entity-card .e-example strong {
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+
+  .named-moves-callout {
+    background: var(--card-bg);
+    border: 2px dashed var(--book-asf);
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin: 24px 0 40px;
+    text-align: center;
+  }
+  .named-moves-callout .callout-num {
+    font-family: var(--font-mono);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--book-asf);
+    display: block;
+  }
+  .named-moves-callout .callout-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  .named-moves-callout p {
+    font-size: 0.84rem;
+    color: var(--text);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     TAB 3: ANNOTATED RESPONSE
+     ═══════════════════════════════════════════════════════ */
+  .anno-legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 24px 0 16px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+  .dot-asf { background: var(--book-asf); }
+  .dot-nsfd { background: var(--book-nsfd); }
+  .dot-gty { background: var(--book-gty); }
+  .dot-3dn { background: var(--book-3dn); }
+  .dot-htwf { background: var(--book-htwf); }
+
+  .anno-block {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 16px 0 32px;
+    overflow: hidden;
+  }
+  .anno-header {
+    background: var(--bg);
+    border-bottom: 1px dashed var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .anno-header .tag {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .anno-header .hint {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+  .anno-body {
+    padding: 28px;
+    font-size: 0.88rem;
+    line-height: 2;
+  }
+  .anno-user {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    border-left: 3px solid var(--text-muted);
+  }
+  .anno-user .u-label {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .anno-user p {
+    font-size: 0.84rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* Highlights */
+  .hl {
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: filter 0.1s;
+  }
+  .hl:hover { filter: brightness(0.95); }
+  .hl-asf { background: var(--book-asf-bg); border-bottom: 2px solid var(--book-asf); }
+  .hl-nsfd { background: var(--book-nsfd-bg); border-bottom: 2px solid var(--book-nsfd); }
+  .hl-gty { background: var(--book-gty-bg); border-bottom: 2px solid var(--book-gty); }
+  .hl-3dn { background: var(--book-3dn-bg); border-bottom: 2px solid var(--book-3dn); }
+  .hl-htwf { background: var(--book-htwf-bg); border-bottom: 2px solid var(--book-htwf); }
+
+  /* Source tags (superscript) */
+  .src-tag {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #fff;
+    vertical-align: super;
+    margin-left: 3px;
+    font-weight: 600;
+  }
+  .src-asf { background: var(--book-asf); }
+  .src-nsfd { background: var(--book-nsfd); }
+  .src-gty { background: var(--book-gty); }
+  .src-3dn { background: var(--book-3dn); }
+  .src-htwf { background: var(--book-htwf); }
+
+  /* Popover */
+  .popover {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    background: var(--card-bg);
+    border: 1px solid var(--border-hard);
+    border-radius: 10px;
+    padding: 20px;
+    width: 340px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  .popover.active { display: block; }
+  .popover .pop-source {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .popover .pop-concept {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+  .popover .pop-desc {
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .popover .pop-move {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--book-asf);
+    letter-spacing: 0.04em;
+  }
+
+  .synthesis-box {
+    background: var(--bg);
+    border: 2px dashed var(--border-hard);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 16px 0 40px;
+    text-align: center;
+  }
+  .synthesis-box h4 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+  }
+  .synthesis-box p {
+    font-size: 0.82rem;
+    color: var(--text);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+  .synthesis-sources {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .synthesis-sources span {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     TAB 4: WHAT'S NEW
+     ═══════════════════════════════════════════════════════ */
+  .changes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 32px 0 40px;
+  }
+  .change-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+  }
+  .change-card .change-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .change-card .change-badge {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge-new { background: #dff5e3; color: #166d3b; }
+  .badge-fix { background: #fde8d0; color: #9c4a1a; }
+  .badge-improved { background: #dbeafe; color: #1e40af; }
+  .change-card .change-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  .change-body {
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .change-col {
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+  .change-before {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+  }
+  .change-after {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+  .change-col .col-label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .change-before .col-label { color: #b91c1c; }
+  .change-after .col-label { color: #166534; }
+  .change-why {
+    grid-column: 1 / -1;
+    padding: 12px 16px;
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    color: var(--text);
+    line-height: 1.6;
+    border-left: 3px solid var(--book-asf);
+  }
+  .change-why strong {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--book-asf);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     TAB 5: COMPARE (nested radios)
+     ═══════════════════════════════════════════════════════ */
+  .compare-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 28px 0 20px;
+  }
+  .compare-nav label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 14px;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+  .compare-nav label:hover {
+    border-color: var(--border-hard);
+    color: var(--text);
+  }
+  input[name="cmp"] { display: none; }
+
+  .cmp-panel { display: none; }
+
+  #cmp-difficult:checked ~ .content-wrap #content-compare .cmp-difficult,
+  #cmp-opening:checked ~ .content-wrap #content-compare .cmp-opening,
+  #cmp-confid:checked ~ .content-wrap #content-compare .cmp-confid {
+    display: block;
+  }
+
+  #cmp-difficult:checked ~ .content-wrap #content-compare .compare-nav label[for="cmp-difficult"],
+  #cmp-opening:checked ~ .content-wrap #content-compare .compare-nav label[for="cmp-opening"],
+  #cmp-confid:checked ~ .content-wrap #content-compare .compare-nav label[for="cmp-confid"] {
+    background: var(--text-dark);
+    color: #fff;
+    border-color: var(--text-dark);
+  }
+
+  .cmp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .cmp-side {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .cmp-side .cmp-book {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .cmp-side h4 {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  .cmp-side p {
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .cmp-synthesis {
+    background: var(--bg);
+    border: 2px dashed var(--book-asf);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .cmp-synthesis h4 {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    color: var(--book-asf);
+    margin-bottom: 8px;
+  }
+  .cmp-synthesis p {
+    font-size: 0.8rem;
+    color: var(--text);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     TAB 6: TRACE
+     ═══════════════════════════════════════════════════════ */
+  .trace-container {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 32px 0 40px;
+    background: var(--card-bg);
+  }
+  .trace-header {
+    background: var(--bg);
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .trace-steps {
+    padding: 0;
+  }
+  .trace-step {
+    display: grid;
+    grid-template-columns: 56px 1fr 280px;
+    align-items: start;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s, opacity 0.15s;
+    opacity: 0.4;
+  }
+  .trace-step.active {
+    opacity: 1;
+    background: rgba(95, 134, 166, 0.03);
+  }
+  .trace-step:last-child { border-bottom: none; }
+  .trace-step .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    padding-top: 2px;
+  }
+  .trace-step.active .step-num { color: #5F86A6; }
+  .trace-step .step-body h4 {
+    font-family: var(--font-heading);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+  .trace-step .step-body p {
+    font-size: 0.78rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .trace-step .step-output {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding-left: 16px;
+    border-left: 1px dashed var(--border);
+  }
+  .trace-step .step-output code {
+    display: block;
+    background: var(--bg);
+    padding: 8px 10px;
+    border-radius: 4px;
+    margin-top: 4px;
+    font-size: 0.65rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     TAB 7: ECOSYSTEM
+     ═══════════════════════════════════════════════════════ */
+  .eco-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 32px 0 48px;
+  }
+  .eco-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .eco-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+  }
+  .eco-card .eco-badge {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .eco-badge-arch { background: #ede9fe; color: #6d28d9; }
+  .eco-badge-product { background: #dbeafe; color: #1e40af; }
+  .eco-badge-knowledge { background: #d1fae5; color: #065f46; }
+  .eco-badge-guide { background: #fef3c7; color: #92400e; }
+  .eco-card h4 {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+  .eco-card .eco-date {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .eco-card p {
+    font-size: 0.76rem;
+    color: var(--text);
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+  .eco-section-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    grid-column: 1 / -1;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════ */
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 2px solid var(--border);
+    margin-top: 24px;
+  }
+  .footer p {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    line-height: 1.8;
+  }
+  .footer a {
+    color: #5F86A6;
+    text-decoration: none;
+  }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ═══════════════════════════════════════════════════════
+     MOVES GRID (Tab 2)
+     ═══════════════════════════════════════════════════════ */
+  .moves-cat {
+    margin-bottom: 24px;
+  }
+  .moves-cat-title {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .moves-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .move-pill {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+  .move-pill.new-move {
+    border-color: var(--book-htwf);
+    background: var(--book-htwf-bg);
+    color: var(--book-htwf);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .hero { padding: 36px 20px 32px; }
+    .hero h1 { font-size: 1.6rem; }
+    .hero-stats { gap: 24px; }
+    .tab-nav { padding: 10px 12px; gap: 4px; }
+    .tab-nav label { font-size: 0.58rem; padding: 5px 10px; }
+    .pipe-stages { flex-direction: column; }
+    .pipe-stage { border-radius: 8px !important; }
+    .pipe-stage:not(:last-child)::after,
+    .pipe-stage:not(:last-child)::before { display: none; }
+    .book-grid { grid-template-columns: repeat(2, 1fr); }
+    .entity-grid { grid-template-columns: 1fr; }
+    .change-body { grid-template-columns: 1fr; }
+    .cmp-grid { grid-template-columns: 1fr; }
+    .trace-step { grid-template-columns: 40px 1fr; }
+    .trace-step .step-output { grid-column: 1 / -1; padding-left: 0; border-left: none; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
+    .eco-grid { grid-template-columns: 1fr; }
+    .anno-body { padding: 16px; font-size: 0.82rem; }
+    .popover { width: 280px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<div class="hero">
-  <h1>Inside Ali's Conversation Engine</h1>
-  <p class="subtitle">How 969 coaching items from 4 expert sources become personalized negotiation advice</p>
-  <div class="hero-stats">
-    <div class="hero-stat"><div class="num">969</div><div class="label">Items</div></div>
-    <div class="hero-stat"><div class="num">4</div><div class="label">Sources</div></div>
-    <div class="hero-stat"><div class="num">60</div><div class="label">Tags</div></div>
-    <div class="hero-stat"><div class="num">5</div><div class="label">Types</div></div>
-  </div>
-</div>
+<!-- ═══════════════════════════════════════════════════════
+     RADIO INPUTS (outside all content for CSS sibling selectors)
+     ═══════════════════════════════════════════════════════ -->
+<input type="radio" name="tab" id="tab-pipeline" checked>
+<input type="radio" name="tab" id="tab-entities">
+<input type="radio" name="tab" id="tab-annotated">
+<input type="radio" name="tab" id="tab-whatsnew">
+<input type="radio" name="tab" id="tab-compare">
+<input type="radio" name="tab" id="tab-trace">
+<input type="radio" name="tab" id="tab-ecosystem">
 
-<!-- NAV -->
-<nav class="pill-nav" id="pillNav">
-  <button class="pill-btn active" data-section="pipeline">Pipeline</button>
-  <button class="pill-btn" data-section="entities">Entities</button>
-  <button class="pill-btn" data-section="crossbook">Cross-Book</button>
-  <button class="pill-btn" data-section="compare">Compare</button>
-  <button class="pill-btn" data-section="tags">Tags</button>
-  <button class="pill-btn" data-section="trace">Trace</button>
-  <button class="pill-btn" data-section="ecosystem">Ecosystem</button>
+<!-- Compare sub-tabs -->
+<input type="radio" name="cmp" id="cmp-difficult" checked>
+<input type="radio" name="cmp" id="cmp-opening">
+<input type="radio" name="cmp" id="cmp-confid">
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════ -->
+<header class="hero">
+  <span class="version-badge">V3.4.0 / Feb 23, 2026</span>
+  <h1>Ali Conversation Engine</h1>
+  <p class="subtitle">
+    How 1,076 coaching items from 5 expert sources become personalized, multi-source negotiation guidance in a single response.
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num">1,076</span>
+      <span class="lbl">Coaching Items</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">5</span>
+      <span class="lbl">Source Books</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">43</span>
+      <span class="lbl">Named Moves</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">4</span>
+      <span class="lbl">Entity Types</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAV
+     ═══════════════════════════════════════════════════════ -->
+<nav class="tab-nav">
+  <label for="tab-pipeline">Pipeline</label>
+  <label for="tab-entities">Entity Types</label>
+  <label for="tab-annotated">Annotated Response</label>
+  <label for="tab-whatsnew">What's New</label>
+  <label for="tab-compare">Compare</label>
+  <label for="tab-trace">Conversation Trace</label>
+  <label for="tab-ecosystem">Ecosystem</label>
 </nav>
 
-<!-- ═══ 1. PIPELINE ═══ -->
-<div class="section" id="pipeline">
-  <div class="section-label">01 / Pipeline</div>
-  <h2 class="section-title">The Data Pipeline</h2>
-  <p class="section-desc">From expert negotiation books to personalized coaching. Every response is grounded in real methodology.</p>
+<!-- ═══════════════════════════════════════════════════════
+     CONTENT WRAPPER
+     ═══════════════════════════════════════════════════════ -->
+<div class="content-wrap">
 
-  <div class="pipeline-flow">
+<!-- ═══════════════════════════════════════════════════════
+     TAB 1: PIPELINE
+     ═══════════════════════════════════════════════════════ -->
+<section id="content-pipeline" class="tab-content">
+  <div class="section-head">
+    <h2>The Data Pipeline</h2>
+    <p class="desc">From expert source material to personalized coaching in 5 stages.</p>
+  </div>
+
+  <!-- 5 Book Source Cards -->
+  <div class="book-grid">
+    <div class="book-card book-asf">
+      <span class="book-count">70</span>
+      <span class="book-abbr">ASF</span>
+      <div class="book-full">Aligned Strategic Framework</div>
+    </div>
+    <div class="book-card book-3dn">
+      <span class="book-count">379</span>
+      <span class="book-abbr">3DN</span>
+      <div class="book-full">3-D Negotiation</div>
+    </div>
+    <div class="book-card book-gty">
+      <span class="book-count">233</span>
+      <span class="book-abbr">GTY</span>
+      <div class="book-full">Getting to Yes</div>
+    </div>
+    <div class="book-card book-nsfd">
+      <span class="book-count">287</span>
+      <span class="book-abbr">NSFD</span>
+      <div class="book-full">Never Split the Difference</div>
+    </div>
+    <div class="book-card book-htwf">
+      <span class="book-count">107</span>
+      <span class="book-abbr">HTWF</span>
+      <div class="book-full">How to Win Friends &amp; Influence People</div>
+    </div>
+  </div>
+  <div class="total-callout">
+    <strong>1,076</strong> total coaching items extracted across all 5 sources
+  </div>
+
+  <!-- Pipeline Stages -->
+  <div class="pipe-stages">
     <div class="pipe-stage">
-      <div class="pipe-num">4</div>
-      <div class="pipe-name">Sources</div>
-      <div class="pipe-detail">Expert negotiation books + Aligned framework</div>
+      <div class="stage-num">Stage 1</div>
+      <div class="stage-title">5 Sources</div>
+      <span class="stage-big">5</span>
+      <div class="stage-detail">Expert-authored negotiation books, each chapter-indexed and reviewed by Mark Mirra + Tom Hilgeman</div>
     </div>
     <div class="pipe-stage">
-      <div class="pipe-num" style="font-size:1.2rem;">AI</div>
-      <div class="pipe-name">Extraction</div>
-      <div class="pipe-detail">Chapter-by-chapter entity identification</div>
+      <div class="stage-num">Stage 2</div>
+      <div class="stage-title">AI Extraction</div>
+      <span class="stage-big">1,076</span>
+      <div class="stage-detail">Chapter-by-chapter entity identification using Claude. Each item tagged by type, source, and concept.</div>
     </div>
     <div class="pipe-stage">
-      <div class="pipe-num">969</div>
-      <div class="pipe-name">Entity Store</div>
-      <div class="pipe-detail">Tagged coaching items across 5 types</div>
+      <div class="stage-num">Stage 3</div>
+      <div class="stage-title">Knowledge Store</div>
+      <span class="stage-big">4</span>
+      <div class="stage-detail">Entity types: Coaching Moves (534), Frameworks (185), Examples (168), Quotes (189)</div>
     </div>
     <div class="pipe-stage">
-      <div class="pipe-num" style="font-size:1.2rem;">&#9881;</div>
-      <div class="pipe-name">Assembly</div>
-      <div class="pipe-detail">Context-matched prompt construction</div>
+      <div class="stage-num">Stage 4</div>
+      <div class="stage-title">43 Named Moves</div>
+      <span class="stage-big">43</span>
+      <div class="stage-detail">Distilled from 534 coaching moves into Ali's signature vocabulary. XML-injected into every conversation.</div>
     </div>
     <div class="pipe-stage">
-      <div class="pipe-num" style="font-size:1.2rem;">&#10003;</div>
-      <div class="pipe-name">Response</div>
-      <div class="pipe-detail">Personalized multi-source coaching</div>
-    </div>
-  </div>
-
-  <div class="books-grid">
-    <div class="book-card">
-      <div class="book-name"><span class="legend-dot" style="background:var(--book-gty)"></span> Getting to Yes</div>
-      <div class="book-meta">Fisher & Ury &middot; 233 items</div>
-    </div>
-    <div class="book-card">
-      <div class="book-name"><span class="legend-dot" style="background:var(--book-nsfd)"></span> Never Split the Difference</div>
-      <div class="book-meta">Chris Voss &middot; 287 items</div>
-    </div>
-    <div class="book-card">
-      <div class="book-name"><span class="legend-dot" style="background:var(--book-3dn)"></span> 3-D Negotiation</div>
-      <div class="book-meta">Lax & Sebenius &middot; 379 items</div>
-    </div>
-    <div class="book-card">
-      <div class="book-name"><span class="legend-dot" style="background:var(--book-asf)"></span> Aligned Framework</div>
-      <div class="book-meta">ASF Methodology &middot; 70 items</div>
-    </div>
-  </div>
-</div>
-
-<div class="grad-divider"></div>
-
-<!-- ═══ 2. ENTITIES ═══ -->
-<div class="section" id="entities">
-  <div class="section-label">02 / Entity Types</div>
-  <h2 class="section-title">969 Items, 4 Types</h2>
-  <p class="section-desc">Every extracted item is classified. Click any type to explore in the <a href="https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html" target="_blank" style="color:var(--book-asf);text-decoration:underline">Book Extraction Review</a>.</p>
-
-  <div class="entity-strip">
-    <div class="entity-col" onclick="window.open('https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html','_blank')">
-      <div class="e-count" style="color:var(--blue)">455</div>
-      <div class="e-label" style="color:var(--blue)">Coaching Moves</div>
-      <div class="e-bar" style="background:var(--blue);width:100%"></div>
-    </div>
-    <div class="entity-col" onclick="window.open('https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html','_blank')">
-      <div class="e-count" style="color:var(--amber)">161</div>
-      <div class="e-label" style="color:var(--amber)">Quotes</div>
-      <div class="e-bar" style="background:var(--amber);width:35%"></div>
-    </div>
-    <div class="entity-col" onclick="window.open('https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html','_blank')">
-      <div class="e-count" style="color:var(--pink)">146</div>
-      <div class="e-label" style="color:var(--pink)">Frameworks</div>
-      <div class="e-bar" style="background:var(--pink);width:32%"></div>
-    </div>
-    <div class="entity-col" onclick="window.open('https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html','_blank')">
-      <div class="e-count" style="color:var(--green)">133</div>
-      <div class="e-label" style="color:var(--green)">Examples</div>
-      <div class="e-bar" style="background:var(--green);width:29%"></div>
-    </div>
-  </div>
-
-  <div class="entity-samples">
-    <div class="e-sample" style="border-left-color:var(--blue)">
-      <div class="e-sample-label" style="color:var(--blue)">Coaching Move &middot; Getting to Yes</div>
-      "Reject both soft and hard negotiating styles in favor of principled negotiation: decide issues on their merits rather than through haggling focused on positions."
-    </div>
-    <div class="e-sample" style="border-left-color:var(--pink)">
-      <div class="e-sample-label" style="color:var(--pink)">Framework &middot; Never Split the Difference</div>
-      "An agreement alone is insufficient. The true measure of success is implementation and execution -- a signed contract has no value until it produces results."
-    </div>
-    <div class="e-sample" style="border-left-color:var(--green)">
-      <div class="e-sample-label" style="color:var(--green)">Example &middot; 3-D Negotiation</div>
-      "Steve Perlman mapped backward: VCs would be more interested if Sony was already on board. He negotiated with Sony first, then leveraged that partnership."
-    </div>
-    <div class="e-sample" style="border-left-color:var(--amber)">
-      <div class="e-sample-label" style="color:var(--amber)">Quote &middot; Getting to Yes</div>
-      "Negotiation is a basic means of getting what you want from others -- back-and-forth communication designed to reach an agreement."
-    </div>
-  </div>
-</div>
-
-<div class="grad-divider"></div>
-
-<!-- ═══ 3. CROSS-BOOK ═══ -->
-<div class="section" id="crossbook">
-  <div class="section-label">03 / Cross-Book Intelligence</div>
-  <h2 class="section-title">Annotated Response</h2>
-  <p class="section-desc">Ali doesn't quote one book. It blends insights from all four sources into a single response. Highlighted phrases show which source contributes each piece of advice.</p>
-
-  <div class="legend">
-    <div class="legend-title">Sources &mdash; Color Coded</div>
-    <div class="legend-item"><span class="legend-dot" style="background:var(--book-asf)"></span> Aligned <span class="legend-count">ASF</span></div>
-    <div class="legend-item"><span class="legend-dot" style="background:var(--book-nsfd)"></span> Voss <span class="legend-count">NSFD</span></div>
-    <div class="legend-item"><span class="legend-dot" style="background:var(--book-gty)"></span> Fisher/Ury <span class="legend-count">GTY</span></div>
-    <div class="legend-item"><span class="legend-dot" style="background:var(--book-3dn)"></span> Lax/Sebenius <span class="legend-count">3DN</span></div>
-  </div>
-
-  <div class="annotated-block">
-    <div class="annotated-header">
-      <span class="ah-label">Annotated Prompt &mdash; Anatomy</span>
-      <span class="ah-hint">Click any highlight to see its source context</span>
-    </div>
-    <div class="annotated-body">
-      <div class="scenario">"My supplier keeps stone-walling me on price. They won't budge. What do I do?"</div>
-
-      First, let's step back and <span class="hl hl-asf" data-hl="asf-classify">classify what's happening here</span><span class="sup sup-asf">ASF</span>. This is a <span class="hl hl-asf" data-hl="asf-types">Trading negotiation in the Bargaining phase</span><span class="sup sup-asf">ASF</span> -- your supplier has anchored on a number and is refusing to move. Before reacting, let's <span class="hl hl-asf" data-hl="asf-diagnostic">deploy diagnostic questions to understand their real constraints</span><span class="sup sup-asf">ASF</span>.
-
-      <br><br>
-
-      Start with <span class="hl hl-nsfd" data-hl="nsfd-calibrated">calibrated questions</span><span class="sup sup-nsfd">NSFD</span>: <span class="hl hl-nsfd" data-hl="nsfd-how">"How am I supposed to do that?"</span><span class="sup sup-nsfd">NSFD</span> creates empathy without confrontation. Then use <span class="hl hl-nsfd" data-hl="nsfd-labels">labels like "It seems like price is the only lever you're willing to discuss"</span><span class="sup sup-nsfd">NSFD</span> -- this forces them to either elaborate on their constraints or open up other dimensions of the deal.
-
-      <br><br>
-
-      The key insight: <span class="hl hl-gty" data-hl="gty-interests">move beyond positional bargaining by separating interests from positions</span><span class="sup sup-gty">GTY</span>. Your supplier says "the price is $X" -- that's a position. Their interest might be cash flow timing, volume predictability, or exclusivity. <span class="hl hl-gty" data-hl="gty-options">Brainstorm alternatives: payment terms, volume commitments, multi-year contracts, exclusivity in exchange for pricing</span><span class="sup sup-gty">GTY</span>. Use <span class="hl hl-gty" data-hl="gty-criteria">objective criteria -- market rates, competitor bids, industry benchmarks</span><span class="sup sup-gty">GTY</span> -- as your anchor.
-
-      <br><br>
-
-      But here's the move that changes everything: <span class="hl hl-3dn" data-hl="3dn-away">before your next meeting, change the game away from the table</span><span class="sup sup-3dn">3DN</span>. <span class="hl hl-3dn" data-hl="3dn-batna">Bring in a competing supplier bid</span><span class="sup sup-3dn">3DN</span> to shift your BATNA. <span class="hl hl-3dn" data-hl="3dn-restructure">Restructure the deal to include elements where their costs are lower than their price</span><span class="sup sup-3dn">3DN</span>. <span class="hl hl-3dn" data-hl="3dn-stakeholders">Map the stakeholders on their side -- who actually has authority to move on price?</span><span class="sup sup-3dn">3DN</span> Sometimes the person you're talking to literally can't budge.
-    </div>
-    <div class="annotated-footer">
-      <div class="af-label">Ali's Synthesis</div>
-      <p>Four sources, one response: diagnose the type <span class="sup sup-asf">ASF</span>, use calibrated questions to break the impasse <span class="sup sup-nsfd">NSFD</span>, expand the pie with creative options <span class="sup sup-gty">GTY</span>, and restructure the deal setup before returning to the table <span class="sup sup-3dn">3DN</span>.</p>
-    </div>
-  </div>
-</div>
-
-<div class="grad-divider"></div>
-
-<!-- ═══ 4. COMPARE ═══ -->
-<div class="section" id="compare">
-  <div class="section-label">04 / Compare</div>
-  <h2 class="section-title">Side-by-Side</h2>
-  <p class="section-desc">Different books tackle the same challenges from different angles. Ali uses both.</p>
-
-  <div class="compare-tabs" id="compareTabs">
-    <button class="compare-tab active" data-scenario="difficult">Difficult Counterparty</button>
-    <button class="compare-tab" data-scenario="opening">Opening Moves</button>
-    <button class="compare-tab" data-scenario="closing">Closing the Deal</button>
-  </div>
-
-  <div id="compareContent"></div>
-</div>
-
-<div class="grad-divider"></div>
-
-<!-- ═══ 5. TAGS ═══ -->
-<div class="section" id="tags">
-  <div class="section-label">05 / Tag Landscape</div>
-  <h2 class="section-title">60 Topics</h2>
-  <p class="section-desc">Size = frequency. Color = dominant book source. Hover for per-book breakdown.</p>
-  <div class="tag-cloud" id="tagCloud"></div>
-</div>
-
-<div class="grad-divider"></div>
-
-<!-- ═══ 6. TRACE ═══ -->
-<div class="section" id="trace">
-  <div class="section-label">06 / Conversation Trace</div>
-  <h2 class="section-title">Inside a Live Conversation</h2>
-  <p class="section-desc">Click each step to reveal what happens behind the scenes when a user talks to Ali.</p>
-
-  <div class="trace-container" id="traceContainer">
-    <div class="trace-header">User Session &middot; Salary Negotiation &middot; Silhouette: Mediator</div>
-
-    <div class="trace-step active" data-step="1">
-      <div class="step-num-col">01</div>
-      <div class="step-content">
-        <h4>User Speaks</h4>
-        <p>"I have a salary negotiation coming up. My manager always deflects when I bring up compensation."</p>
-      </div>
-      <div class="step-output">
-        <div class="so-label">Input</div>
-        Raw text captured<br>
-        Silhouette: <code>Mediator</code><br>
-        Session: first message
-      </div>
-    </div>
-
-    <div class="trace-step" data-step="2">
-      <div class="step-num-col">02</div>
-      <div class="step-content">
-        <h4>Type Classified</h4>
-        <p>Classification engine identifies this as a <strong>Trading</strong> negotiation with salary-specific signals.</p>
-      </div>
-      <div class="step-output">
-        <div class="so-label">Output</div>
-        Type: <code>Trading</code><br>
-        Signals: <code>salary</code> <code>compensation</code> <code>manager</code><br>
-        Confidence: <code>0.92</code>
-      </div>
-    </div>
-
-    <div class="trace-step" data-step="3">
-      <div class="step-num-col">03</div>
-      <div class="step-content">
-        <h4>Phase Detected</h4>
-        <p>User is in <strong>Preparation</strong> phase -- the negotiation hasn't happened yet.</p>
-      </div>
-      <div class="step-output">
-        <div class="so-label">Output</div>
-        Phase: <code>Preparation</code><br>
-        Indicators: future tense<br>
-        Tone: anxious, seeking guidance
-      </div>
-    </div>
-
-    <div class="trace-step" data-step="4">
-      <div class="step-num-col">04</div>
-      <div class="step-content">
-        <h4>Entities Retrieved</h4>
-        <p>12 relevant items light up across all 4 sources, matched by tags: <em>salary, preparation, communication, difficult_people</em>.</p>
-      </div>
-      <div class="step-output">
-        <div class="so-label">Matched (12/969)</div>
-        <span style="color:var(--book-nsfd)">Voss:</span> 4 items<br>
-        <span style="color:var(--book-gty)">Fisher/Ury:</span> 3 items<br>
-        <span style="color:var(--book-3dn)">Lax/Sebenius:</span> 3 items<br>
-        <span style="color:var(--book-asf)">Aligned:</span> 2 items
-      </div>
-    </div>
-
-    <div class="trace-step" data-step="5">
-      <div class="step-num-col">05</div>
-      <div class="step-content">
-        <h4>Response Generated</h4>
-        <p>Coaching response assembled for the Mediator personality type with multi-source callouts.</p>
-      </div>
-      <div class="step-output">
-        <div class="so-label">Ali (excerpt)</div>
-        "Before your conversation, let's build your preparation toolkit. As a Mediator, your strength is reading the room. First, define your <strong>BATNA</strong>. Then, prepare two <strong>calibrated questions</strong>..."
+      <div class="stage-num">Stage 5</div>
+      <div class="stage-title">V3.4 Assembly</div>
+      <div class="stage-detail" style="margin-top: 8px;">
+        <code style="font-family: var(--font-mono); font-size: 0.65rem; background: var(--bg); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+          &lt;identity&gt; + &lt;instructions&gt; + &lt;aligned_moves&gt;
+        </code>
+        <div style="margin-top: 8px;">XML wrapping + knowledge injection + user context = Response</div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="grad-divider"></div>
+  <div class="card" style="margin-bottom: 40px;">
+    <h3>How Assembly Works (V3.4)</h3>
+    <p>
+      Mark Mirra authors the coaching methodology in Markdown via Braintrust Playground. At runtime, the <code style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--bg); padding: 1px 5px; border-radius: 3px;">wrapInXml()</code> function wraps the Markdown prompt inside XML tags and injects all 43 Named Aligned Moves as structured <code style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--bg); padding: 1px 5px; border-radius: 3px;">&lt;move&gt;</code> elements. Anthropic's research shows XML-structured prompts improve Claude's performance by up to 40%. The model selects relevant moves based on the user's situation and weaves them into coaching naturally.
+    </p>
+  </div>
+</section>
 
-<!-- ═══ 7. ECOSYSTEM ═══ -->
-<div class="section" id="ecosystem">
-  <div class="section-label">07 / Ecosystem</div>
-  <h2 class="section-title">Connected Artifacts</h2>
-  <p class="section-desc">This visualization is one piece of a living, interconnected documentation system.</p>
-  <div class="eco-grid" id="ecoGrid"></div>
-</div>
+<!-- ═══════════════════════════════════════════════════════
+     TAB 2: ENTITY TYPES
+     ═══════════════════════════════════════════════════════ -->
+<section id="content-entities" class="tab-content">
+  <div class="section-head">
+    <h2>1,076 Items, 4 Types</h2>
+    <p class="desc">Every extracted coaching item is classified into one of four entity types.</p>
+  </div>
 
-<div class="page-footer">
-  Ali MVP &middot; Aligned Negotiation Platform &middot;
-  <a href="../index.html">Stakeholder Hub</a> &middot; Feb 2026
-</div>
+  <div class="entity-grid">
+    <div class="entity-card">
+      <div class="e-bar" style="background: linear-gradient(90deg, var(--book-asf), var(--book-3dn), var(--book-nsfd)); width: 100%;"></div>
+      <div class="e-count">534</div>
+      <div class="e-label">Coaching Moves</div>
+      <p style="font-size: 0.8rem; color: var(--text); margin-bottom: 8px;">
+        Actionable tactics a negotiator can deploy in specific situations. The largest category by far.
+      </p>
+      <div class="e-example">
+        <strong>Example:</strong> "When facing a blanket discount demand, decompose the total price into visible line items. The counterparty must argue each line instead of one number." <span class="src-tag src-asf">ASF</span>
+      </div>
+    </div>
 
+    <div class="entity-card">
+      <div class="e-bar" style="background: linear-gradient(90deg, var(--book-gty), var(--book-3dn)); width: 72%;"></div>
+      <div class="e-count">185</div>
+      <div class="e-label">Frameworks</div>
+      <p style="font-size: 0.8rem; color: var(--text); margin-bottom: 8px;">
+        Conceptual models for thinking about negotiations. Mental scaffolding, not direct tactics.
+      </p>
+      <div class="e-example">
+        <strong>Example:</strong> "The Negotiation Triangle: every negotiation has three dimensions — substance (the deal terms), process (how you negotiate), and relationship (the people dynamics). Neglect any one and the deal is fragile." <span class="src-tag src-3dn">3DN</span>
+      </div>
+    </div>
+
+    <div class="entity-card">
+      <div class="e-bar" style="background: linear-gradient(90deg, var(--book-htwf), var(--book-nsfd), var(--book-gty)); width: 64%;"></div>
+      <div class="e-count">168</div>
+      <div class="e-label">Examples</div>
+      <p style="font-size: 0.8rem; color: var(--text); margin-bottom: 8px;">
+        Real-world scenarios and case studies that illustrate concepts in action.
+      </p>
+      <div class="e-example">
+        <strong>Example:</strong> "J.P. Morgan once settled a dispute by inviting both parties to dinner and refusing to discuss business until dessert. By then, the social contract had shifted the frame from adversarial to collaborative." <span class="src-tag src-htwf">HTWF</span>
+      </div>
+    </div>
+
+    <div class="entity-card">
+      <div class="e-bar" style="background: linear-gradient(90deg, var(--book-nsfd), var(--book-gty), var(--book-htwf)); width: 68%;"></div>
+      <div class="e-count">189</div>
+      <div class="e-label">Quotes</div>
+      <p style="font-size: 0.8rem; color: var(--text); margin-bottom: 8px;">
+        Direct source language that captures a principle memorably. Used for casual attribution.
+      </p>
+      <div class="e-example">
+        <strong>Example:</strong> "He who has learned to disagree without being disagreeable has discovered the most valuable secret of negotiation." <span class="src-tag src-htwf">HTWF</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Named Moves Callout -->
+  <div class="named-moves-callout">
+    <span class="callout-num">43</span>
+    <div class="callout-title">Named Aligned Moves</div>
+    <p>
+      From the 534 coaching moves, 43 have been elevated to <strong>Named Aligned Moves</strong> — Ali's signature coaching vocabulary. Each is a reusable, named tactic that Ali deploys contextually. They're XML-injected into every conversation so the model always has them available.
+    </p>
+  </div>
+
+  <!-- Move categories -->
+  <div class="moves-cat">
+    <div class="moves-cat-title">Core (Behavioral Science + Tactics) — 12 moves</div>
+    <div class="moves-list">
+      <span class="move-pill">Controlled Transparency</span>
+      <span class="move-pill">Strategic Generosity</span>
+      <span class="move-pill">The Inversion Method</span>
+      <span class="move-pill">The Anchor Drop</span>
+      <span class="move-pill">The Label</span>
+      <span class="move-pill">The Mirror</span>
+      <span class="move-pill">The Slow Play</span>
+      <span class="move-pill">Fragility Check</span>
+      <span class="move-pill">The 'Or' Test</span>
+      <span class="move-pill">Build the 'Or'</span>
+      <span class="move-pill new-move">The Calibrated Question</span>
+      <span class="move-pill new-move">The "That's Right" Target</span>
+    </div>
+  </div>
+  <div class="moves-cat">
+    <div class="moves-cat-title">Setup & Architecture (Pre-Table Strategy) — 6 moves</div>
+    <div class="moves-list">
+      <span class="move-pill">The Backward Map</span>
+      <span class="move-pill">The Table Reset</span>
+      <span class="move-pill">The Power Map</span>
+      <span class="move-pill">Structural Patience</span>
+      <span class="move-pill">The Playbook Read</span>
+      <span class="move-pill new-move">The Accusation Audit</span>
+    </div>
+  </div>
+  <div class="moves-cat">
+    <div class="moves-cat-title">Deal Design & Value Creation — 9 moves</div>
+    <div class="moves-list">
+      <span class="move-pill">Trade Cheap for Expensive</span>
+      <span class="move-pill">The Dovetail</span>
+      <span class="move-pill">The Contingent Deal</span>
+      <span class="move-pill">The Menu Card</span>
+      <span class="move-pill">The Non-Offer</span>
+      <span class="move-pill">The Social Contract</span>
+      <span class="move-pill">The Perception Audit</span>
+      <span class="move-pill new-move">The Gentle No</span>
+      <span class="move-pill new-move">The Reality Bend</span>
+    </div>
+  </div>
+  <div class="moves-cat">
+    <div class="moves-cat-title">Price Defense (Aligned IP) — 5 moves</div>
+    <div class="moves-list">
+      <span class="move-pill">The Waterfall</span>
+      <span class="move-pill">The Cross-Out</span>
+      <span class="move-pill">The Bridge</span>
+      <span class="move-pill">The Hidden Bank</span>
+      <span class="move-pill">The Meta-Anchor</span>
+    </div>
+  </div>
+  <div class="moves-cat">
+    <div class="moves-cat-title">Tactical Awareness — 5 moves</div>
+    <div class="moves-list">
+      <span class="move-pill">Read the Move, Not the Words</span>
+      <span class="move-pill">Frame the Obvious</span>
+      <span class="move-pill">Caution-Threat-Exit</span>
+      <span class="move-pill new-move">The Black Swan Hunt</span>
+      <span class="move-pill new-move">The Leverage Triangle</span>
+    </div>
+  </div>
+  <div class="moves-cat" style="margin-bottom: 40px;">
+    <div class="moves-cat-title">People & Process (GTY + Voss) — 6 moves</div>
+    <div class="moves-list">
+      <span class="move-pill">The Process Check</span>
+      <span class="move-pill">The Blame Redirect</span>
+      <span class="move-pill">The Dignity Bridge</span>
+      <span class="move-pill">The Fairness Test</span>
+      <span class="move-pill">The Illusion Audit</span>
+      <span class="move-pill new-move">The Rule of Three</span>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-bottom: 40px;">
+    <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--book-htwf); text-transform: uppercase; letter-spacing: 0.08em;">
+      Orange pills = new in V3.4 (8 moves from NSFD/HTWF review)
+    </span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TAB 3: ANNOTATED RESPONSE
+     ═══════════════════════════════════════════════════════ -->
+<section id="content-annotated" class="tab-content">
+  <div class="section-head">
+    <h2>Annotated Response</h2>
+    <p class="desc">Ali doesn't quote one book. It blends insights from all five sources into a single response.</p>
+  </div>
+
+  <!-- Legend -->
+  <div class="anno-legend">
+    <div class="legend-item"><span class="legend-dot dot-asf"></span> ASF</div>
+    <div class="legend-item"><span class="legend-dot dot-nsfd"></span> NSFD</div>
+    <div class="legend-item"><span class="legend-dot dot-gty"></span> GTY</div>
+    <div class="legend-item"><span class="legend-dot dot-3dn"></span> 3DN</div>
+    <div class="legend-item"><span class="legend-dot dot-htwf"></span> HTWF</div>
+  </div>
+
+  <!-- Annotated Block -->
+  <div class="anno-block">
+    <div class="anno-header">
+      <span class="tag">Annotated Response</span>
+      <span class="hint">Click any highlighted phrase to see its source</span>
+    </div>
+
+    <!-- User prompt -->
+    <div class="anno-body">
+      <div class="anno-user">
+        <div class="u-label">User</div>
+        <p>"I've got 4,200 premium brake rotors from a canceled OEM order. Wholesale is $45/unit, target is $42, floor is $38. Selling to existing distributors and repair shops — repeat customers over 5 years."</p>
+      </div>
+
+      <!-- Ali Response with highlights -->
+      <div style="margin-bottom: 8px;">
+        <strong style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Ali</strong>
+      </div>
+
+      <p style="line-height: 2.1;">
+        Got it — <span class="hl hl-asf" data-hl="asf-relationship">established customers who know your quality and pricing patterns</span><span class="src-tag src-asf">ASF</span>. That's solid leverage.
+
+        You've got a <span class="hl hl-asf" data-hl="asf-classify">trading negotiation here — multiple terms to work with</span><span class="src-tag src-asf">ASF</span>, established relationships, both sides have alternatives. The key is <span class="hl hl-3dn" data-hl="3dn-bundle">strategic bundling — use flexibility on volume and payment terms to protect your price floor</span><span class="src-tag src-3dn">3DN</span>.
+      </p>
+
+      <p style="line-height: 2.1; margin-top: 16px;">
+        A few paths:
+      </p>
+      <p style="line-height: 2.1; margin-top: 4px;">
+        (A) <span class="hl hl-nsfd" data-hl="nsfd-scarcity">Lead with scarcity — frame this as a limited-time opportunity</span><span class="src-tag src-nsfd">NSFD</span> for your best customers.
+      </p>
+      <p style="line-height: 2.1; margin-top: 4px;">
+        (B) <span class="hl hl-gty" data-hl="gty-tiers">Create tiers — different price points based on volume commitments</span><span class="src-tag src-gty">GTY</span>. Bigger orders get better pricing AND more favorable payment terms.
+      </p>
+      <p style="line-height: 2.1; margin-top: 4px;">
+        (C) Test the waters — start at $42-44 and adjust based on <span class="hl hl-htwf" data-hl="htwf-interest">their reaction. Let them tell you what matters most to them</span><span class="src-tag src-htwf">HTWF</span> before you make concessions.
+      </p>
+
+      <p style="line-height: 2.1; margin-top: 16px;">
+        <span class="hl hl-asf" data-hl="asf-confid">No mention of the canceled order — that screams distressed inventory and kills your position</span><span class="src-tag src-asf">ASF</span>.
+      </p>
+
+      <p style="line-height: 2.1; margin-top: 12px;">
+        Quick question: <span class="hl hl-nsfd" data-hl="nsfd-calibrated">have any of these customers asked about bulk inventory before?</span><span class="src-tag src-nsfd">NSFD</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Synthesis Box -->
+  <div class="synthesis-box">
+    <h4>Ali's Synthesis: 4 Sources, 1 Response</h4>
+    <p>
+      This single response draws from ASF (relationship assessment + confidentiality protection), 3DN (multi-term value creation through bundling), NSFD (scarcity framing + calibrated question), GTY (principled mutual-gains tiers), and HTWF (interest discovery through listening). No book is cited. The coaching feels like one voice because Ali synthesizes source concepts into the Aligned vocabulary.
+    </p>
+    <div class="synthesis-sources">
+      <span style="background: var(--book-asf);">ASF</span>
+      <span style="background: var(--book-3dn);">3DN</span>
+      <span style="background: var(--book-nsfd);">NSFD</span>
+      <span style="background: var(--book-gty);">GTY</span>
+      <span style="background: var(--book-htwf);">HTWF</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TAB 4: WHAT'S NEW
+     ═══════════════════════════════════════════════════════ -->
+<section id="content-whatsnew" class="tab-content">
+  <div class="section-head">
+    <h2>V3.3 &rarr; V3.4: What Changed and Why</h2>
+    <p class="desc">Six significant changes in the prompt architecture, each driven by specific stakeholder feedback or research findings.</p>
+  </div>
+
+  <div class="changes-list">
+
+    <!-- Change 1: Named Moves -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-fix">Fix + New</span>
+        <span class="change-title">43 Named Aligned Moves (was 35, and NOT injected)</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.3)</span>
+          35 moves existed in code but were <strong>never sent to the model</strong>. The <code>ALIGNED_MOVES</code> array was defined but the <code>wrapInXml()</code> function was not called on the prompt path. Moves were orphaned.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.4)</span>
+          43 moves XML-wrapped and injected into <strong>every conversation</strong>. Both the local V3 path and the Braintrust path now call <code>wrapInXml()</code>. Tom's NSFD review added 8 new moves (Calibrated Question, Accusation Audit, "That's Right" Target, Black Swan Hunt, Leverage Triangle, Rule of Three, Gentle No, Reality Bend).
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Tom Hilgeman's ASF + NSFD review (357 items: 217 approved, 140 rejected) identified 8 moves that deserved named status. Separately, a production audit revealed the move injection bug — the array existed since V3.2 but was never wired into the prompt assembly function. Both fixes shipped together.
+        </div>
+      </div>
+    </div>
+
+    <!-- Change 2: Priority Framing -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-new">New</span>
+        <span class="change-title">Priority Diagnostic — "What's the ONE term you must win?"</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.3)</span>
+          Ali waited until exchange 3 to trigger calibration questions. By then, coaching was already 2 turns generic because it didn't know what the user valued most.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.4)</span>
+          Ali asks "Which terms do you need to maximize here?" and "Where do you have flexibility?" within exchanges 1-2. This creates the strategic foundation for identifying asymmetric trades and protecting what matters.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Mark Mirra requested this Feb 12: "Ali needs to ask about terms to maximize earlier." Without knowing priorities, coaching defaults to generic advice. With priorities, Ali can identify trades where the user gives up something cheap for something expensive.
+        </div>
+      </div>
+    </div>
+
+    <!-- Change 3: Counterparty Perspective -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-new">New</span>
+        <span class="change-title">Counterparty Perspective Rotation</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.3)</span>
+          Ali coached exclusively from the user's perspective. No modeling of what the counterparty was thinking, optimizing for, or constrained by.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.4)</span>
+          Before recommending tactics, Ali models the counterparty's likely position: "If I'm sitting on their side of the table, here's what I'm thinking..." Considers their optimizations, constraints, and likely responses to suggested approaches.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Research shows reasoning models naturally simulate perspectives when instructed. Explicit instruction amplifies this ability. The best negotiators anticipate the other side's moves before making their own. Ali now does this visibly, giving users a preview of likely counterparty reactions.
+        </div>
+      </div>
+    </div>
+
+    <!-- Change 4: Anti-Probability -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-new">New</span>
+        <span class="change-title">Anti-Probability Guardrail</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.3)</span>
+          Ali generated responses like "There's a 60% chance they'll accept your opening offer" — false precision that undermined coaching credibility.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.4)</span>
+          Qualitative likelihood only: "likely," "possible but less common," "unlikely given what you've described." Coaches the user to prepare for multiple scenarios rather than anchoring on a predicted outcome.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Tom Hilgeman flagged this Jan 26: false precision undermines coaching credibility. A 60% prediction gives the user an anchor that may be completely wrong. Qualitative framing encourages preparation for multiple scenarios, which is the actual goal of coaching.
+        </div>
+      </div>
+    </div>
+
+    <!-- Change 5: Softened Markers -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-improved">Improved</span>
+        <span class="change-title">Softened Instruction Markers</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.3)</span>
+          5 uses of <strong>"CRITICAL:"</strong> and <strong>"NEVER:"</strong> markers caused Claude to over-trigger — producing verbose 4-6 point responses when 2-3 were appropriate. The model treated every instruction as equally urgent.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.4)</span>
+          WHY-clause explanations that achieve the same constraint naturally. Instead of "CRITICAL: Never ask more than 2 follow-ups," the prompt explains <em>why</em> — "more than 2 follow-ups turns coaching into a survey, and users disengage." The model internalizes the reasoning, not just the rule.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Anthropic's Claude 4.x guidance: aggressive markers like "CRITICAL" cause over-compliance. The model over-indexes on avoiding the prohibited behavior and compensates by being overly verbose elsewhere. WHY-clauses produce the same behavioral constraint with better output quality.
+        </div>
+      </div>
+    </div>
+
+    <!-- Change 6: Example Exchanges -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-new">New</span>
+        <span class="change-title">3 Real Example Exchanges</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.3)</span>
+          Zero examples in the prompt. The model inferred the desired register, tone, and response structure from instructions alone — inconsistent results.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.4)</span>
+          3 exchanges from Mark Mirra's actual coaching sessions: (1) brake-rotors-seller with tiered pricing, (2) new-supplier opening with hunger test, (3) "run it up the food chain" counterparty pattern. Each demonstrates the target register: concise, insight-first, one thread at a time.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Anthropic research shows 3-5 examples improve prompt performance up to 40%. Examples are the most effective way to communicate register, tone, and response structure. The model learns from demonstrated behavior more effectively than from described behavior.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TAB 5: COMPARE
+     ═══════════════════════════════════════════════════════ -->
+<section id="content-compare" class="tab-content">
+  <div class="section-head">
+    <h2>Side-by-Side Comparisons</h2>
+    <p class="desc">How different sources handle the same negotiation challenge — and how Ali synthesizes them.</p>
+  </div>
+
+  <div class="compare-nav">
+    <label for="cmp-difficult">Difficult Counterparty</label>
+    <label for="cmp-opening">Opening Moves</label>
+    <label for="cmp-confid">Confidentiality</label>
+  </div>
+
+  <!-- Compare 1: Difficult Counterparty -->
+  <div class="cmp-panel cmp-difficult">
+    <div class="cmp-grid">
+      <div class="cmp-side">
+        <span class="cmp-book" style="background: var(--book-gty);">GTY</span>
+        <h4>Principled Approach</h4>
+        <p>
+          Separate the people from the problem. Avoid positional bargaining. Use objective criteria to break deadlocks. "Be hard on the problem, soft on the person." Focus on interests, not positions. Invent options for mutual gain. When they attack, don't attack back — reframe the attack as an attack on the problem.
+        </p>
+      </div>
+      <div class="cmp-side">
+        <span class="cmp-book" style="background: var(--book-nsfd);">NSFD</span>
+        <h4>Tactical Empathy</h4>
+        <p>
+          Label their emotion: "It seems like you're frustrated with the timeline." Use mirrors to draw them out. Deploy an Accusation Audit before the meeting — name every negative thought they might have about you. Seek "that's right" instead of "yes." Use calibrated questions to make them solve your problem: "How am I supposed to do that?"
+        </p>
+      </div>
+    </div>
+    <div class="cmp-synthesis">
+      <h4>Ali's Synthesis</h4>
+      <p>
+        Start with tactical empathy to lower the temperature (NSFD: label, mirror, accusation audit). Once they feel heard, redirect to the problem with principled framing (GTY: interests, objective criteria). Use the HTWF principle of making them feel important while the ASF Playbook Read diagnoses which trained pattern they're running. The sequence matters: empathy first, then substance.
+      </p>
+    </div>
+  </div>
+
+  <!-- Compare 2: Opening Moves -->
+  <div class="cmp-panel cmp-opening">
+    <div class="cmp-grid">
+      <div class="cmp-side">
+        <span class="cmp-book" style="background: var(--book-nsfd);">NSFD</span>
+        <h4>Calibrated Questions</h4>
+        <p>
+          Open with "what" and "how" questions that give the counterparty the illusion of control. "What does a good outcome look like for you?" Never start with "why" — it triggers defensiveness. The first question should extract their constraints without revealing yours. Let them anchor first if you don't know the range.
+        </p>
+      </div>
+      <div class="cmp-side">
+        <span class="cmp-book" style="background: var(--book-3dn);">3DN</span>
+        <h4>Backward Mapping</h4>
+        <p>
+          Don't start at the table. Map the negotiation backward from the desired outcome. Who needs to say yes last? Who influences them? Approach the sequence in reverse — build momentum through preliminary agreements with easier parties before confronting the hardest. The opening move might be a meeting that happens weeks before the "real" negotiation.
+        </p>
+      </div>
+    </div>
+    <div class="cmp-synthesis">
+      <h4>Ali's Synthesis</h4>
+      <p>
+        Map the landscape first (3DN: who decides, who blocks, what order). Then open at the table with calibrated questions (NSFD: "what does success look like?"). Use the ASF Priority Diagnostic to surface which terms matter most. If the counterparty is new, lead with HTWF rapport-building. The opening strategy depends on whether this is a one-shot (start at the table) or multi-party (start away from it).
+      </p>
+    </div>
+  </div>
+
+  <!-- Compare 3: Confidentiality -->
+  <div class="cmp-panel cmp-confid">
+    <div class="cmp-grid">
+      <div class="cmp-side">
+        <span class="cmp-book" style="background: var(--book-asf);">Before V3.4</span>
+        <h4>Ali Leaked Context</h4>
+        <p>
+          In Mark Mirra's testing, Ali suggested draft messages that included confidential context the user had shared: canceled orders, price floors, internal deadlines. The user said "I have rotors from a canceled order" and Ali drafted outreach saying "We have rotors available from a canceled OEM order" — revealing distressed inventory to the counterparty.
+        </p>
+      </div>
+      <div class="cmp-side">
+        <span class="cmp-book" style="background: var(--book-asf);">After V3.4</span>
+        <h4>Dynamic Confidentiality Guard</h4>
+        <p>
+          Two-layer defense: (1) Pre-generation guard extracts per-conversation sensitive items (price floors/ceilings, confidential context, walk-away points) and blocks them from draft messages. (2) Post-generation monitor scans outputs for leaked information. The prompt now includes explicit WRONG/RIGHT examples from Mark's actual testing failures.
+        </p>
+      </div>
+    </div>
+    <div class="cmp-synthesis">
+      <h4>Tactical Consistency Guardrails</h4>
+      <p>
+        The V3.4 prompt includes a dedicated "Tactical Consistency Guardrails" section with two subsections: Confidentiality Protection (never include information the user wants private; never reveal walk-away points in suggested communications; mentally check every draft before presenting) and Pricing Consistency (volume discounts go in one direction; verify tier logic; maintain anchor consistency across exchanges). Both use WRONG/RIGHT example pairs from actual coaching failures.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TAB 6: CONVERSATION TRACE
+     ═══════════════════════════════════════════════════════ -->
+<section id="content-trace" class="tab-content">
+  <div class="section-head">
+    <h2>Inside a Live Conversation</h2>
+    <p class="desc">Step-by-step trace of how Ali processes a user message through the V3.4 engine. Click each step to expand.</p>
+  </div>
+
+  <div class="trace-container">
+    <div class="trace-header">Conversation Trace — V3.4 Engine</div>
+    <div class="trace-steps">
+
+      <div class="trace-step active" onclick="activateStep(this, 1)">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h4>User Speaks</h4>
+          <p>Message arrives from the user. Could be an opening scenario description, a follow-up answer, or a request for specific tactical help.</p>
+        </div>
+        <div class="step-output">
+          <code>"I've got 4,200 brake rotors from a canceled OEM order. Target $42, floor $38..."</code>
+        </div>
+      </div>
+
+      <div class="trace-step" onclick="activateStep(this, 2)">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h4>Signal Extraction (Internal)</h4>
+          <p>Ali silently extracts the 10 calibration signals from the user's message. Goals, relationship quality, process stage, leverage, alternatives, timeline, complexity, tenure, counterparty behavior, and problem type.</p>
+        </div>
+        <div class="step-output">
+          <code>goals: CLEAR (target $42, floor $38)
+relationship: STRONG (5yr repeat)
+stage: PROPOSAL
+leverage: BALANCED
+alternatives: HIGH (multiple buyers)
+complexity: MEDIUM (3+ terms)
+tenure: ESTABLISHED (5yr)
+counterparty: COLLABORATIVE
+problem: GOALS</code>
+        </div>
+      </div>
+
+      <div class="trace-step" onclick="activateStep(this, 3)">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h4>Type + Phase Classified</h4>
+          <p>Using inference rules to prevent misclassification. Checks BATNA, complexity, relationship depth, and trust signals. Applies edge-case handling (facts override feelings, complexity overrides framing).</p>
+        </div>
+        <div class="step-output">
+          <code>classification: TRADING
+confidence: 92%
+phase: PROPOSAL
+transparency: 4-5 / 10
+reasoning: "Multiple terms, established relationship, balanced power, clear goals"</code>
+        </div>
+      </div>
+
+      <div class="trace-step" onclick="activateStep(this, 4)">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h4>Knowledge Retrieved</h4>
+          <p>Three layers of knowledge retrieval: (1) Static methodology from the prompt, (2) Aligned Strategic Framework sections on pricing and trading, (3) Context-matched concepts from the 1,076-item knowledge store.</p>
+        </div>
+        <div class="step-output">
+          <code>layer 1: Core coaching methodology
+layer 2: ASF trading playbook, price defense tactics
+layer 3: "Trade Cheap for Expensive" + "The Waterfall" + "The Cross-Out"</code>
+        </div>
+      </div>
+
+      <div class="trace-step" onclick="activateStep(this, 5)">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <h4>43 Moves Available (XML-Injected)</h4>
+          <p>All 43 Named Aligned Moves are present in the conversation context via XML injection. The model selects the most relevant moves based on the classified situation and phase.</p>
+        </div>
+        <div class="step-output">
+          <code>selected moves:
+- The Cross-Out (price defense)
+- Trade Cheap for Expensive (tiering)
+- Controlled Transparency (cancel context)
+- The Calibrated Question (follow-up)
+- Structural Patience (time leverage)</code>
+        </div>
+      </div>
+
+      <div class="trace-step" onclick="activateStep(this, 6)">
+        <div class="step-num">06</div>
+        <div class="step-body">
+          <h4>Response Generated</h4>
+          <p>2-3 coaching points, insight-first, one thread at a time. Counterparty perspective considered. No leaked confidential context. Ends with one targeted follow-up question. Sources blended invisibly.</p>
+        </div>
+        <div class="step-output">
+          <code>output: 3 path options + 1 follow-up
+points: 3 (under limit)
+sources used: ASF, 3DN, NSFD, GTY, HTWF
+confid. check: PASS (no canceled order mention)
+moves used: Cross-Out (tiers), Controlled Transparency</code>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TAB 7: ECOSYSTEM
+     ═══════════════════════════════════════════════════════ -->
+<section id="content-ecosystem" class="tab-content">
+  <div class="section-head">
+    <h2>Connected Artifacts</h2>
+    <p class="desc">The Conversation Engine Visual is the master artifact. These documents provide deeper dives into specific areas.</p>
+  </div>
+
+  <div class="eco-grid">
+
+    <!-- Architecture -->
+    <div class="eco-section-label">Architecture</div>
+
+    <a class="eco-card" href="#">
+      <span class="eco-badge eco-badge-arch">Architecture</span>
+      <h4>Conversation Engine Visual</h4>
+      <span class="eco-date">Feb 23, 2026</span>
+      <p>This document. The master artifact showing how 1,076 items become personalized coaching.</p>
+    </a>
+
+    <a class="eco-card" href="../ali-product/v34-prompt-diff-for-mark.html">
+      <span class="eco-badge eco-badge-arch">Architecture</span>
+      <h4>V3.4 Prompt Diff for Mark</h4>
+      <span class="eco-date">Feb 23, 2026</span>
+      <p>Section-by-section diff analysis of V3.3 to V3.4 changes. 80% of the prompt is unchanged.</p>
+    </a>
+
+    <a class="eco-card" href="../ali-product/prompt-anatomy-visual.html">
+      <span class="eco-badge eco-badge-arch">Architecture</span>
+      <h4>Prompt Anatomy Visual</h4>
+      <span class="eco-date">Feb 2026</span>
+      <p>Detailed breakdown of the system prompt structure — sections, token counts, and purpose of each block.</p>
+    </a>
+
+    <!-- Product -->
+    <div class="eco-section-label">Product</div>
+
+    <a class="eco-card" href="https://www.notion.so/310d9fdb6bdc81a69620e9365bf0c4ad" target="_blank">
+      <span class="eco-badge eco-badge-product">Product</span>
+      <h4>Ali Coaching Knowledge Base</h4>
+      <span class="eco-date">Notion — Live</span>
+      <p>The complete 1,076-item knowledge base with extraction details, review status, and source mapping.</p>
+    </a>
+
+    <a class="eco-card" href="../ali-product/eval-stakeholder-guide-2026-02-20.html">
+      <span class="eco-badge eco-badge-guide">Guide</span>
+      <h4>Eval &amp; Quality Guide</h4>
+      <span class="eco-date">Feb 20, 2026</span>
+      <p>How we measure Ali's coaching quality. Multi-turn eval harness, Braintrust scoring, R1-R5 reference tests.</p>
+    </a>
+
+    <a class="eco-card" href="https://tchat192.github.io/ali-stakeholder-docs/architecture/profile-settings-corpus.html" target="_blank">
+      <span class="eco-badge eco-badge-product">Product</span>
+      <h4>Profile Settings Corpus</h4>
+      <span class="eco-date">Feb 22, 2026</span>
+      <p>How Ali uses all 40 profile fields across 7 sections. Privacy tiers, progressive disclosure, cold-start strategy.</p>
+    </a>
+
+    <!-- Knowledge -->
+    <div class="eco-section-label">Knowledge &amp; Research</div>
+
+    <a class="eco-card" href="https://www.notion.so/310d9fdb6bdc81ee9dfae402d56e1eb3" target="_blank">
+      <span class="eco-badge eco-badge-knowledge">Knowledge</span>
+      <h4>Decisions &amp; Disagreements</h4>
+      <span class="eco-date">Feb 23, 2026</span>
+      <p>Confirmed decisions, open disagreements between reviewers, and consolidated annotations across all books.</p>
+    </a>
+
+  </div>
+</section>
+
+</div><!-- /content-wrap -->
+
+<!-- ═══════════════════════════════════════════════════════
+     POPOVER (positioned by JS)
+     ═══════════════════════════════════════════════════════ -->
+<div class="popover" id="popover"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <p>
+    Ali Conversation Engine V3.4.0 &mdash; February 23, 2026<br>
+    Built by <a href="https://github.com/tchat192">Terrance Chatman</a> &mdash; Aligned Negotiation<br>
+    <span style="opacity: 0.7;">1,076 items &middot; 5 sources &middot; 43 named moves &middot; 4 entity types</span>
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════ -->
 <script>
-const TAG_DATA = [
-  {tag:"communication",count:444,gty:125,nsfd:182,dn:137,dominant:"nsfd"},
-  {tag:"leverage",count:342,gty:85,nsfd:108,dn:149,dominant:"dn"},
-  {tag:"preparation",count:326,gty:81,nsfd:58,dn:187,dominant:"dn"},
-  {tag:"power_dynamics",count:323,gty:84,nsfd:120,dn:119,dominant:"nsfd"},
-  {tag:"relationship",count:235,gty:76,nsfd:78,dn:81,dominant:"dn"},
-  {tag:"creativity",count:174,gty:35,nsfd:12,dn:127,dominant:"dn"},
-  {tag:"emotions",count:167,gty:46,nsfd:99,dn:22,dominant:"nsfd"},
-  {tag:"information_gathering",count:165,gty:30,nsfd:80,dn:55,dominant:"nsfd"},
-  {tag:"closing",count:118,gty:24,nsfd:32,dn:62,dominant:"dn"},
-  {tag:"business_deals",count:93,gty:7,nsfd:9,dn:77,dominant:"dn"},
-  {tag:"opening",count:90,gty:20,nsfd:14,dn:56,dominant:"dn"},
-  {tag:"difficult_people",count:82,gty:32,nsfd:35,dn:15,dominant:"nsfd"},
-  {tag:"anchoring",count:66,gty:5,nsfd:25,dn:36,dominant:"dn"},
-  {tag:"alternatives",count:66,gty:45,nsfd:7,dn:14,dominant:"gty"},
-  {tag:"ethics",count:57,gty:33,nsfd:7,dn:17,dominant:"gty"},
-  {tag:"team_negotiation",count:48,gty:6,nsfd:11,dn:31,dominant:"dn"},
-  {tag:"strategy",count:35,gty:12,nsfd:2,dn:21,dominant:"dn"},
-  {tag:"deal_design",count:29,gty:0,nsfd:0,dn:29,dominant:"dn"},
-  {tag:"concessions",count:27,gty:4,nsfd:17,dn:6,dominant:"nsfd"},
-  {tag:"psychology",count:24,gty:0,nsfd:21,dn:3,dominant:"nsfd"},
-  {tag:"examples",count:22,gty:2,nsfd:11,dn:9,dominant:"nsfd"},
-  {tag:"bargaining",count:17,gty:0,nsfd:17,dn:0,dominant:"nsfd"},
-  {tag:"salary",count:15,gty:4,nsfd:11,dn:0,dominant:"nsfd"},
-  {tag:"cultural",count:14,gty:1,nsfd:0,dn:13,dominant:"dn"},
-  {tag:"perception",count:12,gty:12,nsfd:0,dn:0,dominant:"gty"},
-  {tag:"quotes",count:9,gty:0,nsfd:0,dn:9,dominant:"dn"},
-  {tag:"setup",count:9,gty:0,nsfd:0,dn:9,dominant:"dn"},
-  {tag:"philosophy",count:6,gty:0,nsfd:3,dn:3,dominant:"nsfd"},
-  {tag:"process",count:5,gty:2,nsfd:0,dn:3,dominant:"dn"},
-  {tag:"sequencing",count:5,gty:1,nsfd:0,dn:4,dominant:"dn"},
-  {tag:"execution",count:5,gty:0,nsfd:5,dn:0,dominant:"nsfd"},
-  {tag:"trust",count:5,gty:0,nsfd:0,dn:5,dominant:"dn"},
-  {tag:"problem_solving",count:5,gty:0,nsfd:0,dn:5,dominant:"dn"},
-];
-
-const BOOK_COLORS = { gty:"#22a06b", nsfd:"#7c7fc4", dn:"#4a8ec2", asf:"#7b5ea7" };
-
-const COMPARE_DATA = {
-  difficult: {
-    left: { book:"Getting to Yes", author:"Fisher & Ury", color:"var(--book-gty)",
-      approach:'<strong>Principled Negotiation:</strong> Separate the people from the problem. Focus on interests, not positions. Don\'t react to emotional tactics -- instead, name the behavior: "I notice we keep returning to the same position." Use objective criteria: market rates, precedent, industry standards. If they play dirty tricks, call it out explicitly and negotiate the process itself.' },
-    right: { book:"Never Split the Difference", author:"Chris Voss", color:"var(--book-nsfd)",
-      approach:'<strong>Tactical Empathy:</strong> Mirror their last words to show you\'re listening. Use labels: "It seems like you feel this price is non-negotiable." Deploy calibrated questions: "How am I supposed to do that?" Embrace "No" -- it gives them a feeling of safety and control. Use the late-night FM DJ voice to de-escalate. Accusation audit upfront: "You probably think I\'m being unreasonable..."' },
-    synthesis:'Ali blends both: use tactical empathy to build rapport, then pivot to principled criteria for the substance. The emotional toolkit from Voss creates the opening; the analytical framework from Fisher/Ury structures the solution.'
-  },
-  opening: {
-    left: { book:"Getting to Yes", author:"Fisher & Ury", color:"var(--book-gty)",
-      approach:'<strong>Explore Interests First:</strong> Don\'t open with a number. Ask questions to understand underlying interests. "Help me understand what\'s most important to you in this deal." Establish shared interests early to build a collaborative frame. Use the "one-text procedure" -- draft a single working document together.' },
-    right: { book:"3-D Negotiation", author:"Lax & Sebenius", color:"var(--book-3dn)",
-      approach:'<strong>Setup Before Substance:</strong> The most important moves happen before anyone sits down. Map all stakeholders. Sequence your conversations strategically -- talk to allies first to build momentum. Choose the right venue, timing, and framing. Set the agenda to favor your priorities. Bring the right people to the table.' },
-    synthesis:'Ali combines both: do your 3-D setup work (sequencing, stakeholder mapping) before the meeting, then use interest-based questioning once you\'re at the table.'
-  },
-  closing: {
-    left: { book:"Never Split the Difference", author:"Chris Voss", color:"var(--book-nsfd)",
-      approach:'<strong>The Ackerman Model:</strong> Set your target price. First offer at 65% of target. Use calibrated questions and empathy between each increase. Move in decreasing increments: 85%, 95%, 100%. Use precise non-round numbers for your final offer. Throw in a non-monetary item to signal you\'re at your limit.' },
-    right: { book:"3-D Negotiation", author:"Lax & Sebenius", color:"var(--book-3dn)",
-      approach:'<strong>Create a Zone of Possible Agreement:</strong> Map both parties\' walkaway points. Design packages (not single issues) that create value in the zone. Use contingent agreements: "If X happens, we do Y." Build in implementation mechanisms -- the deal isn\'t done when you shake hands, it\'s done when value is delivered.' },
-    synthesis:'Ali combines precise tactical anchoring from Voss with the strategic deal design from Lax/Sebenius to close deals that are both psychologically compelling and structurally sound.'
-  }
-};
-
-const ECOSYSTEM_ITEMS = [
-  {title:"Conversation Engine Architecture",url:"conversation-engine-architecture.html",badge:"arch",date:"Jan 26"},
-  {title:"Classification Engine",url:"classification-engine.html",badge:"arch",date:"Jan 26"},
-  {title:"V3 Classification Guide",url:"v3-classification-guide.html",badge:"arch",date:"Jan 26"},
-  {title:"Technical Reference",url:"technical-reference-jan15.html",badge:"arch",date:"Jan 26"},
-  {title:"Book Extraction Review",url:"../docs/book-extraction-review.html",badge:"arch",date:"Feb 26"},
-  {title:"Product Brief #2",url:"../product/product-brief-2.html",badge:"product",date:"Jan 26"},
-  {title:"Stakeholder Alignment",url:"../product/stakeholder-alignment-jan15.html",badge:"product",date:"Jan 26"},
-  {title:"Product Roadmap",url:"../product/roadmap.html",badge:"product",date:"Jan 26"},
-  {title:"Brand Registry",url:"../design/brand-registry.html",badge:"design",date:"Dec 25"},
-  {title:"Design Tokens Guide",url:"../design/design-tokens-guide-nic.html",badge:"design",date:"Dec 25"},
-  {title:"Zahir Design Session",url:"../design/zahir-design-session-jan25.html",badge:"design",date:"Jan 26"},
-  {title:"Landing Page Copy",url:"../docs/landing-page-copy-review.html",badge:"product",date:"Jan 26"},
-  {title:"Braintrust Eval Guide",url:"../guides/BRAINTRUST_EVAL_GUIDE.html",badge:"guide",date:"Feb 26"},
-  {title:"Meeting Synthesis",url:"../meetings/2026-02-12/meeting-synthesis.html",badge:"meeting",date:"Feb 26"},
-];
-
-// NAV
-document.querySelectorAll('.pill-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.section)?.scrollIntoView({ behavior:'smooth', block:'start' });
-  });
-});
-const sects = document.querySelectorAll('.section[id]');
-new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-      document.querySelector(`.pill-btn[data-section="${e.target.id}"]`)?.classList.add('active');
-    }
-  });
-}, { rootMargin:'-40% 0px -40% 0px' }).observe && sects.forEach(s => new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) { document.querySelectorAll('.pill-btn').forEach(b=>b.classList.remove('active')); document.querySelector(`.pill-btn[data-section="${e.target.id}"]`)?.classList.add('active'); }});
-}, {rootMargin:'-40% 0px -40% 0px'}).observe(s));
-
-// TAGS
-(function(){
-  const cloud = document.getElementById('tagCloud');
-  const max = TAG_DATA[0].count;
-  TAG_DATA.forEach(t => {
-    const s = 0.65 + (t.count/max)*0.55;
-    const c = BOOK_COLORS[t.dominant];
-    const el = document.createElement('span');
-    el.className = 'tag-bubble';
-    const total = t.gty+t.nsfd+t.dn;
-    el.style.cssText = `font-size:${s}rem;background:${c}12;color:${c};border-color:${c}30;`;
-    const label = t.tag.replace(/_/g,' ');
-    el.innerHTML = `${label}&nbsp;<span style="opacity:0.5;font-family:var(--font-mono);font-size:0.7em">${t.count}</span>
-      <span class="tag-detail"><strong>${label}</strong> &mdash; ${t.count} items<br>
-      GTY: ${t.gty} &middot; NSFD: ${t.nsfd} &middot; 3DN: ${t.dn}
-      <span class="td-bar"><span class="td-seg" style="background:${BOOK_COLORS.gty};flex:${t.gty}"></span><span class="td-seg" style="background:${BOOK_COLORS.nsfd};flex:${t.nsfd}"></span><span class="td-seg" style="background:${BOOK_COLORS.dn};flex:${t.dn}"></span></span></span>`;
-    cloud.appendChild(el);
-  });
-})();
-
-// COMPARE
-function renderCompare(scenario) {
-  const d = COMPARE_DATA[scenario];
-  document.getElementById('compareContent').innerHTML = `
-    <div class="compare-panels">
-      <div class="compare-panel left">
-        <h4><span class="cdot" style="background:${d.left.color}"></span>${d.left.book}</h4>
-        <div class="author">${d.left.author}</div>
-        <div class="compare-approach">${d.left.approach}</div>
-      </div>
-      <div class="compare-panel right">
-        <h4><span class="cdot" style="background:${d.right.color}"></span>${d.right.book}</h4>
-        <div class="author">${d.right.author}</div>
-        <div class="compare-approach">${d.right.approach}</div>
-      </div>
-    </div>
-    <div class="compare-synth"><div class="cs-label">How Ali Uses Both</div><p>${d.synthesis}</p></div>`;
-}
-renderCompare('difficult');
-document.querySelectorAll('.compare-tab').forEach(t => t.addEventListener('click', () => {
-  document.querySelectorAll('.compare-tab').forEach(x => x.classList.remove('active'));
-  t.classList.add('active');
-  renderCompare(t.dataset.scenario);
-}));
-
-// TRACE
-document.querySelectorAll('.trace-step').forEach(step => {
-  step.addEventListener('click', () => {
-    const n = parseInt(step.dataset.step);
-    document.querySelectorAll('.trace-step').forEach(s => s.classList.toggle('active', parseInt(s.dataset.step) <= n));
-  });
-});
-
-// ECOSYSTEM
-(function(){
-  const grid = document.getElementById('ecoGrid');
-  const labels = {arch:'Arch',product:'Product',design:'Design',meeting:'Meeting',guide:'Guide'};
-  ECOSYSTEM_ITEMS.forEach(item => {
-    const a = document.createElement('a');
-    a.className = 'eco-link'; a.href = item.url; a.target = '_blank';
-    a.innerHTML = `<span class="eco-badge ${item.badge}">${labels[item.badge]}</span><span>${item.title}</span><span style="margin-left:auto;font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted);white-space:nowrap">${item.date}</span>`;
-    grid.appendChild(a);
-  });
-})();
-
-// HIGHLIGHT POPOVERS
-(function(){
-  const popover = document.createElement('div');
-  popover.className = 'hl-popover';
-  document.body.appendChild(popover);
-
+  // ─── Highlight Popover Data ───────────────────────────────
   const HL_DATA = {
-    'asf-classify': { source:'Aligned Strategic Framework', tag:'C1', concept:'Four Negotiation Types',
-      desc:'Every negotiation is classified as Bargaining, Trading, Creating, or Partnering. The type determines Ali\'s entire coaching approach.' },
-    'asf-types': { source:'Aligned Strategic Framework', tag:'C1', concept:'Type Classification',
-      desc:'Ali classifies the negotiation type before offering any tactical advice -- what questions to ask, what transparency to recommend, which tactics fit.' },
-    'asf-diagnostic': { source:'Aligned Strategic Framework', tag:'NEW-2', concept:'Four Diagnostic Questions',
-      desc:'Mark: "99.9% of the time we ask some form of those four questions." How many terms? How many alternatives? What\'s the intent? What\'s the relationship?' },
-    'nsfd-calibrated': { source:'Never Split the Difference', tag:'Ch.7', concept:'Calibrated Questions',
-      desc:'Open-ended "How" and "What" questions that force the counterparty to problem-solve on your behalf without feeling confronted.' },
-    'nsfd-how': { source:'Never Split the Difference', tag:'Ch.7', concept:'"How Am I Supposed to Do That?"',
-      desc:'Voss\'s signature calibrated question. Forces the other side to consider your constraints while creating tactical empathy.' },
-    'nsfd-labels': { source:'Never Split the Difference', tag:'Ch.3', concept:'Labeling',
-      desc:'Name the counterparty\'s emotions or positions to validate them: "It seems like..." This disarms defensiveness and opens dialogue.' },
-    'gty-interests': { source:'Getting to Yes', tag:'Ch.3', concept:'Interests vs. Positions',
-      desc:'Fisher & Ury\'s core principle: positions are what people say they want; interests are WHY they want it. Focus on interests to unlock solutions.' },
-    'gty-options': { source:'Getting to Yes', tag:'Ch.4', concept:'Invent Options for Mutual Gain',
-      desc:'Brainstorm creative alternatives before deciding. Separate inventing from deciding. Look for shared interests to expand the pie.' },
-    'gty-criteria': { source:'Getting to Yes', tag:'Ch.5', concept:'Objective Criteria',
-      desc:'Insist on using fair standards -- market value, precedent, industry benchmarks -- rather than a contest of wills.' },
-    '3dn-away': { source:'3-D Negotiation', tag:'Ch.1', concept:'Away-from-the-Table Moves',
-      desc:'Lax & Sebenius: the most powerful negotiations happen before anyone sits down. Change the setup, not just the substance.' },
-    '3dn-batna': { source:'3-D Negotiation', tag:'Ch.5', concept:'BATNA Engineering',
-      desc:'Don\'t just assess your alternatives -- actively improve them. Bring in competing bids to shift your walkaway power.' },
-    '3dn-restructure': { source:'3-D Negotiation', tag:'Ch.8', concept:'Deal Design',
-      desc:'Restructure the deal to create value: change the scope, sequence, or terms so both sides capture more.' },
-    '3dn-stakeholders': { source:'3-D Negotiation', tag:'Ch.3', concept:'Stakeholder Mapping',
-      desc:'Identify all parties who influence the deal. Map authority, interests, and relationships. Sometimes the person at the table can\'t say yes.' }
-  };
-
-  const BOOK_LINKS = {
-    'Aligned Strategic Framework': { color:'var(--book-asf)', abbr:'ASF' },
-    'Never Split the Difference': { color:'var(--book-nsfd)', abbr:'NSFD' },
-    'Getting to Yes': { color:'var(--book-gty)', abbr:'GTY' },
-    '3-D Negotiation': { color:'var(--book-3dn)', abbr:'3DN' }
-  };
-
-  function showPopover(hlEl) {
-    const key = hlEl.dataset.hl;
-    const d = HL_DATA[key];
-    if (!d) return;
-    const b = BOOK_LINKS[d.source];
-
-    popover.innerHTML = `
-      <div class="hl-popover-header">
-        <span class="pop-dot" style="background:${b.color}"></span>
-        <span class="pop-source" style="color:${b.color}">${d.source}</span>
-        <span class="pop-tag" style="background:${b.color}15;color:${b.color}">${d.tag}</span>
-      </div>
-      <div class="hl-popover-body">
-        <div class="pop-concept">${d.concept}</div>
-        <div class="pop-desc">${d.desc}</div>
-      </div>
-      <div class="hl-popover-footer">
-        <a href="https://tchat192.github.io/ali-stakeholder-docs/docs/book-extraction-review.html" target="_blank" style="color:${b.color}">View in Book Extraction Review &rarr;</a>
-      </div>`;
-
-    const rect = hlEl.getBoundingClientRect();
-    const scrollY = window.scrollY;
-    const scrollX = window.scrollX;
-    let top = rect.bottom + scrollY + 8;
-    let left = rect.left + scrollX + (rect.width / 2) - 160;
-    left = Math.max(8, Math.min(left, window.innerWidth - 336));
-    if (top + 200 > scrollY + window.innerHeight) {
-      top = rect.top + scrollY - 8;
-      popover.style.transform = 'translateY(-100%)';
-    } else {
-      popover.style.transform = 'none';
+    'asf-relationship': {
+      source: 'Aligned Strategic Framework',
+      sourceClass: 'src-asf',
+      concept: 'Relationship Assessment',
+      desc: 'Evaluate the existing relationship to determine leverage and approach. "Established customers who know your quality" signals high tenure and trust — a Trading context, not Bargaining.',
+      move: 'Aligned Move: Controlled Transparency'
+    },
+    'asf-classify': {
+      source: 'Aligned Strategic Framework',
+      sourceClass: 'src-asf',
+      concept: 'Internal Classification',
+      desc: 'Ali identifies this as a trading negotiation — multiple terms, established relationships, balanced alternatives. The classification stays internal; Ali never says "This is a trading negotiation" to the user.',
+      move: null
+    },
+    '3dn-bundle': {
+      source: '3-D Negotiation',
+      sourceClass: 'src-3dn',
+      concept: 'Multi-Term Value Creation',
+      desc: 'Lax & Sebenius argue that deals with multiple terms create opportunities for strategic bundling. Each term has different value to each party — flexibility on one can protect the floor on another.',
+      move: 'Aligned Move: Trade Cheap for Expensive'
+    },
+    'nsfd-scarcity': {
+      source: 'Never Split the Difference',
+      sourceClass: 'src-nsfd',
+      concept: 'Urgency Framing',
+      desc: 'Voss teaches that scarcity triggers loss aversion — framing something as a limited-time opportunity activates the counterparty\'s fear of missing out. The deadline becomes leverage.',
+      move: 'Aligned Move: The Reality Bend'
+    },
+    'gty-tiers': {
+      source: 'Getting to Yes',
+      sourceClass: 'src-gty',
+      concept: 'Principled Mutual Gains',
+      desc: 'Fisher & Ury\'s approach to expanding the pie: create tiers that let both sides optimize. Bigger commitments earn better pricing — the buyer gets value, the seller gets volume certainty.',
+      move: 'Aligned Move: The Menu Card'
+    },
+    'htwf-interest': {
+      source: 'How to Win Friends & Influence People',
+      sourceClass: 'src-htwf',
+      concept: 'Interest Discovery Through Listening',
+      desc: 'Carnegie\'s principle: be genuinely interested in what matters to the other person. Testing the waters lets the counterparty reveal their priorities before you make concessions — what you learn is worth more than what you give.',
+      move: null
+    },
+    'asf-confid': {
+      source: 'Aligned Strategic Framework',
+      sourceClass: 'src-asf',
+      concept: 'Confidentiality Protection',
+      desc: 'Mark Mirra\'s direct teaching: never reveal distressed inventory context. "From a canceled order" signals desperation and destroys pricing power. The V3.4 prompt includes explicit WRONG/RIGHT examples from this exact failure pattern.',
+      move: 'V3.4 Guardrail: Tactical Consistency'
+    },
+    'nsfd-calibrated': {
+      source: 'Never Split the Difference',
+      sourceClass: 'src-nsfd',
+      concept: 'Calibrated Question',
+      desc: 'Voss\'s technique: ask a question that gives the counterparty the illusion of control while you define the frame. "Have they asked about bulk before?" validates the tiered approach before presenting it.',
+      move: 'Aligned Move: The Calibrated Question'
     }
-    popover.style.top = top + 'px';
-    popover.style.left = left + 'px';
+  };
 
-    document.querySelectorAll('.hl.hl-active').forEach(h => h.classList.remove('hl-active'));
-    hlEl.classList.add('hl-active');
-    popover.classList.add('visible');
-  }
+  // ─── Popover Logic ────────────────────────────────────────
+  const popover = document.getElementById('popover');
 
   document.querySelectorAll('.hl[data-hl]').forEach(el => {
-    el.addEventListener('click', (e) => {
+    el.addEventListener('click', function(e) {
       e.stopPropagation();
-      if (el.classList.contains('hl-active')) {
-        popover.classList.remove('visible');
-        el.classList.remove('hl-active');
-      } else {
-        showPopover(el);
-      }
+      const key = this.dataset.hl;
+      const data = HL_DATA[key];
+      if (!data) return;
+
+      const rect = this.getBoundingClientRect();
+      let left = rect.left;
+      let top = rect.bottom + 8;
+
+      // Keep in viewport
+      if (left + 340 > window.innerWidth) left = window.innerWidth - 356;
+      if (left < 8) left = 8;
+      if (top + 200 > window.innerHeight) top = rect.top - 200;
+
+      const sourceColorMap = {
+        'src-asf': 'var(--book-asf)',
+        'src-nsfd': 'var(--book-nsfd)',
+        'src-gty': 'var(--book-gty)',
+        'src-3dn': 'var(--book-3dn)',
+        'src-htwf': 'var(--book-htwf)'
+      };
+
+      popover.innerHTML = `
+        <span class="pop-source" style="background: ${sourceColorMap[data.sourceClass]}">${data.source}</span>
+        <div class="pop-concept">${data.concept}</div>
+        <div class="pop-desc">${data.desc}</div>
+        ${data.move ? `<div class="pop-move">${data.move}</div>` : ''}
+      `;
+      popover.style.left = left + 'px';
+      popover.style.top = top + 'px';
+      popover.classList.add('active');
     });
   });
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.hl-popover') && !e.target.closest('.hl[data-hl]')) {
-      popover.classList.remove('visible');
-      document.querySelectorAll('.hl.hl-active').forEach(h => h.classList.remove('hl-active'));
-    }
+  document.addEventListener('click', () => {
+    popover.classList.remove('active');
   });
-})();
+
+  // ─── Trace Step Logic ─────────────────────────────────────
+  function activateStep(el, stepNum) {
+    const steps = el.parentElement.querySelectorAll('.trace-step');
+    steps.forEach((s, i) => {
+      if (i < stepNum) {
+        s.classList.add('active');
+      } else {
+        s.classList.remove('active');
+      }
+    });
+  }
 </script>
+
 </body>
 </html>
