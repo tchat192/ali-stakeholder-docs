@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context Engineering Deep Analysis | March 2, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #f5f3f0;
+    --bg-card: #ffffff;
+    --bg-card-alt: #faf8f5;
+    --bg-code: #f0ede8;
+    --text-primary: #1e1d1b;
+    --text-secondary: #6b6560;
+    --text-tertiary: #8a847d;
+    --border-light: #e8e4de;
+    --border-medium: #d4cfc7;
+    --process-blue: #5F86A6;
+    --process-blue-light: #7BA3C2;
+    --accent-gold: #C9A96E;
+    --accent-gold-light: #E8D5A8;
+    --signal-red: #C45D4A;
+    --signal-green: #5A8F6A;
+    --signal-amber: #C4964A;
+    --asf-gradient: linear-gradient(135deg, #5F86A6 0%, #7BA3C2 40%, #C9A96E 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .header {
+    background: var(--asf-gradient);
+    padding: 48px 32px 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .header-content { max-width: 920px; margin: 0 auto; position: relative; z-index: 1; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .header .subtitle { font-size: 16px; opacity: 0.9; font-weight: 400; }
+  .header .date { font-size: 13px; opacity: 0.7; margin-top: 12px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-light);
+    padding: 0 32px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+    padding: 8px 0;
+  }
+
+  .nav a {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .nav a:hover {
+    background: var(--bg-card-alt);
+    color: var(--process-blue);
+  }
+
+  .container { max-width: 920px; margin: 0 auto; padding: 32px; }
+
+  .executive-brief {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 32px;
+    border-left: 4px solid var(--process-blue);
+  }
+
+  .executive-brief h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--process-blue);
+  }
+
+  .executive-brief ul { list-style: none; padding: 0; }
+  .executive-brief li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 14px;
+  }
+  .executive-brief li:last-child { border-bottom: none; }
+  .executive-brief li strong { color: var(--text-primary); }
+
+  section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+
+  section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+
+  section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px 0 10px;
+    color: var(--text-primary);
+  }
+
+  section h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 16px 0 8px;
+    color: var(--process-blue);
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+  }
+
+  p { margin-bottom: 12px; }
+
+  .signal-card {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+  }
+
+  .signal-card.critical {
+    border-left: 3px solid var(--signal-red);
+  }
+
+  .signal-card.opportunity {
+    border-left: 3px solid var(--signal-green);
+  }
+
+  .signal-card.watch {
+    border-left: 3px solid var(--signal-amber);
+  }
+
+  .signal-card .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .signal-card.critical .label { color: var(--signal-red); }
+  .signal-card.opportunity .label { color: var(--signal-green); }
+  .signal-card.watch .label { color: var(--signal-amber); }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+
+  .comparison-table th {
+    background: var(--bg-card-alt);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-medium);
+    color: var(--text-secondary);
+  }
+
+  .comparison-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+  }
+
+  .comparison-table tr:hover td {
+    background: var(--bg-card-alt);
+  }
+
+  .code-block {
+    background: var(--bg-code);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 12px 0;
+    white-space: pre;
+  }
+
+  .architecture-diagram {
+    background: linear-gradient(135deg, #f8f6f3 0%, #f0ede8 100%);
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 16px 0;
+    font-family: 'SF Mono', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .tag-blue { background: rgba(95,134,166,0.12); color: var(--process-blue); }
+  .tag-green { background: rgba(90,143,106,0.12); color: var(--signal-green); }
+  .tag-red { background: rgba(196,93,74,0.12); color: var(--signal-red); }
+  .tag-amber { background: rgba(196,150,74,0.12); color: var(--signal-amber); }
+
+  blockquote {
+    border-left: 3px solid var(--accent-gold);
+    padding: 12px 16px;
+    margin: 12px 0;
+    background: var(--bg-card-alt);
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  blockquote cite {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--text-tertiary);
+  }
+
+  .opp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  @media (max-width: 700px) {
+    .opp-grid { grid-template-columns: 1fr; }
+    .header { padding: 32px 20px; }
+    .container { padding: 20px; }
+  }
+
+  .opp-card {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .opp-card h4 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+
+  .opp-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .opp-card .effort {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 8px;
+    color: var(--text-tertiary);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--text-tertiary);
+    font-size: 12px;
+  }
+
+  ul, ol { margin: 8px 0 12px 20px; }
+  li { margin-bottom: 4px; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="date">Deep Research Analysis &mdash; March 2, 2026</div>
+    <h1>Context Engineering &amp; Agent Architecture</h1>
+    <div class="subtitle">Engineering Opportunities for Memory, Context, Agent Discovery, and Tooling</div>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="#brief">Brief</a>
+    <a href="#paper">The Paper</a>
+    <a href="#critique">Maki Critique</a>
+    <a href="#memory">Memory</a>
+    <a href="#orchestration">Orchestration</a>
+    <a href="#web-agents">Web Agents</a>
+    <a href="#benchmarks">Benchmarks</a>
+    <a href="#manus">Manus Lessons</a>
+    <a href="#ali-mapping">Ali Mapping</a>
+    <a href="#opportunities">Opportunities</a>
+    <a href="#sources">Sources</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Executive Brief -->
+<div class="executive-brief" id="brief">
+  <h2>Executive Brief</h2>
+  <ul>
+    <li><strong>The big idea:</strong> CSIRO Data61's "Everything is Context" paper proposes a Unix filesystem abstraction for agent memory &mdash; treating memory, tools, knowledge, and human input as mountable, governed context. This is the first serious attempt to systematize what we've been building ad-hoc in <code>.claude/</code>.</li>
+    <li><strong>The critique that matters:</strong> John Maki (ex-Bain Capital, Serotonix CEO) argues the paper delivers "half the answer" &mdash; the infrastructure is right but it lacks a formal specification language for what goes IN the files. "Objects with states, processes transforming them, typed dependencies &mdash; that's conceptual modeling without a modeling language."</li>
+    <li><strong>Production reality check:</strong> Synthetic benchmarks show 84-89% coding accuracy; production drops to 25-34%. ActionEngine proves 2-agent architectures beat multi-agent sprawl (95% success, 11.8x cheaper). Manus rebuilt their agent framework 4 times.</li>
+    <li><strong>Our position:</strong> Ali's <code>.claude/</code> architecture already implements 6 of 8 AFS concepts. The gaps (formal context schemas, cost-based selection, Context Evaluator, ACLs) are the engineering frontier. This document maps 12 concrete opportunities.</li>
+  </ul>
+</div>
+
+<!-- Section 1: The Paper -->
+<section id="paper">
+  <span class="section-tag">Paper Analysis</span>
+  <h2>"Everything is Context" &mdash; CSIRO Data61</h2>
+  <p><span class="tag tag-blue">arXiv 2512.05470</span> &bull; Xu, Mao, Bai, Gu, Li, Zhu &bull; Dec 5, 2025</p>
+  <p>The paper extends the Unix principle "everything is a file" to AI systems: <strong>"everything is context."</strong> Instead of fragmented prompt engineering, RAG, and tool integration, all context artifacts are unified under a single file-system abstraction with uniform mounting, metadata governance, and access control.</p>
+
+  <h3>The Formal AFS Specification</h3>
+  <div class="code-block">AFS = (N, E, M, meta, ACL)
+
+N = Nodes (files and directories)
+E = Edge relations (containment)
+M = Mount point mappings to external resources
+meta = Key-value metadata per node (ownership, timestamps, provenance, confidence, version)
+ACL = Access control lists (read / write / exec / admin)</div>
+
+  <h3>Three Design Constraints</h3>
+  <ol>
+    <li><strong>Token Window (C1)</strong> &mdash; Hard architectural ceiling. Quadratic attention complexity (n&sup2;). Context must be curated, compressed, and incrementally streamed.</li>
+    <li><strong>Statelessness (C2)</strong> &mdash; LLMs retain nothing between calls. External persistent context repository required.</li>
+    <li><strong>Non-Determinism (C3)</strong> &mdash; Identical prompts yield varying outputs. Input-output pairs + metadata must be preserved for audit and replay.</li>
+  </ol>
+
+  <h3>The 7-Type Memory Taxonomy</h3>
+  <table class="comparison-table">
+    <tr><th>Type</th><th>Temporal Scope</th><th>Structural Unit</th><th>Representation</th></tr>
+    <tr><td>Scratchpad</td><td>Ephemeral, task-bounded</td><td>Dialogue turns</td><td>Plain text, embeddings</td></tr>
+    <tr><td>Episodic</td><td>Medium-term, session</td><td>Session summaries</td><td>Text, embeddings</td></tr>
+    <tr><td>Fact</td><td>Long-term, fine-grained</td><td>Atomic statements</td><td>Key-value, triples</td></tr>
+    <tr><td>Experiential</td><td>Cross-task</td><td>Observation-action trajectories</td><td>Structured logs</td></tr>
+    <tr><td>Procedural</td><td>System-wide</td><td>Function definitions</td><td>Code, tool specs</td></tr>
+    <tr><td>User</td><td>Personalized, long-term</td><td>User profiles</td><td>Structured attributes</td></tr>
+    <tr><td>Historical</td><td>Immutable, full-trace</td><td>Complete interaction logs</td><td>Timestamped metadata</td></tr>
+  </table>
+
+  <h3>The Three-Stage Pipeline</h3>
+  <div class="architecture-diagram">                    ┌─────────────────┐
+                    │ Persistent Repo │
+                    │  /context/...   │
+                    └────────┬────────┘
+                             │
+         ┌───────────────────┼───────────────────┐
+         ▼                   ▼                   ▼
+┌────────────────┐  ┌────────────────┐  ┌────────────────┐
+│    CONTEXT     │  │    CONTEXT     │  │    CONTEXT     │
+│  CONSTRUCTOR   │  │    UPDATER     │  │   EVALUATOR    │
+│                │  │                │  │                │
+│ Select         │  │ Static snap    │  │ Validate       │
+│ Prioritize     │──│ Incremental    │──│ Detect halluc. │
+│ Compress       │  │ Adaptive       │  │ Trigger review │
+│ Manifest       │  │ Isolation      │  │ Update memory  │
+└────────────────┘  └────────────────┘  └────────────────┘</div>
+
+  <h3>Namespace Hierarchy</h3>
+  <div class="code-block">/context/history/          ← Immutable global interaction records
+/context/memory/agentID    ← Agent-specific indexed memory views
+/context/pad/taskID        ← Temporary task-scoped workspaces
+/context/human/            ← Human annotation artifacts
+/context/tool/             ← Executable tools
+/context/RAG/              ← External knowledge sources
+/modules/github-mcp        ← MCP module mount points</div>
+
+  <h3>Implementation: AIGNE Framework</h3>
+  <p>Open-source TypeScript framework (337 stars, 183 forks). SQLite-backed. Multi-model support (OpenAI, Anthropic, Gemini, DeepSeek, Ollama). Native MCP integration. Elastic 2.0 license.</p>
+  <p>Key architecture choice: <strong>programmable resolvers</strong> with declarative mappings (GraphQL/OpenAPI-style schemas) that project any mounted resource into the file system namespace. Search integrates ripgrep (content) + Faiss (vector similarity) with sub-100ms latency.</p>
+
+  <div class="signal-card watch">
+    <div class="label">Key Limitation</div>
+    <p>The paper is an <strong>architectural proposal</strong>, not an empirical evaluation. No quantitative benchmarks, no comparison baselines, no user studies. The AIGNE framework is real but early (337 stars). The value is in the conceptual model, not proven production results.</p>
+  </div>
+</section>
+
+<!-- Section 2: Maki's Critique -->
+<section id="critique">
+  <span class="section-tag">Critical Analysis</span>
+  <h2>The "Objects with States" Critique</h2>
+  <p><strong>John W. Maki</strong> &mdash; CEO Serotonix, former Managing Director Audax Group, former Principal Bain Capital</p>
+
+  <blockquote>
+    "This paper is solving the right problem with half the answer. The infrastructure is spot-on. Context should be mounted, governed, and selectively loaded, not dumped into the window as a blob. But look at their memory taxonomy closely. They're describing objects with states, processes transforming them, and typed dependencies between stages. That's conceptual modeling without a modeling language. The gap between 'everything is a file' and 'everything is context' is a specification language for what's in those files. One already exists."
+    <cite>&mdash; @John_W_Maki, March 2, 2026</cite>
+  </blockquote>
+
+  <h3>Maki's Four-Layer Argument</h3>
+  <table class="comparison-table">
+    <tr><th>Layer</th><th>Claim</th><th>Implication</th></tr>
+    <tr><td><span class="tag tag-green">Endorsement</span></td><td>Infrastructure is correct &mdash; mount, govern, selectively load</td><td>The AFS architecture itself is sound</td></tr>
+    <tr><td><span class="tag tag-amber">Gap</span></td><td>Memory taxonomy describes objects with states, processes, typed dependencies</td><td>The 7-type taxonomy is conceptual modeling in disguise</td></tr>
+    <tr><td><span class="tag tag-red">Missing</span></td><td>"Conceptual modeling without a modeling language"</td><td>No formal schema for what lives INSIDE mounted files</td></tr>
+    <tr><td><span class="tag tag-blue">Solution</span></td><td>"A specification language for what's in those files. One already exists."</td><td>Likely OWL/RDF, UML, or a domain-specific modeling language</td></tr>
+  </table>
+
+  <div class="signal-card critical">
+    <div class="label">Why This Matters for Ali</div>
+    <p>Our <code>.claude/</code> architecture mirrors AFS: we have mounted context (SACRED.md, instructions.md), selective loading (startup.sh), memory hierarchy (Mem0 + Knowledge Graph). But we also lack formal schemas. Our <code>spec.md</code> is the closest thing to a "specification language" &mdash; it defines typed tasks with states (pending/complete), validation rules, and dependency tracking. Maki's critique suggests <strong>the spec reconciliation pattern is more architecturally important than we realized.</strong></p>
+  </div>
+
+  <h3>The Implied Specification Languages</h3>
+  <p>Maki hints at "one [that] already exists." Candidates based on his background (PE/VC, pharma, AI governance):</p>
+  <ul>
+    <li><strong>OWL/RDF</strong> &mdash; Ontology Web Language. Formally describes classes, properties, constraints. Used in biomedical ontologies (his domain).</li>
+    <li><strong>JSON Schema / JSON-LD</strong> &mdash; Lightweight typed schemas with linked data semantics. Most pragmatic for LLM tooling.</li>
+    <li><strong>UML State Machines</strong> &mdash; Formal notation for objects with states, transitions, guards. Maps directly to memory lifecycle.</li>
+    <li><strong>Alloy / TLA+</strong> &mdash; Formal specification languages for verifying system properties.</li>
+  </ul>
+  <p>For Ali MVP, <strong>JSON Schema + state machine notation</strong> is the pragmatic choice &mdash; it's already the lingua franca of LLM tool definitions (<code>inputSchema</code>, <code>outputSchema</code>).</p>
+</section>
+
+<!-- Section 3: Agent Memory -->
+<section id="memory">
+  <span class="section-tag">Agent Memory</span>
+  <h2>Memory Paradigm Shift</h2>
+  <p>Three converging research threads redefine what "agent memory" means:</p>
+
+  <h3>1. Execution Trajectories vs. Conversation Logs (DAIR.AI)</h3>
+  <p>Traditional approach: save conversation history, retrieve relevant chunks. Emerging approach: save <strong>execution trajectories</strong> &mdash; what the agent did, which tools it called, what worked vs. failed, and the outcome. This is experiential memory (Type 4 in AFS taxonomy).</p>
+  <div class="signal-card opportunity">
+    <div class="label">Ali Opportunity</div>
+    <p>Our <code>WORKFLOW_PLAYBOOK.md</code> is hand-curated experiential memory (P1-P37 patterns, A1-A29 anti-patterns). Automating this &mdash; extracting successful patterns from session transcripts &mdash; would be a significant uplevel.</p>
+  </div>
+
+  <h3>2. Reflector-Driven Consolidation (Snapchat/Auton Agent)</h3>
+  <p>Instead of raw memory accumulation, use a periodic <strong>reflector agent</strong> that consolidates, deduplicates, and prioritizes memories. The reflector runs between tasks (not during) and produces distilled knowledge.</p>
+  <p>This maps to our session-end protocol (reconcile spec, save to Mem0, update playbook). But the reflector concept suggests this should be <strong>automated and continuous</strong>, not just at session boundaries.</p>
+
+  <h3>3. Context+ (Tree-Sitter AST + Spectral Clustering)</h3>
+  <p>MCP server that solves context bloat by parsing code into AST nodes, then using spectral clustering to select only relevant code fragments. Instead of dumping whole files, it provides <strong>structurally relevant code slices</strong>.</p>
+  <div class="signal-card watch">
+    <div class="label">Watch</div>
+    <p>Interesting for Ali's codebase but our current context is more documentation/specification-heavy than code-heavy. More relevant when we scale to multi-service architecture.</p>
+  </div>
+
+  <h3>4. MemOS (May/Jul 2025)</h3>
+  <p>Three memory types: <strong>Parametric</strong> (model weights), <strong>Activation</strong> (KV-cache), <strong>Plaintext</strong> (external). The "MemCube" abstraction enables cross-type scheduling and lifecycle management. V2 adds skill memory for cross-task reuse.</p>
+  <p>MemOS is more ambitious than AFS (it includes model weights as "memory"), but less practical for our use case. AFS's filesystem metaphor is more actionable for application-layer engineering.</p>
+
+  <h3>Memory Evolution Map</h3>
+  <div class="architecture-diagram">2023  MemGPT/Letta  ── virtual paging of context window
+  │
+2024  Mem0          ── semantic cloud memory with auto-extraction
+  │                    (we use this: terrance_work)
+2025  Zep           ── temporal knowledge graph for memory
+  │   Cognee       ── optimized KG↔LLM interface
+  │   MemOS        ── unified parametric + activation + plaintext
+  │
+2025  AFS/AIGNE    ── filesystem abstraction (mounting, ACLs, audit)
+  │
+2026  ??? ──────── specification language for context objects
+                     (Maki's "missing half")</div>
+</section>
+
+<!-- Section 4: Orchestration -->
+<section id="orchestration">
+  <span class="section-tag">Orchestration</span>
+  <h2>Orchestration Layer Primitives</h2>
+
+  <p>Annelies Gamble's framework identifies four primitives that every production AI system needs:</p>
+
+  <table class="comparison-table">
+    <tr><th>Primitive</th><th>What It Is</th><th>Ali Status</th></tr>
+    <tr>
+      <td><strong>Tool Use</strong></td>
+      <td>Structured function calling with typed schemas</td>
+      <td><span class="tag tag-green">Have</span> MCP tools, Wasp actions, Claude Code skills</td>
+    </tr>
+    <tr>
+      <td><strong>Dynamic Context (MCP)</strong></td>
+      <td>Runtime context injection from external sources</td>
+      <td><span class="tag tag-green">Have</span> Mem0, Knowledge Graph, Gmail, Slack, Figma</td>
+    </tr>
+    <tr>
+      <td><strong>Intelligent Routing</strong></td>
+      <td>Directing queries to the right model/agent/tool</td>
+      <td><span class="tag tag-amber">Partial</span> Skills system routes, but no dynamic model selection</td>
+    </tr>
+    <tr>
+      <td><strong>Telemetry</strong></td>
+      <td>Observability of agent decisions, costs, latency</td>
+      <td><span class="tag tag-red">Gap</span> No structured telemetry beyond Better Stack HTTP checks</td>
+    </tr>
+  </table>
+
+  <div class="signal-card critical">
+    <div class="label">Critical Gap</div>
+    <p><strong>Telemetry is our biggest orchestration gap.</strong> We monitor uptime but not: which tools agents use, how much context they consume, which memories they access, or how often they hallucinate. AFS's "every interaction logged as a transaction" is the right model &mdash; we need structured agent telemetry before production beta.</p>
+  </div>
+
+  <h3>ComposioHQ Agent Orchestrator Pattern</h3>
+  <p>Parallel coding agents with <strong>git worktree isolation</strong>. Each agent works on a separate task in its own worktree, preventing merge conflicts. A coordinator reviews and merges. We already use worktrees via the <code>using-git-worktrees</code> skill &mdash; the insight is using them for <strong>parallel agent execution</strong>, not just developer isolation.</p>
+</section>
+
+<!-- Section 5: Web Agents -->
+<section id="web-agents">
+  <span class="section-tag">AI Web Browsing</span>
+  <h2>ActionEngine: State Machine Memory Maps</h2>
+  <p><strong>Source:</strong> Microsoft + Georgia Tech research</p>
+
+  <p>ActionEngine demonstrates that <strong>2-agent architectures beat multi-agent sprawl</strong> for web browsing tasks:</p>
+
+  <table class="comparison-table">
+    <tr><th>Metric</th><th>ActionEngine (2-agent)</th><th>Multi-agent baselines</th></tr>
+    <tr><td>Success Rate</td><td><strong>95%</strong></td><td>60-80%</td></tr>
+    <tr><td>Cost</td><td><strong>11.8x cheaper</strong></td><td>Baseline</td></tr>
+    <tr><td>Training Required</td><td>None (training-free)</td><td>Often required</td></tr>
+    <tr><td>Architecture</td><td>State machine + memory maps</td><td>Multi-agent coordination</td></tr>
+  </table>
+
+  <h3>The Two-Agent Architecture</h3>
+  <ol>
+    <li><strong>Planner Agent</strong> &mdash; Decomposes tasks into state machine graphs with decision points</li>
+    <li><strong>Executor Agent</strong> &mdash; Follows the state machine, recording observations as "memory maps" for reuse</li>
+  </ol>
+  <p>The state machine memory maps are reusable across similar tasks &mdash; once the system learns how to book a flight on United, it can replay that map with different parameters. This is <strong>procedural memory</strong> (Type 5 in AFS taxonomy) made concrete.</p>
+
+  <div class="signal-card opportunity">
+    <div class="label">Ali Opportunity</div>
+    <p>Ali's negotiation coaching could use this pattern: build state machine maps of common negotiation patterns (salary negotiation, vendor contract, etc.) that agents traverse at runtime. The "Aligned Moves" in our codebase (35 documented) are essentially unstructured procedural memory &mdash; formalizing them as state machines would enable more reliable coaching.</p>
+  </div>
+</section>
+
+<!-- Section 6: Benchmarks -->
+<section id="benchmarks">
+  <span class="section-tag">Reality Check</span>
+  <h2>The Benchmark-Production Gap</h2>
+  <p><strong>Source:</strong> arXiv 2510.26130</p>
+
+  <table class="comparison-table">
+    <tr><th>Environment</th><th>Coding Accuracy</th><th>Notes</th></tr>
+    <tr><td>Synthetic Benchmarks</td><td><strong>84-89%</strong></td><td>Clean, isolated problems</td></tr>
+    <tr><td>Production Code</td><td><strong>25-34%</strong></td><td>Real repos, dependencies, edge cases</td></tr>
+    <tr><td>Gap</td><td><strong>~55 percentage points</strong></td><td>3x worse in production</td></tr>
+  </table>
+
+  <div class="signal-card critical">
+    <div class="label">Implication</div>
+    <p>This validates Ali's "Ask Don't Infer" principle. When LLMs are 3x worse in production vs. benchmarks, the ethical choice is to surface uncertainty rather than project false confidence. Our anti-hallucination protocol (grounding markers, source attribution) is architecturally aligned with this reality.</p>
+  </div>
+
+  <h3>AGENTS.md Anti-Pattern (arXiv 2602.11988)</h3>
+  <p>Auto-generated project context files (like AGENTS.md) <strong>hurt performance by 3% and increase cost by 20%</strong>. The problem: generic context bloat. The lesson: <strong>curated context beats generated context</strong>. Our manually-maintained SACRED.md (200 tokens) and startup.sh (dynamically generated, focused) are the right approach.</p>
+
+  <h3>Claude Code "Seeing Like an Agent"</h3>
+  <p>Less is more. Simple composable tools beat specialized toolkits. This validates our skill system architecture: small, focused skills (<code>/sprint</code>, <code>/deploy</code>, <code>/reconcile</code>) over monolithic frameworks.</p>
+</section>
+
+<!-- Section 7: Manus Lessons -->
+<section id="manus">
+  <span class="section-tag">Production Lessons</span>
+  <h2>Manus: 4 Framework Rebuilds</h2>
+  <p>Manus (production AI agent platform) shared hard-won lessons from rebuilding their agent framework four times ("Stochastic Graduate Descent"):</p>
+
+  <h3>Six Production Patterns</h3>
+  <div class="opp-grid">
+    <div class="opp-card">
+      <h4>KV-Cache Optimization</h4>
+      <p>100:1 input:output token ratio. Cached input is 10x cheaper than uncached. Design prompts for cache reuse.</p>
+      <div class="effort"><span class="tag tag-green">Applicable Now</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>"Mask, Don't Remove"</h4>
+      <p>Use logit masking to hide unavailable tools instead of removing them from prompts. Preserves cache, reduces cost.</p>
+      <div class="effort"><span class="tag tag-amber">Requires Tool Framework</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>Filesystem as Extended Context</h4>
+      <p>Treat the filesystem as unlimited, persistent, directly operable context. Write intermediate results to files, not conversation.</p>
+      <div class="effort"><span class="tag tag-green">Already Doing</span> (artifacts, handoffs)</div>
+    </div>
+    <div class="opp-card">
+      <h4>Attention Manipulation (todo.md)</h4>
+      <p>Force recitation of task lists to keep goals in attention. Validated by our spec.md approach.</p>
+      <div class="effort"><span class="tag tag-green">Already Doing</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>Error Retention as Learning</h4>
+      <p>Keep error messages in context as signals. Don't just retry &mdash; let the model learn from failures within the session.</p>
+      <div class="effort"><span class="tag tag-green">Already Doing</span> (playbook anti-patterns)</div>
+    </div>
+    <div class="opp-card">
+      <h4>Controlled Variation</h4>
+      <p>Prevent pattern collapse by introducing controlled randomness. Avoid the agent settling into repetitive loops.</p>
+      <div class="effort"><span class="tag tag-amber">Not Implemented</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 8: Ali Mapping -->
+<section id="ali-mapping">
+  <span class="section-tag">Architecture Audit</span>
+  <h2>Ali's Context Architecture vs. AFS</h2>
+
+  <h3>What We Already Have</h3>
+  <table class="comparison-table">
+    <tr><th>AFS Concept</th><th>Ali Implementation</th><th>Quality</th></tr>
+    <tr>
+      <td>Mounted Context</td>
+      <td><code>SACRED.md</code>, <code>instructions.md</code>, <code>WORKFLOW_PLAYBOOK.md</code></td>
+      <td><span class="tag tag-green">Strong</span></td>
+    </tr>
+    <tr>
+      <td>Selective Loading</td>
+      <td><code>startup.sh</code> + "Don't load fully at start"</td>
+      <td><span class="tag tag-green">Strong</span></td>
+    </tr>
+    <tr>
+      <td>Memory Hierarchy</td>
+      <td>Mem0 (semantic) + Knowledge Graph (entities) + spec.md (tasks)</td>
+      <td><span class="tag tag-green">Strong</span></td>
+    </tr>
+    <tr>
+      <td>Namespace Convention</td>
+      <td><code>.claude/skills/</code>, <code>.claude/agents/</code>, <code>.claude/hooks/</code>, <code>docs/artifacts/</code></td>
+      <td><span class="tag tag-green">Strong</span></td>
+    </tr>
+    <tr>
+      <td>Governance</td>
+      <td>Pre-commit hooks, reconciliation, compliance logs</td>
+      <td><span class="tag tag-green">Strong</span></td>
+    </tr>
+    <tr>
+      <td>Audit Trails</td>
+      <td>Git history, compliance logs, session handoffs, Mem0 timestamps</td>
+      <td><span class="tag tag-amber">Partial</span> (no transaction-level logging)</td>
+    </tr>
+    <tr>
+      <td>Context Evaluator</td>
+      <td>Grounding protocol (uncertainty markers), spec reconciliation</td>
+      <td><span class="tag tag-amber">Partial</span> (manual, not systematic)</td>
+    </tr>
+    <tr>
+      <td>ACLs / Isolation</td>
+      <td>None &mdash; any agent/skill reads any context</td>
+      <td><span class="tag tag-red">Gap</span></td>
+    </tr>
+  </table>
+
+  <h3>What We're Missing (Per Maki's Critique)</h3>
+  <ol>
+    <li><strong>No formal specification language</strong> for context objects &mdash; SACRED.md and instructions.md are natural language, not typed schemas</li>
+    <li><strong>No typed dependencies</strong> between context stages &mdash; we don't formally define that episodic memory feeds fact memory feeds scratchpad</li>
+    <li><strong>No cost-based selection</strong> &mdash; we estimate token costs ("~5K context") but don't calculate per-fragment costs before loading</li>
+    <li><strong>No Context Evaluator</strong> &mdash; our grounding protocol is advisory, not enforcement. No automated hallucination detection.</li>
+    <li><strong>No ACLs on context files</strong> &mdash; a buggy agent could overwrite SACRED.md</li>
+  </ol>
+</section>
+
+<!-- Section 9: Opportunities -->
+<section id="opportunities">
+  <span class="section-tag">Engineering Roadmap</span>
+  <h2>12 Engineering Opportunities</h2>
+
+  <h3>Tier 1: High Impact, Low Effort (Do Now)</h3>
+  <div class="opp-grid">
+    <div class="opp-card">
+      <h4>1. Context Object Schema</h4>
+      <p>Define JSON Schema for each context type in <code>.claude/</code>: what fields exist, what's required, what states are valid. Start with spec.md task objects &mdash; they already have typed states.</p>
+      <div class="effort">Effort: 2-3h &bull; Impact: High &bull; <span class="tag tag-green">Foundation</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>2. Token Budget Manifest</h4>
+      <p>Modify <code>startup.sh</code> to output a JSON manifest: which context was loaded, estimated token cost, what was excluded and why. Enables cost-based optimization.</p>
+      <div class="effort">Effort: 1-2h &bull; Impact: Medium &bull; <span class="tag tag-blue">Observability</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>3. Automated Playbook Extraction</h4>
+      <p>Build a session-end script that scans the conversation transcript for tool call patterns, extracts success/failure sequences, and proposes new playbook entries.</p>
+      <div class="effort">Effort: 3-4h &bull; Impact: High &bull; <span class="tag tag-green">Memory</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>4. Memory Decay Dashboard</h4>
+      <p>Query Mem0 for memories by age, flag those approaching expiration, surface which memories are referenced frequently vs. never.</p>
+      <div class="effort">Effort: 2h &bull; Impact: Medium &bull; <span class="tag tag-blue">Observability</span></div>
+    </div>
+  </div>
+
+  <h3>Tier 2: Medium Effort, Strategic Value (Next Sprint)</h3>
+  <div class="opp-grid">
+    <div class="opp-card">
+      <h4>5. State Machine Negotiation Maps</h4>
+      <p>Formalize the 35 Aligned Moves as state machine nodes with transitions, preconditions, and expected outcomes. Enables systematic coaching paths.</p>
+      <div class="effort">Effort: 6-8h &bull; Impact: Very High &bull; <span class="tag tag-amber">Product</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>6. Context Evaluator v1</h4>
+      <p>Post-response validation: compare AI output against loaded context sources. Flag claims without source attribution. Log confidence scores.</p>
+      <div class="effort">Effort: 4-6h &bull; Impact: High &bull; <span class="tag tag-red">Safety</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>7. Agent Telemetry Pipeline</h4>
+      <p>Structured logging of: tools invoked, context consumed, memory accessed, hallucinations detected. Output to JSON logs for analysis.</p>
+      <div class="effort">Effort: 4-5h &bull; Impact: High &bull; <span class="tag tag-blue">Observability</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>8. Reflector Agent (Periodic Memory Consolidation)</h4>
+      <p>Scheduled agent that reviews recent Mem0 entries, deduplicates, resolves contradictions, and promotes important memories. Runs daily or on-demand.</p>
+      <div class="effort">Effort: 5-6h &bull; Impact: High &bull; <span class="tag tag-green">Memory</span></div>
+    </div>
+  </div>
+
+  <h3>Tier 3: Higher Effort, Architectural (Post-Beta)</h3>
+  <div class="opp-grid">
+    <div class="opp-card">
+      <h4>9. Formal Context Mounting Protocol</h4>
+      <p>Implement AFS-style mount points: each context source declares its schema, token cost, and access policy. The context constructor selects within budget.</p>
+      <div class="effort">Effort: 8-10h &bull; Impact: Very High &bull; <span class="tag tag-green">Architecture</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>10. Multi-Agent Context Isolation</h4>
+      <p>When spawning subagents, define sandboxed context scopes. Prevent research agents from accessing deployment credentials. Prevent tool agents from modifying governance files.</p>
+      <div class="effort">Effort: 6-8h &bull; Impact: High &bull; <span class="tag tag-red">Security</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>11. KV-Cache-Aware Prompt Design</h4>
+      <p>Restructure system prompts so the static portion (SACRED.md, persona) comes first and stays constant. Dynamic content (startup.sh output) is appended. This maximizes cache hits.</p>
+      <div class="effort">Effort: 3-4h &bull; Impact: Medium (cost) &bull; <span class="tag tag-blue">Optimization</span></div>
+    </div>
+    <div class="opp-card">
+      <h4>12. Context Specification Language</h4>
+      <p>Maki's "missing half." Define a JSON Schema-based DSL for context objects: typed fields, valid state transitions, transformation rules, dependency graph. Would make <code>.claude/</code> programmatically verifiable.</p>
+      <div class="effort">Effort: 10-15h &bull; Impact: Very High &bull; <span class="tag tag-green">Architecture</span></div>
+    </div>
+  </div>
+
+  <h3>Priority Recommendation</h3>
+  <div class="signal-card opportunity">
+    <div class="label">Start Here</div>
+    <p><strong>Opportunities 1 + 3 + 7</strong> form a natural cluster: define context schemas, automate pattern extraction, and add telemetry. Together they create the observability layer needed to make informed decisions about the Tier 2 and Tier 3 investments. Total effort: ~8-10h. These three changes would move us from "ad-hoc context management" to "instrumented context infrastructure."</p>
+  </div>
+</section>
+
+<!-- Section 10: Sources -->
+<section id="sources">
+  <span class="section-tag">References</span>
+  <h2>Complete Source Index</h2>
+
+  <h3>Primary Research</h3>
+  <ul>
+    <li><strong>Everything is Context</strong> &mdash; Xu et al. (CSIRO Data61) &mdash; <a href="https://arxiv.org/abs/2512.05470">arXiv 2512.05470</a></li>
+    <li><strong>MemOS</strong> &mdash; <a href="https://arxiv.org/abs/2505.22101">arXiv 2505.22101</a> (v1), <a href="https://arxiv.org/abs/2507.03724">arXiv 2507.03724</a> (v2)</li>
+    <li><strong>Agentic Context Engineering (ACE)</strong> &mdash; <a href="https://arxiv.org/abs/2510.04618">arXiv 2510.04618</a></li>
+    <li><strong>Context Engineering 2.0</strong> &mdash; <a href="https://arxiv.org/abs/2510.26493">arXiv 2510.26493</a></li>
+    <li><strong>Benchmark-Production Gap</strong> &mdash; <a href="https://arxiv.org/abs/2510.26130">arXiv 2510.26130</a></li>
+    <li><strong>AGENTS.md Anti-Pattern</strong> &mdash; <a href="https://arxiv.org/abs/2602.11988">arXiv 2602.11988</a></li>
+    <li><strong>Codified Context</strong> &mdash; <a href="https://arxiv.org/html/2602.20478v1">arXiv 2602.20478</a></li>
+    <li><strong>ActionEngine</strong> &mdash; Microsoft + Georgia Tech (state machine memory maps for web agents)</li>
+    <li><strong>Companion Paper</strong> &mdash; Piskala, <a href="https://arxiv.org/abs/2601.11672">arXiv 2601.11672</a> (Unix Philosophy → AI Systems)</li>
+  </ul>
+
+  <h3>Industry Sources</h3>
+  <ul>
+    <li>Anthropic &mdash; <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective Context Engineering for AI Agents</a></li>
+    <li>LangChain &mdash; <a href="https://blog.langchain.com/how-agents-can-use-filesystems-for-context-engineering/">Filesystem Context Engineering</a></li>
+    <li>Manus &mdash; <a href="https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">Context Engineering Lessons</a></li>
+  </ul>
+
+  <h3>Social Discussion</h3>
+  <ul>
+    <li>@godofprompt &mdash; March 2, 2026 (12.8K views, reframing as software architecture)</li>
+    <li>@John_W_Maki &mdash; March 2, 2026 ("objects with states" critique)</li>
+    <li>@rohanpaul_ai &mdash; Dec 9, 2025 / Mar 1, 2026 (original thread, 237K combined views)</li>
+    <li>@mave99a (Robert Mao, co-author) &mdash; Dec 9, 2025 (8.5K views)</li>
+    <li>@harjotsgill (CodeRabbit CEO) &mdash; Jan 10, 2026 (32.7K views, prior art claim)</li>
+  </ul>
+
+  <h3>Implementations</h3>
+  <ul>
+    <li><a href="https://github.com/AIGNE-io/aigne-framework">AIGNE Framework</a> (337 stars, TypeScript, Elastic 2.0)</li>
+    <li><a href="https://github.com/AIGNE-io/afs-paper">AFS Paper Companion Repo</a> (slides, infrastructure doc)</li>
+    <li><a href="https://github.com/Meirtz/Awesome-Context-Engineering">Awesome Context Engineering</a> (curated list)</li>
+  </ul>
+</section>
+
+</div>
+
+<div class="footer">
+  Prepared by Alex &mdash; AI Chief of Staff &bull; Ali MVP Research Division &bull; March 2, 2026
+</div>
+
+</body>
+</html>

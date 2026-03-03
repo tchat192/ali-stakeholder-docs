@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing Uplevel Plan: Voiceprint &amp; Voice DNA | March 2, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #f5f3f0;
+    --bg-card: #ffffff;
+    --bg-card-alt: #faf8f5;
+    --bg-code: #f0ede8;
+    --text-primary: #1e1d1b;
+    --text-secondary: #6b6560;
+    --text-tertiary: #8a847d;
+    --border-light: #e8e4de;
+    --border-medium: #d4cfc7;
+    --process-blue: #5F86A6;
+    --process-blue-light: #7BA3C2;
+    --accent-gold: #C9A96E;
+    --accent-gold-light: #E8D5A8;
+    --signal-red: #C45D4A;
+    --signal-green: #5A8F6A;
+    --signal-amber: #C4964A;
+    --asf-gradient: linear-gradient(135deg, #5F86A6 0%, #7BA3C2 40%, #C9A96E 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .header {
+    background: var(--asf-gradient);
+    padding: 48px 32px 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .header-content { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .header .subtitle { font-size: 16px; opacity: 0.9; font-weight: 400; }
+  .header .date { font-size: 13px; opacity: 0.7; margin-top: 12px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 32px; }
+
+  section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+
+  section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+
+  section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px 0 10px;
+    color: var(--text-primary);
+  }
+
+  section h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 16px 0 8px;
+    color: var(--process-blue);
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+  }
+
+  p { margin-bottom: 12px; }
+
+  blockquote {
+    border-left: 3px solid var(--accent-gold);
+    padding: 12px 16px;
+    margin: 12px 0;
+    background: var(--bg-card-alt);
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  blockquote cite {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--text-tertiary);
+  }
+
+  .code-block {
+    background: var(--bg-code);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 12px 0;
+    white-space: pre-wrap;
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+
+  .comparison-table th {
+    background: var(--bg-card-alt);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-medium);
+    color: var(--text-secondary);
+  }
+
+  .comparison-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+  }
+
+  .comparison-table tr:hover td { background: var(--bg-card-alt); }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .tag-blue { background: rgba(95,134,166,0.12); color: var(--process-blue); }
+  .tag-green { background: rgba(90,143,106,0.12); color: var(--signal-green); }
+  .tag-red { background: rgba(196,93,74,0.12); color: var(--signal-red); }
+  .tag-amber { background: rgba(196,150,74,0.12); color: var(--signal-amber); }
+
+  .signal-card {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+  }
+
+  .signal-card.critical { border-left: 3px solid var(--signal-red); }
+  .signal-card.opportunity { border-left: 3px solid var(--signal-green); }
+  .signal-card.watch { border-left: 3px solid var(--signal-amber); }
+
+  .signal-card .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .signal-card.critical .label { color: var(--signal-red); }
+  .signal-card.opportunity .label { color: var(--signal-green); }
+  .signal-card.watch .label { color: var(--signal-amber); }
+
+  .phase {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+    position: relative;
+  }
+
+  .phase-number {
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    background: var(--process-blue);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .phase h4 {
+    margin-top: 4px;
+    font-size: 15px;
+    color: var(--text-primary);
+  }
+
+  .phase p { font-size: 13px; color: var(--text-secondary); }
+
+  .timeline {
+    border-left: 2px solid var(--border-medium);
+    margin: 16px 0 16px 12px;
+    padding-left: 20px;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--process-blue);
+  }
+
+  .timeline-item h4 {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+  }
+
+  .timeline-item p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  ul, ol { margin: 8px 0 12px 20px; }
+  li { margin-bottom: 4px; font-size: 14px; }
+
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--text-tertiary);
+    font-size: 12px;
+  }
+
+  @media (max-width: 700px) {
+    .header { padding: 32px 20px; }
+    .container { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="date">Writing Strategy &mdash; March 2, 2026</div>
+    <h1>Writing Uplevel Plan: Voiceprint &amp; Voice DNA</h1>
+    <div class="subtitle">Extracting and encoding your authentic writing voice using AI stylometry tools</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Executive Summary -->
+<section>
+  <span class="section-tag">Summary</span>
+  <h2>Two Approaches, One Goal</h2>
+  <p>Two complementary tools for capturing and encoding writing voice surfaced from #ai-research. Together they form a complete system for ensuring AI-assisted writing sounds like <em>you</em>, not like a language model.</p>
+
+  <table class="comparison-table">
+    <tr><th>Dimension</th><th>Ole Lehmann (Voice DNA)</th><th>James Kemp (Voiceprint)</th></tr>
+    <tr><td>Approach</td><td>Static template &mdash; fill-in-the-blank rules file</td><td>Interactive 6-phase stylometric analysis</td></tr>
+    <tr><td>Time to Complete</td><td>~10 minutes</td><td>~15-20 minutes</td></tr>
+    <tr><td>Output</td><td><code>voice-dna.md</code> &mdash; rules + banned phrases + samples</td><td>Full profile: fingerprint, AI tells, question bank, skill template</td></tr>
+    <tr><td>Depth</td><td>Surface-level but actionable</td><td>Deep analysis of function words, burstiness, punctuation habits</td></tr>
+    <tr><td>Maintenance</td><td>Manual editing</td><td>Built-in refine + update workflows</td></tr>
+    <tr><td>Best For</td><td>Quick calibration for any AI tool</td><td>Comprehensive voice capture + ongoing refinement</td></tr>
+    <tr><td>Engagement</td><td>4,467 bookmarks (massive)</td><td>GitHub plugin, smaller audience</td></tr>
+  </table>
+
+  <div class="signal-card opportunity">
+    <div class="label">Recommendation</div>
+    <p><strong>Use both.</strong> Start with Kemp's voiceprint for the deep analysis (it asks the right questions), then distill into Lehmann's voice-dna.md format for portability. The voice-dna.md becomes your "portable voice card" that can be attached to any AI tool's system prompt.</p>
+  </div>
+</section>
+
+<!-- Ole Lehmann -->
+<section>
+  <span class="section-tag">Tool 1</span>
+  <h2>Ole Lehmann's Voice DNA</h2>
+  <p><strong>Source:</strong> @OleLehmann on X (March 1, 2026) &bull; 4,467 bookmarks &bull; 55 replies</p>
+
+  <blockquote>
+    "Here's my full prompt to create your own voice-dna.md that you can load into any AI to make it write like you."
+    <cite>&mdash; @OleLehmann</cite>
+  </blockquote>
+
+  <h3>The Template Structure</h3>
+  <p>Voice DNA is a markdown file with four sections:</p>
+
+  <h4>1. Writing Rules</h4>
+  <p>Explicit directives about your writing style. Examples from Lehmann's own:</p>
+  <ul>
+    <li>"Write in a punchy, direct style"</li>
+    <li>"Use short paragraphs (1-3 sentences max)"</li>
+    <li>"Vary sentence length for rhythm"</li>
+    <li>"Use concrete examples, not abstract concepts"</li>
+    <li>"Lead with the insight, not the setup"</li>
+  </ul>
+
+  <h4>2. Formatting Rules</h4>
+  <p>How the text should be visually structured:</p>
+  <ul>
+    <li>Line breaks, paragraph structure</li>
+    <li>Heading patterns</li>
+    <li>List vs. paragraph preferences</li>
+    <li>Bold/italic usage patterns</li>
+  </ul>
+
+  <h4>3. Banned Phrases (5 Categories)</h4>
+  <div class="signal-card critical">
+    <div class="label">This Is the Key Differentiator</div>
+    <p>The banned phrases list is the most valuable section. It explicitly blocks AI-typical language:</p>
+  </div>
+  <table class="comparison-table">
+    <tr><th>Category</th><th>Examples</th><th>Why Banned</th></tr>
+    <tr><td>Filler openings</td><td>"In today's world...", "It's no secret that..."</td><td>AI crutch patterns. Signal lazy writing.</td></tr>
+    <tr><td>Hedge words</td><td>"Arguably", "It could be said that", "Perhaps"</td><td>Weaken assertions. Terrance's style is direct.</td></tr>
+    <tr><td>Hype language</td><td>"Revolutionary", "Game-changing", "Cutting-edge"</td><td>Empty marketing speak. Evidence over adjectives.</td></tr>
+    <tr><td>Transition cliches</td><td>"Furthermore", "Moreover", "In conclusion"</td><td>Academic stiffness. Use natural bridges.</td></tr>
+    <tr><td>Meta-commentary</td><td>"Let me explain...", "As I mentioned...", "Think about it..."</td><td>Unnecessary narration of the writing process.</td></tr>
+  </table>
+
+  <h4>4. Writing Samples</h4>
+  <p>3-5 samples of your actual writing that the AI uses as calibration targets. The samples should represent your <em>best</em> work, not average work &mdash; the AI targets the quality ceiling, not the floor.</p>
+
+  <h3>How It Works in Practice</h3>
+  <div class="code-block"># System prompt or project instructions:
+
+You are writing in Terrance's voice. Before generating any text,
+load and internalize the following voice DNA file:
+
+@voice-dna.md
+
+Rules:
+- Never use any phrase from the Banned Phrases list
+- Match the rhythm and structure of the Writing Samples
+- Follow all Writing Rules and Formatting Rules exactly
+- When in doubt, shorter is better</div>
+</section>
+
+<!-- James Kemp Voiceprint -->
+<section>
+  <span class="section-tag">Tool 2</span>
+  <h2>James Kemp's Voiceprint Plugin</h2>
+  <p><strong>Source:</strong> <a href="https://github.com/jamesckemp/claude-plugins">github.com/jamesckemp/claude-plugins</a> &bull; v1.6.7 &bull; Full Claude Code skill</p>
+
+  <p>Kemp's voiceprint is not just a template &mdash; it's a complete <strong>stylometric analysis pipeline</strong> built as a Claude Code skill with 6 interactive phases.</p>
+
+  <h3>The 6-Phase Workflow</h3>
+
+  <div class="phase">
+    <div class="phase-number">1</div>
+    <h4>Sample Collection</h4>
+    <p>Gather 3-5 substantial writing samples (articles, essays, technical posts). The system analyzes them for voice fingerprint patterns.</p>
+  </div>
+
+  <div class="phase">
+    <div class="phase-number">2</div>
+    <h4>Structural Analysis</h4>
+    <p>Measures: sentence length distribution, paragraph structure, heading patterns, list vs. prose ratio, use of examples, opening/closing patterns.</p>
+  </div>
+
+  <div class="phase">
+    <div class="phase-number">3</div>
+    <h4>Voice Fingerprint Extraction</h4>
+    <p>Stylometric analysis of function words (the/and/but ratios), punctuation habits (em-dashes vs. colons), burstiness (long sentence followed by short), vocabulary tier (colloquial vs. technical vs. mixed).</p>
+  </div>
+
+  <div class="phase">
+    <div class="phase-number">4</div>
+    <h4>AI Tell Detection</h4>
+    <p>Cross-references your writing against a catalog of known AI patterns (<code>ai-tells.md</code>). Identifies which AI habits you naturally avoid and which might slip through.</p>
+  </div>
+
+  <div class="phase">
+    <div class="phase-number">5</div>
+    <h4>Calibration Interview</h4>
+    <p>Interactive Q&A using <code>question-bank.md</code>: "How do you start an argument?", "What's your relationship with qualifiers?", "How do you handle citations?", "What do you do when you're wrong?"</p>
+  </div>
+
+  <div class="phase">
+    <div class="phase-number">6</div>
+    <h4>Profile Generation</h4>
+    <p>Produces a <code>writer-skill-template.md</code> &mdash; a complete voice profile that can be loaded as a Claude Code skill or system prompt instruction.</p>
+  </div>
+
+  <h3>Key Components</h3>
+  <table class="comparison-table">
+    <tr><th>File</th><th>Purpose</th></tr>
+    <tr><td><code>SKILL.md</code></td><td>Main orchestrator &mdash; runs the 6-phase workflow</td></tr>
+    <tr><td><code>ai-tells.md</code></td><td>Catalog of known AI writing patterns (to detect and avoid)</td></tr>
+    <tr><td><code>question-bank.md</code></td><td>Calibration interview questions for voice refinement</td></tr>
+    <tr><td><code>writer-skill-template.md</code></td><td>Output template for the generated voice profile</td></tr>
+    <tr><td><code>refine</code> workflow</td><td>Take a piece of AI-generated text and refine it to match your voice</td></tr>
+    <tr><td><code>update</code> workflow</td><td>Feed new writing samples to evolve the voice profile over time</td></tr>
+  </table>
+
+  <h3>The AI Tells Catalog</h3>
+  <p>This is deeply useful. Kemp maintains a list of patterns that signal "AI wrote this" &mdash; patterns most writers never notice:</p>
+  <ul>
+    <li><strong>Function word smoothing</strong> &mdash; AI uses "the", "and", "but" at near-uniform rates. Humans are bursty.</li>
+    <li><strong>Hedging clusters</strong> &mdash; "It could be argued that perhaps..." &mdash; AI stacks qualifiers.</li>
+    <li><strong>List parallelism</strong> &mdash; AI makes every list item the same grammatical structure. Humans vary.</li>
+    <li><strong>Transition uniformity</strong> &mdash; "Furthermore" → "Moreover" → "Additionally" &mdash; AI cycles through a small set.</li>
+    <li><strong>Sentiment smoothing</strong> &mdash; AI avoids strong negative language even when critiquing.</li>
+    <li><strong>Temperature artifacts</strong> &mdash; Unusual metaphors or word choices that feel "randomly creative."</li>
+  </ul>
+</section>
+
+<!-- Synthesis -->
+<section>
+  <span class="section-tag">Synthesis</span>
+  <h2>Recommended Implementation for Terrance</h2>
+
+  <h3>Why This Matters for You Specifically</h3>
+  <p>You write across at least 5 distinct registers:</p>
+  <ol>
+    <li><strong>Prosecutorial analysis</strong> &mdash; The Disposition, policy criticism, structural arguments</li>
+    <li><strong>Technical architecture</strong> &mdash; PRDs, spec.md, stakeholder docs</li>
+    <li><strong>Investor/stakeholder communication</strong> &mdash; Memos, pitch materials, market analysis</li>
+    <li><strong>Research synthesis</strong> &mdash; Newsletter digests, academic papers, competitive intel</li>
+    <li><strong>Direct conversation</strong> &mdash; Slack, email, iMessage</li>
+  </ol>
+  <p>Each register needs its own voice profile. A single voice-dna.md won't capture the difference between how you write a prosecutorial essay vs. a technical spec. But the <em>foundational elements</em> (banned phrases, sentence rhythm, argument structure) transfer across all five.</p>
+
+  <h3>Implementation Plan</h3>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <h4>Step 1: Install Kemp's Plugin (15 min)</h4>
+      <p>Clone <code>jamesckemp/claude-plugins</code>, copy the voiceprint skill to <code>.claude/skills/voiceprint/</code>. This gives you the full 6-phase analysis pipeline.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h4>Step 2: Gather Writing Samples (20 min)</h4>
+      <p>Collect 5 samples across your registers: 1 prosecutorial piece, 1 technical doc, 1 stakeholder memo, 1 research synthesis, 1 sharp email/Slack message. These should be pieces you're proud of &mdash; your quality ceiling.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h4>Step 3: Run Voiceprint Analysis (20 min)</h4>
+      <p>Execute the 6-phase workflow with your samples. The calibration interview (Phase 5) is the most valuable &mdash; it forces you to articulate preferences you've never named.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h4>Step 4: Create Multi-Register Voice DNA (30 min)</h4>
+      <p>Using the voiceprint output + Lehmann's template, create a <code>voice-dna.md</code> with sections per register. Shared banned phrases at the top, register-specific rules below.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h4>Step 5: Integrate Into Existing Skills (15 min)</h4>
+      <p>Add voice-dna.md reference to: <code>prosecutorial/SKILL.md</code>, <code>ali-brand-artifacts/SKILL.md</code>, <code>newsletter-digest/SKILL.md</code>, <code>academic-paper/SKILL.md</code>. Each skill loads the relevant register.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h4>Step 6: Calibrate with Feedback Loop (ongoing)</h4>
+      <p>When you read AI output and think "I wouldn't say it like that" &mdash; that's data. Use Kemp's <code>refine</code> workflow to correct the output, then <code>update</code> to feed corrections back into the profile.</p>
+    </div>
+  </div>
+
+  <p><strong>Total setup time: ~90 minutes.</strong> Ongoing refinement happens naturally through use.</p>
+</section>
+
+<!-- Voice DNA Draft -->
+<section>
+  <span class="section-tag">Draft</span>
+  <h2>Preliminary Voice DNA: Terrance Chatman</h2>
+  <p><em>This is a starting point based on observed patterns across your writing. It needs calibration via the voiceprint analysis.</em></p>
+
+  <h3>Writing Rules</h3>
+  <ul>
+    <li>Lead with the conclusion or strongest claim. Context follows, not precedes.</li>
+    <li>Use evidence-first argumentation: cite the source, then interpret.</li>
+    <li>Vary sentence length aggressively. Long analytical sentences followed by short punches.</li>
+    <li>Prefer concrete over abstract. Name the company, cite the number, quote the person.</li>
+    <li>When critiquing, be precise about what's wrong. Don't soften with "perhaps" or "arguably."</li>
+    <li>Technical writing: assume the reader is smart but missing context. Give context, not explanations.</li>
+    <li>Use structural repetition for emphasis (anaphora), not adjective stacking.</li>
+  </ul>
+
+  <h3>Formatting Rules</h3>
+  <ul>
+    <li>Short paragraphs (1-3 sentences). Whitespace is not wasted space.</li>
+    <li>Use em-dashes for asides, not parentheses.</li>
+    <li>Bold for key terms on first use or emphasis points.</li>
+    <li>Tables for comparisons. Don't narrate what a table can show.</li>
+    <li>Code blocks for technical references, even in non-technical writing, when precision matters.</li>
+  </ul>
+
+  <h3>Banned Phrases</h3>
+  <table class="comparison-table">
+    <tr><th>Category</th><th>Banned</th><th>Use Instead</th></tr>
+    <tr><td>Filler openings</td><td>"In today's rapidly evolving...", "It's worth noting that...", "As we all know..."</td><td>Start with the claim or evidence.</td></tr>
+    <tr><td>Hedge stacking</td><td>"It could potentially be argued that perhaps...", "To some extent..."</td><td>State it or don't.</td></tr>
+    <tr><td>Hype words</td><td>"Revolutionary", "Game-changing", "Paradigm shift", "Unlock"</td><td>Describe the actual impact with evidence.</td></tr>
+    <tr><td>Academic stuffing</td><td>"Furthermore", "Moreover", "In conclusion", "It is important to note"</td><td>Natural transitions or none.</td></tr>
+    <tr><td>AI patterns</td><td>"Let's dive in", "Here's the thing", "At the end of the day"</td><td>Just say the thing.</td></tr>
+    <tr><td>Sycophancy</td><td>"Great question!", "Absolutely!", "That's a really important point"</td><td>Address the substance directly.</td></tr>
+  </table>
+
+  <h3>Register Profiles</h3>
+
+  <h4>Prosecutorial</h4>
+  <p>Strongest voice. Dense with citations. Builds cases with evidence chains. Uses structural repetition ("This is not... This is..."). Closes with actionable indictment, not summary.</p>
+
+  <h4>Technical</h4>
+  <p>Precise, sparse. Uses code examples and architecture diagrams. Assumes competence. States tradeoffs explicitly. No marketing language in technical docs.</p>
+
+  <h4>Stakeholder</h4>
+  <p>Warm but substantive. Leads with "what it means for you." Includes data but frames it narratively. Professional without being corporate.</p>
+
+  <h4>Research Synthesis</h4>
+  <p>Signal extraction, not summary. Highlights what's new, what contradicts prior understanding, what's actionable. Source attribution on every claim. Critical analysis, not neutral reporting.</p>
+
+  <div class="signal-card watch">
+    <div class="label">Calibration Needed</div>
+    <p>This draft is based on observational analysis of your output requests and communication style. Running the voiceprint's 6-phase analysis with actual writing samples will sharpen every section. Pay special attention to the calibration interview &mdash; it will surface preferences you haven't articulated yet.</p>
+  </div>
+</section>
+
+<!-- Integration -->
+<section>
+  <span class="section-tag">Integration</span>
+  <h2>Skill Architecture</h2>
+  <p>Here's how the voiceprint system integrates with the existing <code>.claude/skills/</code> architecture:</p>
+
+  <div class="code-block">
+.claude/
+  skills/
+    voiceprint/               ← NEW: Kemp's plugin (analysis engine)
+      SKILL.md                ← 6-phase orchestrator
+      ai-tells.md             ← AI pattern catalog
+      question-bank.md        ← Calibration questions
+      writer-skill-template.md ← Output template
+    voice-dna/                ← NEW: Your personal voice profiles
+      base.md                 ← Shared rules + banned phrases
+      prosecutorial.md        ← Register: prosecutorial criticism
+      technical.md            ← Register: architecture + specs
+      stakeholder.md          ← Register: investor/partner comms
+      research.md             ← Register: synthesis + analysis
+    prosecutorial/            ← Existing: now loads voice-dna/prosecutorial.md
+    ali-brand-artifacts/      ← Existing: now loads voice-dna/stakeholder.md
+    newsletter-digest/        ← Existing: now loads voice-dna/research.md
+    academic-paper/           ← Existing: now loads voice-dna/technical.md
+  </div>
+
+  <h3>Loading Pattern</h3>
+  <p>Each skill that produces writing adds a single line to its SKILL.md:</p>
+  <div class="code-block">## Voice Calibration
+@.claude/skills/voice-dna/base.md
+@.claude/skills/voice-dna/[register].md</div>
+  <p>This keeps voice DNA modular and reusable across skills without duplication.</p>
+
+  <h3>The Feedback Loop</h3>
+  <p>Over time, when you correct AI output:</p>
+  <ol>
+    <li>Use <code>/voiceprint refine</code> &mdash; paste the AI output + your corrected version</li>
+    <li>The system identifies what changed and why</li>
+    <li>Use <code>/voiceprint update</code> &mdash; feeds corrections into the voice profile</li>
+    <li>Corrections accumulate, making the profile progressively more accurate</li>
+  </ol>
+
+  <div class="signal-card opportunity">
+    <div class="label">Connection to Ali MVP</div>
+    <p>This same pattern &mdash; voice extraction + calibration + refinement loop &mdash; is directly applicable to Ali's coaching output. Users could eventually create their own "negotiation voice DNA" that calibrates Ali's coaching tone and language to their communication style. It's the same architecture at a different layer.</p>
+  </div>
+</section>
+
+<!-- Sources -->
+<section>
+  <span class="section-tag">References</span>
+  <h2>Sources</h2>
+  <ul>
+    <li><strong>Ole Lehmann</strong> &mdash; @OleLehmann on X, March 1, 2026. Voice-dna.md prompt template. 4,467 bookmarks.</li>
+    <li><strong>James Kemp</strong> &mdash; <a href="https://github.com/jamesckemp/claude-plugins">github.com/jamesckemp/claude-plugins</a>. Voiceprint plugin v1.6.7. Full Claude Code skill with 6-phase stylometric analysis.</li>
+    <li><strong>Stylometry background</strong> &mdash; Function word analysis, burstiness measurement, AI detection through stylistic patterns. Standard NLP stylometry methods applied to writing voice capture.</li>
+  </ul>
+</section>
+
+</div>
+
+<div class="footer">
+  Prepared by Alex &mdash; AI Chief of Staff &bull; Writing Strategy Division &bull; March 2, 2026
+</div>
+
+</body>
+</html>
