@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ali State of Play — March 5, 2026</title>
+
+<!-- Google Fonts: Inter + Fira Code -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ========================================
+   CSS VARIABLES — from profile-settings-corpus (GOSPEL)
+   ======================================== */
+:root {
+  --text-primary: #1a1917;
+  --text-body: #33312d;
+  --text-secondary: #6f6a63;
+  --text-muted: #9c958c;
+  --border: #d1cbc2;
+  --border-hard: #3f3c38;
+  --border-dashed: #b5afa6;
+  --bg-page: #f5f3f0;
+  --bg-card: #ffffff;
+  --bg-muted: #eae6e0;
+  --bg-surface: #faf9f7;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Moret", Georgia, serif;
+  --font-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+
+  --asf-gradient: linear-gradient(73.1deg, rgb(95,175,138) 0%, rgb(127,191,174) 12.39%, rgb(158,198,217) 39.57%, rgb(168,191,217) 58.16%, rgb(159,164,211) 79.32%, rgb(138,132,198) 99.15%);
+
+  --green: #059669;
+  --green-bg: #d1fae5;
+  --green-hl: rgba(5,150,105,0.10);
+  --blue: #2563eb;
+  --blue-bg: #dbeafe;
+  --blue-hl: rgba(37,99,235,0.12);
+  --amber: #d97706;
+  --amber-bg: #fef3c7;
+  --amber-hl: rgba(217,119,6,0.10);
+  --pink: #be185d;
+  --pink-bg: #fce7f3;
+  --pink-hl: rgba(190,24,93,0.10);
+  --purple: #7c3aed;
+  --purple-bg: #ede9fe;
+  --purple-hl: rgba(124,58,237,0.10);
+  --red: #dc2626;
+  --red-bg: #fee2e2;
+  --red-hl: rgba(220,38,38,0.10);
+
+  --nav-height: 48px;
+}
+
+/* ========================================
+   RESET & BASE
+   ======================================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.55;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ========================================
+   HERO — ASF Gradient (corpus gospel)
+   ======================================== */
+.hero {
+  background: var(--asf-gradient);
+  padding: 36px 32px 32px;
+  text-align: center;
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 3px;
+  background: var(--bg-page);
+}
+.hero h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 2rem;
+  color: white;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.hero .subtitle {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.88);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.hero-meta-item {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.hero-meta-item strong { color: white; font-weight: 600; }
+
+/* ========================================
+   TAB NAV — Square tabs, mono, hard border (corpus gospel)
+   ======================================== */
+.tab-nav {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: var(--bg-page);
+  border-bottom: 2px solid var(--border-hard);
+}
+
+/* Hidden radio inputs */
+input[name="tab"] { position: absolute; opacity: 0; pointer-events: none; }
+
+.tab-nav label {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  padding: 5px 11px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  white-space: nowrap;
+}
+.tab-nav label:hover {
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+/* Active tab driven by radio state */
+#tab-overview:checked ~ .tab-nav label[for="tab-overview"],
+#tab-engine:checked ~ .tab-nav label[for="tab-engine"],
+#tab-design:checked ~ .tab-nav label[for="tab-design"],
+#tab-beta:checked ~ .tab-nav label[for="tab-beta"],
+#tab-phase2:checked ~ .tab-nav label[for="tab-phase2"],
+#tab-status:checked ~ .tab-nav label[for="tab-status"] {
+  color: var(--text-primary);
+  border-color: var(--border-hard);
+  background: var(--bg-card);
+}
+
+/* Tab panels */
+.tab-panel {
+  display: none;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 20px 36px;
+}
+#tab-overview:checked ~ .tab-panel.panel-overview,
+#tab-engine:checked ~ .tab-panel.panel-engine,
+#tab-design:checked ~ .tab-panel.panel-design,
+#tab-beta:checked ~ .tab-panel.panel-beta,
+#tab-phase2:checked ~ .tab-panel.panel-phase2,
+#tab-status:checked ~ .tab-panel.panel-status { display: block; }
+
+/* ========================================
+   SECTION HEADERS
+   ======================================== */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.45rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+.section-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+.section-block { margin-bottom: 20px; }
+
+.grad-divider {
+  height: 2px;
+  background: var(--asf-gradient);
+  opacity: 0.5;
+  margin: 20px 0;
+}
+
+/* ========================================
+   STAT GRID (Overview)
+   ======================================== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 14px;
+  text-align: center;
+}
+.stat-card .stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+.stat-card .stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ========================================
+   TILE GRID (Workstream cards)
+   ======================================== */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.tile {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  transition: border-color 0.15s;
+}
+.tile:hover { border-color: var(--border-hard); }
+.tile .tile-num {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.tile .tile-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.tile .tile-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.tile .tile-jump {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--blue);
+  cursor: pointer;
+  text-decoration: none;
+}
+.tile .tile-jump:hover { text-decoration: underline; }
+
+/* ========================================
+   ACCORDION — <details>/<summary> tiles
+   ======================================== */
+details.accordion {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+details.accordion[open] { border-color: var(--border-hard); }
+
+details.accordion > summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  list-style: none;
+  user-select: none;
+  transition: background 0.1s;
+}
+details.accordion > summary::-webkit-details-marker { display: none; }
+details.accordion > summary::marker { display: none; content: ''; }
+details.accordion > summary:hover { background: var(--bg-surface); }
+
+details.accordion > summary .acc-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+details.accordion > summary .acc-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+details.accordion > summary .acc-arrow {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+details.accordion[open] > summary .acc-arrow { transform: rotate(90deg); }
+
+.acc-body {
+  padding: 0 18px 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* ========================================
+   BADGES — corpus style with border
+   ======================================== */
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid;
+  vertical-align: middle;
+}
+.badge-green { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); border-color: var(--blue); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); border-color: var(--amber); }
+.badge-pink { background: var(--pink-bg); color: var(--pink); border-color: var(--pink); }
+.badge-red { background: var(--red-bg); color: var(--red); border-color: var(--red); }
+.badge-purple { background: var(--purple-bg); color: var(--purple); border-color: var(--purple); }
+.badge-muted { background: var(--bg-muted); color: var(--text-secondary); border-color: var(--border); }
+
+/* Source tags — inline purple */
+.src {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--purple);
+  background: var(--purple-hl);
+  padding: 1px 5px;
+  border-radius: 2px;
+  cursor: help;
+  white-space: nowrap;
+}
+
+/* ========================================
+   DIFF BLOCKS — red/green tint
+   ======================================== */
+.diff-pair { margin-bottom: 14px; }
+.diff-header {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.diff-before {
+  background: var(--red-hl);
+  border-left: 3px solid var(--red);
+  border-radius: 0 4px 4px 0;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: #991b1b;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 4px;
+}
+.diff-after {
+  background: var(--green-hl);
+  border-left: 3px solid var(--green);
+  border-radius: 0 4px 4px 0;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: #065f46;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 4px;
+}
+.diff-label {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.diff-label-before { color: var(--red); }
+.diff-label-after { color: var(--green); }
+
+/* Recommendation cards */
+.rec-card {
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-top: 6px;
+}
+.rec-verdict {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.rec-adopt { color: var(--green); }
+.rec-merge { color: var(--amber); }
+.rec-keep { color: var(--blue); }
+.rec-card p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ========================================
+   TABLES — corpus style
+   ======================================== */
+.table-wrap {
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-card);
+  margin-bottom: 10px;
+}
+.field-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.field-table th {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 2px solid var(--border-hard);
+  background: var(--bg-surface);
+}
+.field-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-body);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.field-table tr:last-child td { border-bottom: none; }
+.field-table tr:hover td { background: rgba(234,230,224,0.35); }
+.field-table .mono { font-family: var(--font-mono); font-size: 0.76rem; font-weight: 600; }
+
+/* ========================================
+   ISSUE ROWS
+   ======================================== */
+.issue-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.issue-row:last-child { border-bottom: none; }
+.issue-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--purple);
+  min-width: 22px;
+  flex-shrink: 0;
+}
+.issue-title { font-weight: 600; font-size: 0.84rem; margin-bottom: 2px; }
+.issue-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* ========================================
+   PIPELINE — flow arrows
+   ======================================== */
+.pipeline {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin: 14px 0;
+}
+.pipeline-stage {
+  flex: 1;
+  padding: 14px 12px;
+  position: relative;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+}
+.pipeline-stage:first-child { border-radius: 8px 0 0 8px; }
+.pipeline-stage:last-child { border-radius: 0 8px 8px 0; }
+.pipeline-stage:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -10px; top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-left: 8px solid var(--border);
+  z-index: 2;
+}
+.pipeline-stage:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  right: -8px; top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left: 6px solid var(--bg-card);
+  z-index: 3;
+}
+.pipeline-stage .stage-num {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.pipeline-stage .stage-title {
+  font-weight: 600;
+  font-size: 0.84rem;
+  margin-bottom: 4px;
+}
+.pipeline-stage .stage-desc {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+.pipeline-stage.stage-done {
+  background: var(--green-hl);
+  border-color: var(--green);
+}
+.pipeline-stage.stage-done .stage-num { color: var(--green); }
+
+/* ========================================
+   TIMELINE
+   ======================================== */
+.timeline { position: relative; padding-left: 22px; }
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px; top: 4px; bottom: 4px;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item { position: relative; padding-bottom: 16px; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -20px; top: 5px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  border: 2px solid var(--bg-page);
+}
+.timeline-item.tl-done::before { background: var(--green); }
+.timeline-item.tl-active::before { background: var(--blue); box-shadow: 0 0 0 3px var(--blue-hl); }
+.timeline-item.tl-future::before { background: var(--text-muted); }
+.timeline-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+.timeline-title { font-weight: 600; font-size: 0.88rem; margin-bottom: 2px; }
+.timeline-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* ========================================
+   PROGRESS BAR
+   ======================================== */
+.progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-muted);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--asf-gradient);
+  border-radius: 4px;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.4px;
+}
+
+/* ========================================
+   CALLOUT
+   ======================================== */
+.callout {
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 2px solid;
+  margin: 10px 0;
+}
+.callout-green { background: var(--green-hl); border-color: var(--green); }
+.callout-blue { background: var(--blue-hl); border-color: var(--blue); }
+.callout-amber { background: var(--amber-hl); border-color: var(--amber); }
+.callout-title {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.callout-green .callout-title { color: var(--green); }
+.callout-blue .callout-title { color: var(--blue); }
+.callout-amber .callout-title { color: var(--amber); }
+.callout p { font-size: 0.82rem; color: var(--text-body); line-height: 1.55; }
+
+/* ========================================
+   LINK LIST
+   ======================================== */
+.link-list { list-style: none; padding: 0; }
+.link-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+.link-list li:last-child { border-bottom: none; }
+.link-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.footer {
+  text-align: center;
+  padding: 20px 20px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  border-top: 2px solid var(--border);
+  margin-top: 20px;
+}
+.footer .tagline {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+  .hero { padding: 28px 16px 24px; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero-meta { flex-direction: column; gap: 4px; }
+  .tab-nav { gap: 3px; padding: 8px 10px; }
+  .tab-nav label { font-size: 0.58rem; padding: 4px 8px; }
+  .tab-panel { padding: 16px 12px 28px; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .tile-grid { grid-template-columns: 1fr; }
+  .pipeline { flex-direction: column; }
+  .pipeline-stage { border-radius: 6px !important; }
+  .pipeline-stage:not(:last-child)::after,
+  .pipeline-stage:not(:last-child)::before { display: none; }
+}
+
+/* ========================================
+   PRINT
+   ======================================== */
+@media print {
+  .tab-nav { display: none; }
+  .tab-panel { display: block !important; padding: 12px 0; page-break-inside: avoid; }
+  .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #fff; }
+  details.accordion { border: 1px solid #ccc; }
+  details.accordion[open] > .acc-body { display: block; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HERO — ASF Gradient
+     ============================================================ -->
+<header class="hero">
+  <h1>State of Play</h1>
+  <p class="subtitle">Ali by Aligned Negotiation &mdash; Stakeholder Brief</p>
+  <div class="hero-meta">
+    <span class="hero-meta-item"><strong>March 5, 2026</strong></span>
+    <span class="hero-meta-item">Version <strong>3.0</strong></span>
+    <span class="hero-meta-item">Prompt <strong>V3.4.0</strong></span>
+    <span class="hero-meta-item">Sprint <strong>14/97</strong></span>
+  </div>
+</header>
+
+<!-- ============================================================
+     RADIO INPUTS (hidden, drive CSS tab state)
+     ============================================================ -->
+<input type="radio" name="tab" id="tab-overview" checked>
+<input type="radio" name="tab" id="tab-engine">
+<input type="radio" name="tab" id="tab-design">
+<input type="radio" name="tab" id="tab-beta">
+<input type="radio" name="tab" id="tab-phase2">
+<input type="radio" name="tab" id="tab-status">
+
+<!-- ============================================================
+     TAB NAV — square tabs, mono, hard border
+     ============================================================ -->
+<nav class="tab-nav">
+  <label for="tab-overview">Overview</label>
+  <label for="tab-engine">Conversation Engine</label>
+  <label for="tab-design">Design &amp; Brand</label>
+  <label for="tab-beta">Beta Strategy</label>
+  <label for="tab-phase2">Contract Intelligence</label>
+  <label for="tab-status">Project Status</label>
+</nav>
+
+<!-- ============================================================
+     TAB 1: OVERVIEW
+     ============================================================ -->
+<div class="tab-panel panel-overview">
+
+  <!-- Stats -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">14/97</div>
+      <div class="stat-label">Tasks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">V3.4.0</div>
+      <div class="stat-label">Prompt</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">Planning</div>
+      <div class="stat-label">Beta Phase</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">Wasp</div>
+      <div class="stat-label">React + Prisma</div>
+    </div>
+  </div>
+
+  <div class="grad-divider"></div>
+
+  <!-- Workstream Tiles -->
+  <div class="section-block">
+    <p class="section-label">Active Workstreams</p>
+    <h2 class="section-title">Where Things Stand</h2>
+    <p class="section-desc">Four parallel workstreams shaping Ali's path from MVP to beta. Each tile links to the detailed tab.</p>
+  </div>
+
+  <div class="tile-grid">
+    <div class="tile">
+      <div class="tile-num">Workstream 01</div>
+      <div class="tile-title">Conversation Engine</div>
+      <div class="tile-desc">Mark reviewed V3.4.0 and identified 5 issues: double questions, question fatigue, timeline hallucination, missing multi-select UI, and response depth. Prompt revisions proposed.</div>
+      <span class="badge badge-amber" style="margin-right:6px;">Under Review</span>
+      <label for="tab-engine" class="tile-jump">Jump &rarr;</label>
+    </div>
+    <div class="tile">
+      <div class="tile-num">Workstream 02</div>
+      <div class="tile-title">Design &amp; Brand</div>
+      <div class="tile-desc">Website, domain, email setup, Nic's open design items, settings advanced view. The bridge between brand vision and shipped product.</div>
+      <span class="badge badge-red" style="margin-right:6px;">Open Items</span>
+      <label for="tab-design" class="tile-jump">Jump &rarr;</label>
+    </div>
+    <div class="tile">
+      <div class="tile-num">Workstream 03</div>
+      <div class="tile-title">Beta Strategy</div>
+      <div class="tile-desc">Three-phase plan targeting 100 users over 10 weeks. Phase 1 recruits 10-20 Berkshire contacts. Go/kill metrics: 40% activation, 20% Day-30 retention, NPS &gt;30.</div>
+      <span class="badge badge-blue" style="margin-right:6px;">Planning</span>
+      <label for="tab-beta" class="tile-jump">Jump &rarr;</label>
+    </div>
+    <div class="tile">
+      <div class="tile-num">Workstream 04</div>
+      <div class="tile-title">Contract Intelligence</div>
+      <div class="tile-desc">Phase 2 module that reads raw contracts and pre-populates Tom's 4-phase planning workbook. 3-stage pipeline. Anonymize script already built.</div>
+      <span class="badge badge-purple" style="margin-right:6px;">PRD Draft</span>
+      <label for="tab-phase2" class="tile-jump">Jump &rarr;</label>
+    </div>
+    <div class="tile">
+      <div class="tile-num">Workstream 05</div>
+      <div class="tile-title">Project Status</div>
+      <div class="tile-desc">14 of 97 spec tasks complete. Foundation sprints shipped. Current focus: UI polish, settings, eval harness, prompt refinement ahead of beta.</div>
+      <span class="badge badge-green" style="margin-right:6px;">On Track</span>
+      <label for="tab-status" class="tile-jump">Jump &rarr;</label>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TAB 2: CONVERSATION ENGINE
+     ============================================================ -->
+<div class="tab-panel panel-engine">
+
+  <div class="section-block">
+    <p class="section-label">Conversation Engine</p>
+    <h2 class="section-title">Prompt V3.4.0 &mdash; Mark's Review</h2>
+    <p class="section-desc">On March 4, Mark Mirra recorded a 16-minute screen recording testing V3.4.0 against two real scenarios. His verdict: "As a system to make decisions and give them a punchy output, I liked it." He identified 5 issues.</p>
+  </div>
+
+  <!-- Mark's 5 Issues — Accordion -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Issues Identified</div>
+        <div class="acc-title">Mark's 5 Issues from Video Review</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="issue-row">
+        <span class="issue-num">01</span>
+        <div>
+          <div class="issue-title">Double Questions <span class="badge badge-red" style="margin-left:6px;">High</span></div>
+          <div class="issue-desc">Same question asked twice in a row. Occurred 4+ times. "This is now the 4th question... I don't know why we're getting the double question."</div>
+        </div>
+      </div>
+      <div class="issue-row">
+        <span class="issue-num">02</span>
+        <div>
+          <div class="issue-title">Too Many Questions <span class="badge badge-red" style="margin-left:6px;">Med-High</span></div>
+          <div class="issue-desc">User fatigue after 5+ diagnostic questions before coaching output. "My gut says 3-5 max."</div>
+        </div>
+      </div>
+      <div class="issue-row">
+        <span class="issue-num">03</span>
+        <div>
+          <div class="issue-title">Timeline Hallucination <span class="badge badge-amber" style="margin-left:6px;">Medium</span></div>
+          <div class="issue-desc">Ali said "2-3 months left, present by mid-November" when test was in March. "That's odd."</div>
+        </div>
+      </div>
+      <div class="issue-row">
+        <span class="issue-num">04</span>
+        <div>
+          <div class="issue-title">Multi-Select UI Missing <span class="badge badge-amber" style="margin-left:6px;">Medium</span></div>
+          <div class="issue-desc">When asked for top three strategic priorities, Mark expected a multi-choice selector.</div>
+        </div>
+      </div>
+      <div class="issue-row">
+        <span class="issue-num">05</span>
+        <div>
+          <div class="issue-title">Responses Need More Depth <span class="badge badge-amber" style="margin-left:6px;">Medium</span></div>
+          <div class="issue-desc">"When Ali gives her responses at the end of a question sequence, they can be a little more robust and detailed."</div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- Prompt Diff — Accordion per section -->
+  <div class="section-block" style="margin-top:16px;">
+    <p class="section-label">Prompt Diff</p>
+    <h3 class="section-title" style="font-size:1.15rem;">V3.4.0 Current vs. Mark's Revisions</h3>
+    <p class="section-desc">Mark submitted a revised prompt restructuring the coaching operating system. Key changes with recommendations below.</p>
+  </div>
+
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Section 1</div>
+        <div class="acc-title">Identity &amp; Opening Frame</div>
+      </div>
+      <span class="badge badge-green" style="margin-right:24px;">Adopt</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="diff-label diff-label-before">Before</div>
+      <div class="diff-before">You are Ali, a negotiation coach.
+[PROMPT_VERSION: 3.4.0]
+
+Ali coaches based on what you share.
+The better context you give, the sharper
+the guidance.</div>
+      <div class="diff-label diff-label-after">After</div>
+      <div class="diff-after">You are Ali &mdash; Aligned Negotiation's
+negotiation coach. [PROMPT_VERSION: 3.4.0]
+
+Ali's job is to help the user *negotiate
+better* through natural conversation.
+- You do not run surveys.
+- You do not interrogate.
+- You deliver value fast.
+- You stay ethical.
+- You are comprehensive and balanced.
+
+Ali's coaching is grounded in Aligned's
+Strategic Framework <span class="src" title="Aligned Strategic Framework">ASF</span>:
+- Relationships (mindset + climate)
+- Goals (Goal / Authorization / Why zones)
+- Process (Prepare &rarr; Communicate &rarr;
+  Propose &rarr; Align)</div>
+      <div class="rec-card">
+        <div class="rec-verdict rec-adopt">Adopt</div>
+        <p>Anchors Ali to the Aligned Strategic Framework and names the 4-phase process. The original identity was generic; revision ties coaching to methodology. "Comprehensive and balanced" + ethical guardrails strengthen brand.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Section 2</div>
+        <div class="acc-title">Coaching Operating System</div>
+      </div>
+      <span class="badge badge-green" style="margin-right:24px;">Adopt</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="diff-label diff-label-before">Before</div>
+      <div class="diff-before">YOUR APPROACH: PROBLEM-BASED COACHING
+
+You coach negotiations through NATURAL
+CONVERSATION, not surveys. You identify
+problems, assess power dynamics, and offer
+strategic paths.
+
+CORE PHILOSOPHY
+1. Identify the PROBLEM
+2. Assess COLLABORATIVE or TRANSACTIONAL
+3. Determine PROCESS STAGE
+4. Offer STRATEGIC PATHS
+5. Deliver VALUE FAST</div>
+      <div class="diff-label diff-label-after">After</div>
+      <div class="diff-after">ALI'S COACHING OPERATING SYSTEM
+(Problem-Based + Framework-Based)
+
+You coach by identifying the *primary
+constraint* first. Every negotiation
+problem is anchored in:
+
+1) Relationships problem - Trust, rapport, tension, ego
+2) Goals problem - Unclear priorities, weak walkaway
+3) Process problem - Wrong phase, wrong stakeholders
+
+Your flow is:
+1. Acknowledge
+2. Diagnose: relationship/goals/process + phase + mindset/type
+3. Teach using What / Why / How
+4. Apply with language and tactics
+5. Develop a strategic playbook
+6. Refine as new info unfolds</div>
+      <div class="rec-card">
+        <div class="rec-verdict rec-adopt">Adopt</div>
+        <p>Mark's 6-step flow (Acknowledge &rarr; Diagnose &rarr; Teach &rarr; Apply &rarr; Develop &rarr; Refine) is more structured. "Develop" (playbook) and "Refine" (iterative) address "responses could be more robust." What/Why/How teaching is methodology standard <span class="src" title="Aligned Strategic Framework">ASF</span>.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Section 3</div>
+        <div class="acc-title">Signal Extraction &amp; Deal Mapping</div>
+      </div>
+      <span class="badge badge-amber" style="margin-right:24px;">Merge</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="diff-label diff-label-before">Before</div>
+      <div class="diff-before">SIGNAL EXTRACTION (Internal Only)
+
+The 10 Calibration Signals:
+1. Goals Status
+2. Relationship Quality (Spectrum)
+3. Process Stage
+4. Leverage Assessment (Spectrum)
+5. Alternatives (BATNA)
+6. Timeline
+7. Complexity (Terms Count)
+8. Tenure
+9. Counterparty Behavior
+10. Problem Type</div>
+      <div class="diff-label diff-label-after">After</div>
+      <div class="diff-after">WHAT YOU MUST EXTRACT (Silently)
+
+A) The Deal Map (minimum viable context)
+   - Who are the parties?
+   - What is being negotiated?
+   - What terms are on the table?
+   - What does success look like?
+   - What alternatives exist?
+   - What has happened so far?
+   - What is the next interaction?
+
+B) Aligned Strategic Signals
+   1. Phase: Prepare/Communicate/Propose/Align
+   2. Mindset/type: Bargaining/Trading/Creating/Partnering
+   3. Goal discipline: Goal/Authorization/Why zones
+   4. Alternatives: BATNA and WATNA
+   5. Forces: Market/External/Internal
+   6. Climate: Non-existent to Trusting
+   7. Complexity
+   8. Timeline pressure
+
+C) Red flags
+   - Buying comfort with money
+   - Negotiating against themselves
+   - Stuck on single term
+   - Ego driving decisions</div>
+      <div class="rec-card">
+        <div class="rec-verdict rec-merge">Merge</div>
+        <p>"Deal Map" and Red Flags are strong additions. But current 10-signal framework provides more granular detection (Tenure, Leverage spectrum). Keep 10 signals as internal calibration, add Deal Map as initial assessment model, add Red Flags as coaching guardrail. Climate spectrum (Non-existent &rarr; Trusting) is more nuanced than current binary.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Section 4</div>
+        <div class="acc-title">Value Delivery Requirements</div>
+      </div>
+      <span class="badge badge-green" style="margin-right:24px;">Adopt</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="diff-label diff-label-before">Before</div>
+      <div class="diff-before">RESPONSE STRUCTURE
+
+First Response (After Opening):
+Deliver a tactical insight AND a targeted
+follow-up. Never respond with only a question.
+
+Third Response (Insight Required):
+By now, you MUST deliver value:
+"Here's what I'm seeing: [Problem].
+Given [situation], options: [Paths].
+Which direction feels right?"</div>
+      <div class="diff-label diff-label-after">After</div>
+      <div class="diff-after">VALUE DELIVERY TEMPLATES
+(Use to ensure Exchange 3 value)
+
+By Exchange 3, you must produce one of:
+
+A) The Quick Read + Next Move
+   - What I think is happening (1-2 sent.)
+   - The primary constraint
+   - The next move (1-2 actions)
+   - A script (exact language)
+
+B) The 4-Phase Mini Plan
+   - Prepare: what to decide
+   - Communicate: what to learn
+   - Propose: what to offer (MESO)
+   - Align: how to lock it in
+
+C) The "If-Then" Trade Builder
+   - If you ___, then we ___.
+   - What we need in return
+   - Why it's reasonable</div>
+      <div class="rec-card">
+        <div class="rec-verdict rec-adopt">Adopt</div>
+        <p>Three concrete output formats (Quick Read, 4-Phase Mini Plan, If-Then Trade Builder) vs. vague "deliver value." Directly addresses Issue #5 ("more robust"). Templates reinforce methodology by naming phases and trades. <span class="src" title="Aligned Strategic Framework">ASF</span></p>
+      </div>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Section 5</div>
+        <div class="acc-title">Scope Boundaries &amp; Guardrails</div>
+      </div>
+      <span class="badge badge-green" style="margin-right:24px;">Adopt</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="diff-label diff-label-before">Before</div>
+      <div class="diff-before">Ali is NOT a business consultant, financial advisor, or legal counsel.
+
+Ali does NOT Provide:
+- Equity/pricing recommendations
+- Financial advice
+- Contract redlining
+- Deep-dive business analysis
+- Legal recommendations
+- Valuation assessments</div>
+      <div class="diff-label diff-label-after">After</div>
+      <div class="diff-after">NON-NEGOTIABLES
+
+F. Scope boundaries.
+You are not:
+- Legal counsel, but can offer guidance on how to work with Legal.
+- Financial advisor, but can offer guidance on common pricing practices.
+- Contract redliner, but can offer guidance on how to approach redlines.
+- Pricing specialist, but can offer insights on choosing a pricing strategy.</div>
+      <div class="rec-card">
+        <div class="rec-verdict rec-adopt">Adopt</div>
+        <p>"But can offer guidance on..." pattern redirects users toward what Ali CAN help with. Softens boundary without breaking scope. Ethics guardrail ("push back and outline consequences") stronger than current "offer alternatives."</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Section 6</div>
+        <div class="acc-title">Preferred Tactics</div>
+      </div>
+      <span class="badge badge-amber" style="margin-right:24px;">Merge</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="diff-label diff-label-before">Before</div>
+      <div class="diff-before">ALIGNED METHODOLOGY VOICE
+
+~1 in 4 coaching turns: drop a casual reference
+(Munger, Sun Tzu, Machiavelli)
+Other 3 in 4: use concepts invisibly.
+NEVER say "Research shows..."
+Source authors are intellectual ancestry.</div>
+      <div class="diff-label diff-label-after">After</div>
+      <div class="diff-after">ALIGNED TACTICS YOU SHOULD PREFER
+
+Use these frequently, with scenario-specific language:
+- Clear, Assertive, Respectful presence
+- Calibrated questions (What/How)
+- Firm vs. flexible language
+- Anchoring (go first unless you can't)
+- Conditional trading ("If you, then we")
+- MESOs (multiple equivalent offers)
+- Summaries to build momentum
+- Time-outs and silence
+- Total value mindset</div>
+      <div class="rec-card">
+        <div class="rec-verdict rec-merge">Merge</div>
+        <p>Explicit tactics list (MESOs, conditional trading, anchoring) gives Ali a concrete toolkit. But current voice guidelines (intellectual ancestry, no academic citations) define Ali's personality &mdash; preserve those. Add tactics list as "preferred toolkit" section. <span class="src" title="Aligned Strategic Framework">ASF</span></p>
+      </div>
+    </div>
+  </details>
+
+  <!-- Overall Assessment -->
+  <div class="callout callout-blue" style="margin-top:14px;">
+    <div class="callout-title">Overall Assessment</div>
+    <p><strong>Recommendation: Merge with bias toward adoption.</strong> Mark's revision adds structured value delivery templates, explicit methodology grounding (ASF phases, zones, forces), and softer scope boundaries with redirect paths. Current prompt's strengths &mdash; voice guidelines, intellectual ancestry, path options framework, coaching examples &mdash; should be preserved and merged. Target: <strong>V3.5.0</strong>.</p>
+  </div>
+
+  <!-- Links -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Resources</div>
+        <div class="acc-title">Published Artifacts</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <ul class="link-list">
+        <li><a href="https://tchat192.github.io/ali-stakeholder-docs/architecture/v34-prompt-diff.html" target="_blank">V3.4 Prompt Diff (Interactive)</a><div class="link-desc">Side-by-side comparison with section-level diffs and source badges</div></li>
+        <li><a href="https://tchat192.github.io/ali-stakeholder-docs/architecture/conversation-engine-visual.html" target="_blank">Conversation Engine Visual</a><div class="link-desc">Signal flow from user input through classification to coaching output</div></li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================
+     TAB 3: DESIGN & BRAND
+     ============================================================ -->
+<div class="tab-panel panel-design">
+
+  <div class="section-block">
+    <p class="section-label">Design &amp; Brand</p>
+    <h2 class="section-title">Visual Identity &amp; Implementation</h2>
+    <p class="section-desc">Open items across website, email, domain setup, settings redesign, and Nic's design deliverables. This is the bridge between brand vision and shipped product.</p>
+  </div>
+
+  <!-- Domain & Website -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Infrastructure</div>
+        <div class="acc-title">Domain, Website &amp; Email</div>
+      </div>
+      <span class="badge badge-red" style="margin-right:12px;">Open</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Item</th><th>Status</th><th>Owner</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">alignedwithali.com</td>
+              <td><span class="badge badge-green">Purchased</span></td>
+              <td>Nic</td>
+              <td>Purchased Mon Mar 3. Option A for primary domain</td>
+            </tr>
+            <tr>
+              <td class="mono">alignedwithali.ai</td>
+              <td><span class="badge badge-green">Purchased</span></td>
+              <td>Nic</td>
+              <td>Purchased Mon Mar 3. Option B for primary domain <span class="badge badge-purple" style="margin-left:4px;">Recommended</span></td>
+            </tr>
+            <tr>
+              <td class="mono">Domain Decision</td>
+              <td><span class="badge badge-amber">Pending</span></td>
+              <td>Nic + Terrance</td>
+              <td>Pick primary: .ai (signals AI-native product) vs .com (conventional trust). Recommendation: <strong>alignedwithali.ai</strong></td>
+            </tr>
+            <tr>
+              <td class="mono">DNS + SSL Setup</td>
+              <td><span class="badge badge-red">Not Started</span></td>
+              <td>Nic &rarr; Terrance</td>
+              <td>Nic transfers DNS credentials, Terrance configures Railway + SSL certs</td>
+            </tr>
+            <tr>
+              <td class="mono">Marketing Website</td>
+              <td><span class="badge badge-red">Not Started</span></td>
+              <td>Nic</td>
+              <td>Nic designs landing page, value prop, beta signup. Terrance implements</td>
+            </tr>
+            <tr>
+              <td class="mono">Email Setup</td>
+              <td><span class="badge badge-red">Not Started</span></td>
+              <td>Nic &rarr; Terrance</td>
+              <td>Need: hello@alignedwithali.ai, transactional email (SendGrid/Resend), beta invite templates</td>
+            </tr>
+            <tr>
+              <td class="mono">Email Templates</td>
+              <td><span class="badge badge-red">Not Started</span></td>
+              <td>Nic</td>
+              <td>Beta welcome, onboarding sequence, feedback request. Nic designs, Terrance codes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Nic's Design Items -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Design Deliverables</div>
+        <div class="acc-title">Open Items from Nic</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Item</th><th>Status</th><th>Priority</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">Chat UI Polish</td>
+              <td><span class="badge badge-green">In Progress</span></td>
+              <td><span class="badge badge-red">P0</span></td>
+              <td>Phase 3 nav/sidebar verification complete. CommandBar search, hover states remaining</td>
+            </tr>
+            <tr>
+              <td class="mono">Landing Page Design</td>
+              <td><span class="badge badge-amber">Waiting</span></td>
+              <td><span class="badge badge-red">P0</span></td>
+              <td>Need Figma comp from Nic for marketing site hero, features, CTA</td>
+            </tr>
+            <tr>
+              <td class="mono">Mobile / Tablet Breakpoints</td>
+              <td><span class="badge badge-amber">Waiting</span></td>
+              <td><span class="badge badge-amber">P1</span></td>
+              <td>Deferred &mdash; need Nic's responsive specs for chat, settings, assessment</td>
+            </tr>
+            <tr>
+              <td class="mono">Button Spacing Standards</td>
+              <td><span class="badge badge-amber">Waiting</span></td>
+              <td><span class="badge badge-amber">P1</span></td>
+              <td>Standardize CTA sizes, padding, gap across all views</td>
+            </tr>
+            <tr>
+              <td class="mono">Email Template Design</td>
+              <td><span class="badge badge-red">Not Started</span></td>
+              <td><span class="badge badge-amber">P1</span></td>
+              <td>Branded HTML templates for beta comms</td>
+            </tr>
+            <tr>
+              <td class="mono">Selected Option BG Color</td>
+              <td><span class="badge badge-purple">Question</span></td>
+              <td><span class="badge badge-muted">Low</span></td>
+              <td>Figma shows #F5F3F0 vs #E6E2DC for selected states &mdash; need Nic's call</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Settings Advanced View -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Product</div>
+        <div class="acc-title">Settings Page &mdash; Advanced View</div>
+      </div>
+      <span class="badge badge-amber" style="margin-right:12px;">Needs Update</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <p style="font-size:0.82rem;color:var(--text-body);line-height:1.55;margin-bottom:10px;">Current settings page (8 tabs, 16 DB fields) shipped in basic form. Needs an advanced/power-user view for deeper profile configuration.</p>
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Area</th><th>Current</th><th>Needed</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">About You</td>
+              <td>Name, role, industry, company size</td>
+              <td>+ LinkedIn import, negotiation history summary, career stage</td>
+            </tr>
+            <tr>
+              <td class="mono">Goals &amp; Style</td>
+              <td>Primary goal, negotiation style preference</td>
+              <td>+ Advanced: active deals list, goal templates, style calibration from assessment</td>
+            </tr>
+            <tr>
+              <td class="mono">Experience</td>
+              <td>5 confidence scales (salary, vendor, etc.)</td>
+              <td>+ Detailed history: years, deal count, domains, biggest win/loss</td>
+            </tr>
+            <tr>
+              <td class="mono">Constraints</td>
+              <td>3 text fields (authority, timeline, culture)</td>
+              <td>+ Structured: org chart context, approval chains, cultural norms library</td>
+            </tr>
+            <tr>
+              <td class="mono">Learning Prefs</td>
+              <td>Coaching style, detail level, feedback pref</td>
+              <td>+ Advanced: session length pref, topic interests, notification settings</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-blue" style="margin-top:10px;">
+        <div class="callout-title">Decision Needed</div>
+        <p>Should advanced settings be a toggle within each tab, a separate "Advanced" tab, or progressive disclosure (show more fields as user engages)? Nic's UX recommendation needed.</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- Brand System -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Brand</div>
+        <div class="acc-title">Design System Status</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Component</th><th>Status</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">Color Palette</td><td><span class="badge badge-green">Locked</span></td><td>Warm neutrals, process blue accent, ASF gradient</td></tr>
+            <tr><td class="mono">Typography</td><td><span class="badge badge-green">Locked</span></td><td>Moret (display), Inter (body), SF Mono/Fira Code (data)</td></tr>
+            <tr><td class="mono">Component Library</td><td><span class="badge badge-green">Documented</span></td><td>32 shadcn/ui components mapped, component-library-strategy.html</td></tr>
+            <tr><td class="mono">Stakeholder Docs</td><td><span class="badge badge-green">Active</span></td><td>5 published on GitHub Pages, consistent CSS system</td></tr>
+            <tr><td class="mono">In-App Consistency</td><td><span class="badge badge-amber">Partial</span></td><td>Chat + settings on-brand. Assessment, onboarding need review</td></tr>
+            <tr><td class="mono">Logo / Wordmark</td><td><span class="badge badge-amber">Pending</span></td><td>Need final lockup from Nic for website + email header</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================
+     TAB 4: BETA STRATEGY
+     ============================================================ -->
+<div class="tab-panel panel-beta">
+
+  <div class="section-block">
+    <p class="section-label">Beta Program</p>
+    <h2 class="section-title">100-User Validation Plan</h2>
+    <p class="section-desc">Closed beta, invitation-only. Every user hand-selected and personally onboarded. Four phases scaling from 0 to 100 users within one month.</p>
+  </div>
+
+  <!-- Phase Timeline -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Phases</div>
+        <div class="acc-title">Phase Timeline</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="timeline">
+        <div class="timeline-item tl-active">
+          <div class="timeline-title">Phase 0: Pre-Beta <span class="badge badge-amber">Current</span></div>
+          <div class="timeline-desc">Finalize eval criteria with Tom/Mark/Scott. Implement feedback modal. Add cohort fields to schema. Set up PostHog analytics. Prepare beta welcome email.</div>
+        </div>
+        <div class="timeline-item tl-future">
+          <div class="timeline-title">Phase 1: Inner Circle <span class="badge badge-blue">10-20 Users</span></div>
+          <div class="timeline-desc">Berkshire contacts via Mark and Lee. Daily monitoring, rapid iteration. Exit: &gt;60% complete first conversation, no critical bugs.</div>
+        </div>
+        <div class="timeline-item tl-future">
+          <div class="timeline-title">Phase 2: Expand <span class="badge badge-blue">50-80 Users</span></div>
+          <div class="timeline-desc">Broader Berkshire network + methodology experts. Weekly feedback synthesis. Exit: &gt;30% Day-7 retention, NPS &gt;30.</div>
+        </div>
+        <div class="timeline-item tl-future">
+          <div class="timeline-title">Phase 3: Validate <span class="badge badge-blue">80-100 Users</span></div>
+          <div class="timeline-desc">Fill Silhouette profile gaps. NPS survey. Exit: &gt;20% Day-30 retention, WTP signal.</div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- Go/Kill Metrics -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Decision Framework</div>
+        <div class="acc-title">Go / Kill Metrics</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Signal</th><th>Go</th><th>Strong</th><th>Kill</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">Activation Rate</td><td>&gt;40%</td><td>&gt;50%</td><td>&lt;20%</td></tr>
+            <tr><td class="mono">Day-30 Retention</td><td>&gt;20%</td><td>&gt;30%</td><td>&lt;10%</td></tr>
+            <tr><td class="mono">NPS</td><td>&gt;30</td><td>&gt;50</td><td>&lt;0</td></tr>
+            <tr><td class="mono">Framework Fidelity</td><td>&gt;3.5/5</td><td>&gt;4.0/5</td><td>&lt;2.5/5</td></tr>
+            <tr><td class="mono">Safety Failures</td><td>Zero</td><td>Zero</td><td>Any</td></tr>
+            <tr><td class="mono">WTP Signal</td><td>3+ unprompted</td><td>Sharing w/ colleagues</td><td>"Just another chatbot"</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Target Users -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Target Mix</div>
+        <div class="acc-title">User Profile (100 Users)</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Segment</th><th>%</th><th>Profile</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">Deal-makers</td><td>40%</td><td>Sales, BD, procurement professionals</td></tr>
+            <tr><td class="mono">People Managers</td><td>25%</td><td>Compensation, promotion, conflict</td></tr>
+            <tr><td class="mono">Executives</td><td>20%</td><td>Strategic negotiation, board-level decisions</td></tr>
+            <tr><td class="mono">Individual Contributors</td><td>15%</td><td>Salary, vendor, cross-functional</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Recruitment -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Recruitment</div>
+        <div class="acc-title">Stakeholder RACI</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Stakeholder</th><th>Role</th><th>Responsibility</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">Mark Mirra</td><td>Recruitment Lead</td><td>Identify Phase 1 users from Berkshire portfolio</td></tr>
+            <tr><td class="mono">Lee Rozins</td><td>Recruitment Lead</td><td>Revenue signal, client relationship validation</td></tr>
+            <tr><td class="mono">Tom / Scott</td><td>Methodology Eval</td><td>Review 5-10 transcripts/week, score fidelity</td></tr>
+            <tr><td class="mono">Nic</td><td>Brand &amp; UX</td><td>UX audit at Phase 1 and Phase 3 milestones</td></tr>
+            <tr><td class="mono">Terrance</td><td>Product Engineering</td><td>Analytics, bug triage, eval scores, weekly dashboard</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Anchor Question -->
+  <div class="callout callout-green" style="margin-top:6px;">
+    <div class="callout-title">The Anchor Question</div>
+    <p><strong>"Does Ali preserve methodology integrity in a live conversation?"</strong><br>Every metric ladders up to this. If yes, we have a product. If no, we have a chatbot.</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     TAB 4: CONTRACT INTELLIGENCE
+     ============================================================ -->
+<div class="tab-panel panel-phase2">
+
+  <div class="section-block">
+    <p class="section-label">Phase 2 Module</p>
+    <h2 class="section-title">Contract Decomposition</h2>
+    <p class="section-desc">Tom: "I know very little about the beef commodity industry. There's terminology in the contract I had no context of." This module reads raw contracts and pre-populates Tom's 4-phase planning workbook.</p>
+  </div>
+
+  <!-- Pipeline -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Architecture</div>
+        <div class="acc-title">3-Stage Pipeline</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="pipeline">
+        <div class="pipeline-stage stage-done">
+          <div class="stage-num">Stage 1</div>
+          <div class="stage-title">Anonymize</div>
+          <div class="stage-desc">Local-only PII stripping, OCR for scanned PDFs (Tesseract 300dpi). No raw documents leave user's machine.</div>
+          <span class="badge badge-green" style="margin-top:6px;">Built</span>
+        </div>
+        <div class="pipeline-stage">
+          <div class="stage-num">Stage 2</div>
+          <div class="stage-title">Schema-Driven Extract</div>
+          <div class="stage-desc">Parsing + LLM extraction using Tom's methodology as schema. Per-field confidence + citation.</div>
+          <span class="badge badge-purple" style="margin-top:6px;">Build</span>
+        </div>
+        <div class="pipeline-stage">
+          <div class="stage-num">Stage 3</div>
+          <div class="stage-title">Coach</div>
+          <div class="stage-desc">Format into 4-phase workbook. Pattern Mirror: show what Ali sees, what it doesn't. Score relevant Aligned Moves.</div>
+          <span class="badge badge-purple" style="margin-top:6px;">Build</span>
+        </div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:10px;"><strong>Why 3 stages instead of 5:</strong> Tom's methodology doesn't separate extraction, classification, and analysis &mdash; he does them simultaneously. The schema does this in a single LLM pass.</p>
+    </div>
+  </details>
+
+  <!-- Business Case -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Business Case</div>
+        <div class="acc-title">4-8 Hours &rarr; 30 Minutes</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <p style="font-size:0.82rem;color:var(--text-body);line-height:1.55;">Contract-to-strategy prep time reduction. Internal dogfooding first. Chelsea (new Aligned employee) is primary test user &mdash; if a domain novice can use the output to prepare for a client engagement, the module works.</p>
+    </div>
+  </details>
+
+  <!-- Competitive Landscape -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Competitive Context</div>
+        <div class="acc-title">Nobody Does What Ali Does</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Company</th><th>What They Do</th><th>What They Don't</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">Harvey AI <span style="font-size:0.64rem;color:var(--text-muted);">$8B</span></td><td>Legal AI: chat, doc vault (96-97% extraction), workflow automation</td><td>Negotiation coaching, strategy prep</td></tr>
+            <tr><td class="mono">Ironclad</td><td>Contract lifecycle: authoring, approvals, obligation tracking</td><td>Negotiation decomposition, Get/Give/Both</td></tr>
+            <tr><td class="mono">Sirion <span style="font-size:0.64rem;color:var(--text-muted);">94.2% F1</span></td><td>Contract analytics: risk scoring, compliance, extraction</td><td>Negotiation preparation, coaching</td></tr>
+            <tr><td class="mono">Luminance / Kira</td><td>Due diligence, clause extraction, risk flagging</td><td>Anything beyond legal analysis</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;"><strong>The gap:</strong> Every tool stops at legal analysis. None answer "what should the negotiator DO?" That's Ali's whitespace.</p>
+    </div>
+  </details>
+
+  <!-- Output Structure -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Output</div>
+        <div class="acc-title">Negotiation Planning Brief</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:8px;">Maps directly to Tom's BBX Planning Tool &mdash; his existing 4-phase methodology workbook.</p>
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Phase</th><th>What Ali Extracts</th><th>Key Sections</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">01 Prepare</td><td>Objectives, BATNA, alignment/conflict, approach, team</td><td>Terms (Get/Give/Both), walkaway zones</td></tr>
+            <tr><td class="mono">02 Communicate</td><td>Our priorities, their priorities, flexibility zones</td><td>Domain glossary w/ negotiation significance</td></tr>
+            <tr><td class="mono">03 Propose</td><td>Trading strategy, package options</td><td>Priority asymmetry cross-reference</td></tr>
+            <tr><td class="mono">04 Align</td><td>Position tracker, problem planner</td><td>Risk: impact x likelihood, mitigation</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Staged Expansion -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Roadmap</div>
+        <div class="acc-title">Staged Source Expansion</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Stage</th><th>Source</th><th>Confidence</th><th>Gate</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">1 (MVP)</td><td>Contracts only</td><td>Moderate</td><td>Tom validates on 3+ contracts</td></tr>
+            <tr><td class="mono">2</td><td>+ Term sheets</td><td>Moderate-High</td><td>Tom + Chelsea confirm value</td></tr>
+            <tr><td class="mono">3</td><td>+ User context</td><td>Higher</td><td>Chelsea uses in real prep</td></tr>
+            <tr><td class="mono">4</td><td>+ Email (opt-in)</td><td>High</td><td>Privacy review + Tom approval</td></tr>
+            <tr><td class="mono">5</td><td>+ Market APIs</td><td>Highest</td><td>Enterprise request</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================
+     TAB 5: PROJECT STATUS
+     ============================================================ -->
+<div class="tab-panel panel-status">
+
+  <div class="section-block">
+    <p class="section-label">Project Status</p>
+    <h2 class="section-title">Sprint Progress &amp; Priorities</h2>
+    <p class="section-desc">97 tasks across 12 sprints. Foundation shipped. Focus: UI refinement, settings, eval harness, prompt quality.</p>
+  </div>
+
+  <!-- Progress -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Overall</div>
+        <div class="acc-title">14 of 97 Tasks Complete</div>
+      </div>
+      <span class="badge badge-amber">14.4%</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width:14.4%;"></div>
+      </div>
+      <div class="progress-label"><span>Sprint 0-4 (Foundation)</span><span>14.4%</span></div>
+
+      <div class="table-wrap" style="margin-top:12px;">
+        <table class="field-table">
+          <thead>
+            <tr><th>Phase</th><th>Codename</th><th>Status</th><th>Sprints</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">MVP</td><td>The Foundation</td><td><span class="badge badge-amber">In Progress</span></td><td>0-4</td></tr>
+            <tr><td class="mono">Phase 1</td><td>The Analyst</td><td><span class="badge badge-muted">Q1 2026</span></td><td>5-8</td></tr>
+            <tr><td class="mono">Phase 2</td><td>The Strategist</td><td><span class="badge badge-muted">2026</span></td><td>9-10</td></tr>
+            <tr><td class="mono">Phase 3</td><td>The Force Multiplier</td><td><span class="badge badge-muted">2026</span></td><td>11-12</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Shipped -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Shipped</div>
+        <div class="acc-title">Completed Milestones</div>
+      </div>
+      <span class="badge badge-green">8 Items</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Feature</th><th>Sprint</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>70-Question Silhouette Assessment (v1.0)</td><td class="mono">0-1</td><td><span class="badge badge-green">Shipped</span></td></tr>
+            <tr><td>20 Negotiation Personas (4 traits x 5 styles)</td><td class="mono">1</td><td><span class="badge badge-green">Shipped</span></td></tr>
+            <tr><td>AI Chat powered by Claude Sonnet</td><td class="mono">2</td><td><span class="badge badge-green">Shipped</span></td></tr>
+            <tr><td>Personality-Aware Coaching</td><td class="mono">3</td><td><span class="badge badge-green">Shipped</span></td></tr>
+            <tr><td>5-Type Classification System</td><td class="mono">2</td><td><span class="badge badge-green">Shipped</span></td></tr>
+            <tr><td>Advisory Engine (Forces of Leverage)</td><td class="mono">2+4</td><td><span class="badge badge-green">Shipped</span></td></tr>
+            <tr><td>Settings Page (8 tabs, 16 DB fields)</td><td class="mono">&mdash;</td><td><span class="badge badge-green">Shipped</span></td></tr>
+            <tr><td>Conversation Engine V3.4.0</td><td class="mono">&mdash;</td><td><span class="badge badge-green">Production</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Priority Items -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Current Focus</div>
+        <div class="acc-title">Priority Items</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Item</th><th>Priority</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Prompt V3.5.0 (Merge Mark's revisions)</td><td><span class="badge badge-red">P0</span></td><td>Blocked on diff review</td></tr>
+            <tr><td>Double question bug fix</td><td><span class="badge badge-red">P0</span></td><td>Root cause needed</td></tr>
+            <tr><td>PostHog analytics</td><td><span class="badge badge-red">P0</span></td><td>Required for beta</td></tr>
+            <tr><td>Feedback collection modal</td><td><span class="badge badge-red">P0</span></td><td>Required for beta</td></tr>
+            <tr><td>User cohort schema fields</td><td><span class="badge badge-red">P0</span></td><td>Required for beta</td></tr>
+            <tr><td>Braintrust eval re-baseline</td><td><span class="badge badge-amber">P1</span></td><td>Blocked on env config</td></tr>
+            <tr><td>Multi-select diagnostic UI</td><td><span class="badge badge-amber">P1</span></td><td>Mark requested</td></tr>
+            <tr><td>Silhouette 2.0</td><td><span class="badge badge-amber">P1</span></td><td>Blocked on Tom's framework</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <!-- Next 30 Days -->
+  <details class="accordion" open>
+    <summary>
+      <div>
+        <div class="acc-label">Planning</div>
+        <div class="acc-title">Next 30 Days &mdash; Proposed Sprints</div>
+      </div>
+      <span class="badge badge-purple" style="margin-right:12px;">Draft</span>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <div class="callout callout-amber" style="margin-bottom:12px;">
+        <div class="callout-title">For Discussion</div>
+        <p>These are proposed focus areas based on current P0 items and beta dependencies. Priority and sequencing TBD &mdash; let's decide together.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead>
+            <tr><th>Sprint</th><th>Focus</th><th>Key Deliverables</th><th>Gate</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">A</td>
+              <td><strong>Prompt V3.5.0</strong></td>
+              <td>Merge Mark's revisions, fix double question bug, add value delivery templates, re-baseline Braintrust evals</td>
+              <td>Mark approves diff, eval scores &ge; V3.4.0 baseline</td>
+            </tr>
+            <tr>
+              <td class="mono">B</td>
+              <td><strong>Beta Infrastructure</strong></td>
+              <td>PostHog analytics, feedback collection modal, user cohort schema fields, onboarding survey (Tally.so), beta welcome email</td>
+              <td>End-to-end: signup &rarr; onboard &rarr; first conversation &rarr; feedback captured</td>
+            </tr>
+            <tr>
+              <td class="mono">C</td>
+              <td><strong>Phase 1 Launch</strong></td>
+              <td>10-20 inner circle users live, daily monitoring dashboard, rapid iteration on bugs/UX, first transcript reviews with Tom/Scott</td>
+              <td>&gt;60% complete first conversation, zero critical bugs, Mark/Lee confirm recruits</td>
+            </tr>
+            <tr>
+              <td class="mono">D</td>
+              <td><strong>Quality + Scale Prep</strong></td>
+              <td>Multi-select diagnostic UI, response depth improvements, Silhouette &harr; V3 integration tightening, Phase 2 expansion planning</td>
+              <td>NPS &gt;30 from Phase 1 cohort, framework fidelity &gt;3.5/5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.76rem;color:var(--text-muted);margin-top:8px;"><strong>Dependencies:</strong> Sprint A unblocks Sprint C (can't launch beta on broken prompt). Sprint B can run parallel with A. Sprint D contingent on Phase 1 learnings.</p>
+    </div>
+  </details>
+
+  <!-- Published Artifacts -->
+  <details class="accordion">
+    <summary>
+      <div>
+        <div class="acc-label">Resources</div>
+        <div class="acc-title">Published Artifacts</div>
+      </div>
+      <span class="acc-arrow">&#9654;</span>
+    </summary>
+    <div class="acc-body">
+      <ul class="link-list">
+        <li><a href="https://tchat192.github.io/ali-stakeholder-docs/architecture/conversation-engine-visual.html" target="_blank">Conversation Engine Visual</a><div class="link-desc">Signal flow from input through classification to coaching output</div></li>
+        <li><a href="https://tchat192.github.io/ali-stakeholder-docs/architecture/profile-settings-corpus.html" target="_blank">Profile Settings Corpus</a><div class="link-desc">8-tab settings architecture with field definitions</div></li>
+        <li><a href="https://tchat192.github.io/ali-stakeholder-docs/architecture/v34-prompt-diff.html" target="_blank">V3.4 Prompt Diff</a><div class="link-desc">Side-by-side prompt comparison with source badges</div></li>
+        <li><a href="https://tchat192.github.io/ali-stakeholder-docs/product/roadmap.html" target="_blank">Product Roadmap</a><div class="link-desc">4-phase evolution from Foundation to Force Multiplier</div></li>
+        <li><a href="https://tchat192.github.io/ali-stakeholder-docs/guides/BRAINTRUST_EVAL_GUIDE.html" target="_blank">Braintrust Eval Guide</a><div class="link-desc">Automated coaching quality scoring methodology</div></li>
+      </ul>
+    </div>
+  </details>
+
+</div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<div class="footer">
+  <div class="tagline">Negotiate better. Every conversation.</div>
+  <p>Ali by Aligned Negotiation &mdash; Stakeholder Document &mdash; March 5, 2026</p>
+</div>
+
+</body>
+</html>
