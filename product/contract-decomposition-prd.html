@@ -100,6 +100,48 @@ hr {
   background: rgba(184,134,11,0.06); border: 1px solid rgba(184,134,11,0.15);
   border-radius: 10px; padding: 16px 20px; margin: 16px 0;
 }
+.section-group {
+  border-left: 3px solid var(--warm-200); padding-left: 20px; margin: 40px 0;
+  position: relative;
+}
+.section-group::before {
+  content: attr(data-label);
+  position: absolute; left: -3px; top: -10px;
+  background: var(--warm-50); padding: 0 8px 0 0;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--warm-500);
+}
+.section-group.context { border-left-color: var(--process-blue); }
+.section-group.context::before { color: var(--process-blue); }
+.section-group.spec { border-left-color: var(--green); }
+.section-group.spec::before { color: var(--green); }
+.section-group.safety { border-left-color: var(--red-subtle); }
+.section-group.safety::before { color: var(--red-subtle); }
+.section-group.technical { border-left-color: var(--warm-500); }
+.section-group.technical::before { color: var(--warm-500); }
+.section-group.gtm { border-left-color: var(--asf-gold); }
+.section-group.gtm::before { color: var(--asf-gold); }
+.section-group.open { border-left-color: var(--process-blue); border-left-style: dashed; }
+.section-group.open::before { color: var(--process-blue); }
+.doc-map {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin: 20px 0 32px;
+}
+.doc-map a {
+  display: block; padding: 12px 14px; border-radius: 8px;
+  text-decoration: none; font-size: 12.5px; line-height: 1.4;
+  border: 1px solid var(--warm-200); color: var(--warm-700);
+  transition: all 0.15s;
+}
+.doc-map a:hover { border-color: var(--process-blue); background: rgba(95,134,166,0.04); }
+.doc-map a strong { display: block; font-size: 13px; color: var(--warm-900); margin-bottom: 2px; }
+.doc-map a .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.dot-context { background: var(--process-blue); }
+.dot-spec { background: var(--green); }
+.dot-safety { background: var(--red-subtle); }
+.dot-tech { background: var(--warm-500); }
+.dot-gtm { background: var(--asf-gold); }
+.dot-open { background: var(--process-blue); opacity: 0.5; }
 </style>
 </head>
 <body>
@@ -191,7 +233,7 @@ hr {
 <tbody>
 <tr>
 <td><strong>Status</strong></td>
-<td>Draft v2 (post-dialectic)</td>
+<td>Draft v3 (post-SME review Mar 10)</td>
 </tr>
 <tr>
 <td><strong>Owner</strong></td>
@@ -215,7 +257,7 @@ hr {
 </tr>
 <tr>
 <td><strong>Updated</strong></td>
-<td>2026-03-03 (dialectic synthesis applied)</td>
+<td>2026-03-10 (SME review + scoping decisions)</td>
 </tr>
 <tr>
 <td><strong>Spec Reference</strong></td>
@@ -228,6 +270,19 @@ hr {
 </tbody>
 </table>
 <hr />
+
+<h3 style="font-family: 'Moret', Georgia, serif; font-size: 18px; color: var(--warm-900); margin: 24px 0 8px;">Document Map</h3>
+<p style="font-size: 12.5px; color: var(--warm-500); margin-bottom: 12px;">Six sections, color-coded. Click to jump.</p>
+<div class="doc-map">
+  <a href="#1-why-problem-statement"><strong><span class="dot dot-context"></span>Context</strong>Why this module, who it's for, business case</a>
+  <a href="#3-feature-capabilities"><strong><span class="dot dot-spec"></span>Core Spec</strong>Features, phases, extraction schema, user stories</a>
+  <a href="#5-failure-modes"><strong><span class="dot dot-safety"></span>Safety &amp; Failure</strong>What goes wrong, assumption gates, guardrails</a>
+  <a href="#6-technical-architecture"><strong><span class="dot dot-tech"></span>Technical</strong>Pipeline, schema, coaching gradient, data flow</a>
+  <a href="#7-validation-plan"><strong><span class="dot dot-gtm"></span>Go-to-Market</strong>Validation plan, scope exclusions, competitive landscape</a>
+  <a href="#11-open-questions-for-tom-updated"><strong><span class="dot dot-open"></span>Open Items</strong>Questions for Tom, reference materials, appendix</a>
+</div>
+
+<div class="section-group context" data-label="CONTEXT">
 <h2 id="1-why-problem-statement">1. Why — Problem Statement</h2>
 <h3 id="the-user-problem">The User Problem</h3>
 <p>Tom described it in the 03-02 sync: <strong>"I know very little about the beef commodity industry. There's terminology in the contract I had no context of what it means."</strong></p>
@@ -283,7 +338,9 @@ hr {
 </tbody>
 </table>
 <p><strong>Primary validation user: a domain novice.</strong> If someone unfamiliar with the client's industry can use the output to prepare for an engagement, the module works.</p>
+</div><!-- /CONTEXT -->
 <hr />
+<div class="section-group spec" data-label="CORE SPEC">
 <h2 id="3-feature-capabilities">3. Feature Capabilities</h2>
 <h3 id="what-the-module-does">What the Module Does</h3>
 <p>The module takes raw contract documents and produces a <strong>pre-populated negotiation planning workbook</strong> — structured to match Tom's existing 4-phase methodology.</p>
@@ -542,7 +599,9 @@ hr {
 <li>[ ] Surfaces top 5-8 relevant Aligned Moves with explanation of why each applies</li>
 <li>[ ] Tom validates classification accuracy on 5+ real contracts</li>
 </ul>
+</div><!-- /CORE SPEC -->
 <hr />
+<div class="section-group safety" data-label="SAFETY &amp; FAILURE">
 <h2 id="5-failure-modes">5. Failure Modes</h2>
 <table>
 <thead>
@@ -610,7 +669,9 @@ hr {
 </tr>
 </tbody>
 </table>
+</div><!-- /SAFETY -->
 <hr />
+<div class="section-group technical" data-label="TECHNICAL">
 <h2 id="6-technical-architecture">6. Technical Architecture</h2>
 <blockquote>
 <p><strong>Architecture rationale:</strong> A <a href="../research/dialectics/contract-intelligence-identity/index.md">dialectic analysis</a> (Round 1: domain-native vs. platform transplant; Round 2: contract-only vs. multi-source) produced two synthesis insights that reshape this architecture:</p>
@@ -869,8 +930,10 @@ Raw contract ───────────┐   │                         
               Mapping file  │   NEVER leaves            │
               (local only)  │   user&#39;s machine          │
 </code></pre></div>
+</div><!-- /TECHNICAL -->
 
 <hr />
+<div class="section-group gtm" data-label="GO-TO-MARKET">
 <h2 id="7-validation-plan">7. Validation Plan</h2>
 <h3 id="phase-a-internal-dogfooding-now-beta">Phase A: Internal Validation (Now → Beta)</h3>
 <table>
@@ -1068,7 +1131,9 @@ Raw contract ───────────┐   │                         
 </tr>
 </tbody>
 </table>
+</div><!-- /GTM -->
 <hr />
+<div class="section-group open" data-label="OPEN ITEMS">
 <h2 id="10-reference-materials-available">10. Reference Materials (Available)</h2>
 <table>
 <thead>
@@ -1160,6 +1225,7 @@ Raw contract ───────────┐   │                         
 <li><strong>Get/Give/Both Check</strong> — Scoring tool for term classification</li>
 <li><strong>Problem Planner</strong> — Risk assessment matrix (up to 20 problems, impact x likelihood, mitigation)</li>
 </ol>
+</div><!-- /OPEN ITEMS -->
 </main>
 <div style="text-align:center;color:var(--warm-500);font-size:12px;padding:20px 40px;">
   Ali MVP — Aligned Negotiation &middot; Confidential &middot; March 2026
