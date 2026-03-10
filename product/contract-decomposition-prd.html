@@ -340,64 +340,221 @@ details .detail-body { padding: 14px 18px; }
 <hr />
 
 <div class="section-group context" data-label="CONTEXT">
-<h2 id="1-why-problem-statement">1. Why — Problem Statement</h2>
-<h3 id="the-user-problem">The User Problem</h3>
-<p>Tom described it in the 03-02 sync: <strong>"I know very little about the beef commodity industry. There's terminology in the contract I had no context of what it means."</strong></p>
-<p>This is the problem every negotiation practitioner faces when a client hands them:</p>
-<ul>
-<li>A legal contract full of domain-specific language</li>
-<li>A set of commercial terms they need to negotiate</li>
-<li>Zero preparation structure</li>
-</ul>
-<p>Today, Tom's workflow is manual:</p>
-<ol>
-<li>Client sends raw contracts + context</li>
-<li>Tom reads everything (hours of work)</li>
-<li>Tom fills out his 4-phase planning workbook (the BBX Planning Tool) by hand</li>
-<li>Tom builds a negotiation strategy from the workbook</li>
-</ol>
-<p><strong>The contract decomposition module automates steps 1-3.</strong> It reads the contract, explains the domain terminology, and pre-populates Tom's planning framework — so the human expert spends time on strategy, not data extraction.</p>
-<h3 id="why-now">Why Now</h3>
-<ul>
-<li>All foundational components are in place — the conversation engine, classification system, and 43 Aligned Moves are production-ready</li>
-<li>Real anonymized client contracts are available for development and validation</li>
-<li>The platform architecture naturally lends itself to this capability — document parsing is commodity infrastructure, and our methodology schema provides the differentiated extraction layer</li>
-<li>New team members joining Aligned need structured preparation tools to consult effectively from day one</li>
-</ul>
-<h3 id="business-objective">Business Objective</h3>
-<p>Reduce contract-to-strategy preparation time from <strong>4-8 hours (manual)</strong> to <strong>30 minutes (AI-assisted review)</strong>. Internal validation ensures quality before broader release.</p>
-<hr />
-<h2 id="2-target-users">2. Target Users</h2>
-<table>
-<thead>
-<tr>
-<th>User</th>
-<th>Context</th>
-<th>Pain Point</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Tom Hilgeman</strong> (SME)</td>
-<td>Receives client contracts across unfamiliar industries</td>
-<td>Must manually read, extract terms, fill planning workbook. Hours of prep before real advisory work begins.</td>
-</tr>
-<tr>
-<td><strong>Chelsea</strong> (New Aligned consultant)</td>
-<td>Coming from outside industry, unfamiliar with negotiation frameworks</td>
-<td>Needs to get up to speed quickly on client deals. Doesn't know what to look for in a contract.</td>
-</tr>
-<tr>
-<td><strong>Future: Enterprise client</strong></td>
-<td>Uploads own contracts for self-service negotiation prep</td>
-<td>Wants structured preparation without hiring a consultant.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Primary validation user: a domain novice.</strong> If someone unfamiliar with the client's industry can use the output to prepare for an engagement, the module works.</p>
+
+<!-- Tab CSS (scoped to .context-tabs) -->
+<style>
+.context-tabs input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.context-tabs .tab-bar {
+  display: flex;
+  background: var(--warm-100);
+  border-bottom: 2px solid var(--warm-200);
+  margin: 0 0 0;
+  gap: 0;
+}
+
+.context-tabs .tab-bar label {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--warm-500);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+  user-select: none;
+}
+
+.context-tabs .tab-bar label:hover {
+  color: var(--warm-700);
+}
+
+.context-tabs .tab-panel {
+  display: none;
+  padding: 20px;
+}
+
+/* Tab 1: Problem Statement — active when its radio is checked */
+#context-tab-problem:checked ~ .tab-bar label[for="context-tab-problem"] {
+  color: var(--warm-900);
+  border-bottom-color: var(--process-blue);
+}
+
+#context-tab-problem:checked ~ .tab-panel-problem {
+  display: block;
+}
+
+/* Tab 2: Target Users — active when its radio is checked */
+#context-tab-users:checked ~ .tab-bar label[for="context-tab-users"] {
+  color: var(--warm-900);
+  border-bottom-color: var(--process-blue);
+}
+
+#context-tab-users:checked ~ .tab-panel-users {
+  display: block;
+}
+</style>
+
+<div class="context-tabs">
+  <!-- Radio inputs (hidden, placed before tab-bar and panels as siblings) -->
+  <input type="radio" name="context-tab" id="context-tab-problem" checked>
+  <input type="radio" name="context-tab" id="context-tab-users">
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <label for="context-tab-problem">Problem Statement</label>
+    <label for="context-tab-users">Target Users</label>
+  </div>
+
+  <!-- Panel 1: Problem Statement -->
+  <div class="tab-panel tab-panel-problem">
+    <h2 id="1-why-problem-statement">1. Why — Problem Statement</h2>
+    <h3 id="the-user-problem">The User Problem</h3>
+    <p>Tom described it in the 03-02 sync: <strong>"I know very little about the beef commodity industry. There's terminology in the contract I had no context of what it means."</strong></p>
+    <p>This is the problem every negotiation practitioner faces when a client hands them:</p>
+    <ul>
+      <li>A legal contract full of domain-specific language</li>
+      <li>A set of commercial terms they need to negotiate</li>
+      <li>Zero preparation structure</li>
+    </ul>
+    <p>Today, Tom's workflow is manual:</p>
+    <ol>
+      <li>Client sends raw contracts + context</li>
+      <li>Tom reads everything (hours of work)</li>
+      <li>Tom fills out his 4-phase planning workbook (the BBX Planning Tool) by hand</li>
+      <li>Tom builds a negotiation strategy from the workbook</li>
+    </ol>
+    <p><strong>The contract decomposition module automates steps 1-3.</strong> It reads the contract, explains the domain terminology, and pre-populates Tom's planning framework — so the human expert spends time on strategy, not data extraction.</p>
+    <h3 id="why-now">Why Now</h3>
+    <ul>
+      <li>All foundational components are in place — the conversation engine, classification system, and 43 Aligned Moves are production-ready</li>
+      <li>Real anonymized client contracts are available for development and validation</li>
+      <li>The platform architecture naturally lends itself to this capability — document parsing is commodity infrastructure, and our methodology schema provides the differentiated extraction layer</li>
+      <li>New team members joining Aligned need structured preparation tools to consult effectively from day one</li>
+    </ul>
+    <h3 id="business-objective">Business Objective</h3>
+    <p>Reduce contract-to-strategy preparation time from <strong>4-8 hours (manual)</strong> to <strong>30 minutes (AI-assisted review)</strong>. Internal validation ensures quality before broader release.</p>
+  </div>
+
+  <!-- Panel 2: Target Users -->
+  <div class="tab-panel tab-panel-users">
+    <h2 id="2-target-users">2. Target Users</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Context</th>
+          <th>Pain Point</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tom Hilgeman</strong> (SME)</td>
+          <td>Receives client contracts across unfamiliar industries</td>
+          <td>Must manually read, extract terms, fill planning workbook. Hours of prep before real advisory work begins.</td>
+        </tr>
+        <tr>
+          <td><strong>Chelsea</strong> (New Aligned consultant)</td>
+          <td>Coming from outside industry, unfamiliar with negotiation frameworks</td>
+          <td>Needs to get up to speed quickly on client deals. Doesn't know what to look for in a contract.</td>
+        </tr>
+        <tr>
+          <td><strong>Future: Enterprise client</strong></td>
+          <td>Uploads own contracts for self-service negotiation prep</td>
+          <td>Wants structured preparation without hiring a consultant.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>Primary validation user: a domain novice.</strong> If someone unfamiliar with the client's industry can use the output to prepare for an engagement, the module works.</p>
+  </div>
+
+</div>
 </div><!-- /CONTEXT -->
+
 <hr />
 <div class="section-group spec" data-label="CORE SPEC">
+
+<!-- ===== CORE SPEC TAB STYLES ===== -->
+<style>
+/* Tab radio inputs - hidden */
+.corespec-tabs-input { display: none; }
+
+/* Tab bar */
+.corespec-tabs-bar {
+  display: flex;
+  background: var(--warm-100);
+  border-bottom: 2px solid var(--warm-200);
+  margin: 0 0 0;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Tab labels */
+.corespec-tabs-bar label {
+  padding: 10px 18px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--warm-500);
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+  user-select: none;
+}
+.corespec-tabs-bar label:hover {
+  color: var(--warm-700);
+}
+
+/* Active tab label */
+#corespec-tab1:checked ~ .corespec-tabs-bar label[for="corespec-tab1"],
+#corespec-tab2:checked ~ .corespec-tabs-bar label[for="corespec-tab2"],
+#corespec-tab3:checked ~ .corespec-tabs-bar label[for="corespec-tab3"],
+#corespec-tab4:checked ~ .corespec-tabs-bar label[for="corespec-tab4"],
+#corespec-tab5:checked ~ .corespec-tabs-bar label[for="corespec-tab5"] {
+  color: var(--warm-900);
+  border-bottom-color: var(--green);
+}
+
+/* Tab panels - all hidden by default */
+.corespec-tab-panel {
+  display: none;
+  padding: 20px;
+}
+
+/* Show active panel */
+#corespec-tab1:checked ~ .corespec-tab-panel[data-tab="1"],
+#corespec-tab2:checked ~ .corespec-tab-panel[data-tab="2"],
+#corespec-tab3:checked ~ .corespec-tab-panel[data-tab="3"],
+#corespec-tab4:checked ~ .corespec-tab-panel[data-tab="4"],
+#corespec-tab5:checked ~ .corespec-tab-panel[data-tab="5"] {
+  display: block;
+}
+</style>
+
+<!-- ===== RADIO INPUTS ===== -->
+<input type="radio" name="corespec-tabs" id="corespec-tab1" class="corespec-tabs-input" checked>
+<input type="radio" name="corespec-tabs" id="corespec-tab2" class="corespec-tabs-input">
+<input type="radio" name="corespec-tabs" id="corespec-tab3" class="corespec-tabs-input">
+<input type="radio" name="corespec-tabs" id="corespec-tab4" class="corespec-tabs-input">
+<input type="radio" name="corespec-tabs" id="corespec-tab5" class="corespec-tabs-input">
+
+<!-- ===== TAB BAR ===== -->
+<div class="corespec-tabs-bar">
+  <label for="corespec-tab1">Features &amp; Input</label>
+  <label for="corespec-tab2">Phase 01 Prepare</label>
+  <label for="corespec-tab3">Terms Planning</label>
+  <label for="corespec-tab4">Phase 02-04</label>
+  <label for="corespec-tab5">User Stories</label>
+</div>
+
+<!-- ===== TAB 1: Features & Input ===== -->
+<div class="corespec-tab-panel" data-tab="1">
 <h2 id="3-feature-capabilities">3. Feature Capabilities</h2>
 <h3 id="what-the-module-does">What the Module Does</h3>
 <p>The module takes raw contract documents and produces a <strong>pre-populated negotiation planning workbook</strong> — structured to match Tom's existing 4-phase methodology.</p>
@@ -411,6 +568,10 @@ details .detail-body { padding: 14px 18px; }
 </ul>
 <h3 id="output-negotiation-planning-brief">Output: Negotiation Planning Brief</h3>
 <p>The output maps directly to Tom's BBX Planning Tool structure (his existing methodology):</p>
+</div>
+
+<!-- ===== TAB 2: Phase 01 Prepare ===== -->
+<div class="corespec-tab-panel" data-tab="2">
 <h4 id="phase-01-prepare">Phase 01 — Prepare</h4>
 <table>
 <thead>
@@ -479,6 +640,10 @@ details .detail-body { padding: 14px 18px; }
     <p style="margin: 8px 0 0; font-size: 12px; color: var(--warm-500);"><strong>Dependency:</strong> Requires Silhouette profiling module to be scoped (currently deferred).</p>
   </div>
 </details>
+</div>
+
+<!-- ===== TAB 3: Terms Planning ===== -->
+<div class="corespec-tab-panel" data-tab="3">
 <h4 id="phase-01-terms-planning">Phase 01 — Terms Planning <span style="background: rgba(194,122,107,0.15); color: var(--red-subtle); padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 700; margin-left: 8px;">SCOPED OUT — V1</span></h4>
 <p style="margin: 4px 0 10px; font-size: 13px; color: var(--warm-700);"><strong>Scoped out for V1.</strong> Retained: Terms List + Get/Give/Both. Removed: financial modeling.</p>
 <details>
@@ -497,6 +662,10 @@ details .detail-body { padding: 14px 18px; }
     </table>
   </div>
 </details>
+</div>
+
+<!-- ===== TAB 4: Phase 02-04 ===== -->
+<div class="corespec-tab-panel" data-tab="4">
 <h4 id="phase-02-communicate">Phase 02 — Communicate</h4>
 <table>
 <thead>
@@ -590,6 +759,10 @@ details .detail-body { padding: 14px 18px; }
     </ol>
   </div>
 </details>
+</div>
+
+<!-- ===== TAB 5: User Stories ===== -->
+<div class="corespec-tab-panel" data-tab="5">
 <hr />
 <h2 id="4-user-stories-acceptance-criteria">4. User Stories + Acceptance Criteria</h2>
 <h3 id="us-1-upload-and-parse">US-1: Upload and Parse</h3>
@@ -639,7 +812,10 @@ details .detail-body { padding: 14px 18px; }
 <li>[ ] Surfaces top 5-8 relevant Aligned Moves with explanation of why each applies</li>
 <li>[ ] Tom validates classification accuracy on 5+ real contracts</li>
 </ul>
+</div>
+
 </div><!-- /CORE SPEC -->
+
 <hr />
 <div class="section-group safety" data-label="SAFETY &amp; FAILURE">
 <h2 id="5-failure-modes">5. Failure Modes</h2>
@@ -713,6 +889,99 @@ details .detail-body { padding: 14px 18px; }
 <hr />
 <div class="section-group technical" data-label="TECHNICAL">
 <h2 id="6-technical-architecture">6. Technical Architecture</h2>
+
+<!-- Tab CSS (scoped to this section) -->
+<style>
+.tech-tabs-container {
+  margin: 16px 0 0;
+}
+.tech-tabs-container input[type="radio"] {
+  display: none;
+}
+.tech-tabs-nav {
+  display: flex;
+  background: var(--warm-100);
+  border-bottom: 2px solid var(--warm-200);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 0;
+}
+.tech-tabs-nav label {
+  display: block;
+  padding: 10px 18px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--warm-500);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+  user-select: none;
+  white-space: nowrap;
+}
+.tech-tabs-nav label:hover {
+  color: var(--warm-700);
+}
+.tech-tab-panel {
+  display: none;
+  padding: 20px;
+}
+/* Tab 1 active */
+#tech-tab-1:checked ~ .tech-tabs-nav label[for="tech-tab-1"] {
+  color: var(--warm-900);
+  border-bottom-color: var(--warm-500);
+  font-weight: 600;
+}
+#tech-tab-1:checked ~ .tech-tab-panel.tech-panel-1 {
+  display: block;
+}
+/* Tab 2 active */
+#tech-tab-2:checked ~ .tech-tabs-nav label[for="tech-tab-2"] {
+  color: var(--warm-900);
+  border-bottom-color: var(--warm-500);
+  font-weight: 600;
+}
+#tech-tab-2:checked ~ .tech-tab-panel.tech-panel-2 {
+  display: block;
+}
+/* Tab 3 active */
+#tech-tab-3:checked ~ .tech-tabs-nav label[for="tech-tab-3"] {
+  color: var(--warm-900);
+  border-bottom-color: var(--warm-500);
+  font-weight: 600;
+}
+#tech-tab-3:checked ~ .tech-tab-panel.tech-panel-3 {
+  display: block;
+}
+/* Tab 4 active */
+#tech-tab-4:checked ~ .tech-tabs-nav label[for="tech-tab-4"] {
+  color: var(--warm-900);
+  border-bottom-color: var(--warm-500);
+  font-weight: 600;
+}
+#tech-tab-4:checked ~ .tech-tab-panel.tech-panel-4 {
+  display: block;
+}
+</style>
+
+<div class="tech-tabs-container">
+  <!-- Radio inputs (must be direct children of container, before nav and panels) -->
+  <input type="radio" name="tech-tabs" id="tech-tab-1" checked>
+  <input type="radio" name="tech-tabs" id="tech-tab-2">
+  <input type="radio" name="tech-tabs" id="tech-tab-3">
+  <input type="radio" name="tech-tabs" id="tech-tab-4">
+
+  <!-- Tab navigation -->
+  <div class="tech-tabs-nav">
+    <label for="tech-tab-1">Architecture &amp; Pipeline</label>
+    <label for="tech-tab-2">Extraction Schema</label>
+    <label for="tech-tab-3">Coaching Gradient</label>
+    <label for="tech-tab-4">Data Flow &amp; Privacy</label>
+  </div>
+
+  <!-- Panel 1: Architecture & Pipeline -->
+  <div class="tech-tab-panel tech-panel-1">
 <blockquote>
 <p><strong>Architecture rationale:</strong> A <a href="../research/dialectics/contract-intelligence-identity/index.md">dialectic analysis</a> (Round 1: domain-native vs. platform transplant; Round 2: contract-only vs. multi-source) produced two synthesis insights that reshape this architecture:</p>
 <ol>
@@ -755,6 +1024,10 @@ details .detail-body { padding: 14px 18px; }
 <li>Score relevance of 35 Aligned Moves against deal structure</li>
 <li>Include source citations for every field</li>
 </ul>
+  </div>
+
+  <!-- Panel 2: Extraction Schema -->
+  <div class="tech-tab-panel tech-panel-2">
 <details>
   <summary id="61-negotiation-extraction-schema">6.1 Negotiation Extraction Schema — full JSON schema + design decisions</summary>
   <div class="detail-body">
@@ -829,6 +1102,10 @@ details .detail-body { padding: 14px 18px; }
 </ul>
   </div>
 </details>
+  </div>
+
+  <!-- Panel 3: Coaching Gradient -->
+  <div class="tech-tab-panel tech-panel-3">
 <h3 id="62-coaching-assertiveness-gradient">6.2 Coaching Assertiveness Gradient</h3>
 <p>Source diversity determines how assertively Ali coaches:</p>
 <table>
@@ -912,6 +1189,10 @@ details .detail-body { padding: 14px 18px; }
 </tbody>
 </table>
 <p>Each stage: Tom validates. Chelsea tests. Quality gate before proceeding. No stage begins until the previous stage passes its gate.</p>
+  </div>
+
+  <!-- Panel 4: Data Flow & Privacy -->
+  <div class="tech-tab-panel tech-panel-4">
 <h3 id="where-it-connects-to-ali">Where It Connects to Ali</h3>
 <table>
 <thead>
@@ -974,12 +1255,101 @@ Raw contract ───────────┐   │                         
               Mapping file  │   NEVER leaves            │
               (local only)  │   user&#39;s machine          │
 </code></pre></div>
+  </div>
+
+</div><!-- /tech-tabs-container -->
 </div><!-- /TECHNICAL -->
 
 <hr />
+<!-- ============================================================
+     SECTION 1: GO-TO-MARKET (tabbed sub-navigation)
+     Tabs: [Validation Plan] [Scope Exclusions] [Competitive Landscape]
+     Active tab: asf-gold (#B8860B) bottom border
+     ============================================================ -->
+
+<style>
+/* --- GTM Tab System --- */
+.gtm-tabs-wrap input[type="radio"] { display: none; }
+.gtm-tabs-wrap .gtm-tab-bar {
+  display: flex; gap: 0; border-bottom: 1px solid var(--warm-200, #E6E2DC);
+  background: var(--warm-100, #F5F0EA);
+}
+.gtm-tabs-wrap .gtm-tab-bar label {
+  padding: 10px 18px; cursor: pointer;
+  font-size: 13px; font-weight: 500;
+  color: var(--warm-500, #8A7E6E);
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  user-select: none;
+}
+.gtm-tabs-wrap .gtm-tab-bar label:hover {
+  color: var(--warm-700, #4A4540);
+}
+/* Active states */
+.gtm-tabs-wrap #gtm-tab-validation:checked ~ .gtm-tab-bar label[for="gtm-tab-validation"],
+.gtm-tabs-wrap #gtm-tab-exclusions:checked ~ .gtm-tab-bar label[for="gtm-tab-exclusions"],
+.gtm-tabs-wrap #gtm-tab-competitive:checked ~ .gtm-tab-bar label[for="gtm-tab-competitive"] {
+  color: var(--asf-gold, #B8860B);
+  border-bottom: 2px solid var(--asf-gold, #B8860B);
+}
+/* Content panels */
+.gtm-tabs-wrap .gtm-tab-content { display: none; padding: 20px; }
+.gtm-tabs-wrap #gtm-tab-validation:checked ~ .gtm-tab-content-validation,
+.gtm-tabs-wrap #gtm-tab-exclusions:checked ~ .gtm-tab-content-exclusions,
+.gtm-tabs-wrap #gtm-tab-competitive:checked ~ .gtm-tab-content-competitive {
+  display: block;
+}
+
+/* --- Open Items Tab System --- */
+.open-tabs-wrap input[type="radio"] { display: none; }
+.open-tabs-wrap .open-tab-bar {
+  display: flex; gap: 0; border-bottom: 1px solid var(--warm-200, #E6E2DC);
+  background: var(--warm-100, #F5F0EA);
+}
+.open-tabs-wrap .open-tab-bar label {
+  padding: 10px 18px; cursor: pointer;
+  font-size: 13px; font-weight: 500;
+  color: var(--warm-500, #8A7E6E);
+  border-bottom: 2px dashed transparent;
+  transition: color 0.15s, border-color 0.15s;
+  user-select: none;
+}
+.open-tabs-wrap .open-tab-bar label:hover {
+  color: var(--warm-700, #4A4540);
+}
+/* Active states */
+.open-tabs-wrap #open-tab-references:checked ~ .open-tab-bar label[for="open-tab-references"],
+.open-tabs-wrap #open-tab-questions:checked ~ .open-tab-bar label[for="open-tab-questions"],
+.open-tabs-wrap #open-tab-appendix:checked ~ .open-tab-bar label[for="open-tab-appendix"] {
+  color: var(--process-blue, #5F86A6);
+  border-bottom: 2px dashed var(--process-blue, #5F86A6);
+}
+/* Content panels */
+.open-tabs-wrap .open-tab-content { display: none; padding: 20px; }
+.open-tabs-wrap #open-tab-references:checked ~ .open-tab-content-references,
+.open-tabs-wrap #open-tab-questions:checked ~ .open-tab-content-questions,
+.open-tabs-wrap #open-tab-appendix:checked ~ .open-tab-content-appendix {
+  display: block;
+}
+</style>
+
 <div class="section-group gtm" data-label="GO-TO-MARKET">
+<div class="gtm-tabs-wrap">
+
+<input type="radio" name="gtm-tabs" id="gtm-tab-validation" checked />
+<input type="radio" name="gtm-tabs" id="gtm-tab-exclusions" />
+<input type="radio" name="gtm-tabs" id="gtm-tab-competitive" />
+
+<div class="gtm-tab-bar">
+  <label for="gtm-tab-validation">Validation Plan</label>
+  <label for="gtm-tab-exclusions">Scope Exclusions</label>
+  <label for="gtm-tab-competitive">Competitive Landscape</label>
+</div>
+
+<!-- Tab 1: Validation Plan -->
+<div class="gtm-tab-content gtm-tab-content-validation">
 <h2 id="7-validation-plan">7. Validation Plan</h2>
-<h3 id="phase-a-internal-dogfooding-now-beta">Phase A: Internal Validation (Now → Beta)</h3>
+<h3 id="phase-a-internal-dogfooding-now-beta">Phase A: Internal Validation (Now &rarr; Beta)</h3>
 <table>
 <thead>
 <tr>
@@ -1031,7 +1401,10 @@ Raw contract ───────────┐   │                         
 <li>[ ] 5+ user interview mentions of "I wish I could upload documents"</li>
 <li>[ ] Privacy/compliance review complete (GDPR, data retention)</li>
 </ul>
-<hr />
+</div>
+
+<!-- Tab 2: Scope Exclusions -->
+<div class="gtm-tab-content gtm-tab-content-exclusions">
 <h2 id="8-wont-have-explicit-scope-exclusions">8. Won't-Have (Explicit Scope Exclusions)</h2>
 <ul>
 <li><strong>No live negotiation copilot</strong> — this is preparation only, not real-time</li>
@@ -1040,7 +1413,10 @@ Raw contract ───────────┐   │                         
 <li><strong>No Silhouette integration in Phase A</strong> — personalized coaching comes after the extraction pipeline is validated</li>
 <li><strong>No user-facing upload UI in Phase A</strong> — internal CLI/script only. UI comes in Phase B if gates pass.</li>
 </ul>
-<hr />
+</div>
+
+<!-- Tab 3: Competitive Landscape -->
+<div class="gtm-tab-content gtm-tab-content-competitive">
 <h2 id="9-competitive-landscape-context-for-toms-review">9. Competitive Landscape Context (for Tom's Review)</h2>
 <p>This section summarizes findings from a deep research dialectic covering Harvey AI, the CLM market, and document AI patterns. Full analysis: <em>Internal research archive</em>.</p>
 <h3 id="nobody-does-what-ali-does">Nobody Does What Ali Does</h3>
@@ -1078,10 +1454,10 @@ Raw contract ───────────┐   │                         
 <p><strong>The gap Ali fills:</strong> Every tool in this space stops at legal analysis — "here are the clauses and their risk levels." None of them answer "what should the negotiator DO with this information?" That's Ali's whitespace.</p>
 <h3 id="key-benchmarks">Key Benchmarks</h3>
 <ul>
-<li><strong>Harvey Vault:</strong> 96-97% extraction accuracy on legal documents → target for Ali's contract extraction</li>
-<li><strong>Sirion:</strong> 94.2% F1 on contract data extraction → shows what's achievable with focused effort</li>
-<li><strong>Human-AI collaboration outperforms either alone by 5%+</strong> (Harvey research) → validates Ali's coaching model over full automation</li>
-<li><strong>CLM market:</strong> $1.2-3B, growing 11-13% CAGR → large adjacent market, but Ali is NOT in this market</li>
+<li><strong>Harvey Vault:</strong> 96-97% extraction accuracy on legal documents &rarr; target for Ali's contract extraction</li>
+<li><strong>Sirion:</strong> 94.2% F1 on contract data extraction &rarr; shows what's achievable with focused effort</li>
+<li><strong>Human-AI collaboration outperforms either alone by 5%+</strong> (Harvey research) &rarr; validates Ali's coaching model over full automation</li>
+<li><strong>CLM market:</strong> $1.2-3B, growing 11-13% CAGR &rarr; large adjacent market, but Ali is NOT in this market</li>
 </ul>
 <h3 id="patterns-worth-transplanting">Patterns Worth Transplanting</h3>
 <table>
@@ -1175,9 +1551,34 @@ Raw contract ───────────┐   │                         
 </tr>
 </tbody>
 </table>
+</div>
+
+</div><!-- /gtm-tabs-wrap -->
 </div><!-- /GTM -->
+
 <hr />
+
+<!-- ============================================================
+     SECTION 2: OPEN ITEMS (tabbed sub-navigation)
+     Tabs: [References] [Questions for Tom] [Appendix]
+     Active tab: process-blue (#5F86A6) bottom border, dashed
+     ============================================================ -->
+
 <div class="section-group open" data-label="OPEN ITEMS">
+<div class="open-tabs-wrap">
+
+<input type="radio" name="open-tabs" id="open-tab-references" checked />
+<input type="radio" name="open-tabs" id="open-tab-questions" />
+<input type="radio" name="open-tabs" id="open-tab-appendix" />
+
+<div class="open-tab-bar">
+  <label for="open-tab-references">References</label>
+  <label for="open-tab-questions">Questions for Tom</label>
+  <label for="open-tab-appendix">Appendix</label>
+</div>
+
+<!-- Tab 1: References -->
+<div class="open-tab-content open-tab-content-references">
 <h2 id="10-reference-materials-available">10. Reference Materials (Available)</h2>
 <table>
 <thead>
@@ -1215,12 +1616,15 @@ Raw contract ───────────┐   │                         
 </tr>
 </tbody>
 </table>
-<hr />
+</div>
+
+<!-- Tab 2: Questions for Tom -->
+<div class="open-tab-content open-tab-content-questions">
 <h2 id="11-open-questions-for-tom-updated">11. Open Questions for Tom (Updated)</h2>
 <h3 id="original-questions-from-v1">Original Questions (from v1)</h3>
 <ol>
 <li>
-<p><strong>Walkaway/Goal zone methodology</strong>: In the planning tool, terms have Walkaway → Pessimistic → Goal → Optimistic zones. How do you determine these? Is there a formula, or is it expert judgment? (This determines whether Ali can auto-generate them or must leave them blank.)</p>
+<p><strong>Walkaway/Goal zone methodology</strong>: In the planning tool, terms have Walkaway &rarr; Pessimistic &rarr; Goal &rarr; Optimistic zones. How do you determine these? Is there a formula, or is it expert judgment? (This determines whether Ali can auto-generate them or must leave them blank.)</p>
 </li>
 <li>
 <p><strong>Get/Give/Both classification</strong>: What signals in a contract clause indicate whether a term is a "Get" vs. "Give" vs. "Both"? Is it purely based on which party it benefits, or is there nuance?</p>
@@ -1250,10 +1654,13 @@ Raw contract ───────────┐   │                         
 <p><strong>Coaching confidence levels</strong>: When Ali coaches from contract-only data, it would say "Based on the contract language, this term appears to be a Get" (moderate confidence). When it has multiple sources, it would be more assertive. Does this make sense? Or would the moderate language undermine trust? <em>(If users are confused by confidence levels, the whole assertiveness gradient is wrong.)</em></p>
 </li>
 <li>
-<p><strong>Source expansion priorities</strong>: After contracts, we planned: term sheets → user-entered context → email analysis → market data. Does this sequence match how you'd prioritize expanding Ali's intelligence? What would you reorder?</p>
+<p><strong>Source expansion priorities</strong>: After contracts, we planned: term sheets &rarr; user-entered context &rarr; email analysis &rarr; market data. Does this sequence match how you'd prioritize expanding Ali's intelligence? What would you reorder?</p>
 </li>
 </ol>
-<hr />
+</div>
+
+<!-- Tab 3: Appendix -->
+<div class="open-tab-content open-tab-content-appendix">
 <h2 id="appendix-toms-planning-tool-structure-sheets">Appendix: Tom's Planning Tool Structure (Sheets)</h2>
 <p>Extracted from the anonymized BBX Planning Tool:</p>
 <ol>
@@ -1269,7 +1676,11 @@ Raw contract ───────────┐   │                         
 <li><strong>Get/Give/Both Check</strong> — Scoring tool for term classification</li>
 <li><strong>Problem Planner</strong> — Risk assessment matrix (up to 20 problems, impact x likelihood, mitigation)</li>
 </ol>
+</div>
+
+</div><!-- /open-tabs-wrap -->
 </div><!-- /OPEN ITEMS -->
+
 </main>
 </div><!-- /page-layout -->
 <div style="text-align:center;color:var(--warm-500);font-size:12px;padding:20px 40px;">
