@@ -30,7 +30,7 @@ header {
 }
 header h1 {
   font-family: 'Moret', Georgia, serif; font-weight: 600;
-  font-size: 32px; margin-bottom: 4px;
+  font-size: 32px; margin-bottom: 4px; color: white;
 }
 header .subtitle { font-size: 16px; opacity: 0.9; }
 header .meta {
@@ -105,7 +105,7 @@ hr {
 <body>
 <header>
   <h1 style="font-size:32px; margin:0 0 4px;">Contract Decomposition Module</h1>
-  <div class="subtitle">Product Requirements Document — For Tom Hilgeman Review</div>
+  <div class="subtitle">Product Requirements Document — Stakeholder Review</div>
   <div class="meta">
     <span>Draft v2 (post-dialectic)</span>
     <span>Owner: Terrance Chatman</span>
@@ -874,17 +874,17 @@ Raw contract ───────────┐   │                         
 </thead>
 <tbody>
 <tr>
-<td><strong>Harvey AI</strong> ($8B, ~$195M ARR)</td>
+<td><strong><a href="https://www.harvey.ai" target="_blank" style="color:inherit">Harvey AI</a></strong> ($8B, ~$195M ARR)</td>
 <td>Legal AI: chat assistant, document vault (96-97% extraction), workflow automation for lawyers</td>
 <td>Negotiation coaching, strategy prep, skill development</td>
 </tr>
 <tr>
-<td><strong>Ironclad</strong> (CLM leader)</td>
+<td><strong><a href="https://ironcladapp.com" target="_blank" style="color:inherit">Ironclad</a></strong> (CLM leader)</td>
 <td>Contract lifecycle management: authoring, approvals, obligation tracking</td>
 <td>Negotiation decomposition, Get/Give/Both, trading strategy</td>
 </tr>
 <tr>
-<td><strong>Sirion</strong> (#1 Gartner MQ, 94.2% F1)</td>
+<td><strong><a href="https://www.sirionlabs.com" target="_blank" style="color:inherit">Sirion</a></strong> (#1 Gartner MQ, 94.2% F1)</td>
 <td>Contract analytics: risk scoring, compliance, extraction</td>
 <td>Negotiation preparation, coaching, methodology codification</td>
 </tr>
@@ -916,31 +916,31 @@ Raw contract ───────────┐   │                         
 <tbody>
 <tr>
 <td>Per-field confidence scoring</td>
-<td>Reducto</td>
+<td><a href="https://www.reducto.ai" target="_blank" style="color:var(--process-blue)">Reducto</a></td>
 <td>HIGH</td>
 <td>Every extracted field carries its own confidence, not just overall document confidence</td>
 </tr>
 <tr>
 <td>Multi-agent decomposition (ISD)</td>
-<td>Hebbia (92% vs 68% RAG)</td>
+<td><a href="https://www.hebbia.ai" target="_blank" style="color:var(--process-blue)">Hebbia</a> (92% vs 68% RAG)</td>
 <td>VERY HIGH</td>
 <td>Decompose extraction into parallel sub-tasks, synthesize into Tom's framework</td>
 </tr>
 <tr>
 <td>XML Knowledge Graphs</td>
-<td>Docugami</td>
+<td><a href="https://www.docugami.com" target="_blank" style="color:var(--process-blue)">Docugami</a></td>
 <td>HIGH</td>
 <td>Structured representation of contract relationships, not just flat text</td>
 </tr>
 <tr>
 <td>Confidence-driven human-in-loop</td>
-<td>Nanonets</td>
+<td><a href="https://nanonets.com" target="_blank" style="color:var(--process-blue)">Nanonets</a></td>
 <td>HIGH</td>
 <td>Route low-confidence extractions to Tom/Chelsea for verification</td>
 </tr>
 <tr>
 <td>Playbook deviation detection</td>
-<td>AlphaSense</td>
+<td><a href="https://www.alpha-sense.com" target="_blank" style="color:var(--process-blue)">AlphaSense</a></td>
 <td>MEDIUM</td>
 <td>Flag when a contract deviates from typical industry patterns</td>
 </tr>
@@ -958,13 +958,13 @@ Raw contract ───────────┐   │                         
 </thead>
 <tbody>
 <tr>
-<td><strong>CUAD</strong> (13K+ annotations)</td>
+<td><strong><a href="https://www.atticusprojectai.org/cuad" target="_blank" style="color:inherit">CUAD</a></strong> (13K+ annotations)</td>
 <td>41 legal clause types as extraction priming</td>
 <td>CC BY 4.0</td>
 <td>Use as input to negotiation re-classifier</td>
 </tr>
 <tr>
-<td><strong>CaSiNo</strong> (1,030 dialogues)</td>
+<td><strong><a href="https://github.com/kushalchawla/CaSiNo" target="_blank" style="color:inherit">CaSiNo</a></strong> (1,030 dialogues)</td>
 <td>9 persuasion strategies, BATNA scenarios</td>
 <td>Academic</td>
 <td>Negotiation behavior patterns for coaching</td>
@@ -982,13 +982,13 @@ Raw contract ───────────┐   │                         
 <td>Feed domain glossary definitions</td>
 </tr>
 <tr>
-<td><strong>Docling</strong></td>
+<td><strong><a href="https://github.com/DS4SD/docling" target="_blank" style="color:inherit">Docling</a></strong></td>
 <td>PDF/DOCX parsing with layout awareness</td>
 <td>MIT (Linux Foundation)</td>
 <td>Commodity parsing infrastructure</td>
 </tr>
 <tr>
-<td><strong>LlamaParse</strong></td>
+<td><strong><a href="https://cloud.llamaindex.ai/parse" target="_blank" style="color:inherit">LlamaParse</a></strong></td>
 <td>Advanced document parsing (1K free/day)</td>
 <td>Freemium</td>
 <td>Alternative/complement to Docling</td>
