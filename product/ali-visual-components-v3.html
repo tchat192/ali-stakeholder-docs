@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ali Visual Component System V3</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ALI VISUAL COMPONENT SYSTEM V3
+   Production-quality showcase — one component per viewport
+   ============================================================ */
+
+/* --- FONT FACES --- */
+@font-face {
+  font-family: "Moret";
+  src: url("../fonts/moret-semibold-webfont.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- RESET --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* --- DESIGN TOKENS --- */
+:root {
+  --warm-50: #FAF8F5;
+  --warm-100: #F5F0EA;
+  --warm-200: #E8E0D4;
+  --warm-300: #D4C8B8;
+  --warm-600: #8A7E6E;
+  --warm-800: #4A4239;
+  --warm-900: #2D2620;
+
+  --process-blue: #5F86A6;
+  --process-blue-15: rgba(95,134,166,0.15);
+  --process-blue-30: rgba(95,134,166,0.30);
+  --process-blue-50: rgba(95,134,166,0.50);
+  --asf-gold: #B8860B;
+  --asf-gold-light: #D4A843;
+  --asf-copper: #C4956A;
+  --asf-gradient: linear-gradient(135deg, #B8860B, #D4A843, #C4956A);
+  --green: #5FAF8A;
+  --green-deep: #3C786A;
+  --purple-accent: #8A84C6;
+  --purple-accent-15: rgba(138,132,198,0.15);
+  --red-subtle: #C27A6B;
+
+  --font-serif: 'Moret', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', monospace;
+
+  --glass-bg: rgba(255,255,255,0.7);
+  --glass-border: rgba(232,224,212,0.6);
+  --glass-shadow: 0 4px 24px rgba(45,38,32,0.06), 0 1px 3px rgba(45,38,32,0.04);
+  --glass-shadow-hover: 0 8px 40px rgba(45,38,32,0.1), 0 2px 6px rgba(45,38,32,0.06);
+
+  --radius: 16px;
+  --radius-sm: 8px;
+  --radius-pill: 20px;
+}
+
+/* --- BASE --- */
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--warm-50);
+  color: var(--warm-900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(184,134,11,0.3); }
+  50% { box-shadow: 0 0 24px rgba(184,134,11,0.6); }
+}
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+@keyframes radarExpand {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes barGrow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* --- NAVIGATION --- */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(250,248,245,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(232,224,212,0.5);
+  padding: 12px 24px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav-bar::-webkit-scrollbar { display: none; }
+.nav-bar.dark-mode {
+  background: rgba(45,38,32,0.9);
+  border-bottom-color: rgba(74,66,57,0.5);
+}
+.nav-pill {
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--warm-600);
+  background: transparent;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+}
+.nav-pill.active {
+  background: var(--warm-900);
+  color: white;
+  border-color: var(--warm-900);
+  box-shadow: 0 2px 8px rgba(45,38,32,0.15);
+}
+.nav-pill:hover:not(.active) {
+  background: var(--warm-100);
+  border-color: var(--warm-200);
+  color: var(--warm-800);
+}
+.nav-bar.dark-mode .nav-pill {
+  color: var(--warm-300);
+}
+.nav-bar.dark-mode .nav-pill.active {
+  background: white;
+  color: var(--warm-900);
+  border-color: white;
+}
+.nav-bar.dark-mode .nav-pill:hover:not(.active) {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  color: var(--warm-100);
+}
+
+/* --- SECTIONS --- */
+.section {
+  width: 100%;
+  height: 100vh;
+  display: none;
+  position: relative;
+  overflow: hidden;
+}
+.section.active {
+  display: flex;
+}
+
+/* --- COMPONENT LAYOUT (60/40 split) --- */
+.component-section {
+  width: 100%;
+  height: 100vh;
+  display: none;
+  padding-top: 56px; /* nav height */
+}
+.component-section.active {
+  display: flex;
+}
+.viz-panel {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 48px 40px 64px;
+  position: relative;
+}
+.meta-panel {
+  width: 40%;
+  height: 100%;
+  padding: 40px 64px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+/* --- COMPONENT CARD (glass) --- */
+.component-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.component-card:hover {
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* --- META PANEL STYLES --- */
+.meta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.meta-badge.concept {
+  background: var(--process-blue-15);
+  color: var(--process-blue);
+}
+.meta-badge.design {
+  background: rgba(184,134,11,0.12);
+  color: var(--asf-gold);
+}
+.meta-badge.ready {
+  background: rgba(95,175,138,0.12);
+  color: var(--green-deep);
+}
+.meta-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 30px;
+  color: var(--warm-900);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.meta-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--warm-600);
+}
+.meta-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm-300);
+  margin-bottom: 8px;
+}
+.meta-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.meta-list li {
+  font-size: 13px;
+  color: var(--warm-800);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+.meta-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--process-blue);
+}
+.meta-divider {
+  height: 1px;
+  background: var(--warm-200);
+  opacity: 0.6;
+}
+
+/* --- PROGRESS BAR --- */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--warm-200);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--asf-gradient);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- LEGEND --- */
+.legend {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--warm-600);
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.legend-dot.you { background: var(--process-blue); }
+.legend-dot.them { background: var(--purple-accent); }
+.legend-dot.baseline { background: var(--warm-300); }
+.legend-dot.current { background: var(--process-blue); }
+.legend-dot.zopa { background: var(--green); }
+.legend-dot.gold { background: var(--asf-gold); }
+.legend-line {
+  width: 18px;
+  height: 2px;
+}
+.legend-line.dashed {
+  background: repeating-linear-gradient(90deg, var(--warm-300) 0, var(--warm-300) 4px, transparent 4px, transparent 8px);
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero-section {
+  width: 100%;
+  height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 56px;
+}
+.hero-section.active { display: flex; }
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #2D2620 0%, #3C3228 30%, #4A4239 60%, #2D2620 100%);
+  z-index: 0;
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 40%, rgba(184,134,11,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 60%, rgba(95,134,166,0.1) 0%, transparent 50%);
+  animation: heroFloat 8s ease-in-out infinite;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B8860B' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  padding: 0 40px;
+}
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--asf-gold-light);
+  margin-bottom: 20px;
+  animation: fadeInUp 0.6s ease both;
+}
+.hero-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 56px;
+  color: #FFFFFF;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+.hero-title span {
+  background: var(--asf-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-size: 18px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+  margin-bottom: 48px;
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  margin-bottom: 48px;
+  animation: fadeInUp 0.6s ease 0.3s both;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat-number {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 700;
+  background: var(--asf-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.hero-stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: var(--asf-gradient);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease 0.4s both;
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 20px rgba(184,134,11,0.3);
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(184,134,11,0.4);
+}
+.hero-cta svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+.hero-cta:hover svg {
+  transform: translateX(3px);
+}
+
+/* Decorative grid lines behind hero */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.08;
+}
+.hero-grid-line {
+  position: absolute;
+  background: var(--asf-gold-light);
+}
+.hero-grid-line.h {
+  width: 100%;
+  height: 1px;
+}
+.hero-grid-line.v {
+  width: 1px;
+  height: 100%;
+}
+
+/* ============================================================
+   DARK THEME (for Power Dynamics section)
+   ============================================================ */
+.section-dark {
+  background: var(--warm-900);
+  color: var(--warm-100);
+}
+.section-dark .meta-title {
+  color: var(--warm-100);
+}
+.section-dark .meta-desc {
+  color: var(--warm-300);
+}
+.section-dark .meta-section-label {
+  color: var(--warm-600);
+}
+.section-dark .meta-list li {
+  color: var(--warm-200);
+}
+.section-dark .meta-divider {
+  background: var(--warm-800);
+}
+.section-dark .component-card {
+  background: rgba(74,66,57,0.5);
+  border-color: rgba(74,66,57,0.6);
+}
+
+/* ============================================================
+   PRIORITY SECTION
+   ============================================================ */
+.priority-section {
+  width: 100%;
+  height: 100vh;
+  display: none;
+  padding-top: 56px;
+  align-items: center;
+  justify-content: center;
+}
+.priority-section.active { display: flex; }
+
+.priority-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 64px;
+}
+.priority-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.priority-header h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 36px;
+  color: var(--warm-900);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+.priority-header p {
+  font-size: 15px;
+  color: var(--warm-600);
+}
+.priority-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.priority-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.priority-card:hover {
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-2px);
+}
+.priority-card-tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.priority-card.tier-1 .priority-card-tier {
+  background: rgba(95,175,138,0.12);
+  color: var(--green-deep);
+}
+.priority-card.tier-2 .priority-card-tier {
+  background: var(--process-blue-15);
+  color: var(--process-blue);
+}
+.priority-card.tier-3 .priority-card-tier {
+  background: rgba(184,134,11,0.12);
+  color: var(--asf-gold);
+}
+.priority-card h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--warm-900);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.priority-card-subtitle {
+  font-size: 13px;
+  color: var(--warm-600);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.priority-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(232,224,212,0.4);
+  font-size: 13px;
+  color: var(--warm-800);
+}
+.priority-item-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tier-1 .priority-item-dot { background: var(--green); }
+.tier-2 .priority-item-dot { background: var(--process-blue); }
+.tier-3 .priority-item-dot { background: var(--asf-gold); }
+
+/* ============================================================
+   TOOLTIP
+   ============================================================ */
+.svg-tooltip {
+  position: absolute;
+  background: var(--warm-900);
+  color: white;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 50;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ============================================================
+   SESSION REPLAY WAVEFORM
+   ============================================================ */
+.waveform-bar {
+  transform-origin: bottom;
+  transition: fill 0.15s ease;
+}
+.waveform-bar.past { fill: var(--process-blue); }
+.waveform-bar.future { fill: var(--warm-200); }
+.waveform-bar:hover { opacity: 0.8; }
+
+.inflection-marker {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.inflection-marker:hover {
+  transform: scale(1.15);
+}
+.inflection-popover {
+  position: absolute;
+  width: 240px;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  z-index: 60;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: all 0.2s ease;
+}
+.inflection-popover.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.inflection-popover.green {
+  background: white;
+  border: 1px solid rgba(95,175,138,0.3);
+}
+.inflection-popover.gold {
+  background: white;
+  border: 1px solid rgba(184,134,11,0.3);
+}
+.inflection-popover.purple {
+  background: white;
+  border: 1px solid rgba(138,132,198,0.3);
+}
+.inflection-popover-type {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.inflection-popover.green .inflection-popover-type { color: var(--green-deep); }
+.inflection-popover.gold .inflection-popover-type { color: var(--asf-gold); }
+.inflection-popover.purple .inflection-popover-type { color: var(--purple-accent); }
+.inflection-popover-text {
+  color: var(--warm-800);
+}
+.inflection-popover-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--warm-600);
+  margin-top: 6px;
+}
+
+/* ============================================================
+   ANIMATION HELPERS
+   ============================================================ */
+.anim-stagger > * {
+  animation: fadeInUp 0.5s ease both;
+}
+.anim-stagger > *:nth-child(1) { animation-delay: 0s; }
+.anim-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.anim-stagger > *:nth-child(3) { animation-delay: 0.2s; }
+.anim-stagger > *:nth-child(4) { animation-delay: 0.3s; }
+.anim-stagger > *:nth-child(5) { animation-delay: 0.4s; }
+.anim-stagger > *:nth-child(6) { animation-delay: 0.5s; }
+.anim-stagger > *:nth-child(7) { animation-delay: 0.6s; }
+.anim-stagger > *:nth-child(8) { animation-delay: 0.7s; }
+
+/* SVG animation classes */
+.svg-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 1.5s ease forwards;
+}
+.svg-draw-delayed {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 1.5s ease 0.3s forwards;
+}
+
+/* ============================================================
+   SCRUBBER STYLES
+   ============================================================ */
+.scrubber-track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: var(--warm-200);
+  border-radius: 3px;
+  margin-top: 16px;
+}
+.scrubber-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--process-blue);
+  width: 42%;
+}
+.scrubber-dot {
+  position: absolute;
+  top: 50%;
+  left: 42%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--asf-gold);
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--asf-gold), 0 2px 8px rgba(0,0,0,0.15);
+  transform: translate(-50%, -50%);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.scrubber-time {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--warm-600);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION BAR
+     ============================================================ -->
+<nav class="nav-bar" id="navBar">
+  <div class="nav-pill active" data-tab="hero" onclick="switchTab('hero')">Overview</div>
+  <div class="nav-pill" data-tab="stance" onclick="switchTab('stance')">Stance Spectrum</div>
+  <div class="nav-pill" data-tab="offer" onclick="switchTab('offer')">Offer Flow</div>
+  <div class="nav-pill" data-tab="power" onclick="switchTab('power')">Power Dynamics</div>
+  <div class="nav-pill" data-tab="zopa" onclick="switchTab('zopa')">ZOPA Analysis</div>
+  <div class="nav-pill" data-tab="skills" onclick="switchTab('skills')">Skill Tracker</div>
+  <div class="nav-pill" data-tab="replay" onclick="switchTab('replay')">Session Replay</div>
+  <div class="nav-pill" data-tab="contract" onclick="switchTab('contract')">Contract Parser</div>
+  <div class="nav-pill" data-tab="capabilities" onclick="switchTab('capabilities')" style="border-color: var(--asf-gold); color: var(--asf-gold);">Capabilities Map</div>
+</nav>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section class="hero-section active" id="tab-hero">
+  <div class="hero-bg">
+    <div class="hero-grid">
+      <div class="hero-grid-line h" style="top: 20%"></div>
+      <div class="hero-grid-line h" style="top: 40%"></div>
+      <div class="hero-grid-line h" style="top: 60%"></div>
+      <div class="hero-grid-line h" style="top: 80%"></div>
+      <div class="hero-grid-line v" style="left: 20%"></div>
+      <div class="hero-grid-line v" style="left: 40%"></div>
+      <div class="hero-grid-line v" style="left: 60%"></div>
+      <div class="hero-grid-line v" style="left: 80%"></div>
+    </div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Negotiation Intelligence Platform</div>
+    <h1 class="hero-title">Ali <span>Visual Component</span> System</h1>
+    <p class="hero-subtitle">Production-ready output artifacts for real-time negotiation coaching.<br>Seven capabilities. Four methodology phases. One unified design language.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-number">7</div>
+        <div class="hero-stat-label">Components</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">43</div>
+        <div class="hero-stat-label">Aligned Moves</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">4</div>
+        <div class="hero-stat-label">ASF Phases</div>
+      </div>
+    </div>
+    <button class="hero-cta" onclick="switchTab('stance')">
+      Explore Components
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPONENT 1: STANCE SPECTRUM
+     ============================================================ -->
+<section class="component-section" id="tab-stance">
+  <div class="viz-panel">
+    <div class="component-card" style="width: 100%; max-width: 640px; padding: 32px 36px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 4px;">Negotiation Style</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--warm-900);">Stance Spectrum</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot you"></div>You</div>
+          <div class="legend-item"><div class="legend-dot them"></div>Them</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 600 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- Axis line -->
+        <line x1="40" y1="140" x2="560" y2="140" stroke="var(--warm-200)" stroke-width="2"/>
+        <!-- Tick marks -->
+        <line x1="40" y1="132" x2="40" y2="148" stroke="var(--warm-300)" stroke-width="1.5"/>
+        <line x1="170" y1="132" x2="170" y2="148" stroke="var(--warm-300)" stroke-width="1.5"/>
+        <line x1="300" y1="132" x2="300" y2="148" stroke="var(--warm-300)" stroke-width="1.5"/>
+        <line x1="430" y1="132" x2="430" y2="148" stroke="var(--warm-300)" stroke-width="1.5"/>
+        <line x1="560" y1="132" x2="560" y2="148" stroke="var(--warm-300)" stroke-width="1.5"/>
+        <!-- Labels -->
+        <text x="40" y="175" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Accommodating</text>
+        <text x="170" y="175" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Compromising</text>
+        <text x="300" y="175" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Collaborating</text>
+        <text x="430" y="175" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Assertive</text>
+        <text x="560" y="175" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Competing</text>
+        <!-- Strategy zone fill between markers -->
+        <rect x="240" y="110" width="220" height="60" rx="8" fill="url(#strategyGradient)" opacity="0.2">
+          <animate attributeName="opacity" values="0;0.2" dur="0.8s" fill="freeze"/>
+        </rect>
+        <text x="350" y="105" text-anchor="middle" fill="var(--process-blue)" font-size="10" font-weight="600" font-family="Inter, sans-serif" letter-spacing="0.06em" opacity="0.7">STRATEGY ZONE</text>
+        <!-- You marker -->
+        <g style="animation: fadeInUp 0.5s ease 0.3s both;">
+          <circle cx="300" cy="140" r="14" fill="var(--process-blue)" opacity="0.15">
+            <animate attributeName="r" values="14;20;14" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.15;0.05;0.15" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="300" cy="140" r="10" fill="var(--process-blue)" stroke="white" stroke-width="3"/>
+          <text x="300" y="95" text-anchor="middle" fill="var(--process-blue)" font-size="13" font-weight="600" font-family="Inter, sans-serif">You</text>
+          <line x1="300" y1="104" x2="300" y2="126" stroke="var(--process-blue)" stroke-width="1" stroke-dasharray="3,3"/>
+        </g>
+        <!-- Them marker -->
+        <g style="animation: fadeInUp 0.5s ease 0.5s both;">
+          <circle cx="460" cy="140" r="14" fill="var(--purple-accent)" opacity="0.15">
+            <animate attributeName="r" values="14;20;14" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+            <animate attributeName="opacity" values="0.15;0.05;0.15" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+          </circle>
+          <circle cx="460" cy="140" r="10" fill="var(--purple-accent)" stroke="white" stroke-width="3"/>
+          <text x="460" y="95" text-anchor="middle" fill="var(--purple-accent)" font-size="13" font-weight="600" font-family="Inter, sans-serif">Them</text>
+          <line x1="460" y1="104" x2="460" y2="126" stroke="var(--purple-accent)" stroke-width="1" stroke-dasharray="3,3"/>
+        </g>
+        <!-- Gradient defs -->
+        <defs>
+          <linearGradient id="strategyGradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--process-blue)" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="var(--purple-accent)" stop-opacity="0.4"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <!-- Strategy recommendation card -->
+      <div style="margin-top: 20px; padding: 16px 20px; background: var(--process-blue-15); border-radius: 12px; border: 1px solid rgba(95,134,166,0.15);">
+        <div style="font-size: 11px; font-weight: 700; color: var(--process-blue); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">Recommended Strategy</div>
+        <div style="font-size: 14px; color: var(--warm-800); line-height: 1.55;">Maintain collaborative stance. Counterparty is trending competitive. Lead with interest-based questions to draw them toward integrative solutions before anchoring.</div>
+      </div>
+    </div>
+  </div>
+  <div class="meta-panel anim-stagger">
+    <div><span class="meta-badge design">In Design</span></div>
+    <h2 class="meta-title">Stance Spectrum</h2>
+    <p class="meta-desc">A single-axis visualization mapping both parties' negotiation approaches from Accommodating to Competing. Ali detects stylistic patterns from conversation signals and positions each party dynamically.</p>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">What Ali Generates</div>
+      <ul class="meta-list">
+        <li>Dual position markers with real-time movement</li>
+        <li>Strategy zone highlighting the negotiation window</li>
+        <li>Adaptive recommendation engine based on detected stance</li>
+        <li>Historical stance drift across sessions</li>
+      </ul>
+    </div>
+    <div>
+      <div class="meta-section-label">Data Points Needed</div>
+      <ul class="meta-list">
+        <li>Linguistic assertiveness signals from transcript</li>
+        <li>Concession frequency and magnitude</li>
+        <li>Question-to-statement ratio per party</li>
+        <li>Turn-by-turn sentiment analysis</li>
+      </ul>
+    </div>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">Coaching Progress</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+        <div class="progress-bar" style="flex: 1;">
+          <div class="progress-bar-fill" style="width: 45%;"></div>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--warm-600);">45%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPONENT 2: OFFER FLOW TIMELINE
+     ============================================================ -->
+<section class="component-section" id="tab-offer">
+  <div class="viz-panel">
+    <div class="component-card" style="width: 100%; max-width: 640px; padding: 32px 36px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 4px;">Negotiation Flow</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--warm-900);">Offer Flow Timeline</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot you"></div>Your Offers</div>
+          <div class="legend-item"><div class="legend-dot them"></div>Their Offers</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 600 300" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gapGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--process-blue)" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="var(--purple-accent)" stop-opacity="0.08"/>
+          </linearGradient>
+          <filter id="glowBlue">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Grid lines -->
+        <line x1="60" y1="40" x2="60" y2="240" stroke="var(--warm-200)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="60" y1="240" x2="560" y2="240" stroke="var(--warm-200)" stroke-width="1.5"/>
+        <!-- Y-axis labels -->
+        <text x="48" y="55" text-anchor="end" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$150K</text>
+        <text x="48" y="105" text-anchor="end" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$130K</text>
+        <text x="48" y="155" text-anchor="end" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$110K</text>
+        <text x="48" y="205" text-anchor="end" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$90K</text>
+        <text x="48" y="245" text-anchor="end" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$80K</text>
+        <!-- Horizontal grid -->
+        <line x1="60" y1="50" x2="560" y2="50" stroke="var(--warm-200)" stroke-width="0.5" stroke-dasharray="3,6"/>
+        <line x1="60" y1="100" x2="560" y2="100" stroke="var(--warm-200)" stroke-width="0.5" stroke-dasharray="3,6"/>
+        <line x1="60" y1="150" x2="560" y2="150" stroke="var(--warm-200)" stroke-width="0.5" stroke-dasharray="3,6"/>
+        <line x1="60" y1="200" x2="560" y2="200" stroke="var(--warm-200)" stroke-width="0.5" stroke-dasharray="3,6"/>
+        <!-- X-axis labels -->
+        <text x="110" y="265" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Turn 1</text>
+        <text x="222" y="265" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Turn 2</text>
+        <text x="335" y="265" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Turn 3</text>
+        <text x="447" y="265" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Turn 4</text>
+        <text x="535" y="265" text-anchor="middle" fill="var(--warm-600)" font-size="11" font-family="Inter, sans-serif" font-weight="500">Turn 5</text>
+        <!-- Gap fill polygon (converging) -->
+        <!-- Your offers: 145K(55), 135K(80), 125K(110), 118K(130), 115K(140) -->
+        <!-- Their: 85K(225), 92K(205), 100K(180), 108K(155), 112K(145) -->
+        <polygon points="110,55 222,80 335,110 447,130 535,140 535,145 447,155 335,180 222,205 110,225"
+                 fill="url(#gapGradient)" opacity="0.6">
+          <animate attributeName="opacity" values="0;0.6" dur="1s" begin="0.5s" fill="freeze"/>
+        </polygon>
+        <!-- Your Offers line -->
+        <polyline points="110,55 222,80 335,110 447,130 535,140"
+                  fill="none" stroke="var(--process-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                  class="svg-draw" filter="url(#glowBlue)"/>
+        <!-- Their Offers line -->
+        <polyline points="110,225 222,205 335,180 447,155 535,145"
+                  fill="none" stroke="var(--purple-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                  class="svg-draw-delayed"/>
+        <!-- Data points - Your Offers -->
+        <g style="animation: fadeIn 0.3s ease 0.8s both;">
+          <circle cx="110" cy="55" r="6" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <text x="110" y="42" text-anchor="middle" fill="var(--process-blue)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$145K</text>
+        </g>
+        <g style="animation: fadeIn 0.3s ease 0.9s both;">
+          <circle cx="222" cy="80" r="6" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <text x="222" y="67" text-anchor="middle" fill="var(--process-blue)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$135K</text>
+        </g>
+        <g style="animation: fadeIn 0.3s ease 1.0s both;">
+          <circle cx="335" cy="110" r="6" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <text x="335" y="97" text-anchor="middle" fill="var(--process-blue)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$125K</text>
+        </g>
+        <g style="animation: fadeIn 0.3s ease 1.1s both;">
+          <circle cx="447" cy="130" r="6" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <text x="447" y="117" text-anchor="middle" fill="var(--process-blue)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$118K</text>
+        </g>
+        <g style="animation: fadeIn 0.3s ease 1.2s both;">
+          <circle cx="535" cy="140" r="6" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <text x="516" y="130" text-anchor="end" fill="var(--process-blue)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$115K</text>
+        </g>
+        <!-- Data points - Their Offers -->
+        <g style="animation: fadeIn 0.3s ease 1.0s both;">
+          <circle cx="110" cy="225" r="6" fill="var(--purple-accent)" stroke="white" stroke-width="2.5"/>
+          <text x="110" y="244" text-anchor="middle" fill="var(--purple-accent)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$85K</text>
+        </g>
+        <g style="animation: fadeIn 0.3s ease 1.1s both;">
+          <circle cx="222" cy="205" r="6" fill="var(--purple-accent)" stroke="white" stroke-width="2.5"/>
+          <text x="222" y="224" text-anchor="middle" fill="var(--purple-accent)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$92K</text>
+        </g>
+        <g style="animation: fadeIn 0.3s ease 1.2s both;">
+          <circle cx="335" cy="180" r="6" fill="var(--purple-accent)" stroke="white" stroke-width="2.5"/>
+          <text x="335" y="199" text-anchor="middle" fill="var(--purple-accent)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$100K</text>
+        </g>
+        <g style="animation: fadeIn 0.3s ease 1.3s both;">
+          <circle cx="447" cy="155" r="6" fill="var(--purple-accent)" stroke="white" stroke-width="2.5"/>
+          <text x="447" y="174" text-anchor="middle" fill="var(--purple-accent)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$108K</text>
+        </g>
+        <g style="animation: fadeIn 0.3s ease 1.4s both;">
+          <circle cx="535" cy="145" r="6" fill="var(--purple-accent)" stroke="white" stroke-width="2.5"/>
+          <text x="516" y="161" text-anchor="end" fill="var(--purple-accent)" font-size="11" font-weight="600" font-family="SF Mono, Fira Code, monospace">$112K</text>
+        </g>
+      </svg>
+      <!-- Convergence badge -->
+      <div style="display: flex; justify-content: flex-end; margin-top: 12px; animation: fadeInUp 0.5s ease 1.5s both;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(95,175,138,0.1); border: 1px solid rgba(95,175,138,0.2); border-radius: 20px;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--green);"></div>
+          <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--green-deep);">Gap closed: 95%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="meta-panel anim-stagger">
+    <div><span class="meta-badge design">In Design</span></div>
+    <h2 class="meta-title">Offer Flow Timeline</h2>
+    <p class="meta-desc">Tracks the trajectory of offers and counteroffers across negotiation turns. The converging gap visualization reveals momentum and signals when parties are approaching agreement.</p>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">What Ali Generates</div>
+      <ul class="meta-list">
+        <li>Turn-by-turn offer tracking with animated path drawing</li>
+        <li>Convergence gap fill that fades as offers approach</li>
+        <li>Gap closure percentage with trend indicator</li>
+        <li>Concession rate analysis per turn</li>
+      </ul>
+    </div>
+    <div>
+      <div class="meta-section-label">Data Points Needed</div>
+      <ul class="meta-list">
+        <li>Explicit offer amounts from transcript extraction</li>
+        <li>Turn sequence mapping with timestamps</li>
+        <li>Concession magnitude per party per turn</li>
+        <li>BATNA reference points for context bars</li>
+      </ul>
+    </div>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">Coaching Progress</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+        <div class="progress-bar" style="flex: 1;">
+          <div class="progress-bar-fill" style="width: 55%;"></div>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--warm-600);">55%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPONENT 3: POWER DYNAMICS (DARK THEME)
+     ============================================================ -->
+<section class="component-section section-dark" id="tab-power">
+  <div class="viz-panel">
+    <div class="component-card" style="width: 100%; max-width: 520px; padding: 32px 36px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 4px;">Strategic Assessment</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--warm-100);">Power Dynamics</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item" style="color: var(--warm-300);"><div class="legend-dot you"></div>You</div>
+          <div class="legend-item" style="color: var(--warm-300);"><div class="legend-dot them"></div>Them</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 400 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="radarBg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(74,66,57,0.3)"/>
+            <stop offset="100%" stop-color="rgba(45,38,32,0)"/>
+          </radialGradient>
+        </defs>
+        <!-- Background glow -->
+        <circle cx="200" cy="200" r="160" fill="url(#radarBg)"/>
+        <!-- Pentagon grid rings -->
+        <!-- Ring 100% -->
+        <polygon points="200,50 343,109 331,269 69,269 57,109" fill="none" stroke="rgba(212,200,184,0.12)" stroke-width="1"/>
+        <!-- Ring 75% -->
+        <polygon points="200,87.5 307,131.75 298,251.75 102,251.75 93,131.75" fill="none" stroke="rgba(212,200,184,0.1)" stroke-width="1"/>
+        <!-- Ring 50% -->
+        <polygon points="200,125 272,154.5 265,234.5 135,234.5 128,154.5" fill="none" stroke="rgba(212,200,184,0.08)" stroke-width="1"/>
+        <!-- Ring 25% -->
+        <polygon points="200,162.5 236,177.25 233,217.25 167,217.25 164,177.25" fill="none" stroke="rgba(212,200,184,0.06)" stroke-width="1"/>
+        <!-- Axis lines -->
+        <line x1="200" y1="200" x2="200" y2="50" stroke="rgba(212,200,184,0.15)" stroke-width="1"/>
+        <line x1="200" y1="200" x2="343" y2="109" stroke="rgba(212,200,184,0.15)" stroke-width="1"/>
+        <line x1="200" y1="200" x2="331" y2="269" stroke="rgba(212,200,184,0.15)" stroke-width="1"/>
+        <line x1="200" y1="200" x2="69" y2="269" stroke="rgba(212,200,184,0.15)" stroke-width="1"/>
+        <line x1="200" y1="200" x2="57" y2="109" stroke="rgba(212,200,184,0.15)" stroke-width="1"/>
+        <!-- "You" polygon (80%, 65%, 70%, 55%, 85%) -->
+        <!-- Information=80%: 200, 80 -->
+        <!-- Alternatives=65%: 293, 141 -->
+        <!-- Time Pressure=70%: 292, 248 -->
+        <!-- Relationship=55%: 128, 238 -->
+        <!-- Authority=85%: 78.5, 123.5 -->
+        <g style="animation: radarExpand 0.8s ease 0.2s both; transform-origin: 200px 200px;">
+          <polygon points="200,80 293,141 292,248 128,238 78.5,123.5"
+                   fill="rgba(95,134,166,0.2)" stroke="var(--process-blue)" stroke-width="2" stroke-linejoin="round"/>
+          <!-- Data point dots -->
+          <circle cx="200" cy="80" r="4" fill="var(--process-blue)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+          <circle cx="293" cy="141" r="4" fill="var(--process-blue)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+          <circle cx="292" cy="248" r="4" fill="var(--process-blue)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+          <circle cx="128" cy="238" r="4" fill="var(--process-blue)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+          <circle cx="78.5" cy="123.5" r="4" fill="var(--process-blue)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+        </g>
+        <!-- "Them" polygon (60%, 75%, 50%, 70%, 45%) -->
+        <!-- Information=60%: 200, 110 -->
+        <!-- Alternatives=75%: 307, 131.75 -->
+        <!-- Time Pressure=50%: 265.5, 234.5 -->
+        <!-- Relationship=70%: 108, 251.7 -->
+        <!-- Authority=45%: 136, 159 -->
+        <g style="animation: radarExpand 0.8s ease 0.5s both; transform-origin: 200px 200px;">
+          <polygon points="200,110 307,131.75 265.5,234.5 108,251.7 136,159"
+                   fill="rgba(138,132,198,0.15)" stroke="var(--purple-accent)" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,4"/>
+          <circle cx="200" cy="110" r="4" fill="var(--purple-accent)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+          <circle cx="307" cy="131.75" r="4" fill="var(--purple-accent)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+          <circle cx="265.5" cy="234.5" r="4" fill="var(--purple-accent)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+          <circle cx="108" cy="251.7" r="4" fill="var(--purple-accent)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+          <circle cx="136" cy="159" r="4" fill="var(--purple-accent)" stroke="rgba(45,38,32,0.8)" stroke-width="2"/>
+        </g>
+        <!-- Axis labels with percentage -->
+        <text x="200" y="38" text-anchor="middle" fill="var(--warm-100)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Information</text>
+        <text x="200" y="28" text-anchor="middle" fill="var(--process-blue)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace" opacity="0.8">80%</text>
+
+        <text x="358" y="107" text-anchor="start" fill="var(--warm-100)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Alternatives</text>
+        <text x="358" y="121" text-anchor="start" fill="var(--process-blue)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace" opacity="0.8">65%</text>
+
+        <text x="345" y="282" text-anchor="start" fill="var(--warm-100)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Time Pressure</text>
+        <text x="345" y="296" text-anchor="start" fill="var(--process-blue)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace" opacity="0.8">70%</text>
+
+        <text x="55" y="290" text-anchor="end" fill="var(--warm-100)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Relationship</text>
+        <text x="55" y="304" text-anchor="end" fill="var(--process-blue)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace" opacity="0.8">55%</text>
+
+        <text x="42" y="107" text-anchor="end" fill="var(--warm-100)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Authority</text>
+        <text x="42" y="121" text-anchor="end" fill="var(--process-blue)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace" opacity="0.8">85%</text>
+      </svg>
+    </div>
+  </div>
+  <div class="meta-panel anim-stagger">
+    <div><span class="meta-badge concept">Concept</span></div>
+    <h2 class="meta-title">Power Dynamics</h2>
+    <p class="meta-desc">A radial spider chart mapping five dimensions of negotiation leverage. Rendered on a dark backdrop to demonstrate Ali's theme flexibility and high-contrast data visualization capabilities.</p>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">What Ali Generates</div>
+      <ul class="meta-list">
+        <li>5-axis power assessment with dual-party overlay</li>
+        <li>Per-axis percentage scores from conversation signals</li>
+        <li>Animated polygon expansion on session load</li>
+        <li>Leverage gap analysis and strategic recommendations</li>
+      </ul>
+    </div>
+    <div>
+      <div class="meta-section-label">Data Points Needed</div>
+      <ul class="meta-list">
+        <li>BATNA strength indicators (alternatives axis)</li>
+        <li>Deadline and urgency signals (time pressure)</li>
+        <li>Information asymmetry detection (information axis)</li>
+        <li>Authority level signals from language patterns</li>
+        <li>Rapport and relationship quality markers</li>
+      </ul>
+    </div>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">Coaching Progress</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+        <div class="progress-bar" style="flex: 1;">
+          <div class="progress-bar-fill" style="width: 30%;"></div>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--warm-600);">30%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPONENT 4: ZOPA ANALYSIS
+     ============================================================ -->
+<section class="component-section" id="tab-zopa">
+  <div class="viz-panel">
+    <div class="component-card" style="width: 100%; max-width: 640px; padding: 32px 36px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 4px;">Zone of Possible Agreement</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--warm-900);">ZOPA Analysis</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot you"></div>Your Range</div>
+          <div class="legend-item"><div class="legend-dot them"></div>Their Range</div>
+          <div class="legend-item"><div class="legend-dot zopa"></div>ZOPA</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 600 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="zopaGreenGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--green)" stop-opacity="0.25"/>
+            <stop offset="50%" stop-color="var(--green)" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="var(--green)" stop-opacity="0.25"/>
+          </linearGradient>
+          <linearGradient id="yourRangeGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--process-blue)" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="var(--process-blue)" stop-opacity="0.15"/>
+          </linearGradient>
+          <linearGradient id="theirRangeGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--purple-accent)" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="var(--purple-accent)" stop-opacity="0.3"/>
+          </linearGradient>
+        </defs>
+        <!-- Dollar axis -->
+        <line x1="60" y1="170" x2="560" y2="170" stroke="var(--warm-200)" stroke-width="1.5"/>
+        <!-- Axis labels -->
+        <text x="60" y="195" text-anchor="middle" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$80K</text>
+        <text x="160" y="195" text-anchor="middle" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$90K</text>
+        <text x="260" y="195" text-anchor="middle" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$100K</text>
+        <text x="360" y="195" text-anchor="middle" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$110K</text>
+        <text x="460" y="195" text-anchor="middle" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$120K</text>
+        <text x="560" y="195" text-anchor="middle" fill="var(--warm-600)" font-size="10" font-family="SF Mono, Fira Code, monospace">$130K</text>
+        <!-- Tick marks -->
+        <line x1="60" y1="166" x2="60" y2="174" stroke="var(--warm-300)" stroke-width="1"/>
+        <line x1="160" y1="166" x2="160" y2="174" stroke="var(--warm-300)" stroke-width="1"/>
+        <line x1="260" y1="166" x2="260" y2="174" stroke="var(--warm-300)" stroke-width="1"/>
+        <line x1="360" y1="166" x2="360" y2="174" stroke="var(--warm-300)" stroke-width="1"/>
+        <line x1="460" y1="166" x2="460" y2="174" stroke="var(--warm-300)" stroke-width="1"/>
+        <line x1="560" y1="166" x2="560" y2="174" stroke="var(--warm-300)" stroke-width="1"/>
+
+        <!-- Your Range bar: $95K - $130K → x=195 to x=560, y=60 -->
+        <g style="animation: fadeInUp 0.5s ease 0.2s both;">
+          <text x="45" y="72" text-anchor="end" fill="var(--process-blue)" font-size="12" font-weight="600" font-family="Inter, sans-serif">You</text>
+          <rect x="195" y="50" width="365" height="36" rx="8" fill="url(#yourRangeGrad)" stroke="var(--process-blue)" stroke-width="1.5" stroke-opacity="0.5"/>
+          <!-- Walk-away line -->
+          <line x1="195" y1="46" x2="195" y2="90" stroke="var(--process-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+          <text x="195" y="40" text-anchor="middle" fill="var(--process-blue)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace">$95K</text>
+          <text x="193" y="102" text-anchor="middle" fill="var(--red-subtle)" font-size="9" font-weight="600" font-family="Inter, sans-serif">Walk-Away</text>
+          <!-- Target -->
+          <text x="560" y="40" text-anchor="middle" fill="var(--process-blue)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace">$130K</text>
+        </g>
+
+        <!-- Their Range bar: $80K - $110K → x=60 to x=360, y=120 -->
+        <g style="animation: fadeInUp 0.5s ease 0.4s both;">
+          <text x="45" y="142" text-anchor="end" fill="var(--purple-accent)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Them</text>
+          <rect x="60" y="120" width="300" height="36" rx="8" fill="url(#theirRangeGrad)" stroke="var(--purple-accent)" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="60" y="112" text-anchor="middle" fill="var(--purple-accent)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace">$80K</text>
+          <!-- Walk-away line -->
+          <line x1="360" y1="116" x2="360" y2="160" stroke="var(--purple-accent)" stroke-width="2" stroke-dasharray="4,3"/>
+          <text x="360" y="112" text-anchor="middle" fill="var(--purple-accent)" font-size="10" font-weight="600" font-family="SF Mono, Fira Code, monospace">$110K</text>
+          <text x="362" y="172" text-anchor="middle" fill="var(--red-subtle)" font-size="9" font-weight="600" font-family="Inter, sans-serif">Walk-Away</text>
+        </g>
+
+        <!-- ZOPA overlay: $95K - $110K → x=195 to x=360 -->
+        <g style="animation: fadeIn 0.6s ease 0.8s both;">
+          <rect x="195" y="50" width="165" height="106" rx="6" fill="url(#zopaGreenGrad)" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="6,4"/>
+          <!-- ZOPA label -->
+          <rect x="248" y="78" width="60" height="22" rx="11" fill="var(--green-deep)"/>
+          <text x="278" y="93" text-anchor="middle" fill="white" font-size="11" font-weight="700" font-family="Inter, sans-serif" letter-spacing="0.06em">ZOPA</text>
+        </g>
+
+        <!-- Optimal settlement marker (gold pulsing dot) -->
+        <g style="animation: fadeIn 0.3s ease 1.2s both;">
+          <circle cx="310" cy="170" r="12" fill="rgba(184,134,11,0.15)">
+            <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.15;0.05;0.15" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="310" cy="170" r="7" fill="var(--asf-gold)" stroke="white" stroke-width="3"/>
+          <text x="310" y="215" text-anchor="middle" fill="var(--asf-gold)" font-size="10" font-weight="700" font-family="Inter, sans-serif" letter-spacing="0.04em">OPTIMAL: $106K</text>
+        </g>
+      </svg>
+      <!-- Strategy callout -->
+      <div style="margin-top: 20px; padding: 16px 20px; background: rgba(95,175,138,0.08); border-radius: 12px; border: 1px solid rgba(95,175,138,0.15);">
+        <div style="font-size: 11px; font-weight: 700; color: var(--green-deep); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">Strategy Recommendation</div>
+        <div style="font-size: 14px; color: var(--warm-800); line-height: 1.55;">Anchor at <strong style="color: var(--process-blue);">$125K</strong>, target settlement at <strong style="color: var(--asf-gold);">$106K</strong>. ZOPA width of $15K provides room for two concession rounds while staying above your reservation price.</div>
+      </div>
+    </div>
+  </div>
+  <div class="meta-panel anim-stagger">
+    <div><span class="meta-badge ready">Ready</span></div>
+    <h2 class="meta-title">ZOPA Analysis</h2>
+    <p class="meta-desc">Dual-range visualization with overlap detection. Identifies the Zone of Possible Agreement between parties and calculates optimal settlement points using weighted scoring of both parties' constraints.</p>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">What Ali Generates</div>
+      <ul class="meta-list">
+        <li>Dual range bars on shared monetary axis</li>
+        <li>ZOPA overlap detection with settlement optimization</li>
+        <li>Walk-away boundary markers per party</li>
+        <li>Pulsing optimal settlement indicator</li>
+        <li>Dynamic anchoring and concession strategy</li>
+      </ul>
+    </div>
+    <div>
+      <div class="meta-section-label">Data Points Needed</div>
+      <ul class="meta-list">
+        <li>User's reservation price and target price</li>
+        <li>Counterparty range estimation from signals</li>
+        <li>Issue weighting for multi-issue negotiations</li>
+        <li>Historical deal data for calibration</li>
+      </ul>
+    </div>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">Coaching Progress</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+        <div class="progress-bar" style="flex: 1;">
+          <div class="progress-bar-fill" style="width: 75%;"></div>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--warm-600);">75%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPONENT 5: SKILL DEVELOPMENT TRACKER
+     ============================================================ -->
+<section class="component-section" id="tab-skills">
+  <div class="viz-panel">
+    <div class="component-card" style="width: 100%; max-width: 540px; padding: 32px 36px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 4px;">Growth Analytics</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--warm-900);">Skill Development</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-line dashed"></div>Baseline</div>
+          <div class="legend-item"><div class="legend-dot current"></div>Current</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 420 420" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="skillFill" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="var(--process-blue)" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="var(--process-blue)" stop-opacity="0.1"/>
+          </linearGradient>
+        </defs>
+        <!-- Center at 210,210, radius 150 -->
+        <!-- 6 axes at 60-degree intervals, starting from top -->
+        <!-- Hexagonal grid rings -->
+        <!-- Ring 100% (r=150) -->
+        <polygon points="210,60 340,135 340,285 210,360 80,285 80,135" fill="none" stroke="var(--warm-200)" stroke-width="1"/>
+        <!-- Ring 75% (r=112.5) -->
+        <polygon points="210,97.5 307.5,153.75 307.5,266.25 210,322.5 112.5,266.25 112.5,153.75" fill="none" stroke="var(--warm-200)" stroke-width="0.75" stroke-dasharray="3,6"/>
+        <!-- Ring 50% (r=75) -->
+        <polygon points="210,135 275,172.5 275,247.5 210,285 145,247.5 145,172.5" fill="none" stroke="var(--warm-200)" stroke-width="0.75" stroke-dasharray="3,6"/>
+        <!-- Ring 25% (r=37.5) -->
+        <polygon points="210,172.5 242.5,191.25 242.5,228.75 210,247.5 177.5,228.75 177.5,191.25" fill="none" stroke="var(--warm-200)" stroke-width="0.5" stroke-dasharray="2,6"/>
+        <!-- Axis lines -->
+        <line x1="210" y1="210" x2="210" y2="60" stroke="var(--warm-200)" stroke-width="0.75"/>
+        <line x1="210" y1="210" x2="340" y2="135" stroke="var(--warm-200)" stroke-width="0.75"/>
+        <line x1="210" y1="210" x2="340" y2="285" stroke="var(--warm-200)" stroke-width="0.75"/>
+        <line x1="210" y1="210" x2="210" y2="360" stroke="var(--warm-200)" stroke-width="0.75"/>
+        <line x1="210" y1="210" x2="80" y2="285" stroke="var(--warm-200)" stroke-width="0.75"/>
+        <line x1="210" y1="210" x2="80" y2="135" stroke="var(--warm-200)" stroke-width="0.75"/>
+
+        <!-- Baseline polygon (dashed, warm-300) -->
+        <!-- Baseline: AL=35%, AN=40%, RF=30%, VC=25%, AS=45%, EC=20% -->
+        <!-- AL(top): 210, 210-150*0.35 = 210,157.5 -->
+        <!-- AN(TR): 210+130*0.40*cos30, 210-130*0.40*sin30 = 210+45, 210-26 = 255, 184 -->
+        <!-- RF(BR): 210+130*0.30*cos30, 210+130*0.30*sin30 = 210+34, 210+19.5 = 244, 229.5 -->
+        <!-- VC(bot): 210, 210+150*0.25 = 210, 247.5 -->
+        <!-- AS(BL): 210-130*0.45*cos30, 210+130*0.45*sin30 = 210-51, 210+29 = 159, 239 -->
+        <!-- EC(TL): 210-130*0.20*cos30, 210-130*0.20*sin30 = 210-22.5, 210-13 = 187.5, 197 -->
+        <polygon points="210,157.5 255,184 244,250 210,247.5 159,250 187.5,184"
+                 fill="none" stroke="var(--warm-300)" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>
+
+        <!-- Current polygon (solid Process Blue) -->
+        <!-- Current: AL=82%, AN=75%, RF=68%, VC=70%, AS=72%, EC=60% -->
+        <!-- AL(top): 210, 210-150*0.82 = 210, 87 -->
+        <!-- AN(TR): 210+130*0.75*0.866, 210-130*0.75*0.5 = 210+84.4, 210-48.75 = 294.4, 161.25 -->
+        <!-- RF(BR): 210+130*0.68*0.866, 210+130*0.68*0.5 = 210+76.5, 210+44.2 = 286.5, 254.2 -->
+        <!-- VC(bot): 210, 210+150*0.70 = 210, 315 -->
+        <!-- AS(BL): 210-130*0.72*0.866, 210+130*0.72*0.5 = 210-81, 210+46.8 = 129, 256.8 -->
+        <!-- EC(TL): 210-130*0.60*0.866, 210-130*0.60*0.5 = 210-67.5, 210-39 = 142.5, 171 -->
+        <g style="animation: radarExpand 1s cubic-bezier(0.34,1.56,0.64,1) 0.3s both; transform-origin: 210px 210px;">
+          <polygon points="210,87 294,161 286,254 210,315 129,257 142,171"
+                   fill="url(#skillFill)" stroke="var(--process-blue)" stroke-width="2.5" stroke-linejoin="round"/>
+          <!-- Vertices -->
+          <circle cx="210" cy="87" r="5" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <circle cx="294" cy="161" r="5" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <circle cx="286" cy="254" r="5" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <circle cx="210" cy="315" r="5" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <circle cx="129" cy="257" r="5" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+          <circle cx="142" cy="171" r="5" fill="var(--process-blue)" stroke="white" stroke-width="2.5"/>
+        </g>
+
+        <!-- Growth delta badges -->
+        <!-- Active Listening +47% -->
+        <g style="animation: fadeIn 0.3s ease 1.0s both;">
+          <rect x="222" y="70" width="48" height="20" rx="10" fill="rgba(95,175,138,0.15)" stroke="rgba(95,175,138,0.3)" stroke-width="1"/>
+          <text x="246" y="84" text-anchor="middle" fill="var(--green-deep)" font-size="10" font-weight="700" font-family="SF Mono, Fira Code, monospace">+47%</text>
+        </g>
+        <!-- Anchoring +35% -->
+        <g style="animation: fadeIn 0.3s ease 1.1s both;">
+          <rect x="300" y="148" width="48" height="20" rx="10" fill="rgba(95,175,138,0.15)" stroke="rgba(95,175,138,0.3)" stroke-width="1"/>
+          <text x="324" y="162" text-anchor="middle" fill="var(--green-deep)" font-size="10" font-weight="700" font-family="SF Mono, Fira Code, monospace">+35%</text>
+        </g>
+        <!-- Reframing +38% -->
+        <g style="animation: fadeIn 0.3s ease 1.2s both;">
+          <rect x="292" y="258" width="48" height="20" rx="10" fill="rgba(95,175,138,0.15)" stroke="rgba(95,175,138,0.3)" stroke-width="1"/>
+          <text x="316" y="272" text-anchor="middle" fill="var(--green-deep)" font-size="10" font-weight="700" font-family="SF Mono, Fira Code, monospace">+38%</text>
+        </g>
+        <!-- Value Creation +45% -->
+        <g style="animation: fadeIn 0.3s ease 1.3s both;">
+          <rect x="222" y="318" width="48" height="20" rx="10" fill="rgba(95,175,138,0.15)" stroke="rgba(95,175,138,0.3)" stroke-width="1"/>
+          <text x="246" y="332" text-anchor="middle" fill="var(--green-deep)" font-size="10" font-weight="700" font-family="SF Mono, Fira Code, monospace">+45%</text>
+        </g>
+        <!-- Assertiveness +27% -->
+        <g style="animation: fadeIn 0.3s ease 1.4s both;">
+          <rect x="77" y="260" width="48" height="20" rx="10" fill="rgba(95,175,138,0.15)" stroke="rgba(95,175,138,0.3)" stroke-width="1"/>
+          <text x="101" y="274" text-anchor="middle" fill="var(--green-deep)" font-size="10" font-weight="700" font-family="SF Mono, Fira Code, monospace">+27%</text>
+        </g>
+        <!-- Emotional Control +40% -->
+        <g style="animation: fadeIn 0.3s ease 1.5s both;">
+          <rect x="82" y="158" width="48" height="20" rx="10" fill="rgba(95,175,138,0.15)" stroke="rgba(95,175,138,0.3)" stroke-width="1"/>
+          <text x="106" y="172" text-anchor="middle" fill="var(--green-deep)" font-size="10" font-weight="700" font-family="SF Mono, Fira Code, monospace">+40%</text>
+        </g>
+
+        <!-- Axis labels -->
+        <text x="210" y="50" text-anchor="middle" fill="var(--warm-900)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Active Listening</text>
+        <text x="358" y="133" text-anchor="start" fill="var(--warm-900)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Anchoring</text>
+        <text x="358" y="295" text-anchor="start" fill="var(--warm-900)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Reframing</text>
+        <text x="210" y="388" text-anchor="middle" fill="var(--warm-900)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Value Creation</text>
+        <text x="62" y="295" text-anchor="end" fill="var(--warm-900)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Assertiveness</text>
+        <text x="62" y="133" text-anchor="end" fill="var(--warm-900)" font-size="12" font-weight="600" font-family="Inter, sans-serif">Emotional Control</text>
+      </svg>
+    </div>
+  </div>
+  <div class="meta-panel anim-stagger">
+    <div><span class="meta-badge concept">Concept</span></div>
+    <h2 class="meta-title">Skill Development Tracker</h2>
+    <p class="meta-desc">Longitudinal radar chart tracking negotiation skill growth across six dimensions. Compares baseline assessment against current performance with animated growth deltas at each vertex.</p>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">What Ali Generates</div>
+      <ul class="meta-list">
+        <li>6-axis hexagonal radar with baseline vs. current overlay</li>
+        <li>Per-skill growth percentage badges (animated)</li>
+        <li>Polygon expansion animation on load</li>
+        <li>Session-over-session trend tracking</li>
+        <li>Personalized skill development recommendations</li>
+      </ul>
+    </div>
+    <div>
+      <div class="meta-section-label">Data Points Needed</div>
+      <ul class="meta-list">
+        <li>Initial assessment scores (baseline polygon)</li>
+        <li>Session-level skill scoring from conversation analysis</li>
+        <li>Technique usage frequency per skill category</li>
+        <li>Success rate of applied techniques</li>
+      </ul>
+    </div>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">Coaching Progress</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+        <div class="progress-bar" style="flex: 1;">
+          <div class="progress-bar-fill" style="width: 35%;"></div>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--warm-600);">35%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPONENT 6: SESSION REPLAY
+     ============================================================ -->
+<section class="component-section" id="tab-replay">
+  <div class="viz-panel">
+    <div class="component-card" style="width: 100%; max-width: 640px; padding: 32px 36px;" id="replayCard">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 4px;">Conversation Intelligence</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--warm-900);">Session Replay</div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 14px; color: var(--warm-800); font-weight: 500;">
+          <span style="color: var(--process-blue);">05:12</span>
+          <span style="color: var(--warm-300);">/</span>
+          <span>12:30</span>
+        </div>
+      </div>
+      <!-- Waveform visualization -->
+      <svg viewBox="0 0 580 120" width="100%" xmlns="http://www.w3.org/2000/svg" id="waveformSvg">
+        <!-- Waveform bars generated by JS -->
+      </svg>
+      <!-- Scrubber -->
+      <div class="scrubber-track">
+        <div class="scrubber-fill"></div>
+        <div class="scrubber-dot"></div>
+      </div>
+      <div class="scrubber-time">
+        <span>00:00</span>
+        <span>12:30</span>
+      </div>
+      <!-- Inflection markers below -->
+      <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;" id="inflectionCards">
+        <div class="inflection-card" style="flex: 1; min-width: 150px; padding: 12px 14px; background: rgba(95,175,138,0.06); border: 1px solid rgba(95,175,138,0.15); border-radius: 10px; cursor: pointer; transition: all 0.2s;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--green);"></div>
+            <span style="font-size: 10px; font-weight: 700; color: var(--green-deep); text-transform: uppercase; letter-spacing: 0.06em;">Strong Move</span>
+          </div>
+          <div style="font-size: 12px; color: var(--warm-800); line-height: 1.4;">Interest-based probe uncovered hidden priority</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--warm-600); margin-top: 4px;">4:12</div>
+        </div>
+        <div class="inflection-card" style="flex: 1; min-width: 150px; padding: 12px 14px; background: rgba(184,134,11,0.06); border: 1px solid rgba(184,134,11,0.15); border-radius: 10px; cursor: pointer; transition: all 0.2s;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--asf-gold);"></div>
+            <span style="font-size: 10px; font-weight: 700; color: var(--asf-gold); text-transform: uppercase; letter-spacing: 0.06em;">Missed Opportunity</span>
+          </div>
+          <div style="font-size: 12px; color: var(--warm-800); line-height: 1.4;">Could have probed value when they mentioned timeline flexibility</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--warm-600); margin-top: 4px;">8:45</div>
+        </div>
+        <div class="inflection-card" style="flex: 1; min-width: 150px; padding: 12px 14px; background: rgba(138,132,198,0.06); border: 1px solid rgba(138,132,198,0.15); border-radius: 10px; cursor: pointer; transition: all 0.2s;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--purple-accent);"></div>
+            <span style="font-size: 10px; font-weight: 700; color: var(--purple-accent); text-transform: uppercase; letter-spacing: 0.06em;">Coaching Moment</span>
+          </div>
+          <div style="font-size: 12px; color: var(--warm-800); line-height: 1.4;">Reframing technique would strengthen your position here</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--warm-600); margin-top: 4px;">10:22</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="meta-panel anim-stagger">
+    <div><span class="meta-badge concept">Concept</span></div>
+    <h2 class="meta-title">Session Replay</h2>
+    <p class="meta-desc">Audio-visual timeline with waveform visualization, scrubber controls, and annotated inflection points. Enables post-session coaching review with AI-identified critical moments.</p>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">What Ali Generates</div>
+      <ul class="meta-list">
+        <li>Waveform visualization with past/future color coding</li>
+        <li>Inflection point markers: Strong Move, Missed Opportunity, Coaching Moment</li>
+        <li>Interactive scrubber with gold pulse indicator</li>
+        <li>Popover cards with context and timestamps</li>
+        <li>Playback time in monospace display</li>
+      </ul>
+    </div>
+    <div>
+      <div class="meta-section-label">Data Points Needed</div>
+      <ul class="meta-list">
+        <li>Audio recording with amplitude data per segment</li>
+        <li>Transcript with turn-level timestamps</li>
+        <li>NLP analysis for technique detection</li>
+        <li>Sentiment and emotion signals per segment</li>
+        <li>Missed opportunity classification model</li>
+      </ul>
+    </div>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">Coaching Progress</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+        <div class="progress-bar" style="flex: 1;">
+          <div class="progress-bar-fill" style="width: 20%;"></div>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--warm-600);">20%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRIORITY MATRIX SECTION
+     ============================================================ -->
+
+<!-- ============================================================
+     COMPONENT 7: CONTRACT PARSER
+     ============================================================ -->
+<section id="tab-contract" class="component-section">
+  <div class="viz-panel">
+    <div class="component-card" style="width: 100%; max-width: 640px; padding: 32px 36px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 4px;">Document Intelligence</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--warm-900);">Contract Parser</div>
+        </div>
+        <div style="padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(184,134,11,0.12); color: var(--asf-gold);">PRD Complete</div>
+      </div>
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+        <defs>
+          <linearGradient id="riskGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--green)"/>
+            <stop offset="60%" stop-color="var(--asf-gold)"/>
+            <stop offset="100%" stop-color="var(--red-subtle)"/>
+          </linearGradient>
+        </defs>
+        <!-- Document outline -->
+        <rect x="40" y="20" width="200" height="260" rx="8" fill="white" stroke="var(--warm-200)" stroke-width="1.5"/>
+        <rect x="40" y="20" width="200" height="36" rx="8" fill="var(--warm-100)"/>
+        <rect x="56" y="32" width="80" height="10" rx="2" fill="var(--warm-300)"/>
+        <text x="140" y="39" font-family="var(--font-mono)" font-size="8" fill="var(--warm-600)" text-anchor="end">contract.pdf</text>
+        <!-- Document lines -->
+        <rect x="56" y="68" width="168" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="80" width="140" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="92" width="160" height="4" rx="1" fill="var(--warm-200)"/>
+        <!-- Highlighted extraction zones -->
+        <rect x="56" y="108" width="152" height="14" rx="3" fill="rgba(95,134,166,0.15)" stroke="var(--process-blue)" stroke-width="1" stroke-dasharray="3 2"/>
+        <text x="60" y="118" font-family="var(--font-mono)" font-size="8" fill="var(--process-blue)">Term: 36 months auto-renew</text>
+        <rect x="56" y="128" width="168" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="140" width="130" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="156" width="140" height="14" rx="3" fill="rgba(184,134,11,0.12)" stroke="var(--asf-gold)" stroke-width="1" stroke-dasharray="3 2"/>
+        <text x="60" y="166" font-family="var(--font-mono)" font-size="8" fill="var(--asf-gold)">Liability cap: $2.5M</text>
+        <rect x="56" y="176" width="155" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="188" width="120" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="204" width="160" height="14" rx="3" fill="rgba(194,122,107,0.15)" stroke="var(--red-subtle)" stroke-width="1" stroke-dasharray="3 2"/>
+        <text x="60" y="214" font-family="var(--font-mono)" font-size="8" fill="var(--red-subtle)">Non-compete: 24 mo / 50 mi</text>
+        <rect x="56" y="224" width="145" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="236" width="168" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="248" width="110" height="4" rx="1" fill="var(--warm-200)"/>
+        <rect x="56" y="260" width="155" height="4" rx="1" fill="var(--warm-200)"/>
+        <!-- Arrow -->
+        <line x1="252" y1="150" x2="298" y2="150" stroke="var(--process-blue)" stroke-width="1.5" stroke-dasharray="6 3"/>
+        <polygon points="298,145 310,150 298,155" fill="var(--process-blue)"/>
+        <!-- Extraction panel -->
+        <rect x="320" y="20" width="250" height="360" rx="12" fill="var(--glass-bg)" stroke="var(--glass-border)" stroke-width="1"/>
+        <rect x="320" y="20" width="250" height="44" rx="12" fill="var(--warm-100)"/>
+        <rect x="320" y="52" width="250" height="12" fill="var(--warm-100)"/>
+        <text x="445" y="48" font-family="var(--font-serif)" font-size="14" font-weight="600" fill="var(--warm-900)" text-anchor="middle">Ali Contract Analysis</text>
+        <text x="336" y="84" font-family="var(--font-sans)" font-size="9" font-weight="700" fill="var(--warm-600)" letter-spacing="0.08em">KEY TERMS EXTRACTED</text>
+        <rect x="336" y="94" width="218" height="36" rx="6" fill="rgba(95,134,166,0.08)"/>
+        <circle cx="350" cy="112" r="4" fill="var(--process-blue)"/>
+        <text x="360" y="107" font-family="var(--font-sans)" font-size="10" font-weight="600" fill="var(--warm-900)">Duration: 36 months</text>
+        <text x="360" y="120" font-family="var(--font-sans)" font-size="9" fill="var(--warm-600)">Auto-renewal clause detected</text>
+        <rect x="336" y="136" width="218" height="36" rx="6" fill="rgba(184,134,11,0.06)"/>
+        <circle cx="350" cy="154" r="4" fill="var(--asf-gold)"/>
+        <text x="360" y="149" font-family="var(--font-sans)" font-size="10" font-weight="600" fill="var(--warm-900)">Liability Cap: $2.5M</text>
+        <text x="360" y="162" font-family="var(--font-sans)" font-size="9" fill="var(--warm-600)">Below industry standard ($5M avg)</text>
+        <rect x="336" y="178" width="218" height="36" rx="6" fill="rgba(194,122,107,0.08)"/>
+        <circle cx="350" cy="196" r="4" fill="var(--red-subtle)"/>
+        <text x="360" y="191" font-family="var(--font-sans)" font-size="10" font-weight="600" fill="var(--warm-900)">Non-Compete: 24 mo / 50 mi</text>
+        <text x="360" y="204" font-family="var(--font-sans)" font-size="9" fill="var(--red-subtle)">Aggressive — negotiate down</text>
+        <text x="336" y="236" font-family="var(--font-sans)" font-size="9" font-weight="700" fill="var(--warm-600)" letter-spacing="0.08em">RISK ASSESSMENT</text>
+        <rect x="336" y="246" width="218" height="8" rx="4" fill="var(--warm-200)"/>
+        <rect x="336" y="246" width="145" height="8" rx="4" fill="url(#riskGrad)"/>
+        <text x="336" y="270" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="var(--asf-gold)">6.5 / 10 — Moderate Risk</text>
+        <text x="336" y="282" font-family="var(--font-sans)" font-size="9" fill="var(--warm-600)">3 clauses need attention before signing</text>
+        <text x="336" y="306" font-family="var(--font-sans)" font-size="9" font-weight="700" fill="var(--warm-600)" letter-spacing="0.08em">INDUSTRY TERMINOLOGY</text>
+        <rect x="336" y="314" width="68" height="20" rx="10" fill="rgba(95,134,166,0.12)"/>
+        <text x="370" y="328" font-family="var(--font-mono)" font-size="8" fill="var(--process-blue)" text-anchor="middle">FOB</text>
+        <rect x="410" y="314" width="88" height="20" rx="10" fill="rgba(95,134,166,0.12)"/>
+        <text x="454" y="328" font-family="var(--font-mono)" font-size="8" fill="var(--process-blue)" text-anchor="middle">Kill Premium</text>
+        <rect x="336" y="340" width="98" height="20" rx="10" fill="rgba(95,134,166,0.12)"/>
+        <text x="385" y="354" font-family="var(--font-mono)" font-size="8" fill="var(--process-blue)" text-anchor="middle">Basis Point</text>
+        <rect x="440" y="340" width="108" height="20" rx="10" fill="rgba(95,134,166,0.12)"/>
+        <text x="494" y="354" font-family="var(--font-mono)" font-size="8" fill="var(--process-blue)" text-anchor="middle">Hundredweight</text>
+      </svg>
+    </div>
+  </div>
+  <div class="meta-panel anim-stagger">
+    <div><span class="meta-badge ready">In Development</span></div>
+    <h2 class="meta-title">Contract Parser</h2>
+    <p class="meta-desc">Upload a contract, offer letter, or scope of work. Ali extracts key terms, identifies leverage points, flags risks, and surfaces industry terminology — then weaves insights into coaching. The first module beyond the conversation engine.</p>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">What Ali Extracts</div>
+      <ul class="meta-list">
+        <li>Key terms: duration, compensation, termination, liability caps</li>
+        <li>Risk flags: non-competes, auto-renewal, one-sided indemnity</li>
+        <li>Industry terminology with plain-language definitions</li>
+        <li>Get/Give/Both classification per negotiable term</li>
+        <li>Risk scoring per clause with industry benchmarks</li>
+      </ul>
+    </div>
+    <div>
+      <div class="meta-section-label">Stakeholder Input Needed</div>
+      <ul class="meta-list">
+        <li>What do you look for first when reading a contract?</li>
+        <li>Top 10 terms by negotiation type (employment vs. vendor vs. lease)</li>
+        <li>Risk scoring rubric: what makes a clause "aggressive"?</li>
+        <li>Validate the JSON extraction schema (PRD Section 6.1)</li>
+        <li>Annotate 1 anonymized contract as ground truth</li>
+      </ul>
+    </div>
+    <div class="meta-divider"></div>
+    <div>
+      <div class="meta-section-label">Development Progress</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+        <div class="progress-bar" style="flex: 1;">
+          <div class="progress-bar-fill" style="width: 15%;"></div>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--warm-600);">15%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CAPABILITIES MAP (Substance Tab for Tom)
+     ============================================================ -->
+<section class="component-section" id="tab-capabilities" style="flex-direction:column; height:100vh; overflow-y:auto; padding: 56px 0 60px;">
+  <div style="max-width:1100px; margin:0 auto; padding:32px 40px;">
+
+    <!-- Header -->
+    <div style="text-align:center; margin-bottom:40px;">
+      <div style="font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--asf-gold); margin-bottom:8px;">Stakeholder Requirements Gathering</div>
+      <h2 style="font-family:var(--font-serif); font-size:32px; font-weight:600; color:var(--warm-900); margin-bottom:8px;">Capabilities Map</h2>
+      <p style="font-size:15px; color:var(--warm-600); max-width:640px; margin:0 auto; line-height:1.6;">What each component does, where it comes from in our methodology, what data exists today, and what stakeholder input is needed to build it right.</p>
+    </div>
+
+    <!-- Curriculum Flow -->
+    <div style="background:white; border:1px solid var(--warm-200); border-radius:16px; padding:28px 32px; margin-bottom:32px;">
+      <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--warm-600); margin-bottom:12px;">Curriculum Flow &mdash; How Components Gate Each Other</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:180px; padding:14px 16px; background:rgba(95,175,138,0.06); border:1px solid rgba(95,175,138,0.15); border-radius:10px;">
+          <div style="font-size:10px; font-weight:700; color:var(--green-deep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Onboarding</div>
+          <div style="font-size:13px; color:var(--warm-800); line-height:1.5;">Stance Spectrum (Silhouette assessment) &rarr; informs personality-aware coaching for all future sessions</div>
+        </div>
+        <div style="flex:1; min-width:180px; padding:14px 16px; background:var(--process-blue-15); border:1px solid rgba(95,134,166,0.2); border-radius:10px;">
+          <div style="font-size:10px; font-weight:700; color:var(--process-blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Phase 1: Prepare</div>
+          <div style="font-size:13px; color:var(--warm-800); line-height:1.5;">Contract Parser + Power Dynamics + ZOPA + Priority Matrix &rarr; builds complete deal context before conversation starts</div>
+        </div>
+        <div style="flex:1; min-width:180px; padding:14px 16px; background:rgba(138,132,198,0.08); border:1px solid rgba(138,132,198,0.15); border-radius:10px;">
+          <div style="font-size:10px; font-weight:700; color:var(--purple-accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Phase 3: Propose</div>
+          <div style="font-size:13px; color:var(--warm-800); line-height:1.5;">Offer Flow Timeline &rarr; active during negotiation execution, tracks concession patterns per round</div>
+        </div>
+        <div style="flex:1; min-width:180px; padding:14px 16px; background:rgba(184,134,11,0.06); border:1px solid rgba(184,134,11,0.15); border-radius:10px;">
+          <div style="font-size:10px; font-weight:700; color:var(--asf-gold); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Post-Session</div>
+          <div style="font-size:13px; color:var(--warm-800); line-height:1.5;">Session Replay + Skill Tracker &rarr; reflection, growth measurement, personalized next steps</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 1: Contract Parser (KEYSTONE) ===== -->
+    <div style="background:white; border:1px solid var(--warm-200); border-radius:16px; padding:28px 32px; margin-bottom:20px; border-left:4px solid var(--asf-gold);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asf-gold); margin-bottom:4px;">Component 01 &mdash; Keystone</div>
+          <h3 style="font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--warm-900);">Contract Parser</h3>
+        </div>
+        <span style="padding:3px 10px; border-radius:12px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:rgba(184,134,11,0.12); color:var(--asf-gold);">PRD Complete</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Methodology Root</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Maps the <strong>BBX 4-Phase Planning Tool</strong> directly. Phase 01 Prepare: Objectives, BATNA, Alignment/Conflict. Terms Planning: Get/Give/Both, Priority, Walkaway/Goal zones. Phase 02 Communicate: Information strategy, Domain Glossary. Phase 03 Propose: Trading strategy, Packages. Phase 04 Align: Position tracker, Problem planner.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">What Ali Generates</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Pre-populated negotiation workbook from uploaded contract. Domain glossary with definitions + negotiation significance. Approach classification (which of 5 types). Risk scoring per clause. Pattern Mirror: <em>"Here's what Ali sees. Here's what Ali doesn't see. Fill the gaps."</em></p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--green-deep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Existing Data</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Anonymize script (<code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">scripts/anonymize-contract.py</code>) &mdash; Stage 1 done. 4 real anonymized client files ready. Full PRD with extraction schema, 3-stage pipeline architecture, and competitive analysis. <strong>Parsing is commodity</strong> (Docling/LlamaParse). <strong>The schema &mdash; the methodology as machine-executable JSON &mdash; is the product.</strong></p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--process-blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Stakeholder Input Needed</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;"><strong>10 open questions in the PRD.</strong> Most critical: Validate the JSON extraction schema (does it match how contracts are decomposed?). Annotate 1 anonymized contract as ground truth. Confirm Terms vs. Clauses decomposition model.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 2: Power Dynamics ===== -->
+    <div style="background:white; border:1px solid var(--warm-200); border-radius:16px; padding:28px 32px; margin-bottom:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--warm-600); margin-bottom:4px;">Component 02</div>
+          <h3 style="font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--warm-900);">Power Dynamics</h3>
+        </div>
+        <span style="padding:3px 10px; border-radius:12px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:var(--process-blue-15); color:var(--process-blue);">Types Defined</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Methodology Root</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Core pillar of ASF: <strong>Three Forces of Leverage</strong>. Market forces (Porter's Five, loss aversion). External forces (counterparty BATNA, stakeholder map, constraints). Internal forces (team alignment, role clarity, unified messaging). Connected to the <em>Inversion Method</em>: map how the deal dies, then avoid those paths.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">What Ali Generates</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">3-panel force assessment with scores. Counterparty power map: <em>"CEO has final say, CFO has veto, procurement recommends."</em> Leverage gap: <em>"Weak on price (market saturated) but strong on timeline (they need Q2 close)."</em></p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--green-deep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Existing Data</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;"><code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">ForcesAssessment</code> TypeScript interface defined with market/external/internal fields. Classification signals capture <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">alternativesSaturation</code>, <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">timeConstraint</code>. Full ASF Force sections chunked and injectable via knowledge layer.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--process-blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Stakeholder Input Needed</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">The 5 axes in the viz (Information, Alternatives, Time Pressure, Relationship, Authority) &mdash; are these the right dimensions? Or should we use Market/External/Internal from ASF directly? How are forces scored in practice?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 3: ZOPA Analysis ===== -->
+    <div style="background:white; border:1px solid var(--warm-200); border-radius:16px; padding:28px 32px; margin-bottom:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--warm-600); margin-bottom:4px;">Component 03</div>
+          <h3 style="font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--warm-900);">ZOPA Analysis</h3>
+        </div>
+        <span style="padding:3px 10px; border-radius:12px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:rgba(95,175,138,0.12); color:var(--green-deep);">Framework Ready</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Methodology Root</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Tom's <strong>Goal Zone Framework</strong>: Goal Zone (optimal) &rarr; Authorization Zone (acceptable with justification) &rarr; Why Zone (floor, requires explanation) &rarr; Walkaway (absolute boundary). Built on Fisher &amp; Ury BATNA theory. Applies across all 4 negotiation types equally.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">What Ali Generates</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Your ZOPA band with 4 zones mapped. Counterparty estimated range (inferred or provided). Overlap detection: <em>"$100K-$150K &mdash; the sweet spot."</em> Risk alert: <em>"If walkaway is $85K and they won't go below $95K &mdash; zero ZOPA. Improve your BATNA or change scope."</em></p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--green-deep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Existing Data</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Goal Zone framework fully encoded in coaching methodology. User confidence fields (offers, preparation, closing) in schema. <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">extractedEntities.dealValue</code> captures amounts. <strong>No structured ZOPA model yet</strong> &mdash; zones exist in methodology but not as captured user data.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--process-blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Stakeholder Input Needed</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Is the <strong>Zones / RPG framework proprietary</strong>? Can Ali reference Goal/Authorization/Why/Walkaway by name? How are these zones calculated for clients &mdash; is there a formula or is it expert judgment? This is a pre-beta blocker.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 4: Offer Flow Timeline ===== -->
+    <div style="background:white; border:1px solid var(--warm-200); border-radius:16px; padding:28px 32px; margin-bottom:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--warm-600); margin-bottom:4px;">Component 04</div>
+          <h3 style="font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--warm-900);">Offer Flow Timeline</h3>
+        </div>
+        <span style="padding:3px 10px; border-radius:12px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:rgba(245,158,11,0.12); color:#92400E;">Needs Schema</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Methodology Root</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">ASF <strong>Phase 3: PROPOSE</strong>. Built on the <em>Anchor Drop</em> move (first offer sets reference frame), <em>Conditional Trading</em> ("If you X, then we Y"), and the ever-decreasing concessions principle. Forces of Leverage inform acceptable ranges.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">What Ali Generates</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Turn-by-turn offer tracking. Concession rate analysis: <em>"They dropped $5K. Your move should be smaller to signal firmness."</em> Convergence prediction: <em>"At this rate, you'll hit walkaway in 3 rounds."</em></p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--green-deep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Existing Data</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;"><code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">ChatMessage</code> stores raw text. <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">Conversation.extractedEntities</code> captures dealValue (amount, currency, range). <strong>No structured offer history</strong> &mdash; each message is atomic text, no versioned offer chain.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--process-blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Stakeholder Input Needed</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">How are concession patterns tracked today? What triggers a "too aggressive" vs. "too soft" concession? Per-term or aggregate offers? We need the data model for the offer chain.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 5: Skill Development Tracker ===== -->
+    <div style="background:white; border:1px solid var(--warm-200); border-radius:16px; padding:28px 32px; margin-bottom:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--warm-600); margin-bottom:4px;">Component 05</div>
+          <h3 style="font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--warm-900);">Skill Development Tracker</h3>
+        </div>
+        <span style="padding:3px 10px; border-radius:12px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:rgba(245,158,11,0.12); color:#92400E;">Snapshot Only</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Methodology Root</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Tom's <strong>4-Phase framework maps directly to competencies</strong>: PREPARE &rarr; Research &amp; goal-setting. COMMUNICATE &rarr; Rapport &amp; discovery questions. PROPOSE &rarr; Anchoring &amp; objection handling. ALIGN &rarr; Securing commitment. Each Aligned Move builds a specific capability.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">What Ali Generates</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Skill gap analysis: <em>"Strong in Preparation (4/5) but weak in Offers (2/5). Focus on anchoring next."</em> Personalized curriculum: <em>"Based on your EMPATHETIC Silhouette, prioritize firm language moves."</em> Progression tracking across sessions.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--green-deep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Existing Data</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">5 confidence fields in user schema: <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">confidencePreparation</code>, <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">confidenceDiscovery</code>, <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">confidenceOffers</code>, <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">confidencePushback</code>, <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">confidenceClosing</code>. All 1-5 scale. <strong>Snapshot only &mdash; no historical tracking.</strong> No audit trail of how confidences change over time.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--process-blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Stakeholder Input Needed</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Are these 5 confidence dimensions (Preparation, Discovery, Offers, Pushback, Closing) the right axes? What other negotiation competencies should Ali track? How does Aligned measure growth with enterprise clients today &mdash; rubric, survey, observation?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 6: Session Replay ===== -->
+    <div style="background:white; border:1px solid var(--warm-200); border-radius:16px; padding:28px 32px; margin-bottom:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--warm-600); margin-bottom:4px;">Component 06</div><!-- Session Replay -->
+          <h3 style="font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--warm-900);">Session Replay</h3>
+        </div>
+        <span style="padding:3px 10px; border-radius:12px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:rgba(138,132,198,0.12); color:var(--purple-accent);">Tier 3</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Methodology Root</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;"><strong>Reflection-based learning</strong> &mdash; Ali coaching methodology emphasizes "discover your own insights." Session replay lets users review: what did Ali say? Why? How did my thinking change? Tied to all 4 phases. Also enables <strong>Tom (expert) to review user sessions</strong> and provide human coaching on top of Ali.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">What Ali Generates</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Annotated transcript with fold-out reasoning: which signal did Ali extract? Which Aligned Move was applied? Summary: <em>"TRADING conversation, COMMUNICATION phase. Moves applied: The Power Map, Trade Cheap for Expensive."</em> Three inflection types: Strong Move, Missed Opportunity, Coaching Moment.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--green-deep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Existing Data</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Full conversation stored in <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">ChatMessage</code> with timestamps. <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">metadata</code> JSON captures coaching reasoning (phase, classification, entities). <code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">MessageFeedback</code> tracks helpful/not-helpful ratings. <strong>Move invocations not tracked</strong> &mdash; moves are implicit in Ali's reasoning, not annotated.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--process-blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Stakeholder Input Needed</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">When Tom reviews a coaching transcript, what does he look for? What patterns indicate "good coaching" vs. "missed opportunity"? Would Tom use this to review Chelsea's AI-assisted sessions? This determines whether Session Replay is a user feature or an admin/expert tool.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 7: Stance Spectrum (Deprioritized — Silhouette 2.0 TBD) ===== -->
+    <div style="background:white; border:1px solid var(--warm-200); border-radius:16px; padding:28px 32px; margin-bottom:20px; opacity:0.75;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--warm-600); margin-bottom:4px;">Component 07 &mdash; Deferred</div>
+          <h3 style="font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--warm-900);">Stance Spectrum</h3>
+        </div>
+        <span style="padding:3px 10px; border-radius:12px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:rgba(138,132,198,0.12); color:var(--purple-accent);">Deprioritized</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Methodology Root</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;"><strong>Silhouette personality assessment</strong> (4-type RYBG model) + Thomas-Kilmann conflict modes (5 styles). Maps personality to coaching tone and Aligned Move selection. Silhouette 2.0 expansion is on hold &mdash; beta can validate with v1.0 (20 personas).</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--warm-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">What Ali Generates</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Position on assertiveness spectrum for both parties. Recommended Aligned Moves tailored to personality. Vulnerability warnings: <em>"Empathetic types may struggle with firm language in Bargaining scenarios."</em></p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--green-deep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Existing Data</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;"><code style="background:var(--warm-100); padding:1px 5px; border-radius:4px; font-size:12px;">SilhouetteAssessment</code> model stores personality type, conflict style, trait scores, and all 70 raw responses. 20 personas already generated. Each of the 43 Aligned Moves has effectiveness scores per personality type.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:700; color:var(--process-blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Stakeholder Input Needed</div>
+          <p style="font-size:13px; color:var(--warm-700); line-height:1.6;">Deferred until Silhouette 2.0 framework is delivered. Current v1.0 (20 personas) is sufficient for beta validation. This component can ship with existing data once higher-priority capabilities are complete.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build Status Summary -->
+    <div style="background:var(--warm-900); border-radius:16px; padding:28px 32px; margin-top:8px; color:var(--warm-100);">
+      <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asf-gold-light); margin-bottom:14px;">Build Status Summary</div>
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-mono); font-size:28px; font-weight:700; color:var(--green);">2</div>
+          <div style="font-size:11px; color:var(--warm-300); margin-top:2px;">Data Ready</div>
+          <div style="font-size:10px; color:var(--warm-600); margin-top:2px;">Stance, Replay</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-mono); font-size:28px; font-weight:700; color:var(--process-blue);">3</div>
+          <div style="font-size:11px; color:var(--warm-300); margin-top:2px;">Types Defined</div>
+          <div style="font-size:10px; color:var(--warm-600); margin-top:2px;">Power, ZOPA, Priority</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-mono); font-size:28px; font-weight:700; color:var(--asf-gold);">1</div>
+          <div style="font-size:11px; color:var(--warm-300); margin-top:2px;">PRD Complete</div>
+          <div style="font-size:10px; color:var(--warm-600); margin-top:2px;">Contract Parser</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-mono); font-size:28px; font-weight:700; color:var(--red-subtle);">2</div>
+          <div style="font-size:11px; color:var(--warm-300); margin-top:2px;">Needs Schema</div>
+          <div style="font-size:10px; color:var(--warm-600); margin-top:2px;">Offer Flow, Skills</div>
+        </div>
+      </div>
+      <div style="margin-top:20px; padding:14px 16px; background:rgba(184,134,11,0.1); border-radius:10px; border:1px solid rgba(184,134,11,0.2);">
+        <div style="font-size:13px; color:var(--warm-200); line-height:1.6;"><strong style="color:var(--asf-gold-light);">Key Insight:</strong> Contract Parser is the keystone. If built, it auto-populates Power Dynamics, ZOPA, and Offer Flow. Without it, users must answer diagnostics manually. The methodology schema IS the product &mdash; parsing is commodity.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  // --- Tab Switching ---
+  const tabs = ['hero', 'stance', 'offer', 'power', 'zopa', 'skills', 'replay', 'contract', 'capabilities'];
+  let currentTab = 'hero';
+
+  window.switchTab = function(tabId) {
+    if (currentTab === tabId) return;
+    currentTab = tabId;
+
+    // Update nav pills
+    document.querySelectorAll('.nav-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.getAttribute('data-tab') === tabId);
+    });
+
+    // Update nav bar theme
+    const navBar = document.getElementById('navBar');
+    if (tabId === 'power') {
+      navBar.classList.add('dark-mode');
+    } else {
+      navBar.classList.remove('dark-mode');
+    }
+
+    // Show/hide sections
+    document.querySelectorAll('.hero-section, .component-section').forEach(section => {
+      section.classList.remove('active');
+    });
+    const target = document.getElementById('tab-' + tabId);
+    if (target) {
+      target.classList.add('active');
+      // Re-trigger animations
+      retriggerAnimations(target);
+    }
+  };
+
+  function retriggerAnimations(container) {
+    // Re-trigger stagger animations
+    container.querySelectorAll('.anim-stagger > *').forEach((el, i) => {
+      el.style.animation = 'none';
+      el.offsetHeight; // force reflow
+      el.style.animation = '';
+    });
+    // Re-trigger SVG draw animations
+    container.querySelectorAll('.svg-draw, .svg-draw-delayed').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    });
+    // Re-trigger radar expand
+    container.querySelectorAll('[style*="radarExpand"]').forEach(el => {
+      const origStyle = el.getAttribute('style');
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.setAttribute('style', origStyle);
+    });
+  }
+
+  // --- Keyboard navigation ---
+  document.addEventListener('keydown', function(e) {
+    const idx = tabs.indexOf(currentTab);
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (idx < tabs.length - 1) switchTab(tabs[idx + 1]);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (idx > 0) switchTab(tabs[idx - 1]);
+    }
+  });
+
+  // --- Generate Waveform Bars ---
+  function generateWaveform() {
+    const svg = document.getElementById('waveformSvg');
+    if (!svg) return;
+
+    const barCount = 70;
+    const barWidth = 5;
+    const gap = 3;
+    const maxHeight = 100;
+    const minHeight = 8;
+    const scrubPosition = 0.42; // 42% through
+
+    // Generate semi-random heights that look like audio waveform
+    const heights = [];
+    for (let i = 0; i < barCount; i++) {
+      const t = i / barCount;
+      // Create natural waveform shape: quieter at edges, louder in active sections
+      const envelope = Math.sin(t * Math.PI) * 0.6 + 0.4;
+      // Add noise
+      const noise = Math.random() * 0.6 + 0.4;
+      // Some bars are much taller (speech emphasis)
+      const spike = Math.random() > 0.85 ? 1.3 : 1;
+      heights.push(Math.max(minHeight, Math.min(maxHeight, envelope * noise * spike * maxHeight)));
+    }
+
+    let html = '';
+    for (let i = 0; i < barCount; i++) {
+      const x = 10 + i * (barWidth + gap);
+      const h = heights[i];
+      const y = (120 - h) / 2;
+      const isPast = i / barCount <= scrubPosition;
+      const cls = isPast ? 'past' : 'future';
+      const delay = i * 0.015;
+      html += `<rect class="waveform-bar ${cls}" x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="2.5"
+                style="animation: barGrow 0.4s ease ${delay}s both; transform-origin: center bottom;"/>`;
+    }
+
+    // Inflection point markers on the waveform
+    // Green marker at ~33% (4:12 out of 12:30)
+    const greenX = 10 + Math.floor(barCount * 0.33) * (barWidth + gap) + barWidth/2;
+    html += `<circle cx="${greenX}" cy="6" r="5" fill="var(--green)" stroke="white" stroke-width="2" style="animation: fadeIn 0.3s ease 1.2s both;"/>`;
+
+    // Gold marker at ~70% (8:45 out of 12:30)
+    const goldX = 10 + Math.floor(barCount * 0.70) * (barWidth + gap) + barWidth/2;
+    html += `<circle cx="${goldX}" cy="6" r="5" fill="var(--asf-gold)" stroke="white" stroke-width="2" style="animation: fadeIn 0.3s ease 1.4s both;"/>`;
+
+    // Purple marker at ~82% (10:22 out of 12:30)
+    const purpleX = 10 + Math.floor(barCount * 0.82) * (barWidth + gap) + barWidth/2;
+    html += `<circle cx="${purpleX}" cy="6" r="5" fill="var(--purple-accent)" stroke="white" stroke-width="2" style="animation: fadeIn 0.3s ease 1.6s both;"/>`;
+
+    svg.innerHTML = html;
+  }
+
+  // --- Inflection card hover ---
+  function setupInflectionCards() {
+    document.querySelectorAll('.inflection-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-2px)';
+        card.style.boxShadow = '0 4px 16px rgba(45,38,32,0.08)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.boxShadow = 'none';
+      });
+    });
+  }
+
+  // --- Hero stat counter animation ---
+  function animateCounters() {
+    document.querySelectorAll('.hero-stat-number').forEach(el => {
+      const target = parseInt(el.textContent);
+      let current = 0;
+      const duration = 800;
+      const start = performance.now();
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        current = Math.round(eased * target);
+        el.textContent = current;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  // --- Init ---
+  document.addEventListener('DOMContentLoaded', function() {
+    generateWaveform();
+    setupInflectionCards();
+    animateCounters();
+  });
+})();
+</script>
+</body>
+</html>
