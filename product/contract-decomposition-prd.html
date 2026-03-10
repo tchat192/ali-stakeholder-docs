@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contract Decomposition Module — PRD | Ali</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: "Moret";
+  src: url("../fonts/moret/moret-semibold-webfont.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+:root {
+  --warm-50: #FAF8F5; --warm-100: #F5F0EA; --warm-200: #E6E2DC;
+  --warm-300: #B8B1A7; --warm-500: #8A7E6E; --warm-700: #4A4540; --warm-900: #1A1815;
+  --process-blue: #5F86A6; --green: #5FAF8A; --green-deep: #3C786A;
+  --asf-gold: #B8860B; --red-subtle: #C27A6B;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--warm-50); color: var(--warm-900);
+  line-height: 1.7; -webkit-font-smoothing: antialiased;
+}
+header {
+  background: linear-gradient(73.1deg, rgb(95,175,138) 0%, rgb(127,191,174) 12%, rgb(158,198,217) 40%, rgb(168,191,217) 58%, rgb(159,164,211) 79%, rgb(138,132,198) 99%);
+  color: white; padding: 48px 40px 40px;
+}
+header h1 {
+  font-family: 'Moret', Georgia, serif; font-weight: 600;
+  font-size: 32px; margin-bottom: 4px;
+}
+header .subtitle { font-size: 16px; opacity: 0.9; }
+header .meta {
+  display: flex; gap: 24px; margin-top: 14px;
+  font-size: 13px; opacity: 0.75;
+}
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,248,245,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--warm-200);
+  padding: 10px 40px; display: flex; gap: 6px; flex-wrap: wrap;
+}
+nav a {
+  display: inline-block; padding: 5px 14px; border-radius: 20px;
+  font-size: 12.5px; font-weight: 500; color: var(--warm-500);
+  text-decoration: none; border: 1px solid var(--warm-200); transition: all 0.2s;
+}
+nav a:hover { background: var(--warm-900); color: white; border-color: var(--warm-900); }
+main {
+  max-width: 860px; margin: 0 auto; padding: 40px 24px 80px;
+}
+h1 { font-family: 'Moret', Georgia, serif; font-size: 28px; font-weight: 600; margin: 40px 0 16px; color: var(--warm-900); border-bottom: 2px solid var(--warm-200); padding-bottom: 8px; }
+h2 { font-family: 'Moret', Georgia, serif; font-size: 22px; font-weight: 600; margin: 32px 0 12px; color: var(--warm-900); }
+h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; color: var(--warm-700); }
+h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--warm-500); }
+p { margin: 0 0 12px; font-size: 14px; color: var(--warm-700); }
+ul, ol { margin: 0 0 16px 20px; font-size: 14px; color: var(--warm-700); }
+li { margin-bottom: 4px; line-height: 1.6; }
+strong { color: var(--warm-900); }
+em { font-style: italic; }
+code {
+  background: var(--warm-100); padding: 1px 5px; border-radius: 4px;
+  font-size: 12.5px; font-family: 'SF Mono', Monaco, monospace;
+  color: var(--process-blue);
+}
+pre {
+  background: var(--warm-900); color: var(--warm-100);
+  padding: 16px 20px; border-radius: 10px; overflow-x: auto;
+  margin: 12px 0 16px; font-size: 12.5px; line-height: 1.5;
+}
+pre code { background: none; color: inherit; padding: 0; }
+table {
+  width: 100%; border-collapse: collapse; margin: 12px 0 20px;
+  font-size: 13px;
+}
+th {
+  text-align: left; font-weight: 600; font-size: 11px;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--warm-500);
+  padding: 8px 12px; border-bottom: 2px solid var(--warm-200);
+  background: var(--warm-100);
+}
+td {
+  padding: 10px 12px; border-bottom: 1px solid var(--warm-100);
+  color: var(--warm-700); vertical-align: top;
+}
+tr:hover td { background: var(--warm-100); }
+blockquote {
+  border-left: 3px solid var(--process-blue); padding: 12px 16px;
+  margin: 12px 0 16px; background: rgba(95,134,166,0.06);
+  border-radius: 0 8px 8px 0;
+}
+blockquote p { color: var(--warm-700); margin: 0; }
+hr {
+  border: none; height: 1px; background: var(--warm-200); margin: 32px 0;
+}
+.callout {
+  background: rgba(184,134,11,0.06); border: 1px solid rgba(184,134,11,0.15);
+  border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1 style="font-size:32px; margin:0 0 4px;">Contract Decomposition Module</h1>
+  <div class="subtitle">Product Requirements Document — For Tom Hilgeman Review</div>
+  <div class="meta">
+    <span>Draft v2 (post-dialectic)</span>
+    <span>Owner: Terrance Chatman</span>
+    <span>BA/SME: Tom Hilgeman</span>
+    <span>Priority: P1</span>
+  </div>
+</header>
+<nav>
+  <a href="#1-why-problem-statement">Problem</a>
+  <a href="#2-target-users">Users</a>
+  <a href="#3-feature-capabilities">Features</a>
+  <a href="#4-user-stories-acceptance-criteria">Stories</a>
+  <a href="#5-failure-modes">Failure Modes</a>
+  <a href="#6-technical-architecture">Architecture</a>
+  <a href="#7-validation-plan">Validation</a>
+  <a href="#9-competitive-landscape-context-for-toms-review">Competitive</a>
+  <a href="#11-open-questions-for-tom-updated">Questions for Tom</a>
+</nav>
+<main>
+<h1 id="prd-contract-decomposition-module">PRD: Contract Decomposition Module</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Status</strong></td>
+<td>Draft v2 (post-dialectic)</td>
+</tr>
+<tr>
+<td><strong>Owner</strong></td>
+<td>Terrance Chatman</td>
+</tr>
+<tr>
+<td><strong>BA/SME</strong></td>
+<td>Tom Hilgeman</td>
+</tr>
+<tr>
+<td><strong>Priority</strong></td>
+<td>P1 — First module after conversation engine</td>
+</tr>
+<tr>
+<td><strong>Phase</strong></td>
+<td>4 (Enterprise Layer) — Internal dogfooding now</td>
+</tr>
+<tr>
+<td><strong>Created</strong></td>
+<td>2026-03-03</td>
+</tr>
+<tr>
+<td><strong>Updated</strong></td>
+<td>2026-03-03 (dialectic synthesis applied)</td>
+</tr>
+<tr>
+<td><strong>Spec Reference</strong></td>
+<td><code>docs/spec.md</code> → Phase 4, "Contract Decomposition"</td>
+</tr>
+<tr>
+<td><strong>Dialectic</strong></td>
+<td><code>docs/artifacts/research/dialectics/contract-intelligence-identity/</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-why-problem-statement">1. Why — Problem Statement</h2>
+<h3 id="the-user-problem">The User Problem</h3>
+<p>Tom described it in the 03-02 sync: <strong>"I know very little about the beef commodity industry. There's terminology in the contract I had no context of what it means."</strong></p>
+<p>This is the problem every negotiation practitioner faces when a client hands them:</p>
+<ul>
+<li>A legal contract full of domain-specific language</li>
+<li>A set of commercial terms they need to negotiate</li>
+<li>Zero preparation structure</li>
+</ul>
+<p>Today, Tom's workflow is manual:</p>
+<ol>
+<li>Client sends raw contracts + context</li>
+<li>Tom reads everything (hours of work)</li>
+<li>Tom fills out his 4-phase planning workbook (the BBX Planning Tool) by hand</li>
+<li>Tom builds a negotiation strategy from the workbook</li>
+</ol>
+<p><strong>The contract decomposition module automates steps 1-3.</strong> It reads the contract, explains the domain terminology, and pre-populates Tom's planning framework — so the human expert spends time on strategy, not data extraction.</p>
+<h3 id="why-now">Why Now</h3>
+<ul>
+<li>Tom sent 4 real client files (anonymized and ready for development)</li>
+<li>Chelsea (new Aligned employee) is the perfect dogfooding candidate — domain novice, needs the tool to consult effectively</li>
+<li>Beta launch is imminent — a "coming soon" capability shows platform depth</li>
+<li>Tom's 03-02 recommendation: "We can iterate in the background with just us... then flip the switch when it's commercializable"</li>
+</ul>
+<h3 id="business-objective">Business Objective</h3>
+<p>Reduce contract-to-strategy preparation time from <strong>4-8 hours (manual)</strong> to <strong>30 minutes (AI-assisted review)</strong>. Internal dogfooding validates before any external release.</p>
+<hr />
+<h2 id="2-target-users">2. Target Users</h2>
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Context</th>
+<th>Pain Point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tom Hilgeman</strong> (SME)</td>
+<td>Receives client contracts across unfamiliar industries</td>
+<td>Must manually read, extract terms, fill planning workbook. Hours of prep before real advisory work begins.</td>
+</tr>
+<tr>
+<td><strong>Chelsea</strong> (New Aligned consultant)</td>
+<td>Coming from outside industry, unfamiliar with negotiation frameworks</td>
+<td>Needs to get up to speed quickly on client deals. Doesn't know what to look for in a contract.</td>
+</tr>
+<tr>
+<td><strong>Future: Enterprise client</strong></td>
+<td>Uploads own contracts for self-service negotiation prep</td>
+<td>Wants structured preparation without hiring a consultant.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Primary user for dogfooding: Chelsea.</strong> If a domain novice can use the output to prepare for a client engagement, the module works.</p>
+<hr />
+<h2 id="3-feature-capabilities">3. Feature Capabilities</h2>
+<h3 id="what-the-module-does">What the Module Does</h3>
+<p>The module takes raw contract documents and produces a <strong>pre-populated negotiation planning workbook</strong> — structured to match Tom's existing 4-phase methodology.</p>
+<h3 id="input">Input</h3>
+<p>One or more documents:</p>
+<ul>
+<li>Legal contracts (PDF, DOCX)</li>
+<li>Commercial agreements / variations</li>
+<li>Planning spreadsheets (XLSX)</li>
+<li>Counterparty correspondence (DOCX, TXT)</li>
+</ul>
+<h3 id="output-negotiation-planning-brief">Output: Negotiation Planning Brief</h3>
+<p>The output maps directly to Tom's BBX Planning Tool structure (his existing methodology):</p>
+<h4 id="phase-01-prepare">Phase 01 — Prepare</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>What Ali Extracts</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Objectives (Ours)</strong></td>
+<td>Party obligations, deliverables, commercial terms favorable to our side</td>
+<td>Contract clauses</td>
+</tr>
+<tr>
+<td><strong>Objectives (Theirs)</strong></td>
+<td>Counter-party obligations, what they're getting, their likely priorities</td>
+<td>Contract clauses + correspondence</td>
+</tr>
+<tr>
+<td><strong>BATNA (Ours)</strong></td>
+<td>Alternative options, market context, competitive positioning</td>
+<td>Contract terms + domain knowledge</td>
+</tr>
+<tr>
+<td><strong>BATNA (Theirs)</strong></td>
+<td>Their alternatives, dependency signals, switching costs</td>
+<td>Contract terms</td>
+</tr>
+<tr>
+<td><strong>Areas of Alignment</strong></td>
+<td>Shared interests, mutual obligations, common ground</td>
+<td>Cross-referencing both parties' terms</td>
+</tr>
+<tr>
+<td><strong>Areas of Conflict</strong></td>
+<td>Asymmetric clauses, one-sided terms, penalty imbalances</td>
+<td>Clause-by-clause analysis</td>
+</tr>
+<tr>
+<td><strong>Approach Classification</strong></td>
+<td>Which of Ali's 5 types (Bargaining/Trading/Creating/Partnering/Weak Position)</td>
+<td>Overall deal structure</td>
+</tr>
+<tr>
+<td><strong>Team Roster</strong></td>
+<td>Named individuals, roles, reporting relationships</td>
+<td>Contract signatories + correspondence</td>
+</tr>
+</tbody>
+</table>
+<h4 id="phase-01-terms-planning">Phase 01 — Terms Planning</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>What Ali Extracts</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Terms List</strong></td>
+<td>Every negotiable term (pricing model, volume, duration, enablers, etc.)</td>
+<td>Contract sections</td>
+</tr>
+<tr>
+<td><strong>Get / Give / Both</strong></td>
+<td>Classification of each term's value flow direction</td>
+<td>Obligation analysis</td>
+</tr>
+<tr>
+<td><strong>Priority (Us/Them)</strong></td>
+<td>HIGH/MED/LOW based on clause language intensity, penalty structure</td>
+<td>Clause analysis</td>
+</tr>
+<tr>
+<td><strong>Walkaway Points</strong></td>
+<td>Floor/ceiling figures, minimum commitments, penalty triggers</td>
+<td>Financial terms</td>
+</tr>
+<tr>
+<td><strong>Goal Zones</strong></td>
+<td>Range between walkaway and optimistic, based on comparable terms</td>
+<td>Financial modeling</td>
+</tr>
+</tbody>
+</table>
+<h4 id="phase-02-communicate">Phase 02 — Communicate</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>What Ali Extracts</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Our Priorities</strong></td>
+<td>What matters most based on clause emphasis, penalties</td>
+<td>Contract weighting</td>
+</tr>
+<tr>
+<td><strong>Their Priorities</strong></td>
+<td>What counterparty emphasized, what they locked down</td>
+<td>Contract + correspondence</td>
+</tr>
+<tr>
+<td><strong>Flexibility Zones</strong></td>
+<td>Terms with ranges, "reasonable efforts" language, open-ended clauses</td>
+<td>Clause language analysis</td>
+</tr>
+<tr>
+<td><strong>Information Strategy</strong></td>
+<td>What to share, what to withhold, questions to ask</td>
+<td>Tom's methodology + contract gaps</td>
+</tr>
+<tr>
+<td><strong>Domain Glossary</strong></td>
+<td>Industry-specific terminology explained in plain language</td>
+<td>Knowledge base lookup</td>
+</tr>
+</tbody>
+</table>
+<h4 id="phase-03-propose">Phase 03 — Propose</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>What Ali Extracts</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Trading Strategy</strong></td>
+<td>What we want + what we can trade, matched by priority asymmetry</td>
+<td>Terms Planning cross-reference</td>
+</tr>
+<tr>
+<td><strong>Package Options</strong></td>
+<td>"We need X, and can give you Y" bundles</td>
+<td>Priority / value analysis</td>
+</tr>
+</tbody>
+</table>
+<h4 id="phase-04-align">Phase 04 — Align</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>What Ali Extracts</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Position Tracker</strong></td>
+<td>Our current position vs. their current position per term</td>
+<td>Starting positions from contract</td>
+</tr>
+<tr>
+<td><strong>Problem Planner</strong></td>
+<td>Anticipated problems, impact, likelihood, mitigation</td>
+<td>Risk clause analysis</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capability-domain-glossary-toms-explicit-request">Capability: Domain Glossary (Tom's Explicit Request)</h3>
+<p>From the 03-02 transcript: Tom said the contract was full of beef commodity terminology he didn't understand. The module must:</p>
+<ol>
+<li>Identify industry-specific terms (EYCI, Choice cutout, carcass balance, trim ratios, FOB, enablers)</li>
+<li>Provide plain-language definitions</li>
+<li>Explain the negotiation significance ("Why does this term matter for your leverage?")</li>
+<li>Source definitions from public knowledge bases, not hallucinate</li>
+</ol>
+<hr />
+<h2 id="4-user-stories-acceptance-criteria">4. User Stories + Acceptance Criteria</h2>
+<h3 id="us-1-upload-and-parse">US-1: Upload and Parse</h3>
+<p><strong>As</strong> an Aligned consultant,
+<strong>I want to</strong> upload a client's contract files,
+<strong>So that</strong> Ali extracts the key terms without me reading the full document.</p>
+<p><strong>Acceptance Criteria:</strong></p>
+<ul>
+<li>[ ] Accepts PDF (text + scanned/OCR), DOCX, XLSX, TXT</li>
+<li>[ ] Files are anonymized locally before any API processing (PII never reaches cloud)</li>
+<li>[ ] Extraction completes within 60 seconds for documents under 100 pages</li>
+<li>[ ] Extracted data is structured JSON matching the schema in Section 6</li>
+<li>[ ] Error state: if OCR fails or file is corrupted, user gets a clear message with the specific failure</li>
+</ul>
+<h3 id="us-2-pre-populated-planning-workbook">US-2: Pre-Populated Planning Workbook</h3>
+<p><strong>As</strong> an Aligned consultant,
+<strong>I want</strong> the contract data pre-populated into Tom's 4-phase planning framework,
+<strong>So that</strong> I can start strategic work instead of data entry.</p>
+<p><strong>Acceptance Criteria:</strong></p>
+<ul>
+<li>[ ] Output includes all 4 phases (Prepare, Communicate, Propose, Align)</li>
+<li>[ ] Terms list is automatically extracted with Get/Give/Both classification</li>
+<li>[ ] Priority scoring (HIGH/MED/LOW) matches Tom's methodology (clause emphasis + penalty structure)</li>
+<li>[ ] BATNA sections are PRESENT in the schema with <code>source: "awaiting_input"</code> — transparent about needing manual input, not left blank or hidden</li>
+<li>[ ] Sections with insufficient data show what Ali found, what Ali DIDN'T find, and what the user should fill manually (Pattern Mirror)</li>
+<li>[ ] Tom validates output accuracy on 3+ real contracts at &gt;70% field accuracy</li>
+</ul>
+<h3 id="us-3-domain-glossary">US-3: Domain Glossary</h3>
+<p><strong>As</strong> a consultant unfamiliar with the client's industry,
+<strong>I want</strong> industry-specific terms explained in plain language with negotiation context,
+<strong>So that</strong> I understand what I'm negotiating without external research.</p>
+<p><strong>Acceptance Criteria:</strong></p>
+<ul>
+<li>[ ] Identifies 80%+ of domain-specific terms (verified against Tom's manual annotations)</li>
+<li>[ ] Each term has: definition, negotiation significance, related contract section</li>
+<li>[ ] No hallucinated definitions — sources cited or marked "[confidence: low]"</li>
+<li>[ ] Glossary is generated alongside the planning workbook, not as separate step</li>
+</ul>
+<h3 id="us-4-approach-classification">US-4: Approach Classification</h3>
+<p><strong>As</strong> a consultant,
+<strong>I want</strong> Ali to classify the negotiation type,
+<strong>So that</strong> I know which of the 35 Aligned Moves are relevant to this deal.</p>
+<p><strong>Acceptance Criteria:</strong></p>
+<ul>
+<li>[ ] Classifies into one of 5 types: WEAK_POSITION, BARGAINING, TRADING, CREATING, PARTNERING</li>
+<li>[ ] Provides confidence score (0-1) with reasoning</li>
+<li>[ ] Surfaces top 5-8 relevant Aligned Moves with explanation of why each applies</li>
+<li>[ ] Tom validates classification accuracy on 5+ real contracts</li>
+</ul>
+<hr />
+<h2 id="5-failure-modes">5. Failure Modes</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Impact</th>
+<th>System Behavior</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scanned PDF with poor OCR quality</strong></td>
+<td>Garbled text → wrong extractions</td>
+<td>Show OCR confidence score. If &lt;70% per-page, flag as "low confidence" and highlight which pages. Allow user to paste corrected text.</td>
+<td>Already have Tesseract OCR at 300dpi. Could add per-page confidence scoring.</td>
+</tr>
+<tr>
+<td><strong>Contract in unfamiliar legal jurisdiction</strong></td>
+<td>Terms may have different meanings (US vs. AU vs. UK law)</td>
+<td>Detect jurisdiction from governing law clause. Flag jurisdiction-specific terms. Default to US if unknown.</td>
+<td>Governing law extraction is in regex pipeline.</td>
+</tr>
+<tr>
+<td><strong>Multi-party contract (not bilateral)</strong></td>
+<td>Planning framework assumes 2 parties</td>
+<td>Identify all parties. If &gt;2, ask user to specify "our side" and "their side." Map remaining parties.</td>
+<td>Party detection handles this via preamble parsing.</td>
+</tr>
+<tr>
+<td><strong>Contract with no financial terms</strong></td>
+<td>Can't populate walkaway/goal zones</td>
+<td>Mark financial sections "[No financial terms found — manual input required]." Don't hallucinate numbers.</td>
+<td>Regex already handles this (count $-amounts found).</td>
+</tr>
+<tr>
+<td><strong>Confidential data leaks to API</strong></td>
+<td>NDA violation, trust destruction</td>
+<td>Anonymize ALL files locally first. Never send raw documents to any API. Mapping file stays local only.</td>
+<td>Anonymize script (Stage 1) is the hard gate. No bypass.</td>
+</tr>
+<tr>
+<td><strong>LLM hallucinates contract terms</strong></td>
+<td>User prepares for wrong negotiation</td>
+<td>Every extracted field links back to source section/page. No field exists without a citation. User can click-through to verify.</td>
+<td>Source grounding is a hard requirement, not nice-to-have.</td>
+</tr>
+<tr>
+<td><strong>Domain glossary is wrong</strong></td>
+<td>Consultant misunderstands industry terms, loses credibility</td>
+<td>Mark confidence level on each definition. For low-confidence terms, say "This term may mean [X] in [industry]. Verify with client."</td>
+<td>Separate glossary confidence from extraction confidence.</td>
+</tr>
+<tr>
+<td><strong>Chelsea (novice) trusts output without verification</strong></td>
+<td>Acts on incorrect analysis</td>
+<td>Include a "Review Required" checklist at top of output. Critical fields (walkaway, BATNA) are always flagged for human review.</td>
+<td>UI pattern: red banner "This is AI-generated. Verify before use."</td>
+</tr>
+<tr>
+<td><strong>Tom's methodology changes</strong></td>
+<td>Output framework is stale</td>
+<td>Planning framework structure is configurable, not hardcoded. Phases/sections come from a config file Tom can update.</td>
+<td><code>negotiation-framework.json</code> config that maps extraction → output sections.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-technical-architecture">6. Technical Architecture</h2>
+<blockquote>
+<p><strong>Architecture rationale:</strong> A <a href="../research/dialectics/contract-intelligence-identity/index.md">dialectic analysis</a> (Round 1: domain-native vs. platform transplant; Round 2: contract-only vs. multi-source) produced two synthesis insights that reshape this architecture:</p>
+<ol>
+<li><strong>Schema-Driven Extraction</strong> — Tom's methodology IS the extraction schema, not a downstream consumer. This collapses the original 5-stage pipeline to 3 stages.</li>
+<li><strong>Anticipatory Schema</strong> — Design for multi-source intelligence from day one, implement contract-only in MVP. "Design for the constellation, implement the first star."</li>
+</ol>
+</blockquote>
+<h3 id="pipeline-3-stages">Pipeline (3 Stages)</h3>
+<div class="codehilite"><pre><span></span><code>Raw Files → [1] Anonymize → [2] Schema-Driven Extract → [3] Coach
+              (EXISTS)        (BUILD — the product)       (BUILD)
+                │                      │                      │
+          Local PII strip      Commodity parsing +      Ali&#39;s moat
+          (already built)      Negotiation schema       (Pattern Mirror,
+                               (Docling/LlamaParse      coaching engine,
+                                parses; LLM extracts    simulation)
+                                to Tom&#39;s schema)
+</code></pre></div>
+
+<p><strong>Why 3 stages instead of 5:</strong> The original pipeline (Anonymize → Extract → Classify → Analyze → Output) treated extraction, classification, and analysis as separate sequential steps. But Tom's methodology doesn't separate these — when he reads a contract, he simultaneously identifies terms, classifies their value flow, and assesses leverage. The negotiation extraction schema does this in a single LLM pass driven by the methodology itself.</p>
+<p><strong>Stage 1: Anonymize</strong> (Done — <code>scripts/anonymize-contract.py</code>)</p>
+<ul>
+<li>Local-only PII stripping, OCR for scanned PDFs (Tesseract 300dpi)</li>
+<li><code>--parties</code> flag for explicit name redaction</li>
+<li>Outputs: anonymized text + JSON mapping</li>
+<li>Hard gate: no raw documents ever leave the user's machine</li>
+</ul>
+<p><strong>Stage 2: Schema-Driven Extract</strong> (Build — this IS the product)</p>
+<ul>
+<li><strong>Parsing is commodity.</strong> Use Docling (MIT, Linux Foundation) or LlamaParse (1K free pages/day) to convert PDFs/DOCX into structured text with section boundaries, tables, and reading order. This is domain-agnostic infrastructure — borrow freely.</li>
+<li><strong>Extraction is schema-driven.</strong> Feed the anonymized, parsed text to an LLM with Tom's negotiation methodology expressed as a structured extraction schema (see Section 6.1). The schema tells the LLM what to look for — negotiable terms, not legal clauses. The LLM performs term identification, Get/Give/Both classification, priority scoring, domain glossary generation, and approach classification in a <strong>single pass</strong>.</li>
+<li><strong>Per-field confidence + source citation.</strong> Every extracted field carries a confidence score (0.0-1.0) and a source reference (section/page in the contract). Inspired by Reducto's per-field confidence pattern.</li>
+<li>Input: anonymized text. Output: structured JSON matching the Negotiation Extraction Schema (Section 6.1).</li>
+</ul>
+<p><strong>Stage 3: Coach</strong> (Build)</p>
+<ul>
+<li>Format extraction output into Tom's 4-phase planning workbook structure</li>
+<li>Apply Pattern Mirror: show what Ali sees, show what Ali DOESN'T see, let user fill gaps</li>
+<li>Coaching assertiveness calibrated by source confidence (see Section 6.2)</li>
+<li>Render as: Markdown (Notion), JSON (API), HTML (artifact)</li>
+<li>Score relevance of 35 Aligned Moves against deal structure</li>
+<li>Include source citations for every field</li>
+</ul>
+<h3 id="61-negotiation-extraction-schema">6.1 Negotiation Extraction Schema</h3>
+<p>This is the product primitive — Tom's methodology expressed as a machine-executable extraction prompt. Anyone can parse a PDF. Nobody has a schema that transforms clauses into negotiable terms with Get/Give/Both classification, priority scoring, walkaway zones, and trading potential.</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;negotiable_terms&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;term_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string — the negotiable unit, may span multiple clauses&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;related_clauses&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;clause references this term derives from&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;get_give_both&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GET | GIVE | BOTH&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;current_position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;what the contract currently states&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;flexibility_signals&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;language suggesting room for movement&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;leverage_indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;factors that strengthen/weaken this position&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;priority_us&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HIGH | MEDIUM | LOW — with reasoning&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;priority_them&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HIGH | MEDIUM | LOW — inferred from clause emphasis&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;walkaway_zone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;if determinable from contract language&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;trading_potential&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;what this term could be packaged with&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.82</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source_reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Section 4.1-4.3, pages 12-14&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;contract&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sections 4.1-4.3&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.82</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;source_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;corroboration_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;single_source&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;coaching_assertiveness&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;moderate&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;domain_glossary&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;term&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;industry-specific term found in contract&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;definition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;plain-language meaning&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;negotiation_significance&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;why this matters for leverage/strategy&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source_section&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;where in the document&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;definition_source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;public_knowledge | inferred | low_confidence&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;approach_classification&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;WEAK_POSITION | BARGAINING | TRADING | CREATING | PARTNERING&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;evidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;signals from contract structure&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;contract&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;overall structure&quot;</span><span class="w"> </span><span class="p">}],</span>
+<span class="w">    </span><span class="nt">&quot;source_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;behavioral_signals&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;collaborative_indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;language suggesting partnership&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;adversarial_indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;language suggesting zero-sum&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;power_asymmetry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;which party has structural advantage and why&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;contract_language_only&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;coaching_note&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Behavioral assessment from contract language only. Email analysis (Phase 4) would strengthen this.&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;batna&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;our_alternatives&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;their_alternatives&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;awaiting_input&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;coaching_note&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BATNA requires market context. Enter alternatives manually or connect market data (Stage 5).&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Key design decisions:</strong></p>
+<ul>
+<li><strong><code>source_type</code> on every field.</strong> Even in Sprint 1 when the only source is "contract," every field carries its provenance. When email intelligence arrives in a future phase, it slots into the same schema with a different <code>source_type</code>. This is cheap now (~1 string field) and architecturally essential.</li>
+<li><strong><code>source_count</code> and <code>corroboration_status</code>.</strong> A classification from contract-only analysis has <code>source_count: 1</code>. When the same term is corroborated by an email or user input, <code>source_count</code> increases and confidence goes up. The coaching engine is designed to weight multi-corroborated insights higher.</li>
+<li><strong>Fields that contracts cannot fill are EXPLICIT, not absent.</strong> BATNA is in the schema. It starts as <code>"source": "awaiting_input"</code>. Tom or Chelsea fills it manually. When market data integration arrives, it becomes <code>"source": "market_api"</code>. The field exists from day one. The automation arrives later.</li>
+<li><strong>Terms ≠ Clauses.</strong> A "Compensation Package" term might span clauses 4.1 (Base Salary), 4.2 (Bonus), 4.3 (Equity), and 8.1 (Non-Compete). The <code>related_clauses</code> field captures this many-to-one mapping. This is the structural insight legal AI tools miss — they decompose into clauses, we decompose into negotiable terms.</li>
+</ul>
+<h3 id="62-coaching-assertiveness-gradient">6.2 Coaching Assertiveness Gradient</h3>
+<p>Source diversity determines how assertively Ali coaches:</p>
+<table>
+<thead>
+<tr>
+<th>Source Count</th>
+<th>Corroboration Status</th>
+<th>Coaching Assertiveness</th>
+<th>Example Coaching Language</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 (contract only)</td>
+<td><code>single_source</code></td>
+<td>Moderate</td>
+<td>"Based on the contract language, this term appears to be a Get."</td>
+</tr>
+<tr>
+<td>2 (contract + user input)</td>
+<td><code>partially_corroborated</code></td>
+<td>Moderate-High</td>
+<td>"Based on the contract and your input about priorities, this is likely your strongest term."</td>
+</tr>
+<tr>
+<td>3+ (contract + email + market)</td>
+<td><code>fully_corroborated</code></td>
+<td>High</td>
+<td>"Based on the contract, three prior emails, and market benchmarks, this is clearly your strongest leverage point."</td>
+</tr>
+</tbody>
+</table>
+<p>In Sprint 1, everything is <code>source_count: 1</code> and coaching is moderate. This is by design — not a limitation, but an honest assessment of confidence given available data.</p>
+<h3 id="63-staged-source-expansion">6.3 Staged Source Expansion</h3>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Source Type</th>
+<th>Schema Fields Populated</th>
+<th>Coaching Assertiveness</th>
+<th>Gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 (MVP)</td>
+<td>Contracts only</td>
+<td>Terms, Get/Give/Both, Priority, Domain Glossary, Approach</td>
+<td>Moderate — single source</td>
+<td>Tom validates on 3+ contracts</td>
+</tr>
+<tr>
+<td>2</td>
+<td>+ Term sheets</td>
+<td>+ Pre/post comparison, concession patterns</td>
+<td>Moderate-High — 2 sources</td>
+<td>Tom + Chelsea confirm value</td>
+</tr>
+<tr>
+<td>3</td>
+<td>+ User-entered context</td>
+<td>+ BATNA, client priorities, relationship notes</td>
+<td>Higher — but manual input</td>
+<td>Chelsea uses in real prep</td>
+</tr>
+<tr>
+<td>4</td>
+<td>+ Email analysis (opt-in)</td>
+<td>+ Behavioral signals, flexibility indicators, tone</td>
+<td>High — multi-source</td>
+<td>Privacy review + Tom approval</td>
+</tr>
+<tr>
+<td>5</td>
+<td>+ Market data APIs</td>
+<td>+ Benchmarks, comparable deals, industry trends</td>
+<td>Highest — full constellation</td>
+<td>Enterprise customers request it</td>
+</tr>
+</tbody>
+</table>
+<p>Each stage: Tom validates. Chelsea tests. Quality gate before proceeding. No stage begins until the previous stage passes its gate.</p>
+<h3 id="where-it-connects-to-ali">Where It Connects to Ali</h3>
+<table>
+<thead>
+<tr>
+<th>Existing Component</th>
+<th>Integration Point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5-Type Classification (<code>src/shared/negotiation/types.ts</code>)</td>
+<td>Stage 2 schema includes approach classification</td>
+</tr>
+<tr>
+<td>35 Aligned Moves (<code>src/shared/patterns/</code>)</td>
+<td>Stage 3 scores move relevance against extracted terms</td>
+</tr>
+<tr>
+<td>Silhouette Profile (<code>buildProfileContext()</code>)</td>
+<td>Stage 3 personalizes coaching assertiveness (future)</td>
+</tr>
+<tr>
+<td>Chat Context (<code>src/chatbot/</code>)</td>
+<td>Inject contract intelligence into coaching sessions</td>
+</tr>
+<tr>
+<td>Anonymize Script (<code>scripts/anonymize-contract.py</code>)</td>
+<td>Stage 1 — already built</td>
+</tr>
+<tr>
+<td>Pattern Mirror (from Coach vs. Agent dialectic)</td>
+<td>Stage 3 — show what Ali sees, what it doesn't, let user fill gaps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-flow-privacy-architecture">Data Flow (Privacy Architecture)</h3>
+<div class="codehilite"><pre><span></span><code>User&#39;s machine              │  External Services        │  Ali Database
+                            │                           │
+Raw contract ───────────┐   │                           │
+                        ▼   │                           │
+              [1. Anonymize]│                           │
+              (local only)  │                           │
+                        │   │                           │
+                        ▼   │                           │
+              Anonymized ───┼──► Docling/LlamaParse     │
+              text          │   (parsing — no PII)      │
+                            │         │                 │
+                            │         ▼                 │
+                            │   Parsed structure ──►    │
+                            │   Claude + Schema ────────│──► structured JSON
+                            │   [2. Schema-Driven       │    (negotiation
+                            │    Extract]               │     extraction)
+                            │         │                 │
+                            │         ▼                 │
+                            │   [3. Coach] ─────────────│──► ContractAnalysis
+                            │   (assertiveness          │    (anonymized only,
+                            │    calibrated by          │     with source
+                            │    source_count)          │     provenance)
+                            │                           │
+              Mapping file  │   NEVER leaves            │
+              (local only)  │   user&#39;s machine          │
+</code></pre></div>
+
+<hr />
+<h2 id="7-validation-plan">7. Validation Plan</h2>
+<h3 id="phase-a-internal-dogfooding-now-beta">Phase A: Internal Dogfooding (Now → Beta)</h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Who</th>
+<th>What</th>
+<th>Success Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Tom</td>
+<td>Review this PRD</td>
+<td>Confirms framework mapping is correct, identifies gaps</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Tom</td>
+<td>Annotate 1 anonymized contract</td>
+<td>Manually mark: terms, priorities, approach type, relevant Aligned Moves. This is ground truth.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Terrance</td>
+<td>Build Stage 2-3 against Tom's annotations</td>
+<td>Extraction accuracy &gt;70% vs. Tom's manual annotation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Chelsea</td>
+<td>Use module output to prepare for a client engagement</td>
+<td>Can she produce a viable strategy from the output without Tom's hand-holding?</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tom</td>
+<td>Compare Chelsea's AI-assisted prep vs. her unassisted prep</td>
+<td>Is the quality measurably better? Is prep time measurably shorter?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="phase-b-commercialization-gates-post-beta">Phase B: Commercialization Gates (Post-Beta)</h3>
+<p>From <code>docs/spec.md</code>:</p>
+<ul>
+<li>[ ] 100 beta users completed</li>
+<li>[ ] Tom Advisory Engine shipped and validated</li>
+<li>[ ] &gt; 30% of users manually paste long text blocks in chat (latent demand signal)</li>
+<li>[ ] 5+ user interview mentions of "I wish I could upload documents"</li>
+<li>[ ] Privacy/compliance review complete (GDPR, data retention)</li>
+</ul>
+<hr />
+<h2 id="8-wont-have-explicit-scope-exclusions">8. Won't-Have (Explicit Scope Exclusions)</h2>
+<ul>
+<li><strong>No live negotiation copilot</strong> — this is preparation only, not real-time</li>
+<li><strong>No contract generation</strong> — Ali reads contracts, doesn't write them</li>
+<li><strong>No legal advice</strong> — output explicitly disclaims legal validity</li>
+<li><strong>No Silhouette integration in Phase A</strong> — personalized coaching comes after the extraction pipeline is validated</li>
+<li><strong>No user-facing upload UI in Phase A</strong> — internal CLI/script only. UI comes in Phase B if gates pass.</li>
+</ul>
+<hr />
+<h2 id="9-competitive-landscape-context-for-toms-review">9. Competitive Landscape Context (for Tom's Review)</h2>
+<p>This section summarizes findings from a deep research dialectic covering Harvey AI, the CLM market, and document AI patterns. Full analysis: <code>docs/artifacts/research/dialectics/contract-intelligence-identity/</code>.</p>
+<h3 id="nobody-does-what-ali-does">Nobody Does What Ali Does</h3>
+<table>
+<thead>
+<tr>
+<th>Company</th>
+<th>What They Do</th>
+<th>What They DON'T Do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Harvey AI</strong> ($8B, ~$195M ARR)</td>
+<td>Legal AI: chat assistant, document vault (96-97% extraction), workflow automation for lawyers</td>
+<td>Negotiation coaching, strategy prep, skill development</td>
+</tr>
+<tr>
+<td><strong>Ironclad</strong> (CLM leader)</td>
+<td>Contract lifecycle management: authoring, approvals, obligation tracking</td>
+<td>Negotiation decomposition, Get/Give/Both, trading strategy</td>
+</tr>
+<tr>
+<td><strong>Sirion</strong> (#1 Gartner MQ, 94.2% F1)</td>
+<td>Contract analytics: risk scoring, compliance, extraction</td>
+<td>Negotiation preparation, coaching, methodology codification</td>
+</tr>
+<tr>
+<td><strong>Luminance / Kira</strong></td>
+<td>Due diligence review, clause extraction, risk flagging</td>
+<td>Anything beyond legal analysis</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The gap Ali fills:</strong> Every tool in this space stops at legal analysis — "here are the clauses and their risk levels." None of them answer "what should the negotiator DO with this information?" That's Ali's whitespace.</p>
+<h3 id="key-benchmarks">Key Benchmarks</h3>
+<ul>
+<li><strong>Harvey Vault:</strong> 96-97% extraction accuracy on legal documents → target for Ali's contract extraction</li>
+<li><strong>Sirion:</strong> 94.2% F1 on contract data extraction → shows what's achievable with focused effort</li>
+<li><strong>Human-AI collaboration outperforms either alone by 5%+</strong> (Harvey research) → validates Ali's coaching model over full automation</li>
+<li><strong>CLM market:</strong> $1.2-3B, growing 11-13% CAGR → large adjacent market, but Ali is NOT in this market</li>
+</ul>
+<h3 id="patterns-worth-transplanting">Patterns Worth Transplanting</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Source</th>
+<th>Transplant Potential</th>
+<th>What Ali Takes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Per-field confidence scoring</td>
+<td>Reducto</td>
+<td>HIGH</td>
+<td>Every extracted field carries its own confidence, not just overall document confidence</td>
+</tr>
+<tr>
+<td>Multi-agent decomposition (ISD)</td>
+<td>Hebbia (92% vs 68% RAG)</td>
+<td>VERY HIGH</td>
+<td>Decompose extraction into parallel sub-tasks, synthesize into Tom's framework</td>
+</tr>
+<tr>
+<td>XML Knowledge Graphs</td>
+<td>Docugami</td>
+<td>HIGH</td>
+<td>Structured representation of contract relationships, not just flat text</td>
+</tr>
+<tr>
+<td>Confidence-driven human-in-loop</td>
+<td>Nanonets</td>
+<td>HIGH</td>
+<td>Route low-confidence extractions to Tom/Chelsea for verification</td>
+</tr>
+<tr>
+<td>Playbook deviation detection</td>
+<td>AlphaSense</td>
+<td>MEDIUM</td>
+<td>Flag when a contract deviates from typical industry patterns</td>
+</tr>
+</tbody>
+</table>
+<h3 id="open-data-sources">Open Data Sources</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What It Provides</th>
+<th>License</th>
+<th>Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CUAD</strong> (13K+ annotations)</td>
+<td>41 legal clause types as extraction priming</td>
+<td>CC BY 4.0</td>
+<td>Use as input to negotiation re-classifier</td>
+</tr>
+<tr>
+<td><strong>CaSiNo</strong> (1,030 dialogues)</td>
+<td>9 persuasion strategies, BATNA scenarios</td>
+<td>Academic</td>
+<td>Negotiation behavior patterns for coaching</td>
+</tr>
+<tr>
+<td><strong>NAICS codes</strong></td>
+<td>Industry classification taxonomy</td>
+<td>Public domain</td>
+<td>Auto-classify contract domain for glossary</td>
+</tr>
+<tr>
+<td><strong>Wikidata</strong></td>
+<td>Industry terminology knowledge base</td>
+<td>CC0</td>
+<td>Feed domain glossary definitions</td>
+</tr>
+<tr>
+<td><strong>Docling</strong></td>
+<td>PDF/DOCX parsing with layout awareness</td>
+<td>MIT (Linux Foundation)</td>
+<td>Commodity parsing infrastructure</td>
+</tr>
+<tr>
+<td><strong>LlamaParse</strong></td>
+<td>Advanced document parsing (1K free/day)</td>
+<td>Freemium</td>
+<td>Alternative/complement to Docling</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-reference-materials-available">10. Reference Materials (Available)</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Description</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Supply agreement (68K chars, anonymized)</td>
+<td>Full executed contract between supplier and buyer</td>
+<td><code>~/Downloads/*contract_ANONYMIZED.txt</code></td>
+</tr>
+<tr>
+<td>Variation agreement (18K chars, OCR'd)</td>
+<td>Scanned contract amendment, 11 pages</td>
+<td><code>~/Downloads/*Variation*_ANONYMIZED.txt</code></td>
+</tr>
+<tr>
+<td>Planning workbook (62K chars, anonymized)</td>
+<td>Tom's 4-phase BBX Planning Tool — filled out for a real deal</td>
+<td><code>~/Downloads/*Planning*_ANONYMIZED.txt</code></td>
+</tr>
+<tr>
+<td>Negotiation strategy doc (4.4K chars)</td>
+<td>10 tactical recommendations for the same deal</td>
+<td><code>~/Downloads/*negotiation_ANONYMIZED.txt</code></td>
+</tr>
+<tr>
+<td>03-02 Meeting transcript</td>
+<td>Tom + Terrance: contract parser scope, dogfooding plan, Chelsea involvement</td>
+<td><code>~/Downloads/03-02 Meeting*transcript.pdf</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-open-questions-for-tom-updated">11. Open Questions for Tom (Updated)</h2>
+<h3 id="original-questions-from-v1">Original Questions (from v1)</h3>
+<ol>
+<li>
+<p><strong>Walkaway/Goal zone methodology</strong>: In the planning tool, terms have Walkaway → Pessimistic → Goal → Optimistic zones. How do you determine these? Is there a formula, or is it expert judgment? (This determines whether Ali can auto-generate them or must leave them blank.)</p>
+</li>
+<li>
+<p><strong>Get/Give/Both classification</strong>: What signals in a contract clause indicate whether a term is a "Get" vs. "Give" vs. "Both"? Is it purely based on which party it benefits, or is there nuance?</p>
+</li>
+<li>
+<p><strong>Approach classification accuracy</strong>: The BBX deal was classified as "Concession Trading." What in the contract structure told you that? What would make it "Integrative" instead?</p>
+</li>
+<li>
+<p><strong>Problem Planner prioritization</strong>: The tool has Impact x Likelihood scoring. Do you have a rubric for this, or is it intuitive? Can Ali pre-populate likely problems from contract risk clauses?</p>
+</li>
+<li>
+<p><strong>Did you send the 3-4 bullet points</strong> on desired output that Terrance asked for in the 03-02 call? If not, this PRD is asking the same question in more detail.</p>
+</li>
+</ol>
+<h3 id="new-questions-from-dialectic-analysis">New Questions (from dialectic analysis)</h3>
+<ol>
+<li>
+<p><strong>Schema validation</strong>: We've expressed your methodology as a JSON extraction schema (Section 6.1). Does it capture how you actually decompose contracts? What's missing? What's wrong? <em>(This is the #1 falsification condition — if the schema doesn't match Tom's methodology, the architecture is wrong.)</em></p>
+</li>
+<li>
+<p><strong>Terms vs. clauses</strong>: We designed the schema so that a "Compensation Package" term spans clauses 4.1 (Base Salary), 4.2 (Bonus), 4.3 (Equity). Is this how you think about it? Or do you decompose differently?</p>
+</li>
+<li>
+<p><strong>Empty fields for non-contract data</strong>: The schema includes BATNA, behavioral signals, and relationship history sections that start empty (marked "awaiting input") because contracts alone can't fill them. Would you and Chelsea actually fill these manually? Or are they clutter until we automate those inputs?</p>
+</li>
+<li>
+<p><strong>Coaching confidence levels</strong>: When Ali coaches from contract-only data, it would say "Based on the contract language, this term appears to be a Get" (moderate confidence). When it has multiple sources, it would be more assertive. Does this make sense? Or would the moderate language undermine trust? <em>(If users are confused by confidence levels, the whole assertiveness gradient is wrong.)</em></p>
+</li>
+<li>
+<p><strong>Source expansion priorities</strong>: After contracts, we planned: term sheets → user-entered context → email analysis → market data. Does this sequence match how you'd prioritize expanding Ali's intelligence? What would you reorder?</p>
+</li>
+</ol>
+<hr />
+<h2 id="appendix-toms-planning-tool-structure-sheets">Appendix: Tom's Planning Tool Structure (Sheets)</h2>
+<p>Extracted from the anonymized BBX Planning Tool:</p>
+<ol>
+<li><strong>Dashboard</strong> — Negotiation overview, approach type, terms tracker, team rosters, favorability score</li>
+<li><strong>01 - Prepare (Objectives)</strong> — Successful outcomes (us/them), BATNA (us/them), alignment areas, conflict areas, approach assessment (7 dimensions with impact ratings)</li>
+<li><strong>01 - Prepare (Terms Planning)</strong> — Up to 20 terms, each with: Get/Give/Both, notes, priority (us/them), walkaway, pessimistic/goal/optimistic zones, their walkaway estimate</li>
+<li><strong>02 - Communicate (Info Sharing)</strong> — Priorities, flexibility, information to share/withhold/never share, question strategy (ask/expect/answer)</li>
+<li><strong>02 - Communicate (Agenda)</strong> — Meeting agenda template with counterparty name, date, time</li>
+<li><strong>03 - Propose (Trading Strategy)</strong> — What we want (by priority) matched against what we can trade</li>
+<li><strong>03 - Propose (Packages)</strong> — "We need X, and can give you Y" bundles</li>
+<li><strong>04 - Align (Record Keeping)</strong> — Position tracker per term over multiple rounds</li>
+<li><strong>Notes</strong> — Current, internal, and historical negotiation notes</li>
+<li><strong>Get/Give/Both Check</strong> — Scoring tool for term classification</li>
+<li><strong>Problem Planner</strong> — Risk assessment matrix (up to 20 problems, impact x likelihood, mitigation)</li>
+</ol>
+</main>
+<div style="text-align:center;color:var(--warm-500);font-size:12px;padding:20px 40px;">
+  Ali MVP — Aligned Negotiation &middot; Confidential &middot; March 2026
+</div>
+</body>
+</html>
