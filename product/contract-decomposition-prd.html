@@ -107,7 +107,7 @@ hr {
   <h1 style="font-size:32px; margin:0 0 4px;">Contract Decomposition Module</h1>
   <div class="subtitle">Product Requirements Document — Stakeholder Review</div>
   <div class="meta">
-    <span>Draft v2 (post-dialectic)</span>
+    <span>Draft v3 (post-SME review Mar 10)</span>
     <span>Owner: Terrance Chatman</span>
     <span>BA/SME: Tom Hilgeman</span>
     <span>Priority: P1</span>
@@ -125,6 +125,50 @@ hr {
   <a href="#11-open-questions-for-tom-updated">Questions for Tom</a>
 </nav>
 <main>
+
+<div style="background: linear-gradient(135deg, rgba(95,134,166,0.08), rgba(95,175,138,0.08)); border: 2px solid var(--process-blue); border-radius: 12px; padding: 24px 28px; margin: 0 0 32px;">
+  <h3 style="margin: 0 0 12px; color: var(--process-blue); font-size: 15px; font-weight: 700; letter-spacing: 0.03em;">SME REVIEW UPDATE &mdash; March 10, 2026</h3>
+  <p style="margin: 0 0 12px; font-size: 13.5px; color: var(--warm-700);">
+    The following scoping decisions were made during the Mar 10 SME sync between Terrance and Tom. <strong>Tom: please review these changes and confirm alignment so this becomes our source of truth for the Mark review (Mar 11).</strong>
+  </p>
+  <table style="margin: 8px 0 0;">
+    <thead>
+      <tr>
+        <th style="width: 30%;">Decision</th>
+        <th style="width: 45%;">What Changed</th>
+        <th style="width: 25%;">Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color: var(--red-subtle);">Terms Planning SCOPED OUT</strong></td>
+        <td>Phase 01 financial modeling and quantitative analysis removed from V1. Qualitative Get/Give/Both classification retained as foundation for Phase 03.</td>
+        <td>Reduces risk. "Add zeros" opportunity for V2.</td>
+      </tr>
+      <tr>
+        <td><strong>Commercial terms only</strong></td>
+        <td>Legal T&amp;Cs (indemnification, liability, IP assignment, etc.) explicitly excluded. Ali focuses on commercial negotiation terms.</td>
+        <td>Clearer scope boundary. Legal analysis deferred.</td>
+      </tr>
+      <tr>
+        <td><strong>Counterparty fields are ASSUMPTIVE</strong></td>
+        <td>All counterparty-facing data (objectives, BATNA, priorities) labeled as assumptions. Ali generates validation questions instead of presenting inferences as fact. Null values trigger deeper questioning.</td>
+        <td>Critical safety pattern. Prevents users from acting on unverified AI inferences.</td>
+      </tr>
+      <tr>
+        <td><strong>Industry-agnostic at launch</strong></td>
+        <td>No domain-specific glossary in V1. Aligned methodology applies across sectors. Industry knowledge becomes premium upsell path with knowledge self-assessment logic.</td>
+        <td>Avoids "over its skis" risk. Domain glossary is V1.1 priority.</td>
+      </tr>
+      <tr>
+        <td><strong>Ethics redirect guardrail</strong></td>
+        <td>When encountering ethically gray tactics, Ali redirects to corporate policy and legal counsel rather than hard-blocking. Mirrors Tom's human consulting pattern.</td>
+        <td>Enterprise-appropriate. More nuanced than refusal.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <h1 id="prd-contract-decomposition-module">PRD: Contract Decomposition Module</h1>
 <table>
 <thead>
@@ -258,8 +302,8 @@ hr {
 <td>Contract clauses</td>
 </tr>
 <tr>
-<td><strong>Objectives (Theirs)</strong></td>
-<td>Counter-party obligations, what they're getting, their likely priorities</td>
+<td><strong>Objectives (Theirs)</strong> <span style="background: rgba(194,122,107,0.15); color: var(--red-subtle); padding: 1px 6px; border-radius: 3px; font-size: 11px; font-weight: 600;">ASSUMPTIVE</span></td>
+<td>Counter-party obligations, what they're getting, their likely priorities. <em style="color: var(--red-subtle);">Presented as assumptions with validation questions — never as fact.</em></td>
 <td>Contract clauses + correspondence</td>
 </tr>
 <tr>
@@ -268,8 +312,8 @@ hr {
 <td>Contract terms + domain knowledge</td>
 </tr>
 <tr>
-<td><strong>BATNA (Theirs)</strong></td>
-<td>Their alternatives, dependency signals, switching costs</td>
+<td><strong>BATNA (Theirs)</strong> <span style="background: rgba(194,122,107,0.15); color: var(--red-subtle); padding: 1px 6px; border-radius: 3px; font-size: 11px; font-weight: 600;">ASSUMPTIVE</span></td>
+<td>Their alternatives, dependency signals, switching costs. <em style="color: var(--red-subtle);">Assumptive — Ali generates validation questions for user to confirm.</em></td>
 <td>Contract terms</td>
 </tr>
 <tr>
@@ -294,8 +338,12 @@ hr {
 </tr>
 </tbody>
 </table>
-<h4 id="phase-01-terms-planning">Phase 01 — Terms Planning</h4>
-<table>
+<h4 id="phase-01-terms-planning">Phase 01 — Terms Planning <span style="background: rgba(194,122,107,0.15); color: var(--red-subtle); padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 700; margin-left: 8px;">SCOPED OUT — V1</span></h4>
+<div style="background: rgba(194,122,107,0.06); border: 1px solid rgba(194,122,107,0.2); border-radius: 8px; padding: 14px 18px; margin: 8px 0 16px;">
+  <p style="margin: 0; font-size: 13px; color: var(--warm-700);"><strong>SME decision (Mar 10):</strong> Financial modeling and quantitative analysis removed from V1. Tom: <em>"If we get that clean, we can add a couple zeros to Ali... which is the aspiration at some point, but maybe not right now."</em></p>
+  <p style="margin: 8px 0 0; font-size: 13px; color: var(--warm-500);"><strong>Retained:</strong> Qualitative Terms List and Get/Give/Both classification (foundation for Phase 03). <strong>Removed:</strong> Walkaway Points, Goal Zones, financial modeling.</p>
+</div>
+<table style="opacity: 0.5;">
 <thead>
 <tr>
 <th>Section</th>
@@ -305,29 +353,29 @@ hr {
 </thead>
 <tbody>
 <tr>
-<td><strong>Terms List</strong></td>
+<td><strong>Terms List</strong> <span style="color: var(--green); font-size: 11px;">RETAINED</span></td>
 <td>Every negotiable term (pricing model, volume, duration, enablers, etc.)</td>
 <td>Contract sections</td>
 </tr>
 <tr>
-<td><strong>Get / Give / Both</strong></td>
+<td><strong>Get / Give / Both</strong> <span style="color: var(--green); font-size: 11px;">RETAINED</span></td>
 <td>Classification of each term's value flow direction</td>
 <td>Obligation analysis</td>
 </tr>
 <tr>
-<td><strong>Priority (Us/Them)</strong></td>
-<td>HIGH/MED/LOW based on clause language intensity, penalty structure</td>
-<td>Clause analysis</td>
+<td><strong><s>Priority (Us/Them)</s></strong> <span style="color: var(--red-subtle); font-size: 11px;">REMOVED</span></td>
+<td><s>HIGH/MED/LOW based on clause language intensity, penalty structure</s></td>
+<td><s>Clause analysis</s></td>
 </tr>
 <tr>
-<td><strong>Walkaway Points</strong></td>
-<td>Floor/ceiling figures, minimum commitments, penalty triggers</td>
-<td>Financial terms</td>
+<td><strong><s>Walkaway Points</s></strong> <span style="color: var(--red-subtle); font-size: 11px;">REMOVED</span></td>
+<td><s>Floor/ceiling figures, minimum commitments, penalty triggers</s></td>
+<td><s>Financial terms</s></td>
 </tr>
 <tr>
-<td><strong>Goal Zones</strong></td>
-<td>Range between walkaway and optimistic, based on comparable terms</td>
-<td>Financial modeling</td>
+<td><strong><s>Goal Zones</s></strong> <span style="color: var(--red-subtle); font-size: 11px;">REMOVED</span></td>
+<td><s>Range between walkaway and optimistic, based on comparable terms</s></td>
+<td><s>Financial modeling</s></td>
 </tr>
 </tbody>
 </table>
