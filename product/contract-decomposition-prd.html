@@ -37,20 +37,41 @@ header .meta {
   display: flex; gap: 24px; margin-top: 14px;
   font-size: 13px; opacity: 0.75;
 }
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(250,248,245,0.92); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--warm-200);
-  padding: 10px 40px; display: flex; gap: 6px; flex-wrap: wrap;
+/* OLD top nav hidden — replaced by sidebar */
+.top-nav-old { display: none; }
+.page-layout {
+  display: grid; grid-template-columns: 220px 1fr; min-height: 100vh;
 }
-nav a {
-  display: inline-block; padding: 5px 14px; border-radius: 20px;
-  font-size: 12.5px; font-weight: 500; color: var(--warm-500);
-  text-decoration: none; border: 1px solid var(--warm-200); transition: all 0.2s;
+aside.sidebar {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--warm-100); border-right: 1px solid var(--warm-200);
+  padding: 20px 0; font-size: 12.5px; z-index: 50;
 }
-nav a:hover { background: var(--warm-900); color: white; border-color: var(--warm-900); }
+aside.sidebar .sidebar-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 16px 16px 6px; color: var(--warm-500);
+}
+aside.sidebar .sidebar-label:first-child { padding-top: 8px; }
+aside.sidebar a {
+  display: block; padding: 5px 16px 5px 20px; color: var(--warm-700);
+  text-decoration: none; font-size: 12.5px; line-height: 1.5;
+  border-left: 3px solid transparent; transition: all 0.12s;
+}
+aside.sidebar a:hover { background: var(--warm-200); color: var(--warm-900); }
+aside.sidebar a.active { border-left-color: var(--process-blue); color: var(--warm-900); font-weight: 600; background: rgba(95,134,166,0.06); }
+aside.sidebar .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+aside.sidebar .sme-badge {
+  display: block; margin: 12px 12px 0; padding: 8px 10px;
+  background: rgba(184,134,11,0.06); border: 1px solid rgba(184,134,11,0.15);
+  border-radius: 6px; font-size: 11px; color: var(--warm-700); line-height: 1.4;
+}
+aside.sidebar .sme-badge strong { color: var(--asf-gold); font-size: 10px; letter-spacing: 0.05em; }
 main {
-  max-width: 860px; margin: 0 auto; padding: 40px 24px 80px;
+  max-width: 860px; padding: 40px 40px 80px;
+}
+@media (max-width: 900px) {
+  .page-layout { grid-template-columns: 1fr; }
+  aside.sidebar { display: none; }
 }
 h1 { font-family: 'Moret', Georgia, serif; font-size: 28px; font-weight: 600; margin: 40px 0 16px; color: var(--warm-900); border-bottom: 2px solid var(--warm-200); padding-bottom: 8px; }
 h2 { font-family: 'Moret', Georgia, serif; font-size: 22px; font-weight: 600; margin: 32px 0 12px; color: var(--warm-900); }
@@ -155,22 +176,50 @@ hr {
     <span>Priority: P1</span>
   </div>
 </header>
-<nav>
-  <a href="#1-why-problem-statement">Problem</a>
-  <a href="#2-target-users">Users</a>
-  <a href="#3-feature-capabilities">Features</a>
-  <a href="#4-user-stories-acceptance-criteria">Stories</a>
+<div class="page-layout">
+<aside class="sidebar">
+  <div class="sme-badge">
+    <strong>SME REVIEW &mdash; MAR 10</strong><br>
+    7 scoping decisions. Tom sign-off pending.<br>
+    <a href="#sme-review-banner" style="color: var(--asf-gold); font-weight: 600; font-size: 10.5px;">View changes &rarr;</a>
+  </div>
+
+  <div class="sidebar-label"><span class="dot dot-context"></span> Context</div>
+  <a href="#1-why-problem-statement">Problem Statement</a>
+  <a href="#2-target-users">Target Users</a>
+
+  <div class="sidebar-label"><span class="dot dot-spec"></span> Core Spec</div>
+  <a href="#3-feature-capabilities">Features &amp; Capabilities</a>
+  <a href="#phase-01-prepare">Phase 01 &mdash; Prepare</a>
+  <a href="#phase-01-terms-planning">Phase 01 &mdash; Terms Planning</a>
+  <a href="#phase-02-communicate">Phase 02 &mdash; Communicate</a>
+  <a href="#phase-03-propose">Phase 03 &mdash; Propose</a>
+  <a href="#phase-04-align">Phase 04 &mdash; Align</a>
+  <a href="#4-user-stories-acceptance-criteria">User Stories</a>
+
+  <div class="sidebar-label"><span class="dot dot-safety"></span> Safety</div>
   <a href="#5-failure-modes">Failure Modes</a>
+
+  <div class="sidebar-label"><span class="dot dot-tech"></span> Technical</div>
   <a href="#6-technical-architecture">Architecture</a>
-  <a href="#7-validation-plan">Validation</a>
+  <a href="#61-negotiation-extraction-schema">Extraction Schema</a>
+  <a href="#62-coaching-assertiveness-gradient">Coaching Gradient</a>
+
+  <div class="sidebar-label"><span class="dot dot-gtm"></span> Go-to-Market</div>
+  <a href="#7-validation-plan">Validation Plan</a>
+  <a href="#8-wont-have-explicit-scope-exclusions">Scope Exclusions</a>
   <a href="#9-competitive-landscape-context-for-toms-review">Competitive</a>
+
+  <div class="sidebar-label"><span class="dot dot-open"></span> Open Items</div>
+  <a href="#10-reference-materials-available">References</a>
   <a href="#11-open-questions-for-tom-updated">Questions for Tom</a>
-</nav>
+  <a href="#appendix-toms-planning-tool-structure-sheets">Appendix</a>
+</aside>
 <main>
 
 <div style="background: linear-gradient(135deg, rgba(184,134,11,0.04), rgba(212,168,67,0.06), rgba(196,149,106,0.04)); border: 1px solid rgba(184,134,11,0.2); border-radius: 12px; padding: 28px 28px 24px; margin: 0 0 32px; position: relative; overflow: hidden;">
   <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(135deg, #B8860B, #D4A843, #C4956A);"></div>
-  <h3 style="margin: 0 0 12px; color: var(--asf-gold); font-family: 'Moret', Georgia, serif; font-size: 16px; font-weight: 600; letter-spacing: 0.02em;">SME Review Update &mdash; March 10, 2026</h3>
+  <h3 id="sme-review-banner" style="margin: 0 0 12px; color: var(--asf-gold); font-family: 'Moret', Georgia, serif; font-size: 16px; font-weight: 600; letter-spacing: 0.02em;">SME Review Update &mdash; March 10, 2026</h3>
   <p style="margin: 0 0 14px; font-size: 13.5px; color: var(--warm-700);">
     The following scoping decisions were made during the Mar 10 SME sync between Terrance and Tom. <strong style="color: var(--warm-900);">Tom: please review these changes and confirm alignment so this becomes our source of truth for the Mark review (Mar 11).</strong>
   </p>
@@ -270,17 +319,6 @@ hr {
 </tbody>
 </table>
 <hr />
-
-<h3 style="font-family: 'Moret', Georgia, serif; font-size: 18px; color: var(--warm-900); margin: 24px 0 8px;">Document Map</h3>
-<p style="font-size: 12.5px; color: var(--warm-500); margin-bottom: 12px;">Six sections, color-coded. Click to jump.</p>
-<div class="doc-map">
-  <a href="#1-why-problem-statement"><strong><span class="dot dot-context"></span>Context</strong>Why this module, who it's for, business case</a>
-  <a href="#3-feature-capabilities"><strong><span class="dot dot-spec"></span>Core Spec</strong>Features, phases, extraction schema, user stories</a>
-  <a href="#5-failure-modes"><strong><span class="dot dot-safety"></span>Safety &amp; Failure</strong>What goes wrong, assumption gates, guardrails</a>
-  <a href="#6-technical-architecture"><strong><span class="dot dot-tech"></span>Technical</strong>Pipeline, schema, coaching gradient, data flow</a>
-  <a href="#7-validation-plan"><strong><span class="dot dot-gtm"></span>Go-to-Market</strong>Validation plan, scope exclusions, competitive landscape</a>
-  <a href="#11-open-questions-for-tom-updated"><strong><span class="dot dot-open"></span>Open Items</strong>Questions for Tom, reference materials, appendix</a>
-</div>
 
 <div class="section-group context" data-label="CONTEXT">
 <h2 id="1-why-problem-statement">1. Why — Problem Statement</h2>
@@ -1227,6 +1265,7 @@ Raw contract ───────────┐   │                         
 </ol>
 </div><!-- /OPEN ITEMS -->
 </main>
+</div><!-- /page-layout -->
 <div style="text-align:center;color:var(--warm-500);font-size:12px;padding:20px 40px;">
   Ali MVP — Aligned Negotiation &middot; Confidential &middot; March 2026
 </div>
