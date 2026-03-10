@@ -121,6 +121,25 @@ hr {
   background: rgba(184,134,11,0.06); border: 1px solid rgba(184,134,11,0.15);
   border-radius: 10px; padding: 16px 20px; margin: 16px 0;
 }
+details {
+  border: 1px solid var(--warm-200); border-radius: 8px;
+  margin: 12px 0 16px; overflow: hidden;
+}
+details[open] { border-color: var(--warm-300); }
+details summary {
+  padding: 10px 16px; cursor: pointer; font-size: 13px; font-weight: 600;
+  color: var(--warm-700); background: var(--warm-100);
+  list-style: none; display: flex; align-items: center; gap: 8px;
+  user-select: none; transition: background 0.12s;
+}
+details summary:hover { background: var(--warm-200); }
+details summary::before {
+  content: '\25B6'; font-size: 9px; color: var(--warm-500);
+  transition: transform 0.15s; display: inline-block;
+}
+details[open] summary::before { transform: rotate(90deg); }
+details summary::-webkit-details-marker { display: none; }
+details .detail-body { padding: 14px 18px; }
 .section-group {
   border-left: 3px solid var(--warm-200); padding-left: 20px; margin: 40px 0;
   position: relative;
@@ -444,61 +463,40 @@ hr {
 </tr>
 </tbody>
 </table>
-<div style="background: rgba(95,134,166,0.05); border: 1px solid rgba(95,134,166,0.15); border-radius: 8px; padding: 14px 18px; margin: -8px 0 20px;">
-  <p style="margin: 0 0 8px; font-size: 13px; color: var(--warm-700);"><strong style="color: var(--process-blue);">V1.1 — Team Roster Expansion</strong> (Tom, 00:30:18)</p>
-  <p style="margin: 0 0 6px; font-size: 13px; color: var(--warm-700);">Tom described a deeper vision: <em>"We could do silhouettes for you, for them, for who, and also who are the blockers, who are your advocates, and then you basically build the X's and O's of both teams on where you need to play offense and where you need to play defense."</em></p>
-  <table style="margin: 10px 0 0; font-size: 12.5px;">
-    <thead><tr><th>V1 (Current)</th><th>V1.1 (Expansion)</th></tr></thead>
-    <tbody>
-      <tr><td>Named individuals + roles</td><td>Individual silhouette per team member (both sides)</td></tr>
-      <tr><td>Reporting relationships</td><td>Blocker / Advocate classification per person</td></tr>
-      <tr><td>&mdash;</td><td>Offense / Defense strategy map ("X's and O's")</td></tr>
-      <tr><td>&mdash;</td><td>Cross-team influence mapping</td></tr>
-    </tbody>
-  </table>
-  <p style="margin: 8px 0 0; font-size: 12px; color: var(--warm-500);"><strong>Dependency:</strong> Requires Silhouette profiling module to be scoped (currently deferred).</p>
-</div>
+<details>
+  <summary>V1.1 — Team Roster Expansion (Tom, 00:30:18)</summary>
+  <div class="detail-body">
+    <p style="margin: 0 0 8px; font-size: 13px; color: var(--warm-700);">Tom described a deeper vision: <em>"We could do silhouettes for you, for them, for who, and also who are the blockers, who are your advocates, and then you basically build the X's and O's of both teams on where you need to play offense and where you need to play defense."</em></p>
+    <table style="margin: 10px 0 0; font-size: 12.5px;">
+      <thead><tr><th>V1 (Current)</th><th>V1.1 (Expansion)</th></tr></thead>
+      <tbody>
+        <tr><td>Named individuals + roles</td><td>Individual silhouette per team member (both sides)</td></tr>
+        <tr><td>Reporting relationships</td><td>Blocker / Advocate classification per person</td></tr>
+        <tr><td>&mdash;</td><td>Offense / Defense strategy map ("X's and O's")</td></tr>
+        <tr><td>&mdash;</td><td>Cross-team influence mapping</td></tr>
+      </tbody>
+    </table>
+    <p style="margin: 8px 0 0; font-size: 12px; color: var(--warm-500);"><strong>Dependency:</strong> Requires Silhouette profiling module to be scoped (currently deferred).</p>
+  </div>
+</details>
 <h4 id="phase-01-terms-planning">Phase 01 — Terms Planning <span style="background: rgba(194,122,107,0.15); color: var(--red-subtle); padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 700; margin-left: 8px;">SCOPED OUT — V1</span></h4>
-<div style="background: rgba(194,122,107,0.06); border: 1px solid rgba(194,122,107,0.2); border-radius: 8px; padding: 14px 18px; margin: 8px 0 16px;">
-  <p style="margin: 0; font-size: 13px; color: var(--warm-700);"><strong>SME decision (Mar 10):</strong> Financial modeling and quantitative analysis removed from V1. Tom: <em>"If we get that clean, we can add a couple zeros to Ali... which is the aspiration at some point, but maybe not right now."</em></p>
-  <p style="margin: 8px 0 0; font-size: 13px; color: var(--warm-500);"><strong>Retained:</strong> Qualitative Terms List and Get/Give/Both classification (foundation for Phase 03). <strong>Removed:</strong> Walkaway Points, Goal Zones, financial modeling.</p>
-</div>
-<table style="opacity: 0.5;">
-<thead>
-<tr>
-<th>Section</th>
-<th>What Ali Extracts</th>
-<th>Source</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Terms List</strong> <span style="color: var(--green); font-size: 11px;">RETAINED</span></td>
-<td>Every negotiable term (pricing model, volume, duration, enablers, etc.)</td>
-<td>Contract sections</td>
-</tr>
-<tr>
-<td><strong>Get / Give / Both</strong> <span style="color: var(--green); font-size: 11px;">RETAINED</span></td>
-<td>Classification of each term's value flow direction</td>
-<td>Obligation analysis</td>
-</tr>
-<tr>
-<td><strong><s>Priority (Us/Them)</s></strong> <span style="color: var(--red-subtle); font-size: 11px;">REMOVED</span></td>
-<td><s>HIGH/MED/LOW based on clause language intensity, penalty structure</s></td>
-<td><s>Clause analysis</s></td>
-</tr>
-<tr>
-<td><strong><s>Walkaway Points</s></strong> <span style="color: var(--red-subtle); font-size: 11px;">REMOVED</span></td>
-<td><s>Floor/ceiling figures, minimum commitments, penalty triggers</s></td>
-<td><s>Financial terms</s></td>
-</tr>
-<tr>
-<td><strong><s>Goal Zones</s></strong> <span style="color: var(--red-subtle); font-size: 11px;">REMOVED</span></td>
-<td><s>Range between walkaway and optimistic, based on comparable terms</s></td>
-<td><s>Financial modeling</s></td>
-</tr>
-</tbody>
-</table>
+<p style="margin: 4px 0 10px; font-size: 13px; color: var(--warm-700);"><strong>Scoped out for V1.</strong> Retained: Terms List + Get/Give/Both. Removed: financial modeling.</p>
+<details>
+  <summary>SME rationale + retained/removed detail</summary>
+  <div class="detail-body">
+    <p style="margin: 0 0 8px; font-size: 13px; color: var(--warm-700);"><strong>SME decision (Mar 10):</strong> Tom: <em>"If we get that clean, we can add a couple zeros to Ali... which is the aspiration at some point, but maybe not right now."</em></p>
+    <table style="font-size: 12.5px;">
+      <thead><tr><th>Section</th><th>Status</th><th>What Ali Extracts</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Terms List</strong></td><td style="color: var(--green); font-weight: 600;">RETAINED</td><td>Every negotiable term (pricing, volume, duration, enablers)</td></tr>
+        <tr><td><strong>Get / Give / Both</strong></td><td style="color: var(--green); font-weight: 600;">RETAINED</td><td>Classification of each term's value flow direction</td></tr>
+        <tr><td><s>Priority (Us/Them)</s></td><td style="color: var(--red-subtle); font-weight: 600;">REMOVED</td><td><s>HIGH/MED/LOW based on clause language intensity</s></td></tr>
+        <tr><td><s>Walkaway Points</s></td><td style="color: var(--red-subtle); font-weight: 600;">REMOVED</td><td><s>Floor/ceiling figures, minimum commitments</s></td></tr>
+        <tr><td><s>Goal Zones</s></td><td style="color: var(--red-subtle); font-weight: 600;">REMOVED</td><td><s>Range between walkaway and optimistic</s></td></tr>
+      </tbody>
+    </table>
+  </div>
+</details>
 <h4 id="phase-02-communicate">Phase 02 — Communicate</h4>
 <table>
 <thead>
@@ -580,14 +578,18 @@ hr {
 </tr>
 </tbody>
 </table>
-<h3 id="capability-domain-glossary-toms-explicit-request">Capability: Domain Glossary (Tom's Explicit Request)</h3>
-<p>From the 03-02 transcript: Tom said the contract was full of beef commodity terminology he didn't understand. The module must:</p>
-<ol>
-<li>Identify industry-specific terms (EYCI, Choice cutout, carcass balance, trim ratios, FOB, enablers)</li>
-<li>Provide plain-language definitions</li>
-<li>Explain the negotiation significance ("Why does this term matter for your leverage?")</li>
-<li>Source definitions from public knowledge bases, not hallucinate</li>
-</ol>
+<details>
+  <summary id="capability-domain-glossary-toms-explicit-request">Domain Glossary — deferred, industry-agnostic at launch</summary>
+  <div class="detail-body">
+    <p style="margin: 0 0 8px; font-size: 13px; color: var(--warm-700);">From the 03-02 transcript: Tom said the contract was full of beef commodity terminology he didn't understand. <strong>Deferred per Mar 10 decision (industry-agnostic at launch).</strong> The module would:</p>
+    <ol style="font-size: 13px;">
+      <li>Identify industry-specific terms (EYCI, Choice cutout, carcass balance, trim ratios, FOB, enablers)</li>
+      <li>Provide plain-language definitions</li>
+      <li>Explain the negotiation significance ("Why does this term matter for your leverage?")</li>
+      <li>Source definitions from public knowledge bases, not hallucinate</li>
+    </ol>
+  </div>
+</details>
 <hr />
 <h2 id="4-user-stories-acceptance-criteria">4. User Stories + Acceptance Criteria</h2>
 <h3 id="us-1-upload-and-parse">US-1: Upload and Parse</h3>
@@ -753,7 +755,9 @@ hr {
 <li>Score relevance of 35 Aligned Moves against deal structure</li>
 <li>Include source citations for every field</li>
 </ul>
-<h3 id="61-negotiation-extraction-schema">6.1 Negotiation Extraction Schema</h3>
+<details>
+  <summary id="61-negotiation-extraction-schema">6.1 Negotiation Extraction Schema — full JSON schema + design decisions</summary>
+  <div class="detail-body">
 <p>This is the product primitive — Tom's methodology expressed as a machine-executable extraction prompt. Anyone can parse a PDF. Nobody has a schema that transforms clauses into negotiable terms with Get/Give/Both classification, priority scoring, walkaway zones, and trading potential.</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;negotiable_terms&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -823,6 +827,8 @@ hr {
 <li><strong>Fields that contracts cannot fill are EXPLICIT, not absent.</strong> BATNA is in the schema. It starts as <code>"source": "awaiting_input"</code>. Tom or Chelsea fills it manually. When market data integration arrives, it becomes <code>"source": "market_api"</code>. The field exists from day one. The automation arrives later.</li>
 <li><strong>Terms ≠ Clauses.</strong> A "Compensation Package" term might span clauses 4.1 (Base Salary), 4.2 (Bonus), 4.3 (Equity), and 8.1 (Non-Compete). The <code>related_clauses</code> field captures this many-to-one mapping. This is the structural insight legal AI tools miss — they decompose into clauses, we decompose into negotiable terms.</li>
 </ul>
+  </div>
+</details>
 <h3 id="62-coaching-assertiveness-gradient">6.2 Coaching Assertiveness Gradient</h3>
 <p>Source diversity determines how assertively Ali coaches:</p>
 <table>
