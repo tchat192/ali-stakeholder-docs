@@ -1686,5 +1686,75 @@ Raw contract ───────────┐   │                         
 <div style="text-align:center;color:var(--warm-500);font-size:12px;padding:20px 40px;">
   Ali MVP — Aligned Negotiation &middot; Confidential &middot; March 2026
 </div>
+<script>
+// Bridge: sidebar links → tab activation
+// When clicking a sidebar link whose target is inside a hidden tab panel,
+// find and check the correct radio button to reveal that panel first.
+function activateTabForHash() {
+  var hash = window.location.hash;
+  if (!hash) return;
+  var target = document.querySelector(hash);
+  if (!target) return;
+
+  // Walk up from target to find if it's inside a tab panel
+  var panel = target.closest('[class*="tab-panel"], [class*="tab-content"]');
+  if (!panel) return;
+
+  // Find the radio input that controls this panel
+  var parent = panel.parentElement;
+  var radios = parent.querySelectorAll('input[type="radio"]');
+
+  // Match by data-tab attribute or class name
+  var dataTab = panel.getAttribute('data-tab');
+  if (dataTab) {
+    // corespec style: data-tab="1" etc
+    radios.forEach(function(r) {
+      if (r.id.endsWith('tab' + dataTab)) r.checked = true;
+    });
+  } else {
+    // class-based style: tab-panel-problem, gtm-tab-content-validation, etc.
+    var panelClasses = panel.className.split(' ');
+    radios.forEach(function(r) {
+      var label = parent.querySelector('label[for="' + r.id + '"]');
+      if (!label) return;
+      // Check if this radio's label matches the panel
+      panelClasses.forEach(function(cls) {
+        if (cls.indexOf(r.id.split('-').pop()) !== -1) r.checked = true;
+      });
+    });
+    // Fallback: find which panel index this is among siblings
+    var panels = parent.querySelectorAll('[class*="tab-panel"], [class*="tab-content"]');
+    var idx = Array.from(panels).indexOf(panel);
+    if (idx >= 0 && idx < radios.length) radios[idx].checked = true;
+  }
+
+  // Scroll to target after tab switch
+  setTimeout(function() { target.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 50);
+}
+
+// Also highlight active sidebar link
+function highlightSidebarLink() {
+  var hash = window.location.hash;
+  document.querySelectorAll('aside.sidebar a').forEach(function(a) {
+    a.classList.toggle('active', a.getAttribute('href') === hash);
+  });
+}
+
+window.addEventListener('hashchange', function() { activateTabForHash(); highlightSidebarLink(); });
+document.addEventListener('DOMContentLoaded', function() { activateTabForHash(); highlightSidebarLink(); });
+
+// Intercept sidebar clicks to ensure tab activation
+document.querySelectorAll('aside.sidebar a').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var href = a.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      window.location.hash = href;
+      e.preventDefault();
+      activateTabForHash();
+      highlightSidebarLink();
+    }
+  });
+});
+</script>
 </body>
 </html>
