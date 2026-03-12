@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ali Conversation Engine V3.4 — Architecture Visual</title>
+<title>Ali Conversation Engine V3.5.1 — Architecture Visual</title>
 <style>
   /* ═══════════════════════════════════════════════════════
      CSS RESET & VARIABLES
@@ -1099,7 +1099,7 @@
      HERO
      ═══════════════════════════════════════════════════════ -->
 <header class="hero">
-  <span class="version-badge">V3.4.0 / Feb 23, 2026</span>
+  <span class="version-badge">V3.5.1 / Mar 12, 2026</span>
   <h1>Ali Conversation Engine</h1>
   <p class="subtitle">
     How 1,076 coaching items from 5 expert sources become personalized, multi-source negotiation guidance in a single response.
@@ -1114,7 +1114,7 @@
       <span class="lbl">Source Books</span>
     </div>
     <div class="hero-stat">
-      <span class="num">43</span>
+      <span class="num">66</span>
       <span class="lbl">Named Moves</span>
     </div>
     <div class="hero-stat">
@@ -1205,26 +1205,26 @@
     </div>
     <div class="pipe-stage">
       <div class="stage-num">Stage 4</div>
-      <div class="stage-title">43 Named Moves</div>
-      <span class="stage-big">43</span>
-      <div class="stage-detail">Distilled from 534 coaching moves into Ali's signature vocabulary. XML-injected into every conversation.</div>
+      <div class="stage-title">66 Named Moves</div>
+      <span class="stage-big">66</span>
+      <div class="stage-detail">66 approved coaching moves (ASF 22, GTY 13, NSFD 8, HTWF 23) plus 8 frameworks, 6 quotes, 1 example = 81 total items XML-injected into every conversation.</div>
     </div>
     <div class="pipe-stage">
       <div class="stage-num">Stage 5</div>
-      <div class="stage-title">V3.4 Assembly</div>
+      <div class="stage-title">V3.5.1 Assembly</div>
       <div class="stage-detail" style="margin-top: 8px;">
         <code style="font-family: var(--font-mono); font-size: 0.65rem; background: var(--bg); padding: 4px 8px; border-radius: 4px; display: inline-block;">
-          &lt;identity&gt; + &lt;instructions&gt; + &lt;aligned_moves&gt;
+          &lt;identity&gt; + &lt;instructions&gt; + &lt;aligned_moves&gt; + &lt;ethics_guardrail&gt;
         </code>
-        <div style="margin-top: 8px;">XML wrapping + knowledge injection + user context = Response</div>
+        <div style="margin-top: 8px;">XML wrapping + knowledge injection + ethics guardrail + user context = Response</div>
       </div>
     </div>
   </div>
 
   <div class="card" style="margin-bottom: 40px;">
-    <h3>How Assembly Works (V3.4)</h3>
+    <h3>How Assembly Works (V3.5.1)</h3>
     <p>
-      Mark Mirra authors the coaching methodology in Markdown via Braintrust Playground. At runtime, the <code style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--bg); padding: 1px 5px; border-radius: 3px;">wrapInXml()</code> function wraps the Markdown prompt inside XML tags and injects all 43 Named Aligned Moves as structured <code style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--bg); padding: 1px 5px; border-radius: 3px;">&lt;move&gt;</code> elements. Anthropic's research shows XML-structured prompts improve Claude's performance by up to 40%. The model selects relevant moves based on the user's situation and weaves them into coaching naturally.
+      Mark Mirra authors the coaching methodology in Markdown via Braintrust Playground. At runtime, the <code style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--bg); padding: 1px 5px; border-radius: 3px;">wrapInXml()</code> function wraps the Markdown prompt inside XML tags and injects all 81 coaching items (66 named moves + 8 frameworks + 6 quotes + 1 example) as structured <code style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--bg); padding: 1px 5px; border-radius: 3px;">&lt;move&gt;</code> elements with governance fields (source, admission_date, rubric_score). V3.5.1 adds an ethics guardrail (~400 tokens) for corporate policy redirects. Anthropic's research shows XML-structured prompts improve Claude's performance by up to 40%. The model selects relevant moves based on the user's situation and weaves them into coaching naturally.
     </p>
   </div>
 </section>
@@ -1290,10 +1290,10 @@
 
   <!-- Named Moves Callout -->
   <div class="named-moves-callout">
-    <span class="callout-num">43</span>
-    <div class="callout-title">Named Aligned Moves</div>
+    <span class="callout-num">66</span>
+    <div class="callout-title">Named Coaching Moves</div>
     <p>
-      From the 534 coaching moves, 43 have been elevated to <strong>Named Aligned Moves</strong> — Ali's signature coaching vocabulary. Each is a reusable, named tactic that Ali deploys contextually. They're XML-injected into every conversation so the model always has them available.
+      From the 534 coaching moves, 66 have been elevated to <strong>Named Coaching Moves</strong> — Ali's signature coaching vocabulary. Breakdown: ASF (22), GTY (13), NSFD (8), HTWF (23). Each is a reusable, named tactic that Ali deploys contextually. They're XML-injected into every conversation alongside 8 frameworks, 6 quotes, and 1 example (81 total items) so the model always has them available.
     </p>
   </div>
 
@@ -1374,7 +1374,7 @@
 
   <div style="text-align: center; margin-bottom: 40px;">
     <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--book-htwf); text-transform: uppercase; letter-spacing: 0.08em;">
-      Orange pills = new in V3.4 (8 moves from NSFD/HTWF review)
+      Orange pills = new in V3.4+ (8 moves from NSFD/HTWF review; 23 HTWF moves added in V3.5.1)
     </span>
   </div>
 </section>
@@ -1605,6 +1605,127 @@
     </div>
 
   </div>
+
+  <!-- V3.4 → V3.5.1 Changelog -->
+  <div class="section-head" style="padding-top: 56px;">
+    <h2>V3.4 &rarr; V3.5.1: What Changed and Why</h2>
+    <p class="desc">Two releases: V3.5.0 (prompt architecture overhaul) and V3.5.1 (knowledge expansion + ethics guardrail).</p>
+  </div>
+
+  <div class="changes-list">
+
+    <!-- V3.5.0 Change 1: Identity & Coaching OS -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-improved">V3.5.0</span>
+        <span class="change-title">Stage 1 ADOPT — Identity, Coaching OS, Value Templates, Scope Boundaries</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.4)</span>
+          Identity and coaching instructions were spread across multiple prompt sections with overlapping guidance. Value template language was inconsistent. Scope boundaries existed but lacked structured enforcement.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.5.0)</span>
+          Four sections rewritten with ADOPT status: (1) Identity block consolidated into single authoritative section, (2) Coaching OS unified with consistent instruction patterns, (3) Value templates standardized across all response types, (4) Scope boundaries restructured with clear redirect patterns.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Mark Mirra approved all 4 ADOPT items on Mar 11. The identity rewrite eliminates conflicting instructions that caused inconsistent coaching voice. Coaching OS unification reduces prompt token count while improving behavioral consistency.
+        </div>
+      </div>
+    </div>
+
+    <!-- V3.5.0 Change 2: Deal Map + Red Flags Merge -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-improved">V3.5.0</span>
+        <span class="change-title">Stage 2 MERGE — Deal Map + Red Flags Consolidation</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.4)</span>
+          Deal Map and Red Flags were separate prompt sections with redundant pattern-matching logic. Both referenced similar counterparty behaviors but with different terminology.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.5.0)</span>
+          Merged into unified sections that eliminate duplication while preserving all detection patterns. Terminology aligned to Aligned vocabulary. Two MERGE items approved by Mark.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Redundancy in the prompt wastes tokens and can cause conflicting guidance when the model encounters the same concept described two different ways. Merging creates a single source of truth for each behavioral pattern.
+        </div>
+      </div>
+    </div>
+
+    <!-- V3.5.1 Change 1: HTWF Integration -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-new">V3.5.1</span>
+        <span class="change-title">HTWF Integration — 23 Moves, 8 Frameworks, 6 Quotes via Admission Rubric</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.5.0)</span>
+          43 named moves from 3 sources (ASF 22, GTY 13, NSFD 8). HTWF source existed in the knowledge store (107 items) but no moves had been elevated to named status. No admission rubric for new move approval.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.5.1)</span>
+          66 named moves from 4 sources (ASF 22, GTY 13, NSFD 8, <strong>HTWF 23</strong>). Each HTWF candidate scored on a 5-dimension rubric (actionability, coaching fit, source fidelity, distinctiveness, complementarity). Additionally: 8 coaching frameworks, 6 coaching quotes, 1 example — <strong>81 total items</strong> XML-injected. All items now carry governance fields (source, admission_date, rubric_score).
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Carnegie's interpersonal principles fill a gap in Ali's coaching: relationship-building, rapport, and influence tactics that complement the harder negotiation tactics from NSFD/GTY/ASF. The 5-dimension admission rubric ensures quality control as the move library scales — every move must earn its place.
+        </div>
+      </div>
+    </div>
+
+    <!-- V3.5.1 Change 2: Ethics Guardrail -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-new">V3.5.1</span>
+        <span class="change-title">Ethics Guardrail — Corporate Policy Redirect (~400 tokens)</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.5.0)</span>
+          No explicit ethics guardrail in the prompt. Ali could be steered toward coaching tactics that conflict with corporate procurement policies, anti-bribery regulations, or HR guidelines without triggering a redirect.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.5.1)</span>
+          Dedicated <code>&lt;ethics_guardrail&gt;</code> XML section (~400 tokens) with pattern: (1) acknowledge the user's intent, (2) raise the corporate policy question, (3) offer an ethical alternative that achieves a similar outcome. Triggered when coaching requests conflict with standard corporate policies.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          Enterprise customers require responsible AI guardrails. The pattern preserves Ali's coaching relationship (no lecturing) while ensuring the platform doesn't coach users into policy violations. The redirect offers a constructive alternative rather than a flat refusal.
+        </div>
+      </div>
+    </div>
+
+    <!-- V3.5.1 Change 3: Governance Fields -->
+    <div class="change-card">
+      <div class="change-header">
+        <span class="change-badge badge-new">V3.5.1</span>
+        <span class="change-title">Governance Fields on All Moves</span>
+      </div>
+      <div class="change-body">
+        <div class="change-col change-before">
+          <span class="col-label">Before (V3.5.0)</span>
+          Moves were injected with name, description, and source only. No metadata about when they were approved, by whom, or their quality score.
+        </div>
+        <div class="change-col change-after">
+          <span class="col-label">After (V3.5.1)</span>
+          Every <code>&lt;move&gt;</code> element now includes: <code>source</code> (book abbreviation), <code>admission_date</code> (ISO date of approval), and <code>rubric_score</code> (5-dimension quality score). This creates an auditable trail for the coaching knowledge base.
+        </div>
+        <div class="change-why">
+          <strong>Why</strong>
+          As the move library grows from 43 to 66+ items, governance becomes critical. Stakeholders need to know when a move was added, what quality bar it met, and which source it came from. This also enables future features like deprecation tracking and A/B testing of move effectiveness.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -1707,11 +1828,11 @@
 <section id="content-trace" class="tab-content">
   <div class="section-head">
     <h2>Inside a Live Conversation</h2>
-    <p class="desc">Step-by-step trace of how Ali processes a user message through the V3.4 engine. Click each step to expand.</p>
+    <p class="desc">Step-by-step trace of how Ali processes a user message through the V3.5.1 engine. Click each step to expand.</p>
   </div>
 
   <div class="trace-container">
-    <div class="trace-header">Conversation Trace — V3.4 Engine</div>
+    <div class="trace-header">Conversation Trace — V3.5.1 Engine</div>
     <div class="trace-steps">
 
       <div class="trace-step active" onclick="activateStep(this, 1)">
@@ -1775,8 +1896,8 @@ layer 3: "Trade Cheap for Expensive" + "The Waterfall" + "The Cross-Out"</code>
       <div class="trace-step" onclick="activateStep(this, 5)">
         <div class="step-num">05</div>
         <div class="step-body">
-          <h4>43 Moves Available (XML-Injected)</h4>
-          <p>All 43 Named Aligned Moves are present in the conversation context via XML injection. The model selects the most relevant moves based on the classified situation and phase.</p>
+          <h4>81 Items Available (XML-Injected)</h4>
+          <p>All 66 Named Coaching Moves plus 8 frameworks, 6 quotes, and 1 example (81 total) are present in the conversation context via XML injection. Ethics guardrail active. The model selects the most relevant items based on the classified situation and phase.</p>
         </div>
         <div class="step-output">
           <code>selected moves:
@@ -1824,7 +1945,7 @@ moves used: Cross-Out (tiers), Controlled Transparency</code>
     <a class="eco-card" href="#">
       <span class="eco-badge eco-badge-arch">Architecture</span>
       <h4>Conversation Engine Visual</h4>
-      <span class="eco-date">Feb 23, 2026</span>
+      <span class="eco-date">Mar 12, 2026</span>
       <p>This document. The master artifact showing how 1,076 items become personalized coaching.</p>
     </a>
 
@@ -1835,10 +1956,17 @@ moves used: Cross-Out (tiers), Controlled Transparency</code>
       <p>Section-by-section diff analysis of V3.3 to V3.4 changes. 80% of the prompt is unchanged.</p>
     </a>
 
+    <a class="eco-card" href="../ali-product/v350-prompt-diff-for-mark.md">
+      <span class="eco-badge eco-badge-arch">Architecture</span>
+      <h4>V3.5.0 Prompt Diff for Mark</h4>
+      <span class="eco-date">Mar 11, 2026</span>
+      <p>683-line diff documenting Stage 1 ADOPT + Stage 2 MERGE changes. Identity rewrite, coaching OS, Deal Map + Red Flags merge.</p>
+    </a>
+
     <a class="eco-card" href="../ali-product/prompt-anatomy-visual.html">
       <span class="eco-badge eco-badge-arch">Architecture</span>
       <h4>Prompt Anatomy Visual</h4>
-      <span class="eco-date">Feb 2026</span>
+      <span class="eco-date">Mar 2026</span>
       <p>Detailed breakdown of the system prompt structure — sections, token counts, and purpose of each block.</p>
     </a>
 
@@ -1876,6 +2004,13 @@ moves used: Cross-Out (tiers), Controlled Transparency</code>
       <p>Confirmed decisions, open disagreements between reviewers, and consolidated annotations across all books.</p>
     </a>
 
+    <a class="eco-card" href="../ali-product/ethics-guardrail-draft.md">
+      <span class="eco-badge eco-badge-knowledge">Knowledge</span>
+      <h4>Ethics Guardrail Draft</h4>
+      <span class="eco-date">Mar 2026</span>
+      <p>Corporate Policy Redirect pattern (~400 tokens). Acknowledge intent, raise policy question, offer ethical alternative.</p>
+    </a>
+
   </div>
 </section>
 
@@ -1891,9 +2026,9 @@ moves used: Cross-Out (tiers), Controlled Transparency</code>
      ═══════════════════════════════════════════════════════ -->
 <footer class="footer">
   <p>
-    Ali Conversation Engine V3.4.0 &mdash; February 23, 2026<br>
+    Ali Conversation Engine V3.5.1 &mdash; March 12, 2026<br>
     Built by <a href="https://github.com/tchat192">Terrance Chatman</a> &mdash; Aligned Negotiation<br>
-    <span style="opacity: 0.7;">1,076 items &middot; 5 sources &middot; 43 named moves &middot; 4 entity types</span>
+    <span style="opacity: 0.7;">1,076 items &middot; 5 sources &middot; 66 named moves &middot; 81 injected items &middot; 4 entity types</span>
   </p>
 </footer>
 
